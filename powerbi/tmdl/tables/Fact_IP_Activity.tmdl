@@ -1,0 +1,351 @@
+table Fact_IP_Activity
+	lineageTag: ip1b2c3d4-e5f6-7890-abcd-ef123456789
+
+	column EncounterKey
+		dataType: int64
+		isKey
+		formatString: 0
+		lineageTag: ip01e2f3a4-b5c6-7890-abcd-ef12345678
+		summarizeBy: none
+		sourceColumn: EncounterKey
+
+	column PatientKey
+		dataType: int64
+		formatString: 0
+		lineageTag: ip02e2f3a4-b5c6-7890-abcd-ef12345678
+		summarizeBy: none
+		sourceColumn: PatientKey
+
+	column AdmissionDateKey
+		dataType: int64
+		formatString: 0
+		lineageTag: ip03e2f3a4-b5c6-7890-abcd-ef12345678
+		summarizeBy: none
+		sourceColumn: AdmissionDateKey
+
+	column DischargeDateKey
+		dataType: int64
+		formatString: 0
+		lineageTag: ip04e2f3a4-b5c6-7890-abcd-ef12345678
+		summarizeBy: none
+		sourceColumn: DischargeDateKey
+
+	column AgeKey
+		dataType: int64
+		formatString: 0
+		lineageTag: ip05e2f3a4-b5c6-7890-abcd-ef12345678
+		summarizeBy: none
+		sourceColumn: AgeKey
+
+	column GenderKey
+		dataType: int64
+		formatString: 0
+		lineageTag: ip06e2f3a4-b5c6-7890-abcd-ef12345678
+		summarizeBy: none
+		sourceColumn: GenderKey
+
+	column EthnicityKey
+		dataType: int64
+		formatString: 0
+		lineageTag: ip07e2f3a4-b5c6-7890-abcd-ef12345678
+		summarizeBy: none
+		sourceColumn: EthnicityKey
+
+	column ProviderKey
+		dataType: int64
+		formatString: 0
+		lineageTag: ip08e2f3a4-b5c6-7890-abcd-ef12345678
+		summarizeBy: none
+		sourceColumn: ProviderKey
+
+	column LSOAKey
+		dataType: int64
+		formatString: 0
+		lineageTag: ip09e2f3a4-b5c6-7890-abcd-ef12345678
+		summarizeBy: none
+		sourceColumn: LSOAKey
+
+	column SpecialtyKey
+		dataType: int64
+		formatString: 0
+		lineageTag: ip10e2f3a4-b5c6-7890-abcd-ef12345678
+		summarizeBy: none
+		sourceColumn: SpecialtyKey
+
+	column HRGKey
+		dataType: int64
+		formatString: 0
+		lineageTag: ip11e2f3a4-b5c6-7890-abcd-ef12345678
+		summarizeBy: none
+		sourceColumn: HRGKey
+
+	column CommissionerKey
+		dataType: int64
+		formatString: 0
+		lineageTag: ip12e2f3a4-b5c6-7890-abcd-ef12345678
+		summarizeBy: none
+		sourceColumn: CommissionerKey
+
+	column GPPracticeKey
+		dataType: int64
+		formatString: 0
+		lineageTag: ip13e2f3a4-b5c6-7890-abcd-ef12345678
+		summarizeBy: none
+		sourceColumn: GPPracticeKey
+
+	column PCNKey
+		dataType: int64
+		formatString: 0
+		lineageTag: ip14e2f3a4-b5c6-7890-abcd-ef12345678
+		summarizeBy: none
+		sourceColumn: PCNKey
+
+	column PODKey
+		dataType: int64
+		formatString: 0
+		lineageTag: ip15e2f3a4-b5c6-7890-abcd-ef12345678
+		summarizeBy: none
+		sourceColumn: PODKey
+
+	column OpPlanMeasureSetKey
+		dataType: int64
+		formatString: 0
+		lineageTag: ip16e2f3a4-b5c6-7890-abcd-ef12345678
+		summarizeBy: none
+		sourceColumn: OpPlanMeasureSetKey
+
+	column AdmissionMethodKey
+		dataType: int64
+		formatString: 0
+		lineageTag: ip17e2f3a4-b5c6-7890-abcd-ef12345678
+		summarizeBy: none
+		sourceColumn: AdmissionMethodKey
+
+	column AdmissionSourceKey
+		dataType: int64
+		formatString: 0
+		lineageTag: ip18e2f3a4-b5c6-7890-abcd-ef12345678
+		summarizeBy: none
+		sourceColumn: AdmissionSourceKey
+
+	column DischargeMethodKey
+		dataType: int64
+		formatString: 0
+		lineageTag: ip19e2f3a4-b5c6-7890-abcd-ef12345678
+		summarizeBy: none
+		sourceColumn: DischargeMethodKey
+
+	column DischargeDestinationKey
+		dataType: int64
+		formatString: 0
+		lineageTag: ip20e2f3a4-b5c6-7890-abcd-ef12345678
+		summarizeBy: none
+		sourceColumn: DischargeDestinationKey
+
+	column PatientClassificationKey
+		dataType: int64
+		formatString: 0
+		lineageTag: ip21e2f3a4-b5c6-7890-abcd-ef12345678
+		summarizeBy: none
+		sourceColumn: PatientClassificationKey
+
+	column CAMCommissionerKey
+		dataType: int64
+		formatString: 0
+		lineageTag: ip22e2f3a4-b5c6-7890-abcd-ef12345678
+		summarizeBy: none
+		sourceColumn: CAMCommissionerKey
+
+	column CAMServiceCategoryKey
+		dataType: int64
+		formatString: 0
+		lineageTag: ip23e2f3a4-b5c6-7890-abcd-ef12345678
+		summarizeBy: none
+		sourceColumn: CAMServiceCategoryKey
+
+	column CAMAssignmentReasonKey
+		dataType: int64
+		formatString: 0
+		lineageTag: ip24e2f3a4-b5c6-7890-abcd-ef12345678
+		summarizeBy: none
+		sourceColumn: CAMAssignmentReasonKey
+
+	column 'Admission Date'
+		dataType: dateTime
+		formatString: dd/MM/yyyy
+		lineageTag: ip25e2f3a4-b5c6-7890-abcd-ef12345678
+		summarizeBy: none
+		sourceColumn: Admission Date
+
+	column 'Discharge Date'
+		dataType: dateTime
+		formatString: dd/MM/yyyy
+		lineageTag: ip26e2f3a4-b5c6-7890-abcd-ef12345678
+		summarizeBy: none
+		sourceColumn: Discharge Date
+
+	column Admissions
+		dataType: int64
+		formatString: #,0
+		lineageTag: ip27e2f3a4-b5c6-7890-abcd-ef12345678
+		summarizeBy: sum
+		sourceColumn: Admissions
+
+	column 'Length of Stay'
+		dataType: int64
+		formatString: #,0
+		lineageTag: ip28e2f3a4-b5c6-7890-abcd-ef12345678
+		summarizeBy: sum
+		sourceColumn: Length of Stay
+
+	column 'Total Cost'
+		dataType: decimal
+		formatString: "£"#,0.00;-"£"#,0.00;"£"#,0.00
+		lineageTag: ip29e2f3a4-b5c6-7890-abcd-ef12345678
+		summarizeBy: sum
+		sourceColumn: Total Cost
+
+	column 'Delayed Discharge Days'
+		dataType: int64
+		formatString: #,0
+		lineageTag: ip30e2f3a4-b5c6-7890-abcd-ef12345678
+		summarizeBy: sum
+		sourceColumn: Delayed Discharge Days
+
+	column 'Excess Bed Days'
+		dataType: int64
+		formatString: #,0
+		lineageTag: ip31e2f3a4-b5c6-7890-abcd-ef12345678
+		summarizeBy: sum
+		sourceColumn: Excess Bed Days
+
+	column 'Excess Bed Days Cost'
+		dataType: decimal
+		formatString: "£"#,0.00;-"£"#,0.00;"£"#,0.00
+		lineageTag: ip32e2f3a4-b5c6-7890-abcd-ef12345678
+		summarizeBy: sum
+		sourceColumn: Excess Bed Days Cost
+
+	column 'Palliative Care Days'
+		dataType: int64
+		formatString: #,0
+		lineageTag: ip33e2f3a4-b5c6-7890-abcd-ef12345678
+		summarizeBy: sum
+		sourceColumn: Palliative Care Days
+
+	column 'Rehab Days'
+		dataType: int64
+		formatString: #,0
+		lineageTag: ip34e2f3a4-b5c6-7890-abcd-ef12345678
+		summarizeBy: sum
+		sourceColumn: Rehab Days
+
+	column 'Base Tariff'
+		dataType: decimal
+		formatString: "£"#,0.00;-"£"#,0.00;"£"#,0.00
+		lineageTag: ip35e2f3a4-b5c6-7890-abcd-ef12345678
+		summarizeBy: sum
+		sourceColumn: Base Tariff
+
+	column 'MFF Multiplier'
+		dataType: double
+		lineageTag: ip36e2f3a4-b5c6-7890-abcd-ef12345678
+		summarizeBy: none
+		sourceColumn: MFF Multiplier
+
+	column 'ERF National Price'
+		dataType: decimal
+		formatString: "£"#,0.00;-"£"#,0.00;"£"#,0.00
+		lineageTag: ip37e2f3a4-b5c6-7890-abcd-ef12345678
+		summarizeBy: sum
+		sourceColumn: ERF National Price
+
+	column 'ERF Cost'
+		dataType: decimal
+		formatString: "£"#,0.00;-"£"#,0.00;"£"#,0.00
+		lineageTag: ip38e2f3a4-b5c6-7890-abcd-ef12345678
+		summarizeBy: sum
+		sourceColumn: ERF Cost
+
+	column 'Commissioner Variance'
+		dataType: int64
+		formatString: 0
+		lineageTag: ip39e2f3a4-b5c6-7890-abcd-ef12345678
+		summarizeBy: none
+		sourceColumn: Commissioner Variance
+
+	column 'Service Category Variance'
+		dataType: int64
+		formatString: 0
+		lineageTag: ip40e2f3a4-b5c6-7890-abcd-ef12345678
+		summarizeBy: none
+		sourceColumn: Service Category Variance
+
+	column 'Is Operating Plan'
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: ip41e2f3a4-b5c6-7890-abcd-ef12345678
+		summarizeBy: none
+		sourceColumn: Is Operating Plan
+
+	column 'Is ERF Eligible'
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: ip42e2f3a4-b5c6-7890-abcd-ef12345678
+		summarizeBy: none
+		sourceColumn: Is ERF Eligible
+
+	partition Fact_IP_Activity = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database("PSFADHSSTP02.ad.elc.nhs.uk\SWL", "Data_Lab_SWL_Live", [Query="
+				        SELECT
+				            [SK_EncounterID]                    AS [EncounterKey],
+				            [SK_PatientID]                      AS [PatientKey],
+				            [SK_DateAdmissionID]                AS [AdmissionDateKey],
+				            [SK_DateDischargeID]                AS [DischargeDateKey],
+				            [SK_Age_BandID]                     AS [AgeKey],
+				            [SK_GenderID]                       AS [GenderKey],
+				            [SK_EthnicityID]                    AS [EthnicityKey],
+				            [SK_ProviderID]                     AS [ProviderKey],
+				            [SK_LSOA_ID]                        AS [LSOAKey],
+				            [SK_SpecialtyID]                    AS [SpecialtyKey],
+				            [SK_HRG_ID]                         AS [HRGKey],
+				            [SK_CommissionerID]                 AS [CommissionerKey],
+				            [SK_GPPracticeID]                   AS [GPPracticeKey],
+				            [SK_PCN_ID]                         AS [PCNKey],
+				            [SK_POD_ID]                         AS [PODKey],
+				            [SK_OpPlan_MeasureSet]              AS [OpPlanMeasureSetKey],
+				            [SK_Admission_MethodID]             AS [AdmissionMethodKey],
+				            [SK_Admission_SourceID]             AS [AdmissionSourceKey],
+				            [SK_Discharge_MethodID]             AS [DischargeMethodKey],
+				            [SK_Discharge_DestinationID]        AS [DischargeDestinationKey],
+				            [SK_IP_Patient_ClassificationID]    AS [PatientClassificationKey],
+				            [SK_CAM_CommissionerID]             AS [CAMCommissionerKey],
+				            [SK_CAM_Service_CategoryID]         AS [CAMServiceCategoryKey],
+				            [SK_CAM_Assignment_ReasonID]        AS [CAMAssignmentReasonKey],
+				            [Admission_Date]                    AS [Admission Date],
+				            [Discharge_Date]                    AS [Discharge Date],
+				            [Admissions]                        AS [Admissions],
+				            [Length_Of_Stay]                    AS [Length of Stay],
+				            [Total_Cost]                        AS [Total Cost],
+				            [Delayed_Discharge_Days]            AS [Delayed Discharge Days],
+				            [Excess_Bed_Days]                   AS [Excess Bed Days],
+				            [Excess_Bed_Days_Cost]              AS [Excess Bed Days Cost],
+				            [Palliative_Care_Days]              AS [Palliative Care Days],
+				            [Rehab_Days]                        AS [Rehab Days],
+				            [Base_Tariff]                       AS [Base Tariff],
+				            [MFF_Multiplier]                    AS [MFF Multiplier],
+				            [ERF_National_Price]                AS [ERF National Price],
+				            [ERF_Total_Cost_Incl_MFF]           AS [ERF Cost],
+				            [Commissioner_Variance]             AS [Commissioner Variance],
+				            [Service_Category_Variance]         AS [Service Category Variance],
+				            [Is_Operating_Plan]                 AS [Is Operating Plan],
+				            [Is_ERF_Eligible]                   AS [Is ERF Eligible]
+				        FROM [Analytics].[tbl_Fact_IP_Activity]
+				    "]),
+				    FilteredRows = Table.SelectRows(Source, each [Discharge Date] >= RangeStart and [Discharge Date] < RangeEnd)
+				in
+				    FilteredRows
+

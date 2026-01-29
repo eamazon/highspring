@@ -1,0 +1,47 @@
+# Power BI
+*.pbix
+*.pbit
+*.tmp
+.pbiworkspace/
+
+# SQL Server
+*.bak
+*.ldf
+*.mdf
+*.ndf
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+.venv/
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Logs
+*.log
+
+# Credentials and Secrets
+*.credentials
+*.secrets
+.env
+appsettings.*.json
+
+# Temporary files
+tmp/
+temp/
+*.tmp

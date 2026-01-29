@@ -1,0 +1,83 @@
+table Dim_PCN
+	lineageTag: n1b2c3d4-e5f6-7890-abcd-ef1234567890
+
+	column PCNKey
+		dataType: int64
+		isKey
+		formatString: 0
+		lineageTag: n1e2f3a4-b5c6-7890-abcd-ef1234567891
+		summarizeBy: none
+		sourceColumn: PCNKey
+
+	column 'PCN Code'
+		dataType: string
+		lineageTag: n1e2f3a4-b5c6-7890-abcd-ef1234567892
+		summarizeBy: none
+		sourceColumn: PCN Code
+
+	column PCN
+		dataType: string
+		lineageTag: n1e2f3a4-b5c6-7890-abcd-ef1234567893
+		summarizeBy: none
+		sourceColumn: PCN
+
+	column 'ICB Code'
+		dataType: string
+		lineageTag: n1e2f3a4-b5c6-7890-abcd-ef1234567894
+		summarizeBy: none
+		sourceColumn: ICB Code
+
+	column ICB
+		dataType: string
+		lineageTag: n1e2f3a4-b5c6-7890-abcd-ef1234567895
+		summarizeBy: none
+		sourceColumn: ICB
+
+	column Town
+		dataType: string
+		lineageTag: n1e2f3a4-b5c6-7890-abcd-ef1234567896
+		summarizeBy: none
+		sourceColumn: Town
+
+	column Postcode
+		dataType: string
+		lineageTag: n1e2f3a4-b5c6-7890-abcd-ef1234567897
+		summarizeBy: none
+		sourceColumn: Postcode
+
+	column 'Is Active'
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: n1e2f3a4-b5c6-7890-abcd-ef1234567898
+		summarizeBy: none
+		sourceColumn: Is Active
+
+	column 'Is Current'
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: n1e2f3a4-b5c6-7890-abcd-ef1234567899
+		summarizeBy: none
+		sourceColumn: Is Current
+
+	partition Dim_PCN = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database("PSFADHSSTP02.ad.elc.nhs.uk\SWL", "Data_Lab_SWL_Live", [Query="
+				        SELECT
+				            [SK_PCNID]      AS [PCNKey],
+				            [PCN_Code]      AS [PCN Code],
+				            [PCN_Name]      AS [PCN],
+				            [ICB_Code]      AS [ICB Code],
+				            [ICB_Name]      AS [ICB],
+				            [Town]          AS [Town],
+				            [Postcode]      AS [Postcode],
+				            [Is_Active]     AS [Is Active],
+				            [Is_Current]    AS [Is Current]
+				        FROM [Analytics].[tbl_Dim_PCN]
+				        WHERE [Is_Current] = 1
+				           OR [SK_PCNID] = -1
+				    "])
+				in
+				    Source
+

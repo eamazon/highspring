@@ -1,0 +1,81 @@
+table Dim_Specialty
+	lineageTag: s1b2c3d4-e5f6-7890-abcd-ef1234567890
+
+	column SpecialtyKey
+		dataType: int64
+		isKey
+		formatString: 0
+		lineageTag: s1e2f3a4-b5c6-7890-abcd-ef1234567891
+		summarizeBy: none
+		sourceColumn: SpecialtyKey
+
+	column 'Specialty Code'
+		dataType: string
+		lineageTag: s1e2f3a4-b5c6-7890-abcd-ef1234567892
+		summarizeBy: none
+		sourceColumn: Specialty Code
+
+	column 'Specialty Name'
+		dataType: string
+		lineageTag: s1e2f3a4-b5c6-7890-abcd-ef1234567893
+		summarizeBy: none
+		sourceColumn: Specialty Name
+
+	column 'Specialty Category'
+		dataType: string
+		lineageTag: s1e2f3a4-b5c6-7890-abcd-ef1234567894
+		summarizeBy: none
+		sourceColumn: Specialty Category
+
+	column 'Is Treatment Function'
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: s1e2f3a4-b5c6-7890-abcd-ef1234567895
+		summarizeBy: none
+		sourceColumn: Is Treatment Function
+
+	column 'Is Main Specialty'
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: s1e2f3a4-b5c6-7890-abcd-ef1234567896
+		summarizeBy: none
+		sourceColumn: Is Main Specialty
+
+	column 'Main Specialty'
+		dataType: string
+		lineageTag: s1e2f3a4-b5c6-7890-abcd-ef1234567897
+		summarizeBy: none
+		sourceColumn: Main Specialty
+
+	column 'Treatment Function'
+		dataType: string
+		lineageTag: s1e2f3a4-b5c6-7890-abcd-ef1234567898
+		summarizeBy: none
+		sourceColumn: Treatment Function
+
+	column Specialty
+		dataType: string
+		lineageTag: s1e2f3a4-b5c6-7890-abcd-ef1234567899
+		summarizeBy: none
+		sourceColumn: Specialty
+
+	partition Dim_Specialty = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database("PSFADHSSTP02.ad.elc.nhs.uk\SWL", "Data_Lab_SWL_Live", [Query="
+				        SELECT
+				            [SK_SpecialtyID]                AS [SpecialtyKey],
+				            [BK_SpecialtyCode]              AS [Specialty Code],
+				            [SpecialtyName]                 AS [Specialty Name],
+				            [SpecialtyCategory]             AS [Specialty Category],
+				            [IsTreatmentFunction]           AS [Is Treatment Function],
+				            [IsMainSpecialty]               AS [Is Main Specialty],
+				            [MainSpecialtyDescription]      AS [Main Specialty],
+				            [TreatmentFunctionDescription]  AS [Treatment Function],
+				            [Specialty_Short]               AS [Specialty]
+				        FROM [Analytics].[vw_Dim_Specialty]
+				    "])
+				in
+				    Source
+

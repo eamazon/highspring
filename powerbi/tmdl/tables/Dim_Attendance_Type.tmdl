@@ -1,0 +1,39 @@
+table Dim_Attendance_Type
+	lineageTag: at1b2c3d4-e5f6-7890-abcd-ef123456789
+
+	column AttendanceTypeKey
+		dataType: int64
+		isKey
+		formatString: 0
+		lineageTag: at1e2f3a4-b5c6-7890-abcd-ef123456789
+		summarizeBy: none
+		sourceColumn: SK_AttendanceTypeID
+
+	column 'Attendance Type Code'
+		dataType: string
+		lineageTag: at2e2f3a4-b5c6-7890-abcd-ef123456789
+		summarizeBy: none
+		sourceColumn: Attendance_Type_Code
+
+	column 'Attendance Type Description'
+		dataType: string
+		lineageTag: at3e2f3a4-b5c6-7890-abcd-ef123456789
+		summarizeBy: none
+		sourceColumn: Attendance_Type_Description
+
+	column 'Attendance Type'
+		dataType: string
+		lineageTag: at4e2f3a4-b5c6-7890-abcd-ef123456789
+		summarizeBy: none
+		sourceColumn: Attendance_Type_Short
+
+	partition Dim_Attendance_Type = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database("PSFADHSSTP02.ad.elc.nhs.uk\SWL", "Data_Lab_SWL_Live", [Query="
+				        SELECT * FROM [Analytics].[vw_Dim_Attendance_Type]
+				    "])
+				in
+				    Source
+

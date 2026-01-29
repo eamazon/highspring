@@ -1,0 +1,51 @@
+table Dim_Ethnicity
+	lineageTag: t1b2c3d4-e5f6-7890-abcd-ef1234567890
+
+	column EthnicityKey
+		dataType: int64
+		isKey
+		formatString: 0
+		lineageTag: t1e2f3a4-b5c6-7890-abcd-ef1234567891
+		summarizeBy: none
+		sourceColumn: EthnicityKey
+
+	column 'Ethnicity Code'
+		dataType: string
+		lineageTag: t1e2f3a4-b5c6-7890-abcd-ef1234567892
+		summarizeBy: none
+		sourceColumn: Ethnicity Code
+
+	column 'Ethnicity Description'
+		dataType: string
+		lineageTag: t1e2f3a4-b5c6-7890-abcd-ef1234567893
+		summarizeBy: none
+		sourceColumn: Ethnicity Description
+
+	column 'Ethnicity Group'
+		dataType: string
+		lineageTag: t1e2f3a4-b5c6-7890-abcd-ef1234567894
+		summarizeBy: none
+		sourceColumn: Ethnicity Group
+
+	column Ethnicity
+		dataType: string
+		lineageTag: t1e2f3a4-b5c6-7890-abcd-ef1234567895
+		summarizeBy: none
+		sourceColumn: Ethnicity
+
+	partition Dim_Ethnicity = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database("PSFADHSSTP02.ad.elc.nhs.uk\SWL", "Data_Lab_SWL_Live", [Query="
+				        SELECT
+				            [SK_EthnicityID]    AS [EthnicityKey],
+				            [EthnicityCode]     AS [Ethnicity Code],
+				            [EthnicityDesc]     AS [Ethnicity Description],
+				            [EthnicityDesc2]    AS [Ethnicity Group],
+				            [Ethnicity_Short]   AS [Ethnicity]
+				        FROM [Analytics].[vw_Dim_Ethnicity]
+				    "])
+				in
+				    Source
+

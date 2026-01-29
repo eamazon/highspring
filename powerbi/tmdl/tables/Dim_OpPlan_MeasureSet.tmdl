@@ -1,0 +1,46 @@
+table Dim_OpPlan_MeasureSet
+	lineageTag: op1b2c3d4-e5f6-7890-abcd-ef123456789
+
+	column OpPlanMeasureSetKey
+		dataType: int64
+		isKey
+		formatString: 0
+		lineageTag: op1e2f3a4-b5c6-7890-abcd-ef123456789
+		summarizeBy: none
+		sourceColumn: OpPlanMeasureSetKey
+
+	column 'Measure IDs'
+		dataType: string
+		lineageTag: op2e2f3a4-b5c6-7890-abcd-ef123456789
+		summarizeBy: none
+		sourceColumn: Measure IDs
+
+	column 'Measure Count'
+		dataType: int64
+		formatString: 0
+		lineageTag: op3e2f3a4-b5c6-7890-abcd-ef123456789
+		summarizeBy: none
+		sourceColumn: Measure Count
+
+	column 'Is Active'
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: op4e2f3a4-b5c6-7890-abcd-ef123456789
+		summarizeBy: none
+		sourceColumn: Is Active
+
+	partition Dim_OpPlan_MeasureSet = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database("PSFADHSSTP02.ad.elc.nhs.uk\SWL", "Data_Lab_SWL_Live", [Query="
+				        SELECT
+				            [SK_OpPlan_MeasureSet]  AS [OpPlanMeasureSetKey],
+				            [MeasureIds]            AS [Measure IDs],
+				            [MeasureCount]          AS [Measure Count],
+				            [Is_Active]             AS [Is Active]
+				        FROM [Analytics].[tbl_Dim_OpPlan_MeasureSet]
+				    "])
+				in
+				    Source
+

@@ -1,0 +1,37 @@
+table Dim_CAM_Assignment_Reason
+	lineageTag: ca1b2c3d4-e5f6-7890-abcd-ef123456789
+
+	column CAMAssignmentReasonKey
+		dataType: int64
+		isKey
+		formatString: 0
+		lineageTag: ca1e2f3a4-b5c6-7890-abcd-ef123456789
+		summarizeBy: none
+		sourceColumn: CAMAssignmentReasonKey
+
+	column 'CAM Assignment Code'
+		dataType: string
+		lineageTag: ca2e2f3a4-b5c6-7890-abcd-ef123456789
+		summarizeBy: none
+		sourceColumn: CAM Assignment Code
+
+	column 'CAM Assignment Reason'
+		dataType: string
+		lineageTag: ca3e2f3a4-b5c6-7890-abcd-ef123456789
+		summarizeBy: none
+		sourceColumn: CAM Assignment Reason
+
+	partition Dim_CAM_Assignment_Reason = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database("PSFADHSSTP02.ad.elc.nhs.uk\SWL", "Data_Lab_SWL_Live", [Query="
+				        SELECT
+				            [SK_CAM_Assignment_ReasonID]    AS [CAMAssignmentReasonKey],
+				            [CAM_Assignment_Code]           AS [CAM Assignment Code],
+				            [CAM_Assignment_Reason]         AS [CAM Assignment Reason]
+				        FROM [Analytics].[tbl_Dim_CAM_Assignment_Reason]
+				    "])
+				in
+				    Source
+

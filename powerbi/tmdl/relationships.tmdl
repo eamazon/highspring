@@ -1,0 +1,287 @@
+relationship IP_AdmissionDate
+	isActive: false
+	fromColumn: Fact_IP_Activity.AdmissionDateKey
+	toColumn: Dim_Date.DateKey
+
+relationship IP_DischargeDate
+	fromColumn: Fact_IP_Activity.DischargeDateKey
+	toColumn: Dim_Date.DateKey
+
+relationship IP_Patient
+	fromColumn: Fact_IP_Activity.PatientKey
+	toColumn: Dim_Patient.PatientKey
+
+relationship IP_Age
+	fromColumn: Fact_IP_Activity.AgeKey
+	toColumn: Dim_Age_Band.Age
+
+relationship IP_Gender
+	fromColumn: Fact_IP_Activity.GenderKey
+	toColumn: Dim_Gender.GenderKey
+
+relationship IP_Ethnicity
+	fromColumn: Fact_IP_Activity.EthnicityKey
+	toColumn: Dim_Ethnicity.EthnicityKey
+
+relationship IP_Provider
+	fromColumn: Fact_IP_Activity.ProviderKey
+	toColumn: Dim_Provider.ProviderKey
+
+relationship IP_LSOA
+	fromColumn: Fact_IP_Activity.LSOAKey
+	toColumn: Dim_LSOA.LSOAKey
+
+relationship IP_Specialty
+	fromColumn: Fact_IP_Activity.SpecialtyKey
+	toColumn: Dim_Specialty.SpecialtyKey
+
+relationship IP_HRG
+	fromColumn: Fact_IP_Activity.HRGKey
+	toColumn: Dim_HRG.HRGKey
+
+relationship IP_Commissioner
+	fromColumn: Fact_IP_Activity.CommissionerKey
+	toColumn: Dim_Commissioner.CommissionerKey
+
+relationship IP_GPPractice
+	fromColumn: Fact_IP_Activity.GPPracticeKey
+	toColumn: Dim_GPPractice.GPPracticeKey
+
+relationship IP_PCN
+	fromColumn: Fact_IP_Activity.PCNKey
+	toColumn: Dim_PCN.PCNKey
+
+relationship IP_POD
+	fromColumn: Fact_IP_Activity.PODKey
+	toColumn: Dim_POD.PODKey
+
+relationship IP_OpPlanMeasureSet
+	fromColumn: Fact_IP_Activity.OpPlanMeasureSetKey
+	toColumn: Dim_OpPlan_MeasureSet.OpPlanMeasureSetKey
+
+relationship IP_AdmissionMethod
+	fromColumn: Fact_IP_Activity.AdmissionMethodKey
+	toColumn: Dim_Admission_Method.AdmissionMethodKey
+
+relationship IP_AdmissionSource
+	fromColumn: Fact_IP_Activity.AdmissionSourceKey
+	toColumn: Dim_Admission_Source.AdmissionSourceKey
+
+relationship IP_DischargeMethod
+	fromColumn: Fact_IP_Activity.DischargeMethodKey
+	toColumn: Dim_Discharge_Method.DischargeMethodKey
+
+relationship IP_DischargeDestination
+	fromColumn: Fact_IP_Activity.DischargeDestinationKey
+	toColumn: Dim_Discharge_Destination.DischargeDestinationKey
+
+relationship IP_PatientClassification
+	fromColumn: Fact_IP_Activity.PatientClassificationKey
+	toColumn: Dim_IP_Patient_Classification.PatientClassificationKey
+
+relationship IP_CAMCommissioner
+	isActive: false
+	fromColumn: Fact_IP_Activity.CAMCommissionerKey
+	toColumn: Dim_Commissioner.CommissionerKey
+
+relationship IP_CAMServiceCategory
+	fromColumn: Fact_IP_Activity.CAMServiceCategoryKey
+	toColumn: Dim_CAM_Service_Category.CAMServiceCategoryKey
+
+relationship IP_CAMAssignmentReason
+	fromColumn: Fact_IP_Activity.CAMAssignmentReasonKey
+	toColumn: Dim_CAM_Assignment_Reason.CAMAssignmentReasonKey
+
+relationship OP_AppointmentDate
+	isActive: false
+	fromColumn: Fact_OP_Activity.AppointmentDateKey
+	toColumn: Dim_Date.DateKey
+
+relationship OP_ReferralDate
+	isActive: false
+	fromColumn: Fact_OP_Activity.ReferralDateKey
+	toColumn: Dim_Date.DateKey
+
+relationship OP_Patient
+	isActive: false
+	fromColumn: Fact_OP_Activity.PatientKey
+	toColumn: Dim_Patient.PatientKey
+
+relationship OP_Age
+	isActive: false
+	fromColumn: Fact_OP_Activity.AgeKey
+	toColumn: Dim_Age_Band.Age
+
+relationship OP_Gender
+	isActive: false
+	fromColumn: Fact_OP_Activity.GenderKey
+	toColumn: Dim_Gender.GenderKey
+
+relationship OP_Ethnicity
+	isActive: false
+	fromColumn: Fact_OP_Activity.EthnicityKey
+	toColumn: Dim_Ethnicity.EthnicityKey
+
+relationship OP_Provider
+	isActive: false
+	fromColumn: Fact_OP_Activity.ProviderKey
+	toColumn: Dim_Provider.ProviderKey
+
+relationship OP_LSOA
+	isActive: false
+	fromColumn: Fact_OP_Activity.LSOAKey
+	toColumn: Dim_LSOA.LSOAKey
+
+relationship OP_Specialty
+	isActive: false
+	fromColumn: Fact_OP_Activity.SpecialtyKey
+	toColumn: Dim_Specialty.SpecialtyKey
+
+relationship OP_HRG
+	isActive: false
+	fromColumn: Fact_OP_Activity.HRGKey
+	toColumn: Dim_HRG.HRGKey
+
+relationship OP_Commissioner
+	isActive: false
+	fromColumn: Fact_OP_Activity.CommissionerKey
+	toColumn: Dim_Commissioner.CommissionerKey
+
+relationship OP_GPPractice
+	isActive: false
+	fromColumn: Fact_OP_Activity.GPPracticeKey
+	toColumn: Dim_GPPractice.GPPracticeKey
+
+relationship OP_PCN
+	isActive: false
+	fromColumn: Fact_OP_Activity.PCNKey
+	toColumn: Dim_PCN.PCNKey
+
+relationship OP_POD
+	isActive: false
+	fromColumn: Fact_OP_Activity.PODKey
+	toColumn: Dim_POD.PODKey
+
+relationship OP_OpPlanMeasureSet
+	isActive: false
+	fromColumn: Fact_OP_Activity.OpPlanMeasureSetKey
+	toColumn: Dim_OpPlan_MeasureSet.OpPlanMeasureSetKey
+
+relationship OP_AttendanceStatus
+	fromColumn: Fact_OP_Activity.AttendanceStatusKey
+	toColumn: Dim_Attendance_Status.AttendanceStatusKey
+
+relationship OP_AttendanceOutcome
+	fromColumn: Fact_OP_Activity.AttendanceOutcomeKey
+	toColumn: Dim_Attendance_Outcome.AttendanceOutcomeKey
+
+relationship OP_AttendanceType
+	fromColumn: Fact_OP_Activity.AttendanceTypeKey
+	toColumn: Dim_Attendance_Type.AttendanceTypeKey
+
+relationship OP_DNAIndicator
+	fromColumn: Fact_OP_Activity.DNAIndicatorKey
+	toColumn: Dim_DNA_Indicator.DNAIndicatorKey
+
+relationship OP_PriorityType
+	fromColumn: Fact_OP_Activity.PriorityTypeKey
+	toColumn: Dim_Priority_Type.PriorityTypeKey
+
+relationship OP_ReferralSource
+	fromColumn: Fact_OP_Activity.ReferralSourceKey
+	toColumn: Dim_Referral_Source.ReferralSourceKey
+
+relationship OP_CAMCommissioner
+	isActive: false
+	fromColumn: Fact_OP_Activity.CAMCommissionerKey
+	toColumn: Dim_Commissioner.CommissionerKey
+
+relationship OP_CAMServiceCategory
+	isActive: false
+	fromColumn: Fact_OP_Activity.CAMServiceCategoryKey
+	toColumn: Dim_CAM_Service_Category.CAMServiceCategoryKey
+
+relationship OP_CAMAssignmentReason
+	isActive: false
+	fromColumn: Fact_OP_Activity.CAMAssignmentReasonKey
+	toColumn: Dim_CAM_Assignment_Reason.CAMAssignmentReasonKey
+
+relationship AE_ArrivalDate
+	isActive: false
+	fromColumn: Fact_AE_Activity.ArrivalDateKey
+	toColumn: Dim_Date.DateKey
+
+relationship AE_DepartureDate
+	isActive: false
+	fromColumn: Fact_AE_Activity.DepartureDateKey
+	toColumn: Dim_Date.DateKey
+
+relationship AE_Patient
+	isActive: false
+	fromColumn: Fact_AE_Activity.PatientKey
+	toColumn: Dim_Patient.PatientKey
+
+relationship AE_Age
+	isActive: false
+	fromColumn: Fact_AE_Activity.AgeKey
+	toColumn: Dim_Age_Band.Age
+
+relationship AE_Gender
+	isActive: false
+	fromColumn: Fact_AE_Activity.GenderKey
+	toColumn: Dim_Gender.GenderKey
+
+relationship AE_Ethnicity
+	isActive: false
+	fromColumn: Fact_AE_Activity.EthnicityKey
+	toColumn: Dim_Ethnicity.EthnicityKey
+
+relationship AE_Provider
+	isActive: false
+	fromColumn: Fact_AE_Activity.ProviderKey
+	toColumn: Dim_Provider.ProviderKey
+
+relationship AE_LSOA
+	isActive: false
+	fromColumn: Fact_AE_Activity.LSOAKey
+	toColumn: Dim_LSOA.LSOAKey
+
+relationship AE_Specialty
+	isActive: false
+	fromColumn: Fact_AE_Activity.SpecialtyKey
+	toColumn: Dim_Specialty.SpecialtyKey
+
+relationship AE_HRG
+	isActive: false
+	fromColumn: Fact_AE_Activity.HRGKey
+	toColumn: Dim_HRG.HRGKey
+
+relationship AE_Commissioner
+	isActive: false
+	fromColumn: Fact_AE_Activity.CommissionerKey
+	toColumn: Dim_Commissioner.CommissionerKey
+
+relationship AE_GPPractice
+	isActive: false
+	fromColumn: Fact_AE_Activity.GPPracticeKey
+	toColumn: Dim_GPPractice.GPPracticeKey
+
+relationship AE_PCN
+	isActive: false
+	fromColumn: Fact_AE_Activity.PCNKey
+	toColumn: Dim_PCN.PCNKey
+
+relationship AE_POD
+	isActive: false
+	fromColumn: Fact_AE_Activity.PODKey
+	toColumn: Dim_POD.PODKey
+
+relationship AE_OpPlanMeasureSet
+	isActive: false
+	fromColumn: Fact_AE_Activity.OpPlanMeasureSetKey
+	toColumn: Dim_OpPlan_MeasureSet.OpPlanMeasureSetKey
+
+relationship AE_AttendanceDisposal
+	fromColumn: Fact_AE_Activity.AttendanceDisposalKey
+	toColumn: Dim_Attendance_Disposal.AttendanceDisposalKey
+

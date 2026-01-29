@@ -1,0 +1,312 @@
+table Fact_OP_Activity
+	lineageTag: op2b2c3d4-e5f6-7890-abcd-ef123456789
+
+	column EncounterKey
+		dataType: int64
+		isKey
+		formatString: 0
+		lineageTag: op01e2f3a4-b5c6-7890-abcd-ef12345678
+		summarizeBy: none
+		sourceColumn: EncounterKey
+
+	column PatientKey
+		dataType: int64
+		formatString: 0
+		lineageTag: op02e2f3a4-b5c6-7890-abcd-ef12345678
+		summarizeBy: none
+		sourceColumn: PatientKey
+
+	column AppointmentDateKey
+		dataType: int64
+		formatString: 0
+		lineageTag: op03e2f3a4-b5c6-7890-abcd-ef12345678
+		summarizeBy: none
+		sourceColumn: AppointmentDateKey
+
+	column ReferralDateKey
+		dataType: int64
+		formatString: 0
+		lineageTag: op04e2f3a4-b5c6-7890-abcd-ef12345678
+		summarizeBy: none
+		sourceColumn: ReferralDateKey
+
+	column AgeKey
+		dataType: int64
+		formatString: 0
+		lineageTag: op05e2f3a4-b5c6-7890-abcd-ef12345678
+		summarizeBy: none
+		sourceColumn: AgeKey
+
+	column GenderKey
+		dataType: int64
+		formatString: 0
+		lineageTag: op06e2f3a4-b5c6-7890-abcd-ef12345678
+		summarizeBy: none
+		sourceColumn: GenderKey
+
+	column EthnicityKey
+		dataType: int64
+		formatString: 0
+		lineageTag: op07e2f3a4-b5c6-7890-abcd-ef12345678
+		summarizeBy: none
+		sourceColumn: EthnicityKey
+
+	column ProviderKey
+		dataType: int64
+		formatString: 0
+		lineageTag: op08e2f3a4-b5c6-7890-abcd-ef12345678
+		summarizeBy: none
+		sourceColumn: ProviderKey
+
+	column LSOAKey
+		dataType: int64
+		formatString: 0
+		lineageTag: op09e2f3a4-b5c6-7890-abcd-ef12345678
+		summarizeBy: none
+		sourceColumn: LSOAKey
+
+	column SpecialtyKey
+		dataType: int64
+		formatString: 0
+		lineageTag: op10e2f3a4-b5c6-7890-abcd-ef12345678
+		summarizeBy: none
+		sourceColumn: SpecialtyKey
+
+	column HRGKey
+		dataType: int64
+		formatString: 0
+		lineageTag: op11e2f3a4-b5c6-7890-abcd-ef12345678
+		summarizeBy: none
+		sourceColumn: HRGKey
+
+	column CommissionerKey
+		dataType: int64
+		formatString: 0
+		lineageTag: op12e2f3a4-b5c6-7890-abcd-ef12345678
+		summarizeBy: none
+		sourceColumn: CommissionerKey
+
+	column GPPracticeKey
+		dataType: int64
+		formatString: 0
+		lineageTag: op13e2f3a4-b5c6-7890-abcd-ef12345678
+		summarizeBy: none
+		sourceColumn: GPPracticeKey
+
+	column PCNKey
+		dataType: int64
+		formatString: 0
+		lineageTag: op14e2f3a4-b5c6-7890-abcd-ef12345678
+		summarizeBy: none
+		sourceColumn: PCNKey
+
+	column PODKey
+		dataType: int64
+		formatString: 0
+		lineageTag: op15e2f3a4-b5c6-7890-abcd-ef12345678
+		summarizeBy: none
+		sourceColumn: PODKey
+
+	column OpPlanMeasureSetKey
+		dataType: int64
+		formatString: 0
+		lineageTag: op16e2f3a4-b5c6-7890-abcd-ef12345678
+		summarizeBy: none
+		sourceColumn: OpPlanMeasureSetKey
+
+	column AttendanceStatusKey
+		dataType: int64
+		formatString: 0
+		lineageTag: op17e2f3a4-b5c6-7890-abcd-ef12345678
+		summarizeBy: none
+		sourceColumn: AttendanceStatusKey
+
+	column AttendanceOutcomeKey
+		dataType: int64
+		formatString: 0
+		lineageTag: op18e2f3a4-b5c6-7890-abcd-ef12345678
+		summarizeBy: none
+		sourceColumn: AttendanceOutcomeKey
+
+	column AttendanceTypeKey
+		dataType: int64
+		formatString: 0
+		lineageTag: op19e2f3a4-b5c6-7890-abcd-ef12345678
+		summarizeBy: none
+		sourceColumn: AttendanceTypeKey
+
+	column DNAIndicatorKey
+		dataType: int64
+		formatString: 0
+		lineageTag: op20e2f3a4-b5c6-7890-abcd-ef12345678
+		summarizeBy: none
+		sourceColumn: DNAIndicatorKey
+
+	column PriorityTypeKey
+		dataType: int64
+		formatString: 0
+		lineageTag: op21e2f3a4-b5c6-7890-abcd-ef12345678
+		summarizeBy: none
+		sourceColumn: PriorityTypeKey
+
+	column ReferralSourceKey
+		dataType: int64
+		formatString: 0
+		lineageTag: op22e2f3a4-b5c6-7890-abcd-ef12345678
+		summarizeBy: none
+		sourceColumn: ReferralSourceKey
+
+	column CAMCommissionerKey
+		dataType: int64
+		formatString: 0
+		lineageTag: op23e2f3a4-b5c6-7890-abcd-ef12345678
+		summarizeBy: none
+		sourceColumn: CAMCommissionerKey
+
+	column CAMServiceCategoryKey
+		dataType: int64
+		formatString: 0
+		lineageTag: op24e2f3a4-b5c6-7890-abcd-ef12345678
+		summarizeBy: none
+		sourceColumn: CAMServiceCategoryKey
+
+	column CAMAssignmentReasonKey
+		dataType: int64
+		formatString: 0
+		lineageTag: op25e2f3a4-b5c6-7890-abcd-ef12345678
+		summarizeBy: none
+		sourceColumn: CAMAssignmentReasonKey
+
+	column 'Appointment Date'
+		dataType: dateTime
+		formatString: dd/MM/yyyy
+		lineageTag: op26e2f3a4-b5c6-7890-abcd-ef12345678
+		summarizeBy: none
+		sourceColumn: Appointment Date
+
+	column 'Referral Date'
+		dataType: dateTime
+		formatString: dd/MM/yyyy
+		lineageTag: op27e2f3a4-b5c6-7890-abcd-ef12345678
+		summarizeBy: none
+		sourceColumn: Referral Date
+
+	column Appointments
+		dataType: int64
+		formatString: #,0
+		lineageTag: op28e2f3a4-b5c6-7890-abcd-ef12345678
+		summarizeBy: sum
+		sourceColumn: Appointments
+
+	column 'Total Cost'
+		dataType: decimal
+		formatString: "£"#,0.00;-"£"#,0.00;"£"#,0.00
+		lineageTag: op29e2f3a4-b5c6-7890-abcd-ef12345678
+		summarizeBy: sum
+		sourceColumn: Total Cost
+
+	column 'DNA Count'
+		dataType: int64
+		formatString: #,0
+		lineageTag: op30e2f3a4-b5c6-7890-abcd-ef12345678
+		summarizeBy: sum
+		sourceColumn: DNA Count
+
+	column 'Is First Attendance'
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: op31e2f3a4-b5c6-7890-abcd-ef12345678
+		summarizeBy: none
+		sourceColumn: Is First Attendance
+
+	column 'Days to Appointment'
+		dataType: int64
+		formatString: #,0
+		lineageTag: op32e2f3a4-b5c6-7890-abcd-ef12345678
+		summarizeBy: none
+		sourceColumn: Days to Appointment
+
+	column 'RTT Wait Weeks'
+		dataType: int64
+		formatString: #,0
+		lineageTag: op33e2f3a4-b5c6-7890-abcd-ef12345678
+		summarizeBy: none
+		sourceColumn: RTT Wait Weeks
+
+	column 'Commissioner Variance'
+		dataType: int64
+		formatString: 0
+		lineageTag: op34e2f3a4-b5c6-7890-abcd-ef12345678
+		summarizeBy: none
+		sourceColumn: Commissioner Variance
+
+	column 'Service Category Variance'
+		dataType: int64
+		formatString: 0
+		lineageTag: op35e2f3a4-b5c6-7890-abcd-ef12345678
+		summarizeBy: none
+		sourceColumn: Service Category Variance
+
+	column 'Is Operating Plan'
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: op36e2f3a4-b5c6-7890-abcd-ef12345678
+		summarizeBy: none
+		sourceColumn: Is Operating Plan
+
+	column 'Is ERF Eligible'
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: op37e2f3a4-b5c6-7890-abcd-ef12345678
+		summarizeBy: none
+		sourceColumn: Is ERF Eligible
+
+	partition Fact_OP_Activity = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database("PSFADHSSTP02.ad.elc.nhs.uk\SWL", "Data_Lab_SWL_Live", [Query="
+				        SELECT
+				            [SK_EncounterID]                AS [EncounterKey],
+				            [SK_PatientID]                  AS [PatientKey],
+				            [SK_DateAppointmentID]          AS [AppointmentDateKey],
+				            [SK_DateReferralID]             AS [ReferralDateKey],
+				            [SK_Age_BandID]                 AS [AgeKey],
+				            [SK_GenderID]                   AS [GenderKey],
+				            [SK_EthnicityID]                AS [EthnicityKey],
+				            [SK_ProviderID]                 AS [ProviderKey],
+				            [SK_LSOA_ID]                    AS [LSOAKey],
+				            [SK_SpecialtyID]                AS [SpecialtyKey],
+				            [SK_HRG_ID]                     AS [HRGKey],
+				            [SK_CommissionerID]             AS [CommissionerKey],
+				            [SK_GPPracticeID]               AS [GPPracticeKey],
+				            [SK_PCN_ID]                     AS [PCNKey],
+				            [SK_POD_ID]                     AS [PODKey],
+				            [SK_OpPlan_MeasureSet]          AS [OpPlanMeasureSetKey],
+				            [SK_Attendance_StatusID]        AS [AttendanceStatusKey],
+				            [SK_Attendance_OutcomeID]       AS [AttendanceOutcomeKey],
+				            [SK_Attendance_TypeID]          AS [AttendanceTypeKey],
+				            [SK_DNA_IndicatorID]            AS [DNAIndicatorKey],
+				            [SK_Priority_TypeID]            AS [PriorityTypeKey],
+				            [SK_Referral_SourceID]          AS [ReferralSourceKey],
+				            [SK_CAM_CommissionerID]         AS [CAMCommissionerKey],
+				            [SK_CAM_Service_CategoryID]     AS [CAMServiceCategoryKey],
+				            [SK_CAM_Assignment_ReasonID]    AS [CAMAssignmentReasonKey],
+				            [Appointment_Date]              AS [Appointment Date],
+				            [Referral_Date]                 AS [Referral Date],
+				            [Appointments]                  AS [Appointments],
+				            [Total_Cost]                    AS [Total Cost],
+				            [DNA_Count]                     AS [DNA Count],
+				            [Is_FirstAttendance]            AS [Is First Attendance],
+				            [Referral_To_Appt_Days]         AS [Days to Appointment],
+				            [RTT_Wait_Weeks]                AS [RTT Wait Weeks],
+				            [Commissioner_Variance]         AS [Commissioner Variance],
+				            [Service_Category_Variance]     AS [Service Category Variance],
+				            [Is_Operating_Plan]             AS [Is Operating Plan],
+				            [Is_ERF_Eligible]               AS [Is ERF Eligible]
+				        FROM [Analytics].[tbl_Fact_OP_Activity]
+				    "]),
+				    FilteredRows = Table.SelectRows(Source, each [Appointment Date] >= RangeStart and [Appointment Date] < RangeEnd)
+				in
+				    FilteredRows
+

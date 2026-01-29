@@ -1,0 +1,133 @@
+table Dim_POD
+	lineageTag: o1b2c3d4-e5f6-7890-abcd-ef1234567890
+
+	column PODKey
+		dataType: int64
+		isKey
+		formatString: 0
+		lineageTag: o1e2f3a4-b5c6-7890-abcd-ef1234567891
+		summarizeBy: none
+		sourceColumn: PODKey
+
+	column 'POD Code'
+		dataType: string
+		lineageTag: o1e2f3a4-b5c6-7890-abcd-ef1234567892
+		summarizeBy: none
+		sourceColumn: POD Code
+
+	column 'POD Domain'
+		dataType: string
+		lineageTag: o1e2f3a4-b5c6-7890-abcd-ef1234567893
+		summarizeBy: none
+		sourceColumn: POD Domain
+
+	column 'POD Subcategory'
+		dataType: string
+		lineageTag: o1e2f3a4-b5c6-7890-abcd-ef1234567894
+		summarizeBy: none
+		sourceColumn: POD Subcategory
+
+	column 'POD Measure'
+		dataType: string
+		lineageTag: o1e2f3a4-b5c6-7890-abcd-ef1234567895
+		summarizeBy: none
+		sourceColumn: POD Measure
+
+	column 'POD Description'
+		dataType: string
+		lineageTag: o1e2f3a4-b5c6-7890-abcd-ef1234567896
+		summarizeBy: none
+		sourceColumn: POD Description
+
+	column 'Point of Delivery'
+		dataType: string
+		lineageTag: o1e2f3a4-b5c6-7890-abcd-ef1234567897
+		summarizeBy: none
+		sourceColumn: Point of Delivery
+
+	column Dataset
+		dataType: string
+		lineageTag: o1e2f3a4-b5c6-7890-abcd-ef1234567898
+		summarizeBy: none
+		sourceColumn: Dataset
+
+	column 'Main Group'
+		dataType: string
+		lineageTag: o1e2f3a4-b5c6-7890-abcd-ef1234567899
+		summarizeBy: none
+		sourceColumn: Main Group
+
+	column 'Sub Group'
+		dataType: string
+		lineageTag: o1e2f3a4-b5c6-7890-abcd-ef123456789a
+		summarizeBy: none
+		sourceColumn: Sub Group
+
+	column Category
+		dataType: string
+		lineageTag: o1e2f3a4-b5c6-7890-abcd-ef123456789b
+		summarizeBy: none
+		sourceColumn: Category
+
+	column 'Is Elective'
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: o1e2f3a4-b5c6-7890-abcd-ef123456789c
+		summarizeBy: none
+		sourceColumn: Is Elective
+
+	column 'Is Emergency'
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: o1e2f3a4-b5c6-7890-abcd-ef123456789d
+		summarizeBy: none
+		sourceColumn: Is Emergency
+
+	column 'Is Admitted'
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: o1e2f3a4-b5c6-7890-abcd-ef123456789e
+		summarizeBy: none
+		sourceColumn: Is Admitted
+
+	column 'Is Outpatient'
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: o1e2f3a4-b5c6-7890-abcd-ef123456789f
+		summarizeBy: none
+		sourceColumn: Is Outpatient
+
+	column 'Is A&E'
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: o1e2f3a4-b5c6-7890-abcd-ef1234567900
+		summarizeBy: none
+		sourceColumn: Is A&E
+
+	partition Dim_POD = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database("PSFADHSSTP02.ad.elc.nhs.uk\SWL", "Data_Lab_SWL_Live", [Query="
+				        SELECT
+				            [SK_PodID]          AS [PODKey],
+				            [POD_Code]          AS [POD Code],
+				            [POD_Domain]        AS [POD Domain],
+				            [POD_Subcategory]   AS [POD Subcategory],
+				            [POD_Measure]       AS [POD Measure],
+				            [POD_Description]   AS [POD Description],
+				            [POD_Display]       AS [Point of Delivery],
+				            [POD_Dataset]       AS [Dataset],
+				            [POD_MainGroup]     AS [Main Group],
+				            [POD_SubGroup]      AS [Sub Group],
+				            [POD_Category]      AS [Category],
+				            [Is_Elective]       AS [Is Elective],
+				            [Is_Emergency]      AS [Is Emergency],
+				            [Is_Admitted]       AS [Is Admitted],
+				            [Is_Outpatient]     AS [Is Outpatient],
+				            [Is_AE]             AS [Is A&E]
+				        FROM [Analytics].[tbl_Dim_POD]
+				    "])
+				in
+				    Source
+

@@ -1,0 +1,133 @@
+table Dim_Patient
+	lineageTag: b1b2c3d4-e5f6-7890-abcd-ef1234567890
+
+	column PatientKey
+		dataType: int64
+		isKey
+		formatString: 0
+		lineageTag: p1e2f3a4-b5c6-7890-abcd-ef1234567891
+		summarizeBy: none
+		sourceColumn: PatientKey
+
+	column 'Patient ID'
+		dataType: string
+		lineageTag: p1e2f3a4-b5c6-7890-abcd-ef1234567892
+		summarizeBy: none
+		sourceColumn: Patient ID
+
+	column 'Date of Birth'
+		dataType: dateTime
+		formatString: dd/MM/yyyy
+		lineageTag: p1e2f3a4-b5c6-7890-abcd-ef1234567893
+		summarizeBy: none
+		sourceColumn: Date of Birth
+
+	column 'Date of Death'
+		dataType: dateTime
+		formatString: dd/MM/yyyy
+		lineageTag: p1e2f3a4-b5c6-7890-abcd-ef1234567894
+		summarizeBy: none
+		sourceColumn: Date of Death
+
+	column 'Gender Code'
+		dataType: string
+		lineageTag: p1e2f3a4-b5c6-7890-abcd-ef1234567895
+		summarizeBy: none
+		sourceColumn: Gender Code
+
+	column Gender
+		dataType: string
+		lineageTag: p1e2f3a4-b5c6-7890-abcd-ef1234567896
+		summarizeBy: none
+		sourceColumn: Gender
+
+	column 'Ethnicity Code'
+		dataType: string
+		lineageTag: p1e2f3a4-b5c6-7890-abcd-ef1234567897
+		summarizeBy: none
+		sourceColumn: Ethnicity Code
+
+	column Ethnicity
+		dataType: string
+		lineageTag: p1e2f3a4-b5c6-7890-abcd-ef1234567898
+		summarizeBy: none
+		sourceColumn: Ethnicity
+
+	column 'LSOA Code'
+		dataType: string
+		lineageTag: p1e2f3a4-b5c6-7890-abcd-ef1234567899
+		summarizeBy: none
+		sourceColumn: LSOA Code
+
+	column 'Postcode Sector'
+		dataType: string
+		lineageTag: p1e2f3a4-b5c6-7890-abcd-ef123456789a
+		summarizeBy: none
+		sourceColumn: Postcode Sector
+
+	column 'GP Practice Code'
+		dataType: string
+		lineageTag: p1e2f3a4-b5c6-7890-abcd-ef123456789b
+		summarizeBy: none
+		sourceColumn: GP Practice Code
+
+	column 'GP Practice'
+		dataType: string
+		lineageTag: p1e2f3a4-b5c6-7890-abcd-ef123456789c
+		summarizeBy: none
+		sourceColumn: GP Practice
+
+	column 'PCN Code'
+		dataType: string
+		lineageTag: p1e2f3a4-b5c6-7890-abcd-ef123456789d
+		summarizeBy: none
+		sourceColumn: PCN Code
+
+	column 'ICB Code'
+		dataType: string
+		lineageTag: p1e2f3a4-b5c6-7890-abcd-ef123456789e
+		summarizeBy: none
+		sourceColumn: ICB Code
+
+	column 'Is Sensitive'
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: p1e2f3a4-b5c6-7890-abcd-ef123456789f
+		summarizeBy: none
+		sourceColumn: Is Sensitive
+
+	column 'Is Current'
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: p1e2f3a4-b5c6-7890-abcd-ef1234567900
+		summarizeBy: none
+		sourceColumn: Is Current
+
+	partition Dim_Patient = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database("PSFADHSSTP02.ad.elc.nhs.uk\SWL", "Data_Lab_SWL_Live", [Query="
+				        SELECT
+				            [SK_PatientID]              AS [PatientKey],
+				            [Pseudo_ID]                 AS [Patient ID],
+				            [Date_Of_Birth]             AS [Date of Birth],
+				            [Date_Of_Death]             AS [Date of Death],
+				            [Gender_Code]               AS [Gender Code],
+				            [Gender_Description]        AS [Gender],
+				            [Ethnicity_Code]            AS [Ethnicity Code],
+				            [Ethnicity_Description]     AS [Ethnicity],
+				            [LSOA_Code]                 AS [LSOA Code],
+				            [Postcode_Sector]           AS [Postcode Sector],
+				            [GP_Practice_Code]          AS [GP Practice Code],
+				            [GP_Practice_Name]          AS [GP Practice],
+				            [PCN_Code]                  AS [PCN Code],
+				            [ICB_Code]                  AS [ICB Code],
+				            [Is_Sensitive]              AS [Is Sensitive],
+				            [Is_Current]                AS [Is Current]
+				        FROM [Analytics].[tbl_Dim_Patient]
+				        WHERE [Is_Current] = 1
+				    "])
+				in
+				    Source
+

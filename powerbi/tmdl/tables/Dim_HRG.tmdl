@@ -1,0 +1,79 @@
+table Dim_HRG
+	lineageTag: h1b2c3d4-e5f6-7890-abcd-ef1234567890
+
+	column HRGKey
+		dataType: int64
+		isKey
+		formatString: 0
+		lineageTag: h1e2f3a4-b5c6-7890-abcd-ef1234567891
+		summarizeBy: none
+		sourceColumn: HRGKey
+
+	column 'HRG Code'
+		dataType: string
+		lineageTag: h1e2f3a4-b5c6-7890-abcd-ef1234567892
+		summarizeBy: none
+		sourceColumn: HRG Code
+
+	column 'HRG Description'
+		dataType: string
+		lineageTag: h1e2f3a4-b5c6-7890-abcd-ef1234567893
+		summarizeBy: none
+		sourceColumn: HRG Description
+
+	column 'HRG Chapter Code'
+		dataType: string
+		lineageTag: h1e2f3a4-b5c6-7890-abcd-ef1234567894
+		summarizeBy: none
+		sourceColumn: HRG Chapter Code
+
+	column 'HRG Chapter'
+		dataType: string
+		lineageTag: h1e2f3a4-b5c6-7890-abcd-ef1234567895
+		summarizeBy: none
+		sourceColumn: HRG Chapter
+
+	column 'HRG Subchapter Code'
+		dataType: string
+		lineageTag: h1e2f3a4-b5c6-7890-abcd-ef1234567896
+		summarizeBy: none
+		sourceColumn: HRG Subchapter Code
+
+	column 'HRG Subchapter'
+		dataType: string
+		lineageTag: h1e2f3a4-b5c6-7890-abcd-ef1234567897
+		summarizeBy: none
+		sourceColumn: HRG Subchapter
+
+	column 'HRG Version'
+		dataType: string
+		lineageTag: h1e2f3a4-b5c6-7890-abcd-ef1234567898
+		summarizeBy: none
+		sourceColumn: HRG Version
+
+	column HRG
+		dataType: string
+		lineageTag: h1e2f3a4-b5c6-7890-abcd-ef1234567899
+		summarizeBy: none
+		sourceColumn: HRG
+
+	partition Dim_HRG = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database("PSFADHSSTP02.ad.elc.nhs.uk\SWL", "Data_Lab_SWL_Live", [Query="
+				        SELECT
+				            [SK_HRGID]          AS [HRGKey],
+				            [HRGCode]           AS [HRG Code],
+				            [HRGDescription]    AS [HRG Description],
+				            [HRGChapterKey]     AS [HRG Chapter Code],
+				            [HRGChapter]        AS [HRG Chapter],
+				            [HRGSubchapterKey]  AS [HRG Subchapter Code],
+				            [HRGSubchapter]     AS [HRG Subchapter],
+				            [HRG_Version]       AS [HRG Version],
+				            [HRG_Short]         AS [HRG]
+				        FROM [Analytics].[vw_Dim_HRG]
+				    "])
+				in
+				    Source
+

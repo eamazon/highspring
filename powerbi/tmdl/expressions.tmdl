@@ -1,0 +1,4 @@
+expression RangeStart = #datetime(2019, 4, 1, 0, 0, 0) meta [IsParameterQuery=true, Type="DateTime", IsParameterQueryRequired=true]
+
+expression RangeEnd = #datetime(2026, 3, 31, 23, 59, 59) meta [IsParameterQuery=true, Type="DateTime", IsParameterQueryRequired=true]
+

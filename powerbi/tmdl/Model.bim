@@ -1,0 +1,4005 @@
+{
+  "name": "SemanticModel",
+  "compatibilityLevel": 1700,
+  "model": {
+    "culture": "en-GB",
+    "defaultPowerBIDataSourceVersion": "powerBI_V3",
+    "discourageImplicitMeasures": true,
+    "sourceQueryCulture": "en-GB",
+    "tables": [
+      {
+        "name": "Dim_Commissioner",
+        "lineageTag": "c1b2c3d4-e5f6-7890-abcd-ef1234567890",
+        "columns": [
+          {
+            "name": "CommissionerKey",
+            "dataType": "int64",
+            "isKey": true,
+            "sourceColumn": "CommissionerKey",
+            "formatString": "0",
+            "lineageTag": "c1e2f3a4-b5c6-7890-abcd-ef1234567891",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Commissioner Code",
+            "dataType": "string",
+            "sourceColumn": "Commissioner Code",
+            "lineageTag": "c1e2f3a4-b5c6-7890-abcd-ef1234567892",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Commissioner",
+            "dataType": "string",
+            "sourceColumn": "Commissioner",
+            "lineageTag": "c1e2f3a4-b5c6-7890-abcd-ef1234567893",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "ICB Code",
+            "dataType": "string",
+            "sourceColumn": "ICB Code",
+            "lineageTag": "c1e2f3a4-b5c6-7890-abcd-ef1234567894",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "ICB",
+            "dataType": "string",
+            "sourceColumn": "ICB",
+            "lineageTag": "c1e2f3a4-b5c6-7890-abcd-ef1234567895",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Is SWL",
+            "dataType": "boolean",
+            "sourceColumn": "Is SWL",
+            "formatString": "\"TRUE\";\"TRUE\";\"FALSE\"",
+            "lineageTag": "c1e2f3a4-b5c6-7890-abcd-ef1234567896",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "CAM Method",
+            "dataType": "string",
+            "sourceColumn": "CAM Method",
+            "lineageTag": "c1e2f3a4-b5c6-7890-abcd-ef1234567897",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "POD Team Code",
+            "dataType": "string",
+            "sourceColumn": "POD Team Code",
+            "lineageTag": "c1e2f3a4-b5c6-7890-abcd-ef1234567898",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "POD Team",
+            "dataType": "string",
+            "sourceColumn": "POD Team",
+            "lineageTag": "c1e2f3a4-b5c6-7890-abcd-ef1234567899",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Sub-ICB Code",
+            "dataType": "string",
+            "sourceColumn": "Sub-ICB Code",
+            "lineageTag": "c1e2f3a4-b5c6-7890-abcd-ef123456789a",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Sub-ICB",
+            "dataType": "string",
+            "sourceColumn": "Sub-ICB",
+            "lineageTag": "c1e2f3a4-b5c6-7890-abcd-ef123456789b",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Sub-ICB Location",
+            "dataType": "string",
+            "sourceColumn": "Sub-ICB Location",
+            "lineageTag": "c1e2f3a4-b5c6-7890-abcd-ef123456789c",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Commissioner Type",
+            "dataType": "string",
+            "sourceColumn": "Commissioner Type",
+            "lineageTag": "c1e2f3a4-b5c6-7890-abcd-ef123456789d",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "ODS Role",
+            "dataType": "string",
+            "sourceColumn": "ODS Role",
+            "lineageTag": "c1e2f3a4-b5c6-7890-abcd-ef123456789e",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Legacy Name",
+            "dataType": "string",
+            "sourceColumn": "Legacy Name",
+            "lineageTag": "c1e2f3a4-b5c6-7890-abcd-ef123456789f",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Is Current",
+            "dataType": "boolean",
+            "sourceColumn": "Is Current",
+            "formatString": "\"TRUE\";\"TRUE\";\"FALSE\"",
+            "lineageTag": "c1e2f3a4-b5c6-7890-abcd-ef1234567900",
+            "summarizeBy": "none"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "Dim_Commissioner",
+            "mode": "import",
+            "source": {
+              "type": "m",
+              "expression": [
+                "let",
+                "    Source = Sql.Database(\"PSFADHSSTP02.ad.elc.nhs.uk\\SWL\", \"Data_Lab_SWL_Live\", [Query=\"",
+                "        SELECT",
+                "            [SK_CommissionerID]         AS [CommissionerKey],",
+                "            [Commissioner_Code]         AS [Commissioner Code],",
+                "            [Commissioner_Name]         AS [Commissioner],",
+                "            [ICB_Code]                  AS [ICB Code],",
+                "            [ICB_Name]                  AS [ICB],",
+                "            [Is_SWL_ICB]                AS [Is SWL],",
+                "            [CAM_Attribution_Method]    AS [CAM Method],",
+                "            [PODTeam_Code]              AS [POD Team Code],",
+                "            [PODTeam_Name]              AS [POD Team],",
+                "            [SubICB_Code]               AS [Sub-ICB Code],",
+                "            [SubICB_Name]               AS [Sub-ICB],",
+                "            [SubICB_Location_Name]      AS [Sub-ICB Location],",
+                "            [Commissioner_Type]         AS [Commissioner Type],",
+                "            [ODS_Role_Code]             AS [ODS Role],",
+                "            [Legacy_Commissioner_Name]  AS [Legacy Name],",
+                "            [Is_Current]                AS [Is Current]",
+                "        FROM [Analytics].[tbl_Dim_Commissioner]",
+                "        WHERE [Is_Current] = 1",
+                "           OR [SK_CommissionerID] IN (-1, -2)",
+                "    \"])",
+                "in",
+                "    Source"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "name": "Dim_Date",
+        "lineageTag": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+        "columns": [
+          {
+            "name": "DateKey",
+            "dataType": "int64",
+            "isKey": true,
+            "sourceColumn": "DateKey",
+            "formatString": "0",
+            "lineageTag": "d1e2f3a4-b5c6-7890-abcd-ef1234567891",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Date",
+            "dataType": "dateTime",
+            "sourceColumn": "Date",
+            "formatString": "dd/MM/yyyy",
+            "lineageTag": "d1e2f3a4-b5c6-7890-abcd-ef1234567892",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Day of Month",
+            "dataType": "int64",
+            "sourceColumn": "Day of Month",
+            "formatString": "0",
+            "lineageTag": "d1e2f3a4-b5c6-7890-abcd-ef1234567893",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Day Name",
+            "dataType": "string",
+            "sourceColumn": "Day Name",
+            "lineageTag": "d1e2f3a4-b5c6-7890-abcd-ef1234567894",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Day of Week",
+            "dataType": "int64",
+            "sourceColumn": "Day of Week",
+            "formatString": "0",
+            "lineageTag": "d1e2f3a4-b5c6-7890-abcd-ef1234567895",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Week Number",
+            "dataType": "int64",
+            "sourceColumn": "Week Number",
+            "formatString": "0",
+            "lineageTag": "d1e2f3a4-b5c6-7890-abcd-ef1234567896",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Month Number",
+            "dataType": "int64",
+            "sourceColumn": "Month Number",
+            "formatString": "0",
+            "lineageTag": "d1e2f3a4-b5c6-7890-abcd-ef1234567897",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Month Name",
+            "dataType": "string",
+            "sourceColumn": "Month Name",
+            "lineageTag": "d1e2f3a4-b5c6-7890-abcd-ef1234567898",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Month",
+            "dataType": "string",
+            "sourceColumn": "Month",
+            "lineageTag": "d1e2f3a4-b5c6-7890-abcd-ef1234567899",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Calendar Quarter",
+            "dataType": "int64",
+            "sourceColumn": "Calendar Quarter",
+            "formatString": "0",
+            "lineageTag": "d1e2f3a4-b5c6-7890-abcd-ef123456789a",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Calendar Year",
+            "dataType": "int64",
+            "sourceColumn": "Calendar Year",
+            "formatString": "0",
+            "lineageTag": "d1e2f3a4-b5c6-7890-abcd-ef123456789b",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Financial Month",
+            "dataType": "int64",
+            "sourceColumn": "Financial Month",
+            "formatString": "0",
+            "lineageTag": "d1e2f3a4-b5c6-7890-abcd-ef123456789c",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Financial Quarter",
+            "dataType": "int64",
+            "sourceColumn": "Financial Quarter",
+            "formatString": "0",
+            "lineageTag": "d1e2f3a4-b5c6-7890-abcd-ef123456789d",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Financial Year Number",
+            "dataType": "int64",
+            "sourceColumn": "Financial Year Number",
+            "formatString": "0",
+            "lineageTag": "d1e2f3a4-b5c6-7890-abcd-ef123456789e",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Financial Year",
+            "dataType": "string",
+            "sourceColumn": "Financial Year",
+            "lineageTag": "d1e2f3a4-b5c6-7890-abcd-ef123456789f",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "FY Short",
+            "dataType": "string",
+            "sourceColumn": "FY Short",
+            "lineageTag": "d1e2f3a4-b5c6-7890-abcd-ef1234567900",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Is Weekend",
+            "dataType": "boolean",
+            "sourceColumn": "Is Weekend",
+            "formatString": "\"TRUE\";\"TRUE\";\"FALSE\"",
+            "lineageTag": "d1e2f3a4-b5c6-7890-abcd-ef1234567901",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Is Bank Holiday",
+            "dataType": "boolean",
+            "sourceColumn": "Is Bank Holiday",
+            "formatString": "\"TRUE\";\"TRUE\";\"FALSE\"",
+            "lineageTag": "d1e2f3a4-b5c6-7890-abcd-ef1234567902",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Bank Holiday",
+            "dataType": "string",
+            "sourceColumn": "Bank Holiday",
+            "lineageTag": "d1e2f3a4-b5c6-7890-abcd-ef1234567903",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Is School Holiday",
+            "dataType": "boolean",
+            "sourceColumn": "Is School Holiday",
+            "formatString": "\"TRUE\";\"TRUE\";\"FALSE\"",
+            "lineageTag": "d1e2f3a4-b5c6-7890-abcd-ef1234567904",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Is NHS Strike Day",
+            "dataType": "boolean",
+            "sourceColumn": "Is NHS Strike Day",
+            "formatString": "\"TRUE\";\"TRUE\";\"FALSE\"",
+            "lineageTag": "d1e2f3a4-b5c6-7890-abcd-ef1234567905",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Is Christmas Period",
+            "dataType": "boolean",
+            "sourceColumn": "Is Christmas Period",
+            "formatString": "\"TRUE\";\"TRUE\";\"FALSE\"",
+            "lineageTag": "d1e2f3a4-b5c6-7890-abcd-ef1234567906",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Is Easter Period",
+            "dataType": "boolean",
+            "sourceColumn": "Is Easter Period",
+            "formatString": "\"TRUE\";\"TRUE\";\"FALSE\"",
+            "lineageTag": "d1e2f3a4-b5c6-7890-abcd-ef1234567907",
+            "summarizeBy": "none"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "Dim_Date",
+            "mode": "import",
+            "source": {
+              "type": "m",
+              "expression": [
+                "let",
+                "    Source = Sql.Database(\"PSFADHSSTP02.ad.elc.nhs.uk\\SWL\", \"Data_Lab_SWL_Live\", [Query=\"",
+                "        SELECT",
+                "            [SK_Date]                           AS [DateKey],",
+                "            [FullDate]                          AS [Date],",
+                "            [Day]                               AS [Day of Month],",
+                "            [DayOfWeek]                         AS [Day Name],",
+                "            [DayOfWeekNumber]                   AS [Day of Week],",
+                "            [WeekOfYearNumber]                  AS [Week Number],",
+                "            [CalendarMonthNumber]               AS [Month Number],",
+                "            [CalendarMonthName]                 AS [Month Name],",
+                "            [CalendarMonthNameShort]            AS [Month],",
+                "            [CalendarQuarterNumber]             AS [Calendar Quarter],",
+                "            [CalendarYearNumber]                AS [Calendar Year],",
+                "            [FiscalCalendarMonthNumber]         AS [Financial Month],",
+                "            [FiscalCalendarQuarterNumber]       AS [Financial Quarter],",
+                "            [FiscalCalendarYearNumber]          AS [Financial Year Number],",
+                "            [FiscalCalendarYearName]            AS [Financial Year],",
+                "            [FiscalCalendarYearNameShort]       AS [FY Short],",
+                "            [IsWeekend]                         AS [Is Weekend],",
+                "            [IsBankHoliday]                     AS [Is Bank Holiday],",
+                "            [BankHoliday_Name]                  AS [Bank Holiday],",
+                "            [IsSchoolHoliday]                   AS [Is School Holiday],",
+                "            [IsNHSStrikeDay]                    AS [Is NHS Strike Day],",
+                "            [IsChristmasPeriod]                 AS [Is Christmas Period],",
+                "            [IsEasterPeriod]                    AS [Is Easter Period]",
+                "        FROM [Analytics].[vw_Dim_Date]",
+                "        WHERE [FullDate] >= '2019-04-01'",
+                "          AND [FullDate] <= DATEADD(YEAR, 1, GETDATE())",
+                "    \"])",
+                "in",
+                "    Source"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "name": "Dim_Attendance_Status",
+        "lineageTag": "ts1b2c3d4-e5f6-7890-abcd-ef123456789",
+        "columns": [
+          {
+            "name": "AttendanceStatusKey",
+            "dataType": "int64",
+            "isKey": true,
+            "sourceColumn": "AttendanceStatusKey",
+            "formatString": "0",
+            "lineageTag": "ts1e2f3a4-b5c6-7890-abcd-ef123456789",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Attendance Status Code",
+            "dataType": "string",
+            "sourceColumn": "Attendance Status Code",
+            "lineageTag": "ts2e2f3a4-b5c6-7890-abcd-ef123456789",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Attendance Status Description",
+            "dataType": "string",
+            "sourceColumn": "Attendance Status Description",
+            "lineageTag": "ts3e2f3a4-b5c6-7890-abcd-ef123456789",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Attendance Status",
+            "dataType": "string",
+            "sourceColumn": "Attendance Status",
+            "lineageTag": "ts4e2f3a4-b5c6-7890-abcd-ef123456789",
+            "summarizeBy": "none"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "Dim_Attendance_Status",
+            "mode": "import",
+            "source": {
+              "type": "m",
+              "expression": [
+                "let",
+                "    Source = Sql.Database(\"PSFADHSSTP02.ad.elc.nhs.uk\\SWL\", \"Data_Lab_SWL_Live\", [Query=\"",
+                "        SELECT",
+                "            [SK_AttendanceStatusID]             AS [AttendanceStatusKey],",
+                "            [Attendance_Status_Code]            AS [Attendance Status Code],",
+                "            [Attendance_Status_Description]     AS [Attendance Status Description],",
+                "            [Attendance_Status_Short]           AS [Attendance Status]",
+                "        FROM [Analytics].[vw_Dim_Attendance_Status]",
+                "    \"])",
+                "in",
+                "    Source"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "name": "Dim_Specialty",
+        "lineageTag": "s1b2c3d4-e5f6-7890-abcd-ef1234567890",
+        "columns": [
+          {
+            "name": "SpecialtyKey",
+            "dataType": "int64",
+            "isKey": true,
+            "sourceColumn": "SpecialtyKey",
+            "formatString": "0",
+            "lineageTag": "s1e2f3a4-b5c6-7890-abcd-ef1234567891",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Specialty Code",
+            "dataType": "string",
+            "sourceColumn": "Specialty Code",
+            "lineageTag": "s1e2f3a4-b5c6-7890-abcd-ef1234567892",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Specialty Name",
+            "dataType": "string",
+            "sourceColumn": "Specialty Name",
+            "lineageTag": "s1e2f3a4-b5c6-7890-abcd-ef1234567893",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Specialty Category",
+            "dataType": "string",
+            "sourceColumn": "Specialty Category",
+            "lineageTag": "s1e2f3a4-b5c6-7890-abcd-ef1234567894",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Is Treatment Function",
+            "dataType": "boolean",
+            "sourceColumn": "Is Treatment Function",
+            "formatString": "\"TRUE\";\"TRUE\";\"FALSE\"",
+            "lineageTag": "s1e2f3a4-b5c6-7890-abcd-ef1234567895",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Is Main Specialty",
+            "dataType": "boolean",
+            "sourceColumn": "Is Main Specialty",
+            "formatString": "\"TRUE\";\"TRUE\";\"FALSE\"",
+            "lineageTag": "s1e2f3a4-b5c6-7890-abcd-ef1234567896",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Main Specialty",
+            "dataType": "string",
+            "sourceColumn": "Main Specialty",
+            "lineageTag": "s1e2f3a4-b5c6-7890-abcd-ef1234567897",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Treatment Function",
+            "dataType": "string",
+            "sourceColumn": "Treatment Function",
+            "lineageTag": "s1e2f3a4-b5c6-7890-abcd-ef1234567898",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Specialty",
+            "dataType": "string",
+            "sourceColumn": "Specialty",
+            "lineageTag": "s1e2f3a4-b5c6-7890-abcd-ef1234567899",
+            "summarizeBy": "none"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "Dim_Specialty",
+            "mode": "import",
+            "source": {
+              "type": "m",
+              "expression": [
+                "let",
+                "    Source = Sql.Database(\"PSFADHSSTP02.ad.elc.nhs.uk\\SWL\", \"Data_Lab_SWL_Live\", [Query=\"",
+                "        SELECT",
+                "            [SK_SpecialtyID]                AS [SpecialtyKey],",
+                "            [BK_SpecialtyCode]              AS [Specialty Code],",
+                "            [SpecialtyName]                 AS [Specialty Name],",
+                "            [SpecialtyCategory]             AS [Specialty Category],",
+                "            [IsTreatmentFunction]           AS [Is Treatment Function],",
+                "            [IsMainSpecialty]               AS [Is Main Specialty],",
+                "            [MainSpecialtyDescription]      AS [Main Specialty],",
+                "            [TreatmentFunctionDescription]  AS [Treatment Function],",
+                "            [Specialty_Short]               AS [Specialty]",
+                "        FROM [Analytics].[vw_Dim_Specialty]",
+                "    \"])",
+                "in",
+                "    Source"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "name": "Dim_Discharge_Destination",
+        "lineageTag": "dd1b2c3d4-e5f6-7890-abcd-ef123456789",
+        "columns": [
+          {
+            "name": "DischargeDestinationKey",
+            "dataType": "int64",
+            "isKey": true,
+            "sourceColumn": "DischargeDestinationKey",
+            "formatString": "0",
+            "lineageTag": "dd1e2f3a4-b5c6-7890-abcd-ef123456789",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Discharge Destination Code",
+            "dataType": "string",
+            "sourceColumn": "Discharge Destination Code",
+            "lineageTag": "dd2e2f3a4-b5c6-7890-abcd-ef123456789",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Discharge Destination Name",
+            "dataType": "string",
+            "sourceColumn": "Discharge Destination Name",
+            "lineageTag": "dd3e2f3a4-b5c6-7890-abcd-ef123456789",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Discharge Destination",
+            "dataType": "string",
+            "sourceColumn": "Discharge Destination",
+            "lineageTag": "dd4e2f3a4-b5c6-7890-abcd-ef123456789",
+            "summarizeBy": "none"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "Dim_Discharge_Destination",
+            "mode": "import",
+            "source": {
+              "type": "m",
+              "expression": [
+                "let",
+                "    Source = Sql.Database(\"PSFADHSSTP02.ad.elc.nhs.uk\\SWL\", \"Data_Lab_SWL_Live\", [Query=\"",
+                "        SELECT",
+                "            [SK_DischargeDestinationID]     AS [DischargeDestinationKey],",
+                "            [Discharge_Destination_Code]    AS [Discharge Destination Code],",
+                "            [Discharge_Destination_Name]    AS [Discharge Destination Name],",
+                "            [Discharge_Destination_Short]   AS [Discharge Destination]",
+                "        FROM [Analytics].[vw_Dim_Discharge_Destination]",
+                "    \"])",
+                "in",
+                "    Source"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "name": "Dim_Attendance_Disposal",
+        "lineageTag": "ad1b2c3d4-e5f6-7890-abcd-ef123456789",
+        "columns": [
+          {
+            "name": "AttendanceDisposalKey",
+            "dataType": "int64",
+            "isKey": true,
+            "sourceColumn": "AttendanceDisposalKey",
+            "formatString": "0",
+            "lineageTag": "ad1e2f3a4-b5c6-7890-abcd-ef123456789",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Attendance Disposal Code",
+            "dataType": "string",
+            "sourceColumn": "Attendance Disposal Code",
+            "lineageTag": "ad2e2f3a4-b5c6-7890-abcd-ef123456789",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Attendance Disposal Description",
+            "dataType": "string",
+            "sourceColumn": "Attendance Disposal Description",
+            "lineageTag": "ad3e2f3a4-b5c6-7890-abcd-ef123456789",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Attendance Disposal",
+            "dataType": "string",
+            "sourceColumn": "Attendance Disposal",
+            "lineageTag": "ad4e2f3a4-b5c6-7890-abcd-ef123456789",
+            "summarizeBy": "none"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "Dim_Attendance_Disposal",
+            "mode": "import",
+            "source": {
+              "type": "m",
+              "expression": [
+                "let",
+                "    Source = Sql.Database(\"PSFADHSSTP02.ad.elc.nhs.uk\\SWL\", \"Data_Lab_SWL_Live\", [Query=\"",
+                "        SELECT",
+                "            [SK_AttendanceDisposalID]           AS [AttendanceDisposalKey],",
+                "            [Attendance_Disposal_Code]          AS [Attendance Disposal Code],",
+                "            [Attendance_Disposal_Description]   AS [Attendance Disposal Description],",
+                "            [Attendance_Disposal_Short]         AS [Attendance Disposal]",
+                "        FROM [Analytics].[vw_Dim_Attendance_Disposal]",
+                "    \"])",
+                "in",
+                "    Source"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "name": "Dim_Ethnicity",
+        "lineageTag": "t1b2c3d4-e5f6-7890-abcd-ef1234567890",
+        "columns": [
+          {
+            "name": "EthnicityKey",
+            "dataType": "int64",
+            "isKey": true,
+            "sourceColumn": "EthnicityKey",
+            "formatString": "0",
+            "lineageTag": "t1e2f3a4-b5c6-7890-abcd-ef1234567891",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Ethnicity Code",
+            "dataType": "string",
+            "sourceColumn": "Ethnicity Code",
+            "lineageTag": "t1e2f3a4-b5c6-7890-abcd-ef1234567892",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Ethnicity Description",
+            "dataType": "string",
+            "sourceColumn": "Ethnicity Description",
+            "lineageTag": "t1e2f3a4-b5c6-7890-abcd-ef1234567893",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Ethnicity Group",
+            "dataType": "string",
+            "sourceColumn": "Ethnicity Group",
+            "lineageTag": "t1e2f3a4-b5c6-7890-abcd-ef1234567894",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Ethnicity",
+            "dataType": "string",
+            "sourceColumn": "Ethnicity",
+            "lineageTag": "t1e2f3a4-b5c6-7890-abcd-ef1234567895",
+            "summarizeBy": "none"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "Dim_Ethnicity",
+            "mode": "import",
+            "source": {
+              "type": "m",
+              "expression": [
+                "let",
+                "    Source = Sql.Database(\"PSFADHSSTP02.ad.elc.nhs.uk\\SWL\", \"Data_Lab_SWL_Live\", [Query=\"",
+                "        SELECT",
+                "            [SK_EthnicityID]    AS [EthnicityKey],",
+                "            [EthnicityCode]     AS [Ethnicity Code],",
+                "            [EthnicityDesc]     AS [Ethnicity Description],",
+                "            [EthnicityDesc2]    AS [Ethnicity Group],",
+                "            [Ethnicity_Short]   AS [Ethnicity]",
+                "        FROM [Analytics].[vw_Dim_Ethnicity]",
+                "    \"])",
+                "in",
+                "    Source"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "name": "Dim_Admission_Method",
+        "lineageTag": "am1b2c3d4-e5f6-7890-abcd-ef123456789",
+        "columns": [
+          {
+            "name": "AdmissionMethodKey",
+            "dataType": "int64",
+            "isKey": true,
+            "sourceColumn": "AdmissionMethodKey",
+            "formatString": "0",
+            "lineageTag": "am1e2f3a4-b5c6-7890-abcd-ef123456789",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Admission Method Code",
+            "dataType": "string",
+            "sourceColumn": "Admission Method Code",
+            "lineageTag": "am2e2f3a4-b5c6-7890-abcd-ef123456789",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Admission Method Name",
+            "dataType": "string",
+            "sourceColumn": "Admission Method Name",
+            "lineageTag": "am3e2f3a4-b5c6-7890-abcd-ef123456789",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Admission Method Group",
+            "dataType": "string",
+            "sourceColumn": "Admission Method Group",
+            "lineageTag": "am4e2f3a4-b5c6-7890-abcd-ef123456789",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Admission Method",
+            "dataType": "string",
+            "sourceColumn": "Admission Method",
+            "lineageTag": "am5e2f3a4-b5c6-7890-abcd-ef123456789",
+            "summarizeBy": "none"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "Dim_Admission_Method",
+            "mode": "import",
+            "source": {
+              "type": "m",
+              "expression": [
+                "let",
+                "    Source = Sql.Database(\"PSFADHSSTP02.ad.elc.nhs.uk\\SWL\", \"Data_Lab_SWL_Live\", [Query=\"",
+                "        SELECT",
+                "            [SK_AdmissionMethodID]      AS [AdmissionMethodKey],",
+                "            [Admission_Method_Code]     AS [Admission Method Code],",
+                "            [Admission_Method_Name]     AS [Admission Method Name],",
+                "            [Admission_Method_Group]    AS [Admission Method Group],",
+                "            [Admission_Method_Short]    AS [Admission Method]",
+                "        FROM [Analytics].[vw_Dim_Admission_Method]",
+                "    \"])",
+                "in",
+                "    Source"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "name": "Dim_Age_Band",
+        "lineageTag": "a2b2c3d4-e5f6-7890-abcd-ef1234567890",
+        "columns": [
+          {
+            "name": "Age",
+            "dataType": "int64",
+            "isKey": true,
+            "sourceColumn": "Age",
+            "formatString": "0",
+            "lineageTag": "a2e2f3a4-b5c6-7890-abcd-ef1234567891",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Age Band (5yr)",
+            "dataType": "string",
+            "sourceColumn": "Age Band (5yr)",
+            "lineageTag": "a2e2f3a4-b5c6-7890-abcd-ef1234567892",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Age Band (GP)",
+            "dataType": "string",
+            "sourceColumn": "Age Band (GP)",
+            "lineageTag": "a2e2f3a4-b5c6-7890-abcd-ef1234567893",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Age Band (10yr)",
+            "dataType": "string",
+            "sourceColumn": "Age Band (10yr)",
+            "lineageTag": "a2e2f3a4-b5c6-7890-abcd-ef1234567894",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Age Band (Clinical)",
+            "dataType": "string",
+            "sourceColumn": "Age Band (Clinical)",
+            "lineageTag": "a2e2f3a4-b5c6-7890-abcd-ef1234567895",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Age Band",
+            "dataType": "string",
+            "sourceColumn": "Age Band",
+            "lineageTag": "a2e2f3a4-b5c6-7890-abcd-ef1234567896",
+            "summarizeBy": "none"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "Dim_Age_Band",
+            "mode": "import",
+            "source": {
+              "type": "m",
+              "expression": [
+                "let",
+                "    Source = Sql.Database(\"PSFADHSSTP02.ad.elc.nhs.uk\\SWL\", \"Data_Lab_SWL_Live\", [Query=\"",
+                "        SELECT",
+                "            [Age]               AS [Age],",
+                "            [Age_Band_5yr]      AS [Age Band (5yr)],",
+                "            [Age_Band_GP]       AS [Age Band (GP)],",
+                "            [Age_Band_10yr]     AS [Age Band (10yr)],",
+                "            [Age_Band_Clinical] AS [Age Band (Clinical)],",
+                "            [Age_Band_Summary]  AS [Age Band]",
+                "        FROM [Analytics].[vw_Dim_Age_Band]",
+                "    \"])",
+                "in",
+                "    Source"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "name": "Dim_POD",
+        "lineageTag": "o1b2c3d4-e5f6-7890-abcd-ef1234567890",
+        "columns": [
+          {
+            "name": "PODKey",
+            "dataType": "int64",
+            "isKey": true,
+            "sourceColumn": "PODKey",
+            "formatString": "0",
+            "lineageTag": "o1e2f3a4-b5c6-7890-abcd-ef1234567891",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "POD Code",
+            "dataType": "string",
+            "sourceColumn": "POD Code",
+            "lineageTag": "o1e2f3a4-b5c6-7890-abcd-ef1234567892",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "POD Domain",
+            "dataType": "string",
+            "sourceColumn": "POD Domain",
+            "lineageTag": "o1e2f3a4-b5c6-7890-abcd-ef1234567893",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "POD Subcategory",
+            "dataType": "string",
+            "sourceColumn": "POD Subcategory",
+            "lineageTag": "o1e2f3a4-b5c6-7890-abcd-ef1234567894",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "POD Measure",
+            "dataType": "string",
+            "sourceColumn": "POD Measure",
+            "lineageTag": "o1e2f3a4-b5c6-7890-abcd-ef1234567895",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "POD Description",
+            "dataType": "string",
+            "sourceColumn": "POD Description",
+            "lineageTag": "o1e2f3a4-b5c6-7890-abcd-ef1234567896",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Point of Delivery",
+            "dataType": "string",
+            "sourceColumn": "Point of Delivery",
+            "lineageTag": "o1e2f3a4-b5c6-7890-abcd-ef1234567897",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Dataset",
+            "dataType": "string",
+            "sourceColumn": "Dataset",
+            "lineageTag": "o1e2f3a4-b5c6-7890-abcd-ef1234567898",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Main Group",
+            "dataType": "string",
+            "sourceColumn": "Main Group",
+            "lineageTag": "o1e2f3a4-b5c6-7890-abcd-ef1234567899",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Sub Group",
+            "dataType": "string",
+            "sourceColumn": "Sub Group",
+            "lineageTag": "o1e2f3a4-b5c6-7890-abcd-ef123456789a",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Category",
+            "dataType": "string",
+            "sourceColumn": "Category",
+            "lineageTag": "o1e2f3a4-b5c6-7890-abcd-ef123456789b",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Is Elective",
+            "dataType": "boolean",
+            "sourceColumn": "Is Elective",
+            "formatString": "\"TRUE\";\"TRUE\";\"FALSE\"",
+            "lineageTag": "o1e2f3a4-b5c6-7890-abcd-ef123456789c",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Is Emergency",
+            "dataType": "boolean",
+            "sourceColumn": "Is Emergency",
+            "formatString": "\"TRUE\";\"TRUE\";\"FALSE\"",
+            "lineageTag": "o1e2f3a4-b5c6-7890-abcd-ef123456789d",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Is Admitted",
+            "dataType": "boolean",
+            "sourceColumn": "Is Admitted",
+            "formatString": "\"TRUE\";\"TRUE\";\"FALSE\"",
+            "lineageTag": "o1e2f3a4-b5c6-7890-abcd-ef123456789e",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Is Outpatient",
+            "dataType": "boolean",
+            "sourceColumn": "Is Outpatient",
+            "formatString": "\"TRUE\";\"TRUE\";\"FALSE\"",
+            "lineageTag": "o1e2f3a4-b5c6-7890-abcd-ef123456789f",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Is A&E",
+            "dataType": "boolean",
+            "sourceColumn": "Is A&E",
+            "formatString": "\"TRUE\";\"TRUE\";\"FALSE\"",
+            "lineageTag": "o1e2f3a4-b5c6-7890-abcd-ef1234567900",
+            "summarizeBy": "none"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "Dim_POD",
+            "mode": "import",
+            "source": {
+              "type": "m",
+              "expression": [
+                "let",
+                "    Source = Sql.Database(\"PSFADHSSTP02.ad.elc.nhs.uk\\SWL\", \"Data_Lab_SWL_Live\", [Query=\"",
+                "        SELECT",
+                "            [SK_PodID]          AS [PODKey],",
+                "            [POD_Code]          AS [POD Code],",
+                "            [POD_Domain]        AS [POD Domain],",
+                "            [POD_Subcategory]   AS [POD Subcategory],",
+                "            [POD_Measure]       AS [POD Measure],",
+                "            [POD_Description]   AS [POD Description],",
+                "            [POD_Display]       AS [Point of Delivery],",
+                "            [POD_Dataset]       AS [Dataset],",
+                "            [POD_MainGroup]     AS [Main Group],",
+                "            [POD_SubGroup]      AS [Sub Group],",
+                "            [POD_Category]      AS [Category],",
+                "            [Is_Elective]       AS [Is Elective],",
+                "            [Is_Emergency]      AS [Is Emergency],",
+                "            [Is_Admitted]       AS [Is Admitted],",
+                "            [Is_Outpatient]     AS [Is Outpatient],",
+                "            [Is_AE]             AS [Is A&E]",
+                "        FROM [Analytics].[tbl_Dim_POD]",
+                "    \"])",
+                "in",
+                "    Source"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "name": "Dim_Provider",
+        "lineageTag": "r1b2c3d4-e5f6-7890-abcd-ef1234567890",
+        "columns": [
+          {
+            "name": "ProviderKey",
+            "dataType": "int64",
+            "isKey": true,
+            "sourceColumn": "ProviderKey",
+            "formatString": "0",
+            "lineageTag": "r1e2f3a4-b5c6-7890-abcd-ef1234567891",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Provider Code",
+            "dataType": "string",
+            "sourceColumn": "Provider Code",
+            "lineageTag": "r1e2f3a4-b5c6-7890-abcd-ef1234567892",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Provider",
+            "dataType": "string",
+            "sourceColumn": "Provider",
+            "lineageTag": "r1e2f3a4-b5c6-7890-abcd-ef1234567893",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Provider Type Code",
+            "dataType": "string",
+            "sourceColumn": "Provider Type Code",
+            "lineageTag": "r1e2f3a4-b5c6-7890-abcd-ef1234567894",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Provider Type",
+            "dataType": "string",
+            "sourceColumn": "Provider Type",
+            "lineageTag": "r1e2f3a4-b5c6-7890-abcd-ef1234567895",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Town",
+            "dataType": "string",
+            "sourceColumn": "Town",
+            "lineageTag": "r1e2f3a4-b5c6-7890-abcd-ef1234567896",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Status",
+            "dataType": "string",
+            "sourceColumn": "Status",
+            "lineageTag": "r1e2f3a4-b5c6-7890-abcd-ef1234567897",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Is Active",
+            "dataType": "boolean",
+            "sourceColumn": "Is Active",
+            "formatString": "\"TRUE\";\"TRUE\";\"FALSE\"",
+            "lineageTag": "r1e2f3a4-b5c6-7890-abcd-ef1234567898",
+            "summarizeBy": "none"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "Dim_Provider",
+            "mode": "import",
+            "source": {
+              "type": "m",
+              "expression": [
+                "let",
+                "    Source = Sql.Database(\"PSFADHSSTP02.ad.elc.nhs.uk\\SWL\", \"Data_Lab_SWL_Live\", [Query=\"",
+                "        SELECT",
+                "            [SK_ProviderID]         AS [ProviderKey],",
+                "            [Provider_Code]         AS [Provider Code],",
+                "            [Provider_Name]         AS [Provider],",
+                "            [Provider_Type_Code]    AS [Provider Type Code],",
+                "            [Provider_Type]         AS [Provider Type],",
+                "            [Town]                  AS [Town],",
+                "            [Provider_Status]       AS [Status],",
+                "            [Is_Active]             AS [Is Active]",
+                "        FROM [Analytics].[vw_Dim_Provider]",
+                "    \"])",
+                "in",
+                "    Source"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "name": "Dim_Gender",
+        "lineageTag": "e1b2c3d4-e5f6-7890-abcd-ef1234567890",
+        "columns": [
+          {
+            "name": "GenderKey",
+            "dataType": "int64",
+            "isKey": true,
+            "sourceColumn": "GenderKey",
+            "formatString": "0",
+            "lineageTag": "e1e2f3a4-b5c6-7890-abcd-ef1234567891",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Gender",
+            "dataType": "string",
+            "sourceColumn": "Gender",
+            "lineageTag": "e1e2f3a4-b5c6-7890-abcd-ef1234567892",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Gender Code",
+            "dataType": "string",
+            "sourceColumn": "Gender Code",
+            "lineageTag": "e1e2f3a4-b5c6-7890-abcd-ef1234567893",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Gender Code 1",
+            "dataType": "string",
+            "sourceColumn": "Gender Code 1",
+            "lineageTag": "e1e2f3a4-b5c6-7890-abcd-ef1234567894",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Gender Code 2",
+            "dataType": "string",
+            "sourceColumn": "Gender Code 2",
+            "lineageTag": "e1e2f3a4-b5c6-7890-abcd-ef1234567895",
+            "summarizeBy": "none"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "Dim_Gender",
+            "mode": "import",
+            "source": {
+              "type": "m",
+              "expression": [
+                "let",
+                "    Source = Sql.Database(\"PSFADHSSTP02.ad.elc.nhs.uk\\SWL\", \"Data_Lab_SWL_Live\", [Query=\"",
+                "        SELECT",
+                "            [SK_GenderID]   AS [GenderKey],",
+                "            [Gender]        AS [Gender],",
+                "            [GenderCode]    AS [Gender Code],",
+                "            [GenderCode1]   AS [Gender Code 1],",
+                "            [GenderCode2]   AS [Gender Code 2]",
+                "        FROM [Analytics].[vw_Dim_Gender]",
+                "    \"])",
+                "in",
+                "    Source"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "name": "Fact_AE_Activity",
+        "lineageTag": "ae1b2c3d4-e5f6-7890-abcd-ef123456789",
+        "columns": [
+          {
+            "name": "EncounterKey",
+            "dataType": "int64",
+            "isKey": true,
+            "sourceColumn": "EncounterKey",
+            "formatString": "0",
+            "lineageTag": "ae01e2f3a4-b5c6-7890-abcd-ef12345678",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "PatientKey",
+            "dataType": "int64",
+            "sourceColumn": "PatientKey",
+            "formatString": "0",
+            "lineageTag": "ae02e2f3a4-b5c6-7890-abcd-ef12345678",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "ArrivalDateKey",
+            "dataType": "int64",
+            "sourceColumn": "ArrivalDateKey",
+            "formatString": "0",
+            "lineageTag": "ae03e2f3a4-b5c6-7890-abcd-ef12345678",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "DepartureDateKey",
+            "dataType": "int64",
+            "sourceColumn": "DepartureDateKey",
+            "formatString": "0",
+            "lineageTag": "ae04e2f3a4-b5c6-7890-abcd-ef12345678",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "AgeKey",
+            "dataType": "int64",
+            "sourceColumn": "AgeKey",
+            "formatString": "0",
+            "lineageTag": "ae05e2f3a4-b5c6-7890-abcd-ef12345678",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "GenderKey",
+            "dataType": "int64",
+            "sourceColumn": "GenderKey",
+            "formatString": "0",
+            "lineageTag": "ae06e2f3a4-b5c6-7890-abcd-ef12345678",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "EthnicityKey",
+            "dataType": "int64",
+            "sourceColumn": "EthnicityKey",
+            "formatString": "0",
+            "lineageTag": "ae07e2f3a4-b5c6-7890-abcd-ef12345678",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "ProviderKey",
+            "dataType": "int64",
+            "sourceColumn": "ProviderKey",
+            "formatString": "0",
+            "lineageTag": "ae08e2f3a4-b5c6-7890-abcd-ef12345678",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "LSOAKey",
+            "dataType": "int64",
+            "sourceColumn": "LSOAKey",
+            "formatString": "0",
+            "lineageTag": "ae09e2f3a4-b5c6-7890-abcd-ef12345678",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "SpecialtyKey",
+            "dataType": "int64",
+            "sourceColumn": "SpecialtyKey",
+            "formatString": "0",
+            "lineageTag": "ae10e2f3a4-b5c6-7890-abcd-ef12345678",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "HRGKey",
+            "dataType": "int64",
+            "sourceColumn": "HRGKey",
+            "formatString": "0",
+            "lineageTag": "ae11e2f3a4-b5c6-7890-abcd-ef12345678",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "CommissionerKey",
+            "dataType": "int64",
+            "sourceColumn": "CommissionerKey",
+            "formatString": "0",
+            "lineageTag": "ae12e2f3a4-b5c6-7890-abcd-ef12345678",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "GPPracticeKey",
+            "dataType": "int64",
+            "sourceColumn": "GPPracticeKey",
+            "formatString": "0",
+            "lineageTag": "ae13e2f3a4-b5c6-7890-abcd-ef12345678",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "PCNKey",
+            "dataType": "int64",
+            "sourceColumn": "PCNKey",
+            "formatString": "0",
+            "lineageTag": "ae14e2f3a4-b5c6-7890-abcd-ef12345678",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "PODKey",
+            "dataType": "int64",
+            "sourceColumn": "PODKey",
+            "formatString": "0",
+            "lineageTag": "ae15e2f3a4-b5c6-7890-abcd-ef12345678",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "OpPlanMeasureSetKey",
+            "dataType": "int64",
+            "sourceColumn": "OpPlanMeasureSetKey",
+            "formatString": "0",
+            "lineageTag": "ae16e2f3a4-b5c6-7890-abcd-ef12345678",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "AttendanceDisposalKey",
+            "dataType": "int64",
+            "sourceColumn": "AttendanceDisposalKey",
+            "formatString": "0",
+            "lineageTag": "ae17e2f3a4-b5c6-7890-abcd-ef12345678",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Arrival Date",
+            "dataType": "dateTime",
+            "sourceColumn": "Arrival Date",
+            "formatString": "dd/MM/yyyy",
+            "lineageTag": "ae18e2f3a4-b5c6-7890-abcd-ef12345678",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Departure Date",
+            "dataType": "dateTime",
+            "sourceColumn": "Departure Date",
+            "formatString": "dd/MM/yyyy",
+            "lineageTag": "ae19e2f3a4-b5c6-7890-abcd-ef12345678",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Attendances",
+            "dataType": "int64",
+            "sourceColumn": "Attendances",
+            "formatString": "#,0",
+            "lineageTag": "ae20e2f3a4-b5c6-7890-abcd-ef12345678",
+            "summarizeBy": "sum"
+          },
+          {
+            "name": "Time in Department (mins)",
+            "dataType": "int64",
+            "sourceColumn": "Time in Department (mins)",
+            "formatString": "#,0",
+            "lineageTag": "ae21e2f3a4-b5c6-7890-abcd-ef12345678",
+            "summarizeBy": "sum"
+          },
+          {
+            "name": "Time to Assessment (mins)",
+            "dataType": "int64",
+            "sourceColumn": "Time to Assessment (mins)",
+            "formatString": "#,0",
+            "lineageTag": "ae22e2f3a4-b5c6-7890-abcd-ef12345678",
+            "summarizeBy": "sum"
+          },
+          {
+            "name": "Total Cost",
+            "dataType": "decimal",
+            "sourceColumn": "Total Cost",
+            "formatString": "\"£\"#,0.00;-\"£\"#,0.00;\"£\"#,0.00",
+            "lineageTag": "ae23e2f3a4-b5c6-7890-abcd-ef12345678",
+            "summarizeBy": "sum"
+          },
+          {
+            "name": "Is 4-Hour Breach",
+            "dataType": "boolean",
+            "sourceColumn": "Is 4-Hour Breach",
+            "formatString": "\"TRUE\";\"TRUE\";\"FALSE\"",
+            "lineageTag": "ae24e2f3a4-b5c6-7890-abcd-ef12345678",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Is 12-Hour Breach",
+            "dataType": "boolean",
+            "sourceColumn": "Is 12-Hour Breach",
+            "formatString": "\"TRUE\";\"TRUE\";\"FALSE\"",
+            "lineageTag": "ae25e2f3a4-b5c6-7890-abcd-ef12345678",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Is Admitted",
+            "dataType": "boolean",
+            "sourceColumn": "Is Admitted",
+            "formatString": "\"TRUE\";\"TRUE\";\"FALSE\"",
+            "lineageTag": "ae26e2f3a4-b5c6-7890-abcd-ef12345678",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Is Operating Plan",
+            "dataType": "boolean",
+            "sourceColumn": "Is Operating Plan",
+            "formatString": "\"TRUE\";\"TRUE\";\"FALSE\"",
+            "lineageTag": "ae27e2f3a4-b5c6-7890-abcd-ef12345678",
+            "summarizeBy": "none"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "Fact_AE_Activity",
+            "mode": "import",
+            "source": {
+              "type": "m",
+              "expression": [
+                "let",
+                "    Source = Sql.Database(\"PSFADHSSTP02.ad.elc.nhs.uk\\SWL\", \"Data_Lab_SWL_Live\", [Query=\"",
+                "        SELECT",
+                "            [SK_EncounterID]                    AS [EncounterKey],",
+                "            [SK_PatientID]                      AS [PatientKey],",
+                "            [SK_DateArrivalID]                  AS [ArrivalDateKey],",
+                "            [SK_DateDepartureID]                AS [DepartureDateKey],",
+                "            [SK_Age_BandID]                     AS [AgeKey],",
+                "            [SK_GenderID]                       AS [GenderKey],",
+                "            [SK_EthnicityID]                    AS [EthnicityKey],",
+                "            [SK_ProviderID]                     AS [ProviderKey],",
+                "            [SK_LSOA_ID]                        AS [LSOAKey],",
+                "            [SK_SpecialtyID]                    AS [SpecialtyKey],",
+                "            [SK_HRG_ID]                         AS [HRGKey],",
+                "            [SK_CommissionerID]                 AS [CommissionerKey],",
+                "            [SK_GPPracticeID]                   AS [GPPracticeKey],",
+                "            [SK_PCN_ID]                         AS [PCNKey],",
+                "            [SK_POD_ID]                         AS [PODKey],",
+                "            [SK_OpPlan_MeasureSet]              AS [OpPlanMeasureSetKey],",
+                "            [SK_Attendance_DisposalID]          AS [AttendanceDisposalKey],",
+                "            [Arrival_Date]                      AS [Arrival Date],",
+                "            [Departure_Date]                    AS [Departure Date],",
+                "            [Attendances]                       AS [Attendances],",
+                "            [Time_In_Department_Mins]           AS [Time in Department (mins)],",
+                "            [Time_To_Initial_Assessment_Mins]   AS [Time to Assessment (mins)],",
+                "            [Total_Cost]                        AS [Total Cost],",
+                "            [Is_4Hour_Breach]                   AS [Is 4-Hour Breach],",
+                "            [Is_12Hour_Breach]                  AS [Is 12-Hour Breach],",
+                "            [Is_Admitted]                       AS [Is Admitted],",
+                "            [Is_Operating_Plan]                 AS [Is Operating Plan]",
+                "        FROM [Analytics].[tbl_Fact_AE_Activity]",
+                "    \"]),",
+                "    FilteredRows = Table.SelectRows(Source, each [Arrival Date] >= RangeStart and [Arrival Date] < RangeEnd)",
+                "in",
+                "    FilteredRows"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "name": "Dim_CAM_Assignment_Reason",
+        "lineageTag": "ca1b2c3d4-e5f6-7890-abcd-ef123456789",
+        "columns": [
+          {
+            "name": "CAMAssignmentReasonKey",
+            "dataType": "int64",
+            "isKey": true,
+            "sourceColumn": "CAMAssignmentReasonKey",
+            "formatString": "0",
+            "lineageTag": "ca1e2f3a4-b5c6-7890-abcd-ef123456789",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "CAM Assignment Code",
+            "dataType": "string",
+            "sourceColumn": "CAM Assignment Code",
+            "lineageTag": "ca2e2f3a4-b5c6-7890-abcd-ef123456789",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "CAM Assignment Reason",
+            "dataType": "string",
+            "sourceColumn": "CAM Assignment Reason",
+            "lineageTag": "ca3e2f3a4-b5c6-7890-abcd-ef123456789",
+            "summarizeBy": "none"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "Dim_CAM_Assignment_Reason",
+            "mode": "import",
+            "source": {
+              "type": "m",
+              "expression": [
+                "let",
+                "    Source = Sql.Database(\"PSFADHSSTP02.ad.elc.nhs.uk\\SWL\", \"Data_Lab_SWL_Live\", [Query=\"",
+                "        SELECT",
+                "            [SK_CAM_Assignment_ReasonID]    AS [CAMAssignmentReasonKey],",
+                "            [CAM_Assignment_Code]           AS [CAM Assignment Code],",
+                "            [CAM_Assignment_Reason]         AS [CAM Assignment Reason]",
+                "        FROM [Analytics].[tbl_Dim_CAM_Assignment_Reason]",
+                "    \"])",
+                "in",
+                "    Source"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "name": "Dim_Attendance_Type",
+        "lineageTag": "at1b2c3d4-e5f6-7890-abcd-ef123456789",
+        "columns": [
+          {
+            "name": "AttendanceTypeKey",
+            "dataType": "int64",
+            "isKey": true,
+            "sourceColumn": "SK_AttendanceTypeID",
+            "formatString": "0",
+            "lineageTag": "at1e2f3a4-b5c6-7890-abcd-ef123456789",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Attendance Type Code",
+            "dataType": "string",
+            "sourceColumn": "Attendance_Type_Code",
+            "lineageTag": "at2e2f3a4-b5c6-7890-abcd-ef123456789",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Attendance Type Description",
+            "dataType": "string",
+            "sourceColumn": "Attendance_Type_Description",
+            "lineageTag": "at3e2f3a4-b5c6-7890-abcd-ef123456789",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Attendance Type",
+            "dataType": "string",
+            "sourceColumn": "Attendance_Type_Short",
+            "lineageTag": "at4e2f3a4-b5c6-7890-abcd-ef123456789",
+            "summarizeBy": "none"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "Dim_Attendance_Type",
+            "mode": "import",
+            "source": {
+              "type": "m",
+              "expression": [
+                "let",
+                "    Source = Sql.Database(\"PSFADHSSTP02.ad.elc.nhs.uk\\SWL\", \"Data_Lab_SWL_Live\", [Query=\"",
+                "        SELECT * FROM [Analytics].[vw_Dim_Attendance_Type]",
+                "    \"])",
+                "in",
+                "    Source"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "name": "Dim_Admission_Source",
+        "lineageTag": "as1b2c3d4-e5f6-7890-abcd-ef123456789",
+        "columns": [
+          {
+            "name": "AdmissionSourceKey",
+            "dataType": "int64",
+            "isKey": true,
+            "sourceColumn": "AdmissionSourceKey",
+            "formatString": "0",
+            "lineageTag": "as1e2f3a4-b5c6-7890-abcd-ef123456789",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Admission Source Code",
+            "dataType": "string",
+            "sourceColumn": "Admission Source Code",
+            "lineageTag": "as2e2f3a4-b5c6-7890-abcd-ef123456789",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Admission Source Name",
+            "dataType": "string",
+            "sourceColumn": "Admission Source Name",
+            "lineageTag": "as3e2f3a4-b5c6-7890-abcd-ef123456789",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Admission Source",
+            "dataType": "string",
+            "sourceColumn": "Admission Source",
+            "lineageTag": "as4e2f3a4-b5c6-7890-abcd-ef123456789",
+            "summarizeBy": "none"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "Dim_Admission_Source",
+            "mode": "import",
+            "source": {
+              "type": "m",
+              "expression": [
+                "let",
+                "    Source = Sql.Database(\"PSFADHSSTP02.ad.elc.nhs.uk\\SWL\", \"Data_Lab_SWL_Live\", [Query=\"",
+                "        SELECT",
+                "            [SK_AdmissionSourceID]      AS [AdmissionSourceKey],",
+                "            [Admission_Source_Code]     AS [Admission Source Code],",
+                "            [Admission_Source_Name]     AS [Admission Source Name],",
+                "            [Admission_Source_Short]    AS [Admission Source]",
+                "        FROM [Analytics].[vw_Dim_Admission_Source]",
+                "    \"])",
+                "in",
+                "    Source"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "name": "Dim_PCN",
+        "lineageTag": "n1b2c3d4-e5f6-7890-abcd-ef1234567890",
+        "columns": [
+          {
+            "name": "PCNKey",
+            "dataType": "int64",
+            "isKey": true,
+            "sourceColumn": "PCNKey",
+            "formatString": "0",
+            "lineageTag": "n1e2f3a4-b5c6-7890-abcd-ef1234567891",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "PCN Code",
+            "dataType": "string",
+            "sourceColumn": "PCN Code",
+            "lineageTag": "n1e2f3a4-b5c6-7890-abcd-ef1234567892",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "PCN",
+            "dataType": "string",
+            "sourceColumn": "PCN",
+            "lineageTag": "n1e2f3a4-b5c6-7890-abcd-ef1234567893",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "ICB Code",
+            "dataType": "string",
+            "sourceColumn": "ICB Code",
+            "lineageTag": "n1e2f3a4-b5c6-7890-abcd-ef1234567894",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "ICB",
+            "dataType": "string",
+            "sourceColumn": "ICB",
+            "lineageTag": "n1e2f3a4-b5c6-7890-abcd-ef1234567895",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Town",
+            "dataType": "string",
+            "sourceColumn": "Town",
+            "lineageTag": "n1e2f3a4-b5c6-7890-abcd-ef1234567896",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Postcode",
+            "dataType": "string",
+            "sourceColumn": "Postcode",
+            "lineageTag": "n1e2f3a4-b5c6-7890-abcd-ef1234567897",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Is Active",
+            "dataType": "boolean",
+            "sourceColumn": "Is Active",
+            "formatString": "\"TRUE\";\"TRUE\";\"FALSE\"",
+            "lineageTag": "n1e2f3a4-b5c6-7890-abcd-ef1234567898",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Is Current",
+            "dataType": "boolean",
+            "sourceColumn": "Is Current",
+            "formatString": "\"TRUE\";\"TRUE\";\"FALSE\"",
+            "lineageTag": "n1e2f3a4-b5c6-7890-abcd-ef1234567899",
+            "summarizeBy": "none"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "Dim_PCN",
+            "mode": "import",
+            "source": {
+              "type": "m",
+              "expression": [
+                "let",
+                "    Source = Sql.Database(\"PSFADHSSTP02.ad.elc.nhs.uk\\SWL\", \"Data_Lab_SWL_Live\", [Query=\"",
+                "        SELECT",
+                "            [SK_PCNID]      AS [PCNKey],",
+                "            [PCN_Code]      AS [PCN Code],",
+                "            [PCN_Name]      AS [PCN],",
+                "            [ICB_Code]      AS [ICB Code],",
+                "            [ICB_Name]      AS [ICB],",
+                "            [Town]          AS [Town],",
+                "            [Postcode]      AS [Postcode],",
+                "            [Is_Active]     AS [Is Active],",
+                "            [Is_Current]    AS [Is Current]",
+                "        FROM [Analytics].[tbl_Dim_PCN]",
+                "        WHERE [Is_Current] = 1",
+                "           OR [SK_PCNID] = -1",
+                "    \"])",
+                "in",
+                "    Source"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "name": "Dim_GPPractice",
+        "lineageTag": "g1b2c3d4-e5f6-7890-abcd-ef1234567890",
+        "columns": [
+          {
+            "name": "GPPracticeKey",
+            "dataType": "int64",
+            "isKey": true,
+            "sourceColumn": "GPPracticeKey",
+            "formatString": "0",
+            "lineageTag": "g1e2f3a4-b5c6-7890-abcd-ef1234567891",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "GP Practice Code",
+            "dataType": "string",
+            "sourceColumn": "GP Practice Code",
+            "lineageTag": "g1e2f3a4-b5c6-7890-abcd-ef1234567892",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "GP Practice",
+            "dataType": "string",
+            "sourceColumn": "GP Practice",
+            "lineageTag": "g1e2f3a4-b5c6-7890-abcd-ef1234567893",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Practice Category",
+            "dataType": "string",
+            "sourceColumn": "Practice Category",
+            "lineageTag": "g1e2f3a4-b5c6-7890-abcd-ef1234567894",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Prescribing Setting",
+            "dataType": "string",
+            "sourceColumn": "Prescribing Setting",
+            "lineageTag": "g1e2f3a4-b5c6-7890-abcd-ef1234567895",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Town",
+            "dataType": "string",
+            "sourceColumn": "Town",
+            "lineageTag": "g1e2f3a4-b5c6-7890-abcd-ef1234567896",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Postcode",
+            "dataType": "string",
+            "sourceColumn": "Postcode",
+            "lineageTag": "g1e2f3a4-b5c6-7890-abcd-ef1234567897",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "PCN Code",
+            "dataType": "string",
+            "sourceColumn": "PCN Code",
+            "lineageTag": "g1e2f3a4-b5c6-7890-abcd-ef1234567898",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "PCN",
+            "dataType": "string",
+            "sourceColumn": "PCN",
+            "lineageTag": "g1e2f3a4-b5c6-7890-abcd-ef1234567899",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Sub-ICB Code",
+            "dataType": "string",
+            "sourceColumn": "Sub-ICB Code",
+            "lineageTag": "g1e2f3a4-b5c6-7890-abcd-ef123456789a",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Sub-ICB",
+            "dataType": "string",
+            "sourceColumn": "Sub-ICB",
+            "lineageTag": "g1e2f3a4-b5c6-7890-abcd-ef123456789b",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "ICB Code",
+            "dataType": "string",
+            "sourceColumn": "ICB Code",
+            "lineageTag": "g1e2f3a4-b5c6-7890-abcd-ef123456789c",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "ICB",
+            "dataType": "string",
+            "sourceColumn": "ICB",
+            "lineageTag": "g1e2f3a4-b5c6-7890-abcd-ef123456789d",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "ICB Group",
+            "dataType": "string",
+            "sourceColumn": "ICB Group",
+            "lineageTag": "g1e2f3a4-b5c6-7890-abcd-ef123456789e",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "ICB Group Sort",
+            "dataType": "int64",
+            "sourceColumn": "ICB Group Sort",
+            "formatString": "0",
+            "lineageTag": "g1e2f3a4-b5c6-7890-abcd-ef123456789f",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Registration Status",
+            "dataType": "string",
+            "sourceColumn": "Registration Status",
+            "lineageTag": "g1e2f3a4-b5c6-7890-abcd-ef1234567900",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Is Active",
+            "dataType": "boolean",
+            "sourceColumn": "Is Active",
+            "formatString": "\"TRUE\";\"TRUE\";\"FALSE\"",
+            "lineageTag": "g1e2f3a4-b5c6-7890-abcd-ef1234567901",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Is Current",
+            "dataType": "boolean",
+            "sourceColumn": "Is Current",
+            "formatString": "\"TRUE\";\"TRUE\";\"FALSE\"",
+            "lineageTag": "g1e2f3a4-b5c6-7890-abcd-ef1234567902",
+            "summarizeBy": "none"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "Dim_GPPractice",
+            "mode": "import",
+            "source": {
+              "type": "m",
+              "expression": [
+                "let",
+                "    Source = Sql.Database(\"PSFADHSSTP02.ad.elc.nhs.uk\\SWL\", \"Data_Lab_SWL_Live\", [Query=\"",
+                "        SELECT",
+                "            [SK_GPPracticeID]       AS [GPPracticeKey],",
+                "            [GPPractice_Code]       AS [GP Practice Code],",
+                "            [GPPractice_Name]       AS [GP Practice],",
+                "            [Practice_Category]     AS [Practice Category],",
+                "            [Prescribing_Setting]   AS [Prescribing Setting],",
+                "            [Town]                  AS [Town],",
+                "            [Postcode]              AS [Postcode],",
+                "            [PCN_Code]              AS [PCN Code],",
+                "            [PCN_Name]              AS [PCN],",
+                "            [SubICB_Code]           AS [Sub-ICB Code],",
+                "            [SubICB_Name]           AS [Sub-ICB],",
+                "            [ICB_Code]              AS [ICB Code],",
+                "            [ICB_Name]              AS [ICB],",
+                "            [ICB_Grouping]          AS [ICB Group],",
+                "            [ICB_Grouping_Sort]     AS [ICB Group Sort],",
+                "            [Registration_Status]   AS [Registration Status],",
+                "            [Is_Active]             AS [Is Active],",
+                "            [Is_Current]            AS [Is Current]",
+                "        FROM [Analytics].[tbl_Dim_GPPractice]",
+                "        WHERE [Is_Current] = 1",
+                "           OR [SK_GPPracticeID] IN (-1, -2, -3, -4)",
+                "    \"])",
+                "in",
+                "    Source"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "name": "Dim_LSOA",
+        "lineageTag": "l1b2c3d4-e5f6-7890-abcd-ef1234567890",
+        "columns": [
+          {
+            "name": "LSOAKey",
+            "dataType": "int64",
+            "isKey": true,
+            "sourceColumn": "LSOAKey",
+            "formatString": "0",
+            "lineageTag": "l1e2f3a4-b5c6-7890-abcd-ef1234567891",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "LSOA Code",
+            "dataType": "string",
+            "sourceColumn": "LSOA Code",
+            "lineageTag": "l1e2f3a4-b5c6-7890-abcd-ef1234567892",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "LSOA Name",
+            "dataType": "string",
+            "sourceColumn": "LSOA Name",
+            "lineageTag": "l1e2f3a4-b5c6-7890-abcd-ef1234567893",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "LSOA",
+            "dataType": "string",
+            "sourceColumn": "LSOA",
+            "lineageTag": "l1e2f3a4-b5c6-7890-abcd-ef1234567894",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Sub-ICB Code",
+            "dataType": "string",
+            "sourceColumn": "Sub-ICB Code",
+            "lineageTag": "l1e2f3a4-b5c6-7890-abcd-ef1234567895",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Sub-ICB",
+            "dataType": "string",
+            "sourceColumn": "Sub-ICB",
+            "lineageTag": "l1e2f3a4-b5c6-7890-abcd-ef1234567896",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "ICB Code",
+            "dataType": "string",
+            "sourceColumn": "ICB Code",
+            "lineageTag": "l1e2f3a4-b5c6-7890-abcd-ef1234567897",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "ICB",
+            "dataType": "string",
+            "sourceColumn": "ICB",
+            "lineageTag": "l1e2f3a4-b5c6-7890-abcd-ef1234567898",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Local Authority Code",
+            "dataType": "string",
+            "sourceColumn": "Local Authority Code",
+            "lineageTag": "l1e2f3a4-b5c6-7890-abcd-ef1234567899",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Local Authority",
+            "dataType": "string",
+            "sourceColumn": "Local Authority",
+            "lineageTag": "l1e2f3a4-b5c6-7890-abcd-ef123456789a",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "IMD Year",
+            "dataType": "int64",
+            "sourceColumn": "IMD Year",
+            "formatString": "0",
+            "lineageTag": "l1e2f3a4-b5c6-7890-abcd-ef123456789b",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "IMD Rank",
+            "dataType": "int64",
+            "sourceColumn": "IMD Rank",
+            "formatString": "0",
+            "lineageTag": "l1e2f3a4-b5c6-7890-abcd-ef123456789c",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "IMD Decile",
+            "dataType": "int64",
+            "sourceColumn": "IMD Decile",
+            "formatString": "0",
+            "lineageTag": "l1e2f3a4-b5c6-7890-abcd-ef123456789d",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Child Deprivation Decile",
+            "dataType": "int64",
+            "sourceColumn": "Child Deprivation Decile",
+            "formatString": "0",
+            "lineageTag": "l1e2f3a4-b5c6-7890-abcd-ef123456789e",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Older Person Deprivation Decile",
+            "dataType": "int64",
+            "sourceColumn": "Older Person Deprivation Decile",
+            "formatString": "0",
+            "lineageTag": "l1e2f3a4-b5c6-7890-abcd-ef123456789f",
+            "summarizeBy": "none"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "Dim_LSOA",
+            "mode": "import",
+            "source": {
+              "type": "m",
+              "expression": [
+                "let",
+                "    Source = Sql.Database(\"PSFADHSSTP02.ad.elc.nhs.uk\\SWL\", \"Data_Lab_SWL_Live\", [Query=\"",
+                "        SELECT",
+                "            [SK_LSOA_ID]            AS [LSOAKey],",
+                "            [LSOA_Code]             AS [LSOA Code],",
+                "            [LSOA_Name]             AS [LSOA Name],",
+                "            [LSOA_Display]          AS [LSOA],",
+                "            [SubICB_Code]           AS [Sub-ICB Code],",
+                "            [SubICB_Name]           AS [Sub-ICB],",
+                "            [ICB_Code]              AS [ICB Code],",
+                "            [ICB_Name]              AS [ICB],",
+                "            [LocalAuthority_Code]   AS [Local Authority Code],",
+                "            [LocalAuthority_Name]   AS [Local Authority],",
+                "            [IMD_Year]              AS [IMD Year],",
+                "            [IMD_Rank]              AS [IMD Rank],",
+                "            [IMD_Decile]            AS [IMD Decile],",
+                "            [IDACI_Decile]          AS [Child Deprivation Decile],",
+                "            [IDAOPI_Decile]         AS [Older Person Deprivation Decile]",
+                "        FROM [Analytics].[vw_Dim_LSOA]",
+                "    \"])",
+                "in",
+                "    Source"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "name": "Fact_OP_Activity",
+        "lineageTag": "op2b2c3d4-e5f6-7890-abcd-ef123456789",
+        "columns": [
+          {
+            "name": "EncounterKey",
+            "dataType": "int64",
+            "isKey": true,
+            "sourceColumn": "EncounterKey",
+            "formatString": "0",
+            "lineageTag": "op01e2f3a4-b5c6-7890-abcd-ef12345678",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "PatientKey",
+            "dataType": "int64",
+            "sourceColumn": "PatientKey",
+            "formatString": "0",
+            "lineageTag": "op02e2f3a4-b5c6-7890-abcd-ef12345678",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "AppointmentDateKey",
+            "dataType": "int64",
+            "sourceColumn": "AppointmentDateKey",
+            "formatString": "0",
+            "lineageTag": "op03e2f3a4-b5c6-7890-abcd-ef12345678",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "ReferralDateKey",
+            "dataType": "int64",
+            "sourceColumn": "ReferralDateKey",
+            "formatString": "0",
+            "lineageTag": "op04e2f3a4-b5c6-7890-abcd-ef12345678",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "AgeKey",
+            "dataType": "int64",
+            "sourceColumn": "AgeKey",
+            "formatString": "0",
+            "lineageTag": "op05e2f3a4-b5c6-7890-abcd-ef12345678",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "GenderKey",
+            "dataType": "int64",
+            "sourceColumn": "GenderKey",
+            "formatString": "0",
+            "lineageTag": "op06e2f3a4-b5c6-7890-abcd-ef12345678",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "EthnicityKey",
+            "dataType": "int64",
+            "sourceColumn": "EthnicityKey",
+            "formatString": "0",
+            "lineageTag": "op07e2f3a4-b5c6-7890-abcd-ef12345678",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "ProviderKey",
+            "dataType": "int64",
+            "sourceColumn": "ProviderKey",
+            "formatString": "0",
+            "lineageTag": "op08e2f3a4-b5c6-7890-abcd-ef12345678",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "LSOAKey",
+            "dataType": "int64",
+            "sourceColumn": "LSOAKey",
+            "formatString": "0",
+            "lineageTag": "op09e2f3a4-b5c6-7890-abcd-ef12345678",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "SpecialtyKey",
+            "dataType": "int64",
+            "sourceColumn": "SpecialtyKey",
+            "formatString": "0",
+            "lineageTag": "op10e2f3a4-b5c6-7890-abcd-ef12345678",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "HRGKey",
+            "dataType": "int64",
+            "sourceColumn": "HRGKey",
+            "formatString": "0",
+            "lineageTag": "op11e2f3a4-b5c6-7890-abcd-ef12345678",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "CommissionerKey",
+            "dataType": "int64",
+            "sourceColumn": "CommissionerKey",
+            "formatString": "0",
+            "lineageTag": "op12e2f3a4-b5c6-7890-abcd-ef12345678",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "GPPracticeKey",
+            "dataType": "int64",
+            "sourceColumn": "GPPracticeKey",
+            "formatString": "0",
+            "lineageTag": "op13e2f3a4-b5c6-7890-abcd-ef12345678",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "PCNKey",
+            "dataType": "int64",
+            "sourceColumn": "PCNKey",
+            "formatString": "0",
+            "lineageTag": "op14e2f3a4-b5c6-7890-abcd-ef12345678",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "PODKey",
+            "dataType": "int64",
+            "sourceColumn": "PODKey",
+            "formatString": "0",
+            "lineageTag": "op15e2f3a4-b5c6-7890-abcd-ef12345678",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "OpPlanMeasureSetKey",
+            "dataType": "int64",
+            "sourceColumn": "OpPlanMeasureSetKey",
+            "formatString": "0",
+            "lineageTag": "op16e2f3a4-b5c6-7890-abcd-ef12345678",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "AttendanceStatusKey",
+            "dataType": "int64",
+            "sourceColumn": "AttendanceStatusKey",
+            "formatString": "0",
+            "lineageTag": "op17e2f3a4-b5c6-7890-abcd-ef12345678",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "AttendanceOutcomeKey",
+            "dataType": "int64",
+            "sourceColumn": "AttendanceOutcomeKey",
+            "formatString": "0",
+            "lineageTag": "op18e2f3a4-b5c6-7890-abcd-ef12345678",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "AttendanceTypeKey",
+            "dataType": "int64",
+            "sourceColumn": "AttendanceTypeKey",
+            "formatString": "0",
+            "lineageTag": "op19e2f3a4-b5c6-7890-abcd-ef12345678",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "DNAIndicatorKey",
+            "dataType": "int64",
+            "sourceColumn": "DNAIndicatorKey",
+            "formatString": "0",
+            "lineageTag": "op20e2f3a4-b5c6-7890-abcd-ef12345678",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "PriorityTypeKey",
+            "dataType": "int64",
+            "sourceColumn": "PriorityTypeKey",
+            "formatString": "0",
+            "lineageTag": "op21e2f3a4-b5c6-7890-abcd-ef12345678",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "ReferralSourceKey",
+            "dataType": "int64",
+            "sourceColumn": "ReferralSourceKey",
+            "formatString": "0",
+            "lineageTag": "op22e2f3a4-b5c6-7890-abcd-ef12345678",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "CAMCommissionerKey",
+            "dataType": "int64",
+            "sourceColumn": "CAMCommissionerKey",
+            "formatString": "0",
+            "lineageTag": "op23e2f3a4-b5c6-7890-abcd-ef12345678",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "CAMServiceCategoryKey",
+            "dataType": "int64",
+            "sourceColumn": "CAMServiceCategoryKey",
+            "formatString": "0",
+            "lineageTag": "op24e2f3a4-b5c6-7890-abcd-ef12345678",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "CAMAssignmentReasonKey",
+            "dataType": "int64",
+            "sourceColumn": "CAMAssignmentReasonKey",
+            "formatString": "0",
+            "lineageTag": "op25e2f3a4-b5c6-7890-abcd-ef12345678",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Appointment Date",
+            "dataType": "dateTime",
+            "sourceColumn": "Appointment Date",
+            "formatString": "dd/MM/yyyy",
+            "lineageTag": "op26e2f3a4-b5c6-7890-abcd-ef12345678",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Referral Date",
+            "dataType": "dateTime",
+            "sourceColumn": "Referral Date",
+            "formatString": "dd/MM/yyyy",
+            "lineageTag": "op27e2f3a4-b5c6-7890-abcd-ef12345678",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Appointments",
+            "dataType": "int64",
+            "sourceColumn": "Appointments",
+            "formatString": "#,0",
+            "lineageTag": "op28e2f3a4-b5c6-7890-abcd-ef12345678",
+            "summarizeBy": "sum"
+          },
+          {
+            "name": "Total Cost",
+            "dataType": "decimal",
+            "sourceColumn": "Total Cost",
+            "formatString": "\"£\"#,0.00;-\"£\"#,0.00;\"£\"#,0.00",
+            "lineageTag": "op29e2f3a4-b5c6-7890-abcd-ef12345678",
+            "summarizeBy": "sum"
+          },
+          {
+            "name": "DNA Count",
+            "dataType": "int64",
+            "sourceColumn": "DNA Count",
+            "formatString": "#,0",
+            "lineageTag": "op30e2f3a4-b5c6-7890-abcd-ef12345678",
+            "summarizeBy": "sum"
+          },
+          {
+            "name": "Is First Attendance",
+            "dataType": "boolean",
+            "sourceColumn": "Is First Attendance",
+            "formatString": "\"TRUE\";\"TRUE\";\"FALSE\"",
+            "lineageTag": "op31e2f3a4-b5c6-7890-abcd-ef12345678",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Days to Appointment",
+            "dataType": "int64",
+            "sourceColumn": "Days to Appointment",
+            "formatString": "#,0",
+            "lineageTag": "op32e2f3a4-b5c6-7890-abcd-ef12345678",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "RTT Wait Weeks",
+            "dataType": "int64",
+            "sourceColumn": "RTT Wait Weeks",
+            "formatString": "#,0",
+            "lineageTag": "op33e2f3a4-b5c6-7890-abcd-ef12345678",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Commissioner Variance",
+            "dataType": "int64",
+            "sourceColumn": "Commissioner Variance",
+            "formatString": "0",
+            "lineageTag": "op34e2f3a4-b5c6-7890-abcd-ef12345678",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Service Category Variance",
+            "dataType": "int64",
+            "sourceColumn": "Service Category Variance",
+            "formatString": "0",
+            "lineageTag": "op35e2f3a4-b5c6-7890-abcd-ef12345678",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Is Operating Plan",
+            "dataType": "boolean",
+            "sourceColumn": "Is Operating Plan",
+            "formatString": "\"TRUE\";\"TRUE\";\"FALSE\"",
+            "lineageTag": "op36e2f3a4-b5c6-7890-abcd-ef12345678",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Is ERF Eligible",
+            "dataType": "boolean",
+            "sourceColumn": "Is ERF Eligible",
+            "formatString": "\"TRUE\";\"TRUE\";\"FALSE\"",
+            "lineageTag": "op37e2f3a4-b5c6-7890-abcd-ef12345678",
+            "summarizeBy": "none"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "Fact_OP_Activity",
+            "mode": "import",
+            "source": {
+              "type": "m",
+              "expression": [
+                "let",
+                "    Source = Sql.Database(\"PSFADHSSTP02.ad.elc.nhs.uk\\SWL\", \"Data_Lab_SWL_Live\", [Query=\"",
+                "        SELECT",
+                "            [SK_EncounterID]                AS [EncounterKey],",
+                "            [SK_PatientID]                  AS [PatientKey],",
+                "            [SK_DateAppointmentID]          AS [AppointmentDateKey],",
+                "            [SK_DateReferralID]             AS [ReferralDateKey],",
+                "            [SK_Age_BandID]                 AS [AgeKey],",
+                "            [SK_GenderID]                   AS [GenderKey],",
+                "            [SK_EthnicityID]                AS [EthnicityKey],",
+                "            [SK_ProviderID]                 AS [ProviderKey],",
+                "            [SK_LSOA_ID]                    AS [LSOAKey],",
+                "            [SK_SpecialtyID]                AS [SpecialtyKey],",
+                "            [SK_HRG_ID]                     AS [HRGKey],",
+                "            [SK_CommissionerID]             AS [CommissionerKey],",
+                "            [SK_GPPracticeID]               AS [GPPracticeKey],",
+                "            [SK_PCN_ID]                     AS [PCNKey],",
+                "            [SK_POD_ID]                     AS [PODKey],",
+                "            [SK_OpPlan_MeasureSet]          AS [OpPlanMeasureSetKey],",
+                "            [SK_Attendance_StatusID]        AS [AttendanceStatusKey],",
+                "            [SK_Attendance_OutcomeID]       AS [AttendanceOutcomeKey],",
+                "            [SK_Attendance_TypeID]          AS [AttendanceTypeKey],",
+                "            [SK_DNA_IndicatorID]            AS [DNAIndicatorKey],",
+                "            [SK_Priority_TypeID]            AS [PriorityTypeKey],",
+                "            [SK_Referral_SourceID]          AS [ReferralSourceKey],",
+                "            [SK_CAM_CommissionerID]         AS [CAMCommissionerKey],",
+                "            [SK_CAM_Service_CategoryID]     AS [CAMServiceCategoryKey],",
+                "            [SK_CAM_Assignment_ReasonID]    AS [CAMAssignmentReasonKey],",
+                "            [Appointment_Date]              AS [Appointment Date],",
+                "            [Referral_Date]                 AS [Referral Date],",
+                "            [Appointments]                  AS [Appointments],",
+                "            [Total_Cost]                    AS [Total Cost],",
+                "            [DNA_Count]                     AS [DNA Count],",
+                "            [Is_FirstAttendance]            AS [Is First Attendance],",
+                "            [Referral_To_Appt_Days]         AS [Days to Appointment],",
+                "            [RTT_Wait_Weeks]                AS [RTT Wait Weeks],",
+                "            [Commissioner_Variance]         AS [Commissioner Variance],",
+                "            [Service_Category_Variance]     AS [Service Category Variance],",
+                "            [Is_Operating_Plan]             AS [Is Operating Plan],",
+                "            [Is_ERF_Eligible]               AS [Is ERF Eligible]",
+                "        FROM [Analytics].[tbl_Fact_OP_Activity]",
+                "    \"]),",
+                "    FilteredRows = Table.SelectRows(Source, each [Appointment Date] >= RangeStart and [Appointment Date] < RangeEnd)",
+                "in",
+                "    FilteredRows"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "name": "Dim_DNA_Indicator",
+        "lineageTag": "dn1b2c3d4-e5f6-7890-abcd-ef123456789",
+        "columns": [
+          {
+            "name": "DNAIndicatorKey",
+            "dataType": "int64",
+            "isKey": true,
+            "sourceColumn": "SK_DNA_IndicatorID",
+            "formatString": "0",
+            "lineageTag": "dn1e2f3a4-b5c6-7890-abcd-ef123456789",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "DNA Indicator Code",
+            "dataType": "string",
+            "sourceColumn": "DNA_Indicator_Code",
+            "lineageTag": "dn2e2f3a4-b5c6-7890-abcd-ef123456789",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "DNA Indicator Description",
+            "dataType": "string",
+            "sourceColumn": "DNA_Indicator_Description",
+            "lineageTag": "dn3e2f3a4-b5c6-7890-abcd-ef123456789",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "DNA Indicator",
+            "dataType": "string",
+            "sourceColumn": "DNA_Indicator_Short",
+            "lineageTag": "dn4e2f3a4-b5c6-7890-abcd-ef123456789",
+            "summarizeBy": "none"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "Dim_DNA_Indicator",
+            "mode": "import",
+            "source": {
+              "type": "m",
+              "expression": [
+                "let",
+                "    Source = Sql.Database(\"PSFADHSSTP02.ad.elc.nhs.uk\\SWL\", \"Data_Lab_SWL_Live\", [Query=\"",
+                "        SELECT * FROM [Analytics].[vw_Dim_DNA_Indicator]",
+                "    \"])",
+                "in",
+                "    Source"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "name": "Dim_Attendance_Outcome",
+        "lineageTag": "ao1b2c3d4-e5f6-7890-abcd-ef123456789",
+        "columns": [
+          {
+            "name": "AttendanceOutcomeKey",
+            "dataType": "int64",
+            "isKey": true,
+            "sourceColumn": "SK_AttendanceOutcomeID",
+            "formatString": "0",
+            "lineageTag": "ao1e2f3a4-b5c6-7890-abcd-ef123456789",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Attendance Outcome Code",
+            "dataType": "string",
+            "sourceColumn": "Attendance_Outcome_Code",
+            "lineageTag": "ao2e2f3a4-b5c6-7890-abcd-ef123456789",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Attendance Outcome Description",
+            "dataType": "string",
+            "sourceColumn": "Attendance_Outcome_Description",
+            "lineageTag": "ao3e2f3a4-b5c6-7890-abcd-ef123456789",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Attendance Outcome",
+            "dataType": "string",
+            "sourceColumn": "Attendance_Outcome_Short",
+            "lineageTag": "ao4e2f3a4-b5c6-7890-abcd-ef123456789",
+            "summarizeBy": "none"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "Dim_Attendance_Outcome",
+            "mode": "import",
+            "source": {
+              "type": "m",
+              "expression": [
+                "let",
+                "    Source = Sql.Database(\"PSFADHSSTP02.ad.elc.nhs.uk\\SWL\", \"Data_Lab_SWL_Live\", [Query=\"",
+                "        SELECT * FROM [Analytics].[vw_Dim_Attendance_Outcome]",
+                "    \"])",
+                "in",
+                "    Source"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "name": "Dim_CAM_Service_Category",
+        "lineageTag": "cs1b2c3d4-e5f6-7890-abcd-ef123456789",
+        "columns": [
+          {
+            "name": "CAMServiceCategoryKey",
+            "dataType": "int64",
+            "isKey": true,
+            "sourceColumn": "CAMServiceCategoryKey",
+            "formatString": "0",
+            "lineageTag": "cs1e2f3a4-b5c6-7890-abcd-ef123456789",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "CAM Service Category",
+            "dataType": "string",
+            "sourceColumn": "CAM Service Category",
+            "lineageTag": "cs2e2f3a4-b5c6-7890-abcd-ef123456789",
+            "summarizeBy": "none"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "Dim_CAM_Service_Category",
+            "mode": "import",
+            "source": {
+              "type": "m",
+              "expression": [
+                "let",
+                "    Source = Sql.Database(\"PSFADHSSTP02.ad.elc.nhs.uk\\SWL\", \"Data_Lab_SWL_Live\", [Query=\"",
+                "        SELECT",
+                "            [SK_CAM_Service_CategoryID] AS [CAMServiceCategoryKey],",
+                "            [CAM_Service_Category]      AS [CAM Service Category]",
+                "        FROM [Analytics].[tbl_Dim_CAM_Service_Category]",
+                "    \"])",
+                "in",
+                "    Source"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "name": "Dim_Patient",
+        "lineageTag": "b1b2c3d4-e5f6-7890-abcd-ef1234567890",
+        "columns": [
+          {
+            "name": "PatientKey",
+            "dataType": "int64",
+            "isKey": true,
+            "sourceColumn": "PatientKey",
+            "formatString": "0",
+            "lineageTag": "p1e2f3a4-b5c6-7890-abcd-ef1234567891",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Patient ID",
+            "dataType": "string",
+            "sourceColumn": "Patient ID",
+            "lineageTag": "p1e2f3a4-b5c6-7890-abcd-ef1234567892",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Date of Birth",
+            "dataType": "dateTime",
+            "sourceColumn": "Date of Birth",
+            "formatString": "dd/MM/yyyy",
+            "lineageTag": "p1e2f3a4-b5c6-7890-abcd-ef1234567893",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Date of Death",
+            "dataType": "dateTime",
+            "sourceColumn": "Date of Death",
+            "formatString": "dd/MM/yyyy",
+            "lineageTag": "p1e2f3a4-b5c6-7890-abcd-ef1234567894",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Gender Code",
+            "dataType": "string",
+            "sourceColumn": "Gender Code",
+            "lineageTag": "p1e2f3a4-b5c6-7890-abcd-ef1234567895",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Gender",
+            "dataType": "string",
+            "sourceColumn": "Gender",
+            "lineageTag": "p1e2f3a4-b5c6-7890-abcd-ef1234567896",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Ethnicity Code",
+            "dataType": "string",
+            "sourceColumn": "Ethnicity Code",
+            "lineageTag": "p1e2f3a4-b5c6-7890-abcd-ef1234567897",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Ethnicity",
+            "dataType": "string",
+            "sourceColumn": "Ethnicity",
+            "lineageTag": "p1e2f3a4-b5c6-7890-abcd-ef1234567898",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "LSOA Code",
+            "dataType": "string",
+            "sourceColumn": "LSOA Code",
+            "lineageTag": "p1e2f3a4-b5c6-7890-abcd-ef1234567899",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Postcode Sector",
+            "dataType": "string",
+            "sourceColumn": "Postcode Sector",
+            "lineageTag": "p1e2f3a4-b5c6-7890-abcd-ef123456789a",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "GP Practice Code",
+            "dataType": "string",
+            "sourceColumn": "GP Practice Code",
+            "lineageTag": "p1e2f3a4-b5c6-7890-abcd-ef123456789b",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "GP Practice",
+            "dataType": "string",
+            "sourceColumn": "GP Practice",
+            "lineageTag": "p1e2f3a4-b5c6-7890-abcd-ef123456789c",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "PCN Code",
+            "dataType": "string",
+            "sourceColumn": "PCN Code",
+            "lineageTag": "p1e2f3a4-b5c6-7890-abcd-ef123456789d",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "ICB Code",
+            "dataType": "string",
+            "sourceColumn": "ICB Code",
+            "lineageTag": "p1e2f3a4-b5c6-7890-abcd-ef123456789e",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Is Sensitive",
+            "dataType": "boolean",
+            "sourceColumn": "Is Sensitive",
+            "formatString": "\"TRUE\";\"TRUE\";\"FALSE\"",
+            "lineageTag": "p1e2f3a4-b5c6-7890-abcd-ef123456789f",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Is Current",
+            "dataType": "boolean",
+            "sourceColumn": "Is Current",
+            "formatString": "\"TRUE\";\"TRUE\";\"FALSE\"",
+            "lineageTag": "p1e2f3a4-b5c6-7890-abcd-ef1234567900",
+            "summarizeBy": "none"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "Dim_Patient",
+            "mode": "import",
+            "source": {
+              "type": "m",
+              "expression": [
+                "let",
+                "    Source = Sql.Database(\"PSFADHSSTP02.ad.elc.nhs.uk\\SWL\", \"Data_Lab_SWL_Live\", [Query=\"",
+                "        SELECT",
+                "            [SK_PatientID]              AS [PatientKey],",
+                "            [Pseudo_ID]                 AS [Patient ID],",
+                "            [Date_Of_Birth]             AS [Date of Birth],",
+                "            [Date_Of_Death]             AS [Date of Death],",
+                "            [Gender_Code]               AS [Gender Code],",
+                "            [Gender_Description]        AS [Gender],",
+                "            [Ethnicity_Code]            AS [Ethnicity Code],",
+                "            [Ethnicity_Description]     AS [Ethnicity],",
+                "            [LSOA_Code]                 AS [LSOA Code],",
+                "            [Postcode_Sector]           AS [Postcode Sector],",
+                "            [GP_Practice_Code]          AS [GP Practice Code],",
+                "            [GP_Practice_Name]          AS [GP Practice],",
+                "            [PCN_Code]                  AS [PCN Code],",
+                "            [ICB_Code]                  AS [ICB Code],",
+                "            [Is_Sensitive]              AS [Is Sensitive],",
+                "            [Is_Current]                AS [Is Current]",
+                "        FROM [Analytics].[tbl_Dim_Patient]",
+                "        WHERE [Is_Current] = 1",
+                "    \"])",
+                "in",
+                "    Source"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "name": "Dim_HRG",
+        "lineageTag": "h1b2c3d4-e5f6-7890-abcd-ef1234567890",
+        "columns": [
+          {
+            "name": "HRGKey",
+            "dataType": "int64",
+            "isKey": true,
+            "sourceColumn": "HRGKey",
+            "formatString": "0",
+            "lineageTag": "h1e2f3a4-b5c6-7890-abcd-ef1234567891",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "HRG Code",
+            "dataType": "string",
+            "sourceColumn": "HRG Code",
+            "lineageTag": "h1e2f3a4-b5c6-7890-abcd-ef1234567892",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "HRG Description",
+            "dataType": "string",
+            "sourceColumn": "HRG Description",
+            "lineageTag": "h1e2f3a4-b5c6-7890-abcd-ef1234567893",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "HRG Chapter Code",
+            "dataType": "string",
+            "sourceColumn": "HRG Chapter Code",
+            "lineageTag": "h1e2f3a4-b5c6-7890-abcd-ef1234567894",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "HRG Chapter",
+            "dataType": "string",
+            "sourceColumn": "HRG Chapter",
+            "lineageTag": "h1e2f3a4-b5c6-7890-abcd-ef1234567895",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "HRG Subchapter Code",
+            "dataType": "string",
+            "sourceColumn": "HRG Subchapter Code",
+            "lineageTag": "h1e2f3a4-b5c6-7890-abcd-ef1234567896",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "HRG Subchapter",
+            "dataType": "string",
+            "sourceColumn": "HRG Subchapter",
+            "lineageTag": "h1e2f3a4-b5c6-7890-abcd-ef1234567897",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "HRG Version",
+            "dataType": "string",
+            "sourceColumn": "HRG Version",
+            "lineageTag": "h1e2f3a4-b5c6-7890-abcd-ef1234567898",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "HRG",
+            "dataType": "string",
+            "sourceColumn": "HRG",
+            "lineageTag": "h1e2f3a4-b5c6-7890-abcd-ef1234567899",
+            "summarizeBy": "none"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "Dim_HRG",
+            "mode": "import",
+            "source": {
+              "type": "m",
+              "expression": [
+                "let",
+                "    Source = Sql.Database(\"PSFADHSSTP02.ad.elc.nhs.uk\\SWL\", \"Data_Lab_SWL_Live\", [Query=\"",
+                "        SELECT",
+                "            [SK_HRGID]          AS [HRGKey],",
+                "            [HRGCode]           AS [HRG Code],",
+                "            [HRGDescription]    AS [HRG Description],",
+                "            [HRGChapterKey]     AS [HRG Chapter Code],",
+                "            [HRGChapter]        AS [HRG Chapter],",
+                "            [HRGSubchapterKey]  AS [HRG Subchapter Code],",
+                "            [HRGSubchapter]     AS [HRG Subchapter],",
+                "            [HRG_Version]       AS [HRG Version],",
+                "            [HRG_Short]         AS [HRG]",
+                "        FROM [Analytics].[vw_Dim_HRG]",
+                "    \"])",
+                "in",
+                "    Source"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "name": "Dim_Referral_Source",
+        "lineageTag": "rs1b2c3d4-e5f6-7890-abcd-ef123456789",
+        "columns": [
+          {
+            "name": "ReferralSourceKey",
+            "dataType": "int64",
+            "isKey": true,
+            "sourceColumn": "SK_Referral_SourceID",
+            "formatString": "0",
+            "lineageTag": "rs1e2f3a4-b5c6-7890-abcd-ef123456789",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Referral Source Code",
+            "dataType": "string",
+            "sourceColumn": "Referral_Source_Code",
+            "lineageTag": "rs2e2f3a4-b5c6-7890-abcd-ef123456789",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Referral Source Description",
+            "dataType": "string",
+            "sourceColumn": "Referral_Source_Description",
+            "lineageTag": "rs3e2f3a4-b5c6-7890-abcd-ef123456789",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Referral Source",
+            "dataType": "string",
+            "sourceColumn": "Referral_Source_Short",
+            "lineageTag": "rs4e2f3a4-b5c6-7890-abcd-ef123456789",
+            "summarizeBy": "none"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "Dim_Referral_Source",
+            "mode": "import",
+            "source": {
+              "type": "m",
+              "expression": [
+                "let",
+                "    Source = Sql.Database(\"PSFADHSSTP02.ad.elc.nhs.uk\\SWL\", \"Data_Lab_SWL_Live\", [Query=\"",
+                "        SELECT * FROM [Analytics].[vw_Dim_Referral_Source]",
+                "    \"])",
+                "in",
+                "    Source"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "name": "Dim_OpPlan_MeasureSet",
+        "lineageTag": "op1b2c3d4-e5f6-7890-abcd-ef123456789",
+        "columns": [
+          {
+            "name": "OpPlanMeasureSetKey",
+            "dataType": "int64",
+            "isKey": true,
+            "sourceColumn": "OpPlanMeasureSetKey",
+            "formatString": "0",
+            "lineageTag": "op1e2f3a4-b5c6-7890-abcd-ef123456789",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Measure IDs",
+            "dataType": "string",
+            "sourceColumn": "Measure IDs",
+            "lineageTag": "op2e2f3a4-b5c6-7890-abcd-ef123456789",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Measure Count",
+            "dataType": "int64",
+            "sourceColumn": "Measure Count",
+            "formatString": "0",
+            "lineageTag": "op3e2f3a4-b5c6-7890-abcd-ef123456789",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Is Active",
+            "dataType": "boolean",
+            "sourceColumn": "Is Active",
+            "formatString": "\"TRUE\";\"TRUE\";\"FALSE\"",
+            "lineageTag": "op4e2f3a4-b5c6-7890-abcd-ef123456789",
+            "summarizeBy": "none"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "Dim_OpPlan_MeasureSet",
+            "mode": "import",
+            "source": {
+              "type": "m",
+              "expression": [
+                "let",
+                "    Source = Sql.Database(\"PSFADHSSTP02.ad.elc.nhs.uk\\SWL\", \"Data_Lab_SWL_Live\", [Query=\"",
+                "        SELECT",
+                "            [SK_OpPlan_MeasureSet]  AS [OpPlanMeasureSetKey],",
+                "            [MeasureIds]            AS [Measure IDs],",
+                "            [MeasureCount]          AS [Measure Count],",
+                "            [Is_Active]             AS [Is Active]",
+                "        FROM [Analytics].[tbl_Dim_OpPlan_MeasureSet]",
+                "    \"])",
+                "in",
+                "    Source"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "name": "Dim_IP_Patient_Classification",
+        "lineageTag": "pc1b2c3d4-e5f6-7890-abcd-ef123456789",
+        "columns": [
+          {
+            "name": "PatientClassificationKey",
+            "dataType": "int64",
+            "isKey": true,
+            "sourceColumn": "PatientClassificationKey",
+            "formatString": "0",
+            "lineageTag": "pc1e2f3a4-b5c6-7890-abcd-ef123456789",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Patient Classification Code",
+            "dataType": "string",
+            "sourceColumn": "Patient Classification Code",
+            "lineageTag": "pc2e2f3a4-b5c6-7890-abcd-ef123456789",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Patient Classification Name",
+            "dataType": "string",
+            "sourceColumn": "Patient Classification Name",
+            "lineageTag": "pc3e2f3a4-b5c6-7890-abcd-ef123456789",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Patient Classification",
+            "dataType": "string",
+            "sourceColumn": "Patient Classification",
+            "lineageTag": "pc4e2f3a4-b5c6-7890-abcd-ef123456789",
+            "summarizeBy": "none"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "Dim_IP_Patient_Classification",
+            "mode": "import",
+            "source": {
+              "type": "m",
+              "expression": [
+                "let",
+                "    Source = Sql.Database(\"PSFADHSSTP02.ad.elc.nhs.uk\\SWL\", \"Data_Lab_SWL_Live\", [Query=\"",
+                "        SELECT",
+                "            [SK_PatientClassificationID]    AS [PatientClassificationKey],",
+                "            [Patient_Classification_Code]   AS [Patient Classification Code],",
+                "            [Patient_Classification_Name]   AS [Patient Classification Name],",
+                "            [Patient_Classification_Short]  AS [Patient Classification]",
+                "        FROM [Analytics].[vw_Dim_IP_Patient_Classification]",
+                "    \"])",
+                "in",
+                "    Source"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "name": "Dim_Priority_Type",
+        "lineageTag": "pt1b2c3d4-e5f6-7890-abcd-ef123456789",
+        "columns": [
+          {
+            "name": "PriorityTypeKey",
+            "dataType": "int64",
+            "isKey": true,
+            "sourceColumn": "SK_Priority_TypeID",
+            "formatString": "0",
+            "lineageTag": "pt1e2f3a4-b5c6-7890-abcd-ef123456789",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Priority Type Code",
+            "dataType": "string",
+            "sourceColumn": "Priority_Type_Code",
+            "lineageTag": "pt2e2f3a4-b5c6-7890-abcd-ef123456789",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Priority Type Description",
+            "dataType": "string",
+            "sourceColumn": "Priority_Type_Description",
+            "lineageTag": "pt3e2f3a4-b5c6-7890-abcd-ef123456789",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Priority Type",
+            "dataType": "string",
+            "sourceColumn": "Priority_Type_Short",
+            "lineageTag": "pt4e2f3a4-b5c6-7890-abcd-ef123456789",
+            "summarizeBy": "none"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "Dim_Priority_Type",
+            "mode": "import",
+            "source": {
+              "type": "m",
+              "expression": [
+                "let",
+                "    Source = Sql.Database(\"PSFADHSSTP02.ad.elc.nhs.uk\\SWL\", \"Data_Lab_SWL_Live\", [Query=\"",
+                "        SELECT * FROM [Analytics].[vw_Dim_Priority_Type]",
+                "    \"])",
+                "in",
+                "    Source"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "name": "Dim_Discharge_Method",
+        "lineageTag": "dm1b2c3d4-e5f6-7890-abcd-ef123456789",
+        "columns": [
+          {
+            "name": "DischargeMethodKey",
+            "dataType": "int64",
+            "isKey": true,
+            "sourceColumn": "DischargeMethodKey",
+            "formatString": "0",
+            "lineageTag": "dm1e2f3a4-b5c6-7890-abcd-ef123456789",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Discharge Method Code",
+            "dataType": "string",
+            "sourceColumn": "Discharge Method Code",
+            "lineageTag": "dm2e2f3a4-b5c6-7890-abcd-ef123456789",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Discharge Method Name",
+            "dataType": "string",
+            "sourceColumn": "Discharge Method Name",
+            "lineageTag": "dm3e2f3a4-b5c6-7890-abcd-ef123456789",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Discharge Method",
+            "dataType": "string",
+            "sourceColumn": "Discharge Method",
+            "lineageTag": "dm4e2f3a4-b5c6-7890-abcd-ef123456789",
+            "summarizeBy": "none"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "Dim_Discharge_Method",
+            "mode": "import",
+            "source": {
+              "type": "m",
+              "expression": [
+                "let",
+                "    Source = Sql.Database(\"PSFADHSSTP02.ad.elc.nhs.uk\\SWL\", \"Data_Lab_SWL_Live\", [Query=\"",
+                "        SELECT",
+                "            [SK_DischargeMethodID]      AS [DischargeMethodKey],",
+                "            [Discharge_Method_Code]     AS [Discharge Method Code],",
+                "            [Discharge_Method_Name]     AS [Discharge Method Name],",
+                "            [Discharge_Method_Short]    AS [Discharge Method]",
+                "        FROM [Analytics].[vw_Dim_Discharge_Method]",
+                "    \"])",
+                "in",
+                "    Source"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "name": "Fact_IP_Activity",
+        "lineageTag": "ip1b2c3d4-e5f6-7890-abcd-ef123456789",
+        "columns": [
+          {
+            "name": "EncounterKey",
+            "dataType": "int64",
+            "isKey": true,
+            "sourceColumn": "EncounterKey",
+            "formatString": "0",
+            "lineageTag": "ip01e2f3a4-b5c6-7890-abcd-ef12345678",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "PatientKey",
+            "dataType": "int64",
+            "sourceColumn": "PatientKey",
+            "formatString": "0",
+            "lineageTag": "ip02e2f3a4-b5c6-7890-abcd-ef12345678",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "AdmissionDateKey",
+            "dataType": "int64",
+            "sourceColumn": "AdmissionDateKey",
+            "formatString": "0",
+            "lineageTag": "ip03e2f3a4-b5c6-7890-abcd-ef12345678",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "DischargeDateKey",
+            "dataType": "int64",
+            "sourceColumn": "DischargeDateKey",
+            "formatString": "0",
+            "lineageTag": "ip04e2f3a4-b5c6-7890-abcd-ef12345678",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "AgeKey",
+            "dataType": "int64",
+            "sourceColumn": "AgeKey",
+            "formatString": "0",
+            "lineageTag": "ip05e2f3a4-b5c6-7890-abcd-ef12345678",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "GenderKey",
+            "dataType": "int64",
+            "sourceColumn": "GenderKey",
+            "formatString": "0",
+            "lineageTag": "ip06e2f3a4-b5c6-7890-abcd-ef12345678",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "EthnicityKey",
+            "dataType": "int64",
+            "sourceColumn": "EthnicityKey",
+            "formatString": "0",
+            "lineageTag": "ip07e2f3a4-b5c6-7890-abcd-ef12345678",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "ProviderKey",
+            "dataType": "int64",
+            "sourceColumn": "ProviderKey",
+            "formatString": "0",
+            "lineageTag": "ip08e2f3a4-b5c6-7890-abcd-ef12345678",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "LSOAKey",
+            "dataType": "int64",
+            "sourceColumn": "LSOAKey",
+            "formatString": "0",
+            "lineageTag": "ip09e2f3a4-b5c6-7890-abcd-ef12345678",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "SpecialtyKey",
+            "dataType": "int64",
+            "sourceColumn": "SpecialtyKey",
+            "formatString": "0",
+            "lineageTag": "ip10e2f3a4-b5c6-7890-abcd-ef12345678",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "HRGKey",
+            "dataType": "int64",
+            "sourceColumn": "HRGKey",
+            "formatString": "0",
+            "lineageTag": "ip11e2f3a4-b5c6-7890-abcd-ef12345678",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "CommissionerKey",
+            "dataType": "int64",
+            "sourceColumn": "CommissionerKey",
+            "formatString": "0",
+            "lineageTag": "ip12e2f3a4-b5c6-7890-abcd-ef12345678",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "GPPracticeKey",
+            "dataType": "int64",
+            "sourceColumn": "GPPracticeKey",
+            "formatString": "0",
+            "lineageTag": "ip13e2f3a4-b5c6-7890-abcd-ef12345678",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "PCNKey",
+            "dataType": "int64",
+            "sourceColumn": "PCNKey",
+            "formatString": "0",
+            "lineageTag": "ip14e2f3a4-b5c6-7890-abcd-ef12345678",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "PODKey",
+            "dataType": "int64",
+            "sourceColumn": "PODKey",
+            "formatString": "0",
+            "lineageTag": "ip15e2f3a4-b5c6-7890-abcd-ef12345678",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "OpPlanMeasureSetKey",
+            "dataType": "int64",
+            "sourceColumn": "OpPlanMeasureSetKey",
+            "formatString": "0",
+            "lineageTag": "ip16e2f3a4-b5c6-7890-abcd-ef12345678",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "AdmissionMethodKey",
+            "dataType": "int64",
+            "sourceColumn": "AdmissionMethodKey",
+            "formatString": "0",
+            "lineageTag": "ip17e2f3a4-b5c6-7890-abcd-ef12345678",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "AdmissionSourceKey",
+            "dataType": "int64",
+            "sourceColumn": "AdmissionSourceKey",
+            "formatString": "0",
+            "lineageTag": "ip18e2f3a4-b5c6-7890-abcd-ef12345678",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "DischargeMethodKey",
+            "dataType": "int64",
+            "sourceColumn": "DischargeMethodKey",
+            "formatString": "0",
+            "lineageTag": "ip19e2f3a4-b5c6-7890-abcd-ef12345678",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "DischargeDestinationKey",
+            "dataType": "int64",
+            "sourceColumn": "DischargeDestinationKey",
+            "formatString": "0",
+            "lineageTag": "ip20e2f3a4-b5c6-7890-abcd-ef12345678",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "PatientClassificationKey",
+            "dataType": "int64",
+            "sourceColumn": "PatientClassificationKey",
+            "formatString": "0",
+            "lineageTag": "ip21e2f3a4-b5c6-7890-abcd-ef12345678",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "CAMCommissionerKey",
+            "dataType": "int64",
+            "sourceColumn": "CAMCommissionerKey",
+            "formatString": "0",
+            "lineageTag": "ip22e2f3a4-b5c6-7890-abcd-ef12345678",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "CAMServiceCategoryKey",
+            "dataType": "int64",
+            "sourceColumn": "CAMServiceCategoryKey",
+            "formatString": "0",
+            "lineageTag": "ip23e2f3a4-b5c6-7890-abcd-ef12345678",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "CAMAssignmentReasonKey",
+            "dataType": "int64",
+            "sourceColumn": "CAMAssignmentReasonKey",
+            "formatString": "0",
+            "lineageTag": "ip24e2f3a4-b5c6-7890-abcd-ef12345678",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Admission Date",
+            "dataType": "dateTime",
+            "sourceColumn": "Admission Date",
+            "formatString": "dd/MM/yyyy",
+            "lineageTag": "ip25e2f3a4-b5c6-7890-abcd-ef12345678",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Discharge Date",
+            "dataType": "dateTime",
+            "sourceColumn": "Discharge Date",
+            "formatString": "dd/MM/yyyy",
+            "lineageTag": "ip26e2f3a4-b5c6-7890-abcd-ef12345678",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Admissions",
+            "dataType": "int64",
+            "sourceColumn": "Admissions",
+            "formatString": "#,0",
+            "lineageTag": "ip27e2f3a4-b5c6-7890-abcd-ef12345678",
+            "summarizeBy": "sum"
+          },
+          {
+            "name": "Length of Stay",
+            "dataType": "int64",
+            "sourceColumn": "Length of Stay",
+            "formatString": "#,0",
+            "lineageTag": "ip28e2f3a4-b5c6-7890-abcd-ef12345678",
+            "summarizeBy": "sum"
+          },
+          {
+            "name": "Total Cost",
+            "dataType": "decimal",
+            "sourceColumn": "Total Cost",
+            "formatString": "\"£\"#,0.00;-\"£\"#,0.00;\"£\"#,0.00",
+            "lineageTag": "ip29e2f3a4-b5c6-7890-abcd-ef12345678",
+            "summarizeBy": "sum"
+          },
+          {
+            "name": "Delayed Discharge Days",
+            "dataType": "int64",
+            "sourceColumn": "Delayed Discharge Days",
+            "formatString": "#,0",
+            "lineageTag": "ip30e2f3a4-b5c6-7890-abcd-ef12345678",
+            "summarizeBy": "sum"
+          },
+          {
+            "name": "Excess Bed Days",
+            "dataType": "int64",
+            "sourceColumn": "Excess Bed Days",
+            "formatString": "#,0",
+            "lineageTag": "ip31e2f3a4-b5c6-7890-abcd-ef12345678",
+            "summarizeBy": "sum"
+          },
+          {
+            "name": "Excess Bed Days Cost",
+            "dataType": "decimal",
+            "sourceColumn": "Excess Bed Days Cost",
+            "formatString": "\"£\"#,0.00;-\"£\"#,0.00;\"£\"#,0.00",
+            "lineageTag": "ip32e2f3a4-b5c6-7890-abcd-ef12345678",
+            "summarizeBy": "sum"
+          },
+          {
+            "name": "Palliative Care Days",
+            "dataType": "int64",
+            "sourceColumn": "Palliative Care Days",
+            "formatString": "#,0",
+            "lineageTag": "ip33e2f3a4-b5c6-7890-abcd-ef12345678",
+            "summarizeBy": "sum"
+          },
+          {
+            "name": "Rehab Days",
+            "dataType": "int64",
+            "sourceColumn": "Rehab Days",
+            "formatString": "#,0",
+            "lineageTag": "ip34e2f3a4-b5c6-7890-abcd-ef12345678",
+            "summarizeBy": "sum"
+          },
+          {
+            "name": "Base Tariff",
+            "dataType": "decimal",
+            "sourceColumn": "Base Tariff",
+            "formatString": "\"£\"#,0.00;-\"£\"#,0.00;\"£\"#,0.00",
+            "lineageTag": "ip35e2f3a4-b5c6-7890-abcd-ef12345678",
+            "summarizeBy": "sum"
+          },
+          {
+            "name": "MFF Multiplier",
+            "dataType": "double",
+            "sourceColumn": "MFF Multiplier",
+            "lineageTag": "ip36e2f3a4-b5c6-7890-abcd-ef12345678",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "ERF National Price",
+            "dataType": "decimal",
+            "sourceColumn": "ERF National Price",
+            "formatString": "\"£\"#,0.00;-\"£\"#,0.00;\"£\"#,0.00",
+            "lineageTag": "ip37e2f3a4-b5c6-7890-abcd-ef12345678",
+            "summarizeBy": "sum"
+          },
+          {
+            "name": "ERF Cost",
+            "dataType": "decimal",
+            "sourceColumn": "ERF Cost",
+            "formatString": "\"£\"#,0.00;-\"£\"#,0.00;\"£\"#,0.00",
+            "lineageTag": "ip38e2f3a4-b5c6-7890-abcd-ef12345678",
+            "summarizeBy": "sum"
+          },
+          {
+            "name": "Commissioner Variance",
+            "dataType": "int64",
+            "sourceColumn": "Commissioner Variance",
+            "formatString": "0",
+            "lineageTag": "ip39e2f3a4-b5c6-7890-abcd-ef12345678",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Service Category Variance",
+            "dataType": "int64",
+            "sourceColumn": "Service Category Variance",
+            "formatString": "0",
+            "lineageTag": "ip40e2f3a4-b5c6-7890-abcd-ef12345678",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Is Operating Plan",
+            "dataType": "boolean",
+            "sourceColumn": "Is Operating Plan",
+            "formatString": "\"TRUE\";\"TRUE\";\"FALSE\"",
+            "lineageTag": "ip41e2f3a4-b5c6-7890-abcd-ef12345678",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Is ERF Eligible",
+            "dataType": "boolean",
+            "sourceColumn": "Is ERF Eligible",
+            "formatString": "\"TRUE\";\"TRUE\";\"FALSE\"",
+            "lineageTag": "ip42e2f3a4-b5c6-7890-abcd-ef12345678",
+            "summarizeBy": "none"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "Fact_IP_Activity",
+            "mode": "import",
+            "source": {
+              "type": "m",
+              "expression": [
+                "let",
+                "    Source = Sql.Database(\"PSFADHSSTP02.ad.elc.nhs.uk\\SWL\", \"Data_Lab_SWL_Live\", [Query=\"",
+                "        SELECT",
+                "            [SK_EncounterID]                    AS [EncounterKey],",
+                "            [SK_PatientID]                      AS [PatientKey],",
+                "            [SK_DateAdmissionID]                AS [AdmissionDateKey],",
+                "            [SK_DateDischargeID]                AS [DischargeDateKey],",
+                "            [SK_Age_BandID]                     AS [AgeKey],",
+                "            [SK_GenderID]                       AS [GenderKey],",
+                "            [SK_EthnicityID]                    AS [EthnicityKey],",
+                "            [SK_ProviderID]                     AS [ProviderKey],",
+                "            [SK_LSOA_ID]                        AS [LSOAKey],",
+                "            [SK_SpecialtyID]                    AS [SpecialtyKey],",
+                "            [SK_HRG_ID]                         AS [HRGKey],",
+                "            [SK_CommissionerID]                 AS [CommissionerKey],",
+                "            [SK_GPPracticeID]                   AS [GPPracticeKey],",
+                "            [SK_PCN_ID]                         AS [PCNKey],",
+                "            [SK_POD_ID]                         AS [PODKey],",
+                "            [SK_OpPlan_MeasureSet]              AS [OpPlanMeasureSetKey],",
+                "            [SK_Admission_MethodID]             AS [AdmissionMethodKey],",
+                "            [SK_Admission_SourceID]             AS [AdmissionSourceKey],",
+                "            [SK_Discharge_MethodID]             AS [DischargeMethodKey],",
+                "            [SK_Discharge_DestinationID]        AS [DischargeDestinationKey],",
+                "            [SK_IP_Patient_ClassificationID]    AS [PatientClassificationKey],",
+                "            [SK_CAM_CommissionerID]             AS [CAMCommissionerKey],",
+                "            [SK_CAM_Service_CategoryID]         AS [CAMServiceCategoryKey],",
+                "            [SK_CAM_Assignment_ReasonID]        AS [CAMAssignmentReasonKey],",
+                "            [Admission_Date]                    AS [Admission Date],",
+                "            [Discharge_Date]                    AS [Discharge Date],",
+                "            [Admissions]                        AS [Admissions],",
+                "            [Length_Of_Stay]                    AS [Length of Stay],",
+                "            [Total_Cost]                        AS [Total Cost],",
+                "            [Delayed_Discharge_Days]            AS [Delayed Discharge Days],",
+                "            [Excess_Bed_Days]                   AS [Excess Bed Days],",
+                "            [Excess_Bed_Days_Cost]              AS [Excess Bed Days Cost],",
+                "            [Palliative_Care_Days]              AS [Palliative Care Days],",
+                "            [Rehab_Days]                        AS [Rehab Days],",
+                "            [Base_Tariff]                       AS [Base Tariff],",
+                "            [MFF_Multiplier]                    AS [MFF Multiplier],",
+                "            [ERF_National_Price]                AS [ERF National Price],",
+                "            [ERF_Total_Cost_Incl_MFF]           AS [ERF Cost],",
+                "            [Commissioner_Variance]             AS [Commissioner Variance],",
+                "            [Service_Category_Variance]         AS [Service Category Variance],",
+                "            [Is_Operating_Plan]                 AS [Is Operating Plan],",
+                "            [Is_ERF_Eligible]                   AS [Is ERF Eligible]",
+                "        FROM [Analytics].[tbl_Fact_IP_Activity]",
+                "    \"]),",
+                "    FilteredRows = Table.SelectRows(Source, each [Discharge Date] >= RangeStart and [Discharge Date] < RangeEnd)",
+                "in",
+                "    FilteredRows"
+              ]
+            }
+          }
+        ]
+      }
+    ],
+    "relationships": [
+      {
+        "name": "IP_AdmissionDate",
+        "fromTable": "Fact_IP_Activity",
+        "fromColumn": "AdmissionDateKey",
+        "toTable": "Dim_Date",
+        "toColumn": "DateKey",
+        "isActive": false
+      },
+      {
+        "name": "IP_DischargeDate",
+        "fromTable": "Fact_IP_Activity",
+        "fromColumn": "DischargeDateKey",
+        "toTable": "Dim_Date",
+        "toColumn": "DateKey"
+      },
+      {
+        "name": "IP_Patient",
+        "fromTable": "Fact_IP_Activity",
+        "fromColumn": "PatientKey",
+        "toTable": "Dim_Patient",
+        "toColumn": "PatientKey"
+      },
+      {
+        "name": "IP_Age",
+        "fromTable": "Fact_IP_Activity",
+        "fromColumn": "AgeKey",
+        "toTable": "Dim_Age_Band",
+        "toColumn": "Age"
+      },
+      {
+        "name": "IP_Gender",
+        "fromTable": "Fact_IP_Activity",
+        "fromColumn": "GenderKey",
+        "toTable": "Dim_Gender",
+        "toColumn": "GenderKey"
+      },
+      {
+        "name": "IP_Ethnicity",
+        "fromTable": "Fact_IP_Activity",
+        "fromColumn": "EthnicityKey",
+        "toTable": "Dim_Ethnicity",
+        "toColumn": "EthnicityKey"
+      },
+      {
+        "name": "IP_Provider",
+        "fromTable": "Fact_IP_Activity",
+        "fromColumn": "ProviderKey",
+        "toTable": "Dim_Provider",
+        "toColumn": "ProviderKey"
+      },
+      {
+        "name": "IP_LSOA",
+        "fromTable": "Fact_IP_Activity",
+        "fromColumn": "LSOAKey",
+        "toTable": "Dim_LSOA",
+        "toColumn": "LSOAKey"
+      },
+      {
+        "name": "IP_Specialty",
+        "fromTable": "Fact_IP_Activity",
+        "fromColumn": "SpecialtyKey",
+        "toTable": "Dim_Specialty",
+        "toColumn": "SpecialtyKey"
+      },
+      {
+        "name": "IP_HRG",
+        "fromTable": "Fact_IP_Activity",
+        "fromColumn": "HRGKey",
+        "toTable": "Dim_HRG",
+        "toColumn": "HRGKey"
+      },
+      {
+        "name": "IP_Commissioner",
+        "fromTable": "Fact_IP_Activity",
+        "fromColumn": "CommissionerKey",
+        "toTable": "Dim_Commissioner",
+        "toColumn": "CommissionerKey"
+      },
+      {
+        "name": "IP_GPPractice",
+        "fromTable": "Fact_IP_Activity",
+        "fromColumn": "GPPracticeKey",
+        "toTable": "Dim_GPPractice",
+        "toColumn": "GPPracticeKey"
+      },
+      {
+        "name": "IP_PCN",
+        "fromTable": "Fact_IP_Activity",
+        "fromColumn": "PCNKey",
+        "toTable": "Dim_PCN",
+        "toColumn": "PCNKey"
+      },
+      {
+        "name": "IP_POD",
+        "fromTable": "Fact_IP_Activity",
+        "fromColumn": "PODKey",
+        "toTable": "Dim_POD",
+        "toColumn": "PODKey"
+      },
+      {
+        "name": "IP_OpPlanMeasureSet",
+        "fromTable": "Fact_IP_Activity",
+        "fromColumn": "OpPlanMeasureSetKey",
+        "toTable": "Dim_OpPlan_MeasureSet",
+        "toColumn": "OpPlanMeasureSetKey"
+      },
+      {
+        "name": "IP_AdmissionMethod",
+        "fromTable": "Fact_IP_Activity",
+        "fromColumn": "AdmissionMethodKey",
+        "toTable": "Dim_Admission_Method",
+        "toColumn": "AdmissionMethodKey"
+      },
+      {
+        "name": "IP_AdmissionSource",
+        "fromTable": "Fact_IP_Activity",
+        "fromColumn": "AdmissionSourceKey",
+        "toTable": "Dim_Admission_Source",
+        "toColumn": "AdmissionSourceKey"
+      },
+      {
+        "name": "IP_DischargeMethod",
+        "fromTable": "Fact_IP_Activity",
+        "fromColumn": "DischargeMethodKey",
+        "toTable": "Dim_Discharge_Method",
+        "toColumn": "DischargeMethodKey"
+      },
+      {
+        "name": "IP_DischargeDestination",
+        "fromTable": "Fact_IP_Activity",
+        "fromColumn": "DischargeDestinationKey",
+        "toTable": "Dim_Discharge_Destination",
+        "toColumn": "DischargeDestinationKey"
+      },
+      {
+        "name": "IP_PatientClassification",
+        "fromTable": "Fact_IP_Activity",
+        "fromColumn": "PatientClassificationKey",
+        "toTable": "Dim_IP_Patient_Classification",
+        "toColumn": "PatientClassificationKey"
+      },
+      {
+        "name": "IP_CAMCommissioner",
+        "fromTable": "Fact_IP_Activity",
+        "fromColumn": "CAMCommissionerKey",
+        "toTable": "Dim_Commissioner",
+        "toColumn": "CommissionerKey",
+        "isActive": false
+      },
+      {
+        "name": "IP_CAMServiceCategory",
+        "fromTable": "Fact_IP_Activity",
+        "fromColumn": "CAMServiceCategoryKey",
+        "toTable": "Dim_CAM_Service_Category",
+        "toColumn": "CAMServiceCategoryKey"
+      },
+      {
+        "name": "IP_CAMAssignmentReason",
+        "fromTable": "Fact_IP_Activity",
+        "fromColumn": "CAMAssignmentReasonKey",
+        "toTable": "Dim_CAM_Assignment_Reason",
+        "toColumn": "CAMAssignmentReasonKey"
+      },
+      {
+        "name": "OP_AppointmentDate",
+        "fromTable": "Fact_OP_Activity",
+        "fromColumn": "AppointmentDateKey",
+        "toTable": "Dim_Date",
+        "toColumn": "DateKey",
+        "isActive": false
+      },
+      {
+        "name": "OP_ReferralDate",
+        "fromTable": "Fact_OP_Activity",
+        "fromColumn": "ReferralDateKey",
+        "toTable": "Dim_Date",
+        "toColumn": "DateKey",
+        "isActive": false
+      },
+      {
+        "name": "OP_Patient",
+        "fromTable": "Fact_OP_Activity",
+        "fromColumn": "PatientKey",
+        "toTable": "Dim_Patient",
+        "toColumn": "PatientKey",
+        "isActive": false
+      },
+      {
+        "name": "OP_Age",
+        "fromTable": "Fact_OP_Activity",
+        "fromColumn": "AgeKey",
+        "toTable": "Dim_Age_Band",
+        "toColumn": "Age",
+        "isActive": false
+      },
+      {
+        "name": "OP_Gender",
+        "fromTable": "Fact_OP_Activity",
+        "fromColumn": "GenderKey",
+        "toTable": "Dim_Gender",
+        "toColumn": "GenderKey",
+        "isActive": false
+      },
+      {
+        "name": "OP_Ethnicity",
+        "fromTable": "Fact_OP_Activity",
+        "fromColumn": "EthnicityKey",
+        "toTable": "Dim_Ethnicity",
+        "toColumn": "EthnicityKey",
+        "isActive": false
+      },
+      {
+        "name": "OP_Provider",
+        "fromTable": "Fact_OP_Activity",
+        "fromColumn": "ProviderKey",
+        "toTable": "Dim_Provider",
+        "toColumn": "ProviderKey",
+        "isActive": false
+      },
+      {
+        "name": "OP_LSOA",
+        "fromTable": "Fact_OP_Activity",
+        "fromColumn": "LSOAKey",
+        "toTable": "Dim_LSOA",
+        "toColumn": "LSOAKey",
+        "isActive": false
+      },
+      {
+        "name": "OP_Specialty",
+        "fromTable": "Fact_OP_Activity",
+        "fromColumn": "SpecialtyKey",
+        "toTable": "Dim_Specialty",
+        "toColumn": "SpecialtyKey",
+        "isActive": false
+      },
+      {
+        "name": "OP_HRG",
+        "fromTable": "Fact_OP_Activity",
+        "fromColumn": "HRGKey",
+        "toTable": "Dim_HRG",
+        "toColumn": "HRGKey",
+        "isActive": false
+      },
+      {
+        "name": "OP_Commissioner",
+        "fromTable": "Fact_OP_Activity",
+        "fromColumn": "CommissionerKey",
+        "toTable": "Dim_Commissioner",
+        "toColumn": "CommissionerKey",
+        "isActive": false
+      },
+      {
+        "name": "OP_GPPractice",
+        "fromTable": "Fact_OP_Activity",
+        "fromColumn": "GPPracticeKey",
+        "toTable": "Dim_GPPractice",
+        "toColumn": "GPPracticeKey",
+        "isActive": false
+      },
+      {
+        "name": "OP_PCN",
+        "fromTable": "Fact_OP_Activity",
+        "fromColumn": "PCNKey",
+        "toTable": "Dim_PCN",
+        "toColumn": "PCNKey",
+        "isActive": false
+      },
+      {
+        "name": "OP_POD",
+        "fromTable": "Fact_OP_Activity",
+        "fromColumn": "PODKey",
+        "toTable": "Dim_POD",
+        "toColumn": "PODKey",
+        "isActive": false
+      },
+      {
+        "name": "OP_OpPlanMeasureSet",
+        "fromTable": "Fact_OP_Activity",
+        "fromColumn": "OpPlanMeasureSetKey",
+        "toTable": "Dim_OpPlan_MeasureSet",
+        "toColumn": "OpPlanMeasureSetKey",
+        "isActive": false
+      },
+      {
+        "name": "OP_AttendanceStatus",
+        "fromTable": "Fact_OP_Activity",
+        "fromColumn": "AttendanceStatusKey",
+        "toTable": "Dim_Attendance_Status",
+        "toColumn": "AttendanceStatusKey"
+      },
+      {
+        "name": "OP_AttendanceOutcome",
+        "fromTable": "Fact_OP_Activity",
+        "fromColumn": "AttendanceOutcomeKey",
+        "toTable": "Dim_Attendance_Outcome",
+        "toColumn": "AttendanceOutcomeKey"
+      },
+      {
+        "name": "OP_AttendanceType",
+        "fromTable": "Fact_OP_Activity",
+        "fromColumn": "AttendanceTypeKey",
+        "toTable": "Dim_Attendance_Type",
+        "toColumn": "AttendanceTypeKey"
+      },
+      {
+        "name": "OP_DNAIndicator",
+        "fromTable": "Fact_OP_Activity",
+        "fromColumn": "DNAIndicatorKey",
+        "toTable": "Dim_DNA_Indicator",
+        "toColumn": "DNAIndicatorKey"
+      },
+      {
+        "name": "OP_PriorityType",
+        "fromTable": "Fact_OP_Activity",
+        "fromColumn": "PriorityTypeKey",
+        "toTable": "Dim_Priority_Type",
+        "toColumn": "PriorityTypeKey"
+      },
+      {
+        "name": "OP_ReferralSource",
+        "fromTable": "Fact_OP_Activity",
+        "fromColumn": "ReferralSourceKey",
+        "toTable": "Dim_Referral_Source",
+        "toColumn": "ReferralSourceKey"
+      },
+      {
+        "name": "OP_CAMCommissioner",
+        "fromTable": "Fact_OP_Activity",
+        "fromColumn": "CAMCommissionerKey",
+        "toTable": "Dim_Commissioner",
+        "toColumn": "CommissionerKey",
+        "isActive": false
+      },
+      {
+        "name": "OP_CAMServiceCategory",
+        "fromTable": "Fact_OP_Activity",
+        "fromColumn": "CAMServiceCategoryKey",
+        "toTable": "Dim_CAM_Service_Category",
+        "toColumn": "CAMServiceCategoryKey",
+        "isActive": false
+      },
+      {
+        "name": "OP_CAMAssignmentReason",
+        "fromTable": "Fact_OP_Activity",
+        "fromColumn": "CAMAssignmentReasonKey",
+        "toTable": "Dim_CAM_Assignment_Reason",
+        "toColumn": "CAMAssignmentReasonKey",
+        "isActive": false
+      },
+      {
+        "name": "AE_ArrivalDate",
+        "fromTable": "Fact_AE_Activity",
+        "fromColumn": "ArrivalDateKey",
+        "toTable": "Dim_Date",
+        "toColumn": "DateKey",
+        "isActive": false
+      },
+      {
+        "name": "AE_DepartureDate",
+        "fromTable": "Fact_AE_Activity",
+        "fromColumn": "DepartureDateKey",
+        "toTable": "Dim_Date",
+        "toColumn": "DateKey",
+        "isActive": false
+      },
+      {
+        "name": "AE_Patient",
+        "fromTable": "Fact_AE_Activity",
+        "fromColumn": "PatientKey",
+        "toTable": "Dim_Patient",
+        "toColumn": "PatientKey",
+        "isActive": false
+      },
+      {
+        "name": "AE_Age",
+        "fromTable": "Fact_AE_Activity",
+        "fromColumn": "AgeKey",
+        "toTable": "Dim_Age_Band",
+        "toColumn": "Age",
+        "isActive": false
+      },
+      {
+        "name": "AE_Gender",
+        "fromTable": "Fact_AE_Activity",
+        "fromColumn": "GenderKey",
+        "toTable": "Dim_Gender",
+        "toColumn": "GenderKey",
+        "isActive": false
+      },
+      {
+        "name": "AE_Ethnicity",
+        "fromTable": "Fact_AE_Activity",
+        "fromColumn": "EthnicityKey",
+        "toTable": "Dim_Ethnicity",
+        "toColumn": "EthnicityKey",
+        "isActive": false
+      },
+      {
+        "name": "AE_Provider",
+        "fromTable": "Fact_AE_Activity",
+        "fromColumn": "ProviderKey",
+        "toTable": "Dim_Provider",
+        "toColumn": "ProviderKey",
+        "isActive": false
+      },
+      {
+        "name": "AE_LSOA",
+        "fromTable": "Fact_AE_Activity",
+        "fromColumn": "LSOAKey",
+        "toTable": "Dim_LSOA",
+        "toColumn": "LSOAKey",
+        "isActive": false
+      },
+      {
+        "name": "AE_Specialty",
+        "fromTable": "Fact_AE_Activity",
+        "fromColumn": "SpecialtyKey",
+        "toTable": "Dim_Specialty",
+        "toColumn": "SpecialtyKey",
+        "isActive": false
+      },
+      {
+        "name": "AE_HRG",
+        "fromTable": "Fact_AE_Activity",
+        "fromColumn": "HRGKey",
+        "toTable": "Dim_HRG",
+        "toColumn": "HRGKey",
+        "isActive": false
+      },
+      {
+        "name": "AE_Commissioner",
+        "fromTable": "Fact_AE_Activity",
+        "fromColumn": "CommissionerKey",
+        "toTable": "Dim_Commissioner",
+        "toColumn": "CommissionerKey",
+        "isActive": false
+      },
+      {
+        "name": "AE_GPPractice",
+        "fromTable": "Fact_AE_Activity",
+        "fromColumn": "GPPracticeKey",
+        "toTable": "Dim_GPPractice",
+        "toColumn": "GPPracticeKey",
+        "isActive": false
+      },
+      {
+        "name": "AE_PCN",
+        "fromTable": "Fact_AE_Activity",
+        "fromColumn": "PCNKey",
+        "toTable": "Dim_PCN",
+        "toColumn": "PCNKey",
+        "isActive": false
+      },
+      {
+        "name": "AE_POD",
+        "fromTable": "Fact_AE_Activity",
+        "fromColumn": "PODKey",
+        "toTable": "Dim_POD",
+        "toColumn": "PODKey",
+        "isActive": false
+      },
+      {
+        "name": "AE_OpPlanMeasureSet",
+        "fromTable": "Fact_AE_Activity",
+        "fromColumn": "OpPlanMeasureSetKey",
+        "toTable": "Dim_OpPlan_MeasureSet",
+        "toColumn": "OpPlanMeasureSetKey",
+        "isActive": false
+      },
+      {
+        "name": "AE_AttendanceDisposal",
+        "fromTable": "Fact_AE_Activity",
+        "fromColumn": "AttendanceDisposalKey",
+        "toTable": "Dim_Attendance_Disposal",
+        "toColumn": "AttendanceDisposalKey"
+      }
+    ],
+    "expressions": [
+      {
+        "name": "RangeStart",
+        "kind": "m",
+        "expression": "#datetime(2019, 4, 1, 0, 0, 0) meta [IsParameterQuery=true, Type=\"DateTime\", IsParameterQueryRequired=true]"
+      },
+      {
+        "name": "RangeEnd",
+        "kind": "m",
+        "expression": "#datetime(2026, 3, 31, 23, 59, 59) meta [IsParameterQuery=true, Type=\"DateTime\", IsParameterQueryRequired=true]"
+      }
+    ],
+    "annotations": [
+      {
+        "name": "PBI_QueryOrder",
+        "value": "[\"RangeStart\",\"RangeEnd\",\"Dim_Date\",\"Dim_Patient\",\"Dim_Commissioner\",\"Dim_GPPractice\",\"Dim_PCN\",\"Dim_POD\",\"Dim_LSOA\",\"Dim_Provider\",\"Dim_Specialty\",\"Dim_HRG\",\"Dim_Gender\",\"Dim_Ethnicity\",\"Dim_Age_Band\",\"Dim_CAM_Service_Category\",\"Dim_CAM_Assignment_Reason\",\"Dim_OpPlan_MeasureSet\",\"Dim_Admission_Method\",\"Dim_Admission_Source\",\"Dim_Discharge_Method\",\"Dim_Discharge_Destination\",\"Dim_IP_Patient_Classification\",\"Dim_Attendance_Status\",\"Dim_Attendance_Outcome\",\"Dim_Attendance_Type\",\"Dim_DNA_Indicator\",\"Dim_Priority_Type\",\"Dim_Referral_Source\",\"Dim_Attendance_Disposal\",\"Fact_IP_Activity\",\"Fact_OP_Activity\",\"Fact_AE_Activity\"]"
+      },
+      {
+        "name": "TabularEditor_SerializeOptions",
+        "value": "{\"IgnoreInferredObjects\":true,\"IgnoreInferredProperties\":true,\"IgnoreTimestamps\":true,\"SplitMultilineStrings\":true,\"PrefixFilenames\":false,\"LocalTranslations\":false,\"LocalPerspectives\":false,\"SortArrays\":false,\"LocalRelationships\":false,\"Levels\":[\"Data Sources\",\"Shared Expressions\",\"Perspectives\",\"Relationships\",\"Roles\",\"Tables\",\"Tables/Columns\",\"Tables/Hierarchies\",\"Tables/Measures\",\"Tables/Partitions\",\"Tables/Calculation Items\",\"Translations\"]}"
+      },
+      {
+        "name": "__TEdtr",
+        "value": "1"
+      }
+    ]
+  }
+}

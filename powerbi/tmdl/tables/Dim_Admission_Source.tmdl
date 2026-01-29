@@ -1,0 +1,44 @@
+table Dim_Admission_Source
+	lineageTag: as1b2c3d4-e5f6-7890-abcd-ef123456789
+
+	column AdmissionSourceKey
+		dataType: int64
+		isKey
+		formatString: 0
+		lineageTag: as1e2f3a4-b5c6-7890-abcd-ef123456789
+		summarizeBy: none
+		sourceColumn: AdmissionSourceKey
+
+	column 'Admission Source Code'
+		dataType: string
+		lineageTag: as2e2f3a4-b5c6-7890-abcd-ef123456789
+		summarizeBy: none
+		sourceColumn: Admission Source Code
+
+	column 'Admission Source Name'
+		dataType: string
+		lineageTag: as3e2f3a4-b5c6-7890-abcd-ef123456789
+		summarizeBy: none
+		sourceColumn: Admission Source Name
+
+	column 'Admission Source'
+		dataType: string
+		lineageTag: as4e2f3a4-b5c6-7890-abcd-ef123456789
+		summarizeBy: none
+		sourceColumn: Admission Source
+
+	partition Dim_Admission_Source = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database("PSFADHSSTP02.ad.elc.nhs.uk\SWL", "Data_Lab_SWL_Live", [Query="
+				        SELECT
+				            [SK_AdmissionSourceID]      AS [AdmissionSourceKey],
+				            [Admission_Source_Code]     AS [Admission Source Code],
+				            [Admission_Source_Name]     AS [Admission Source Name],
+				            [Admission_Source_Short]    AS [Admission Source]
+				        FROM [Analytics].[vw_Dim_Admission_Source]
+				    "])
+				in
+				    Source
+

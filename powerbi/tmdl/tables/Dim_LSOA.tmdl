@@ -1,0 +1,126 @@
+table Dim_LSOA
+	lineageTag: l1b2c3d4-e5f6-7890-abcd-ef1234567890
+
+	column LSOAKey
+		dataType: int64
+		isKey
+		formatString: 0
+		lineageTag: l1e2f3a4-b5c6-7890-abcd-ef1234567891
+		summarizeBy: none
+		sourceColumn: LSOAKey
+
+	column 'LSOA Code'
+		dataType: string
+		lineageTag: l1e2f3a4-b5c6-7890-abcd-ef1234567892
+		summarizeBy: none
+		sourceColumn: LSOA Code
+
+	column 'LSOA Name'
+		dataType: string
+		lineageTag: l1e2f3a4-b5c6-7890-abcd-ef1234567893
+		summarizeBy: none
+		sourceColumn: LSOA Name
+
+	column LSOA
+		dataType: string
+		lineageTag: l1e2f3a4-b5c6-7890-abcd-ef1234567894
+		summarizeBy: none
+		sourceColumn: LSOA
+
+	column 'Sub-ICB Code'
+		dataType: string
+		lineageTag: l1e2f3a4-b5c6-7890-abcd-ef1234567895
+		summarizeBy: none
+		sourceColumn: Sub-ICB Code
+
+	column Sub-ICB
+		dataType: string
+		lineageTag: l1e2f3a4-b5c6-7890-abcd-ef1234567896
+		summarizeBy: none
+		sourceColumn: Sub-ICB
+
+	column 'ICB Code'
+		dataType: string
+		lineageTag: l1e2f3a4-b5c6-7890-abcd-ef1234567897
+		summarizeBy: none
+		sourceColumn: ICB Code
+
+	column ICB
+		dataType: string
+		lineageTag: l1e2f3a4-b5c6-7890-abcd-ef1234567898
+		summarizeBy: none
+		sourceColumn: ICB
+
+	column 'Local Authority Code'
+		dataType: string
+		lineageTag: l1e2f3a4-b5c6-7890-abcd-ef1234567899
+		summarizeBy: none
+		sourceColumn: Local Authority Code
+
+	column 'Local Authority'
+		dataType: string
+		lineageTag: l1e2f3a4-b5c6-7890-abcd-ef123456789a
+		summarizeBy: none
+		sourceColumn: Local Authority
+
+	column 'IMD Year'
+		dataType: int64
+		formatString: 0
+		lineageTag: l1e2f3a4-b5c6-7890-abcd-ef123456789b
+		summarizeBy: none
+		sourceColumn: IMD Year
+
+	column 'IMD Rank'
+		dataType: int64
+		formatString: 0
+		lineageTag: l1e2f3a4-b5c6-7890-abcd-ef123456789c
+		summarizeBy: none
+		sourceColumn: IMD Rank
+
+	column 'IMD Decile'
+		dataType: int64
+		formatString: 0
+		lineageTag: l1e2f3a4-b5c6-7890-abcd-ef123456789d
+		summarizeBy: none
+		sourceColumn: IMD Decile
+
+	column 'Child Deprivation Decile'
+		dataType: int64
+		formatString: 0
+		lineageTag: l1e2f3a4-b5c6-7890-abcd-ef123456789e
+		summarizeBy: none
+		sourceColumn: Child Deprivation Decile
+
+	column 'Older Person Deprivation Decile'
+		dataType: int64
+		formatString: 0
+		lineageTag: l1e2f3a4-b5c6-7890-abcd-ef123456789f
+		summarizeBy: none
+		sourceColumn: Older Person Deprivation Decile
+
+	partition Dim_LSOA = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database("PSFADHSSTP02.ad.elc.nhs.uk\SWL", "Data_Lab_SWL_Live", [Query="
+				        SELECT
+				            [SK_LSOA_ID]            AS [LSOAKey],
+				            [LSOA_Code]             AS [LSOA Code],
+				            [LSOA_Name]             AS [LSOA Name],
+				            [LSOA_Display]          AS [LSOA],
+				            [SubICB_Code]           AS [Sub-ICB Code],
+				            [SubICB_Name]           AS [Sub-ICB],
+				            [ICB_Code]              AS [ICB Code],
+				            [ICB_Name]              AS [ICB],
+				            [LocalAuthority_Code]   AS [Local Authority Code],
+				            [LocalAuthority_Name]   AS [Local Authority],
+				            [IMD_Year]              AS [IMD Year],
+				            [IMD_Rank]              AS [IMD Rank],
+				            [IMD_Decile]            AS [IMD Decile],
+				            [IDACI_Decile]          AS [Child Deprivation Decile],
+				            [IDAOPI_Decile]         AS [Older Person Deprivation Decile]
+				        FROM [Analytics].[vw_Dim_LSOA]
+				    "])
+				in
+				    Source
+

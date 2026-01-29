@@ -1,0 +1,44 @@
+table Dim_IP_Patient_Classification
+	lineageTag: pc1b2c3d4-e5f6-7890-abcd-ef123456789
+
+	column PatientClassificationKey
+		dataType: int64
+		isKey
+		formatString: 0
+		lineageTag: pc1e2f3a4-b5c6-7890-abcd-ef123456789
+		summarizeBy: none
+		sourceColumn: PatientClassificationKey
+
+	column 'Patient Classification Code'
+		dataType: string
+		lineageTag: pc2e2f3a4-b5c6-7890-abcd-ef123456789
+		summarizeBy: none
+		sourceColumn: Patient Classification Code
+
+	column 'Patient Classification Name'
+		dataType: string
+		lineageTag: pc3e2f3a4-b5c6-7890-abcd-ef123456789
+		summarizeBy: none
+		sourceColumn: Patient Classification Name
+
+	column 'Patient Classification'
+		dataType: string
+		lineageTag: pc4e2f3a4-b5c6-7890-abcd-ef123456789
+		summarizeBy: none
+		sourceColumn: Patient Classification
+
+	partition Dim_IP_Patient_Classification = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database("PSFADHSSTP02.ad.elc.nhs.uk\SWL", "Data_Lab_SWL_Live", [Query="
+				        SELECT
+				            [SK_PatientClassificationID]    AS [PatientClassificationKey],
+				            [Patient_Classification_Code]   AS [Patient Classification Code],
+				            [Patient_Classification_Name]   AS [Patient Classification Name],
+				            [Patient_Classification_Short]  AS [Patient Classification]
+				        FROM [Analytics].[vw_Dim_IP_Patient_Classification]
+				    "])
+				in
+				    Source
+

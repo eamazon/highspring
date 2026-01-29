@@ -1,0 +1,232 @@
+table Fact_AE_Activity
+	lineageTag: ae1b2c3d4-e5f6-7890-abcd-ef123456789
+
+	column EncounterKey
+		dataType: int64
+		isKey
+		formatString: 0
+		lineageTag: ae01e2f3a4-b5c6-7890-abcd-ef12345678
+		summarizeBy: none
+		sourceColumn: EncounterKey
+
+	column PatientKey
+		dataType: int64
+		formatString: 0
+		lineageTag: ae02e2f3a4-b5c6-7890-abcd-ef12345678
+		summarizeBy: none
+		sourceColumn: PatientKey
+
+	column ArrivalDateKey
+		dataType: int64
+		formatString: 0
+		lineageTag: ae03e2f3a4-b5c6-7890-abcd-ef12345678
+		summarizeBy: none
+		sourceColumn: ArrivalDateKey
+
+	column DepartureDateKey
+		dataType: int64
+		formatString: 0
+		lineageTag: ae04e2f3a4-b5c6-7890-abcd-ef12345678
+		summarizeBy: none
+		sourceColumn: DepartureDateKey
+
+	column AgeKey
+		dataType: int64
+		formatString: 0
+		lineageTag: ae05e2f3a4-b5c6-7890-abcd-ef12345678
+		summarizeBy: none
+		sourceColumn: AgeKey
+
+	column GenderKey
+		dataType: int64
+		formatString: 0
+		lineageTag: ae06e2f3a4-b5c6-7890-abcd-ef12345678
+		summarizeBy: none
+		sourceColumn: GenderKey
+
+	column EthnicityKey
+		dataType: int64
+		formatString: 0
+		lineageTag: ae07e2f3a4-b5c6-7890-abcd-ef12345678
+		summarizeBy: none
+		sourceColumn: EthnicityKey
+
+	column ProviderKey
+		dataType: int64
+		formatString: 0
+		lineageTag: ae08e2f3a4-b5c6-7890-abcd-ef12345678
+		summarizeBy: none
+		sourceColumn: ProviderKey
+
+	column LSOAKey
+		dataType: int64
+		formatString: 0
+		lineageTag: ae09e2f3a4-b5c6-7890-abcd-ef12345678
+		summarizeBy: none
+		sourceColumn: LSOAKey
+
+	column SpecialtyKey
+		dataType: int64
+		formatString: 0
+		lineageTag: ae10e2f3a4-b5c6-7890-abcd-ef12345678
+		summarizeBy: none
+		sourceColumn: SpecialtyKey
+
+	column HRGKey
+		dataType: int64
+		formatString: 0
+		lineageTag: ae11e2f3a4-b5c6-7890-abcd-ef12345678
+		summarizeBy: none
+		sourceColumn: HRGKey
+
+	column CommissionerKey
+		dataType: int64
+		formatString: 0
+		lineageTag: ae12e2f3a4-b5c6-7890-abcd-ef12345678
+		summarizeBy: none
+		sourceColumn: CommissionerKey
+
+	column GPPracticeKey
+		dataType: int64
+		formatString: 0
+		lineageTag: ae13e2f3a4-b5c6-7890-abcd-ef12345678
+		summarizeBy: none
+		sourceColumn: GPPracticeKey
+
+	column PCNKey
+		dataType: int64
+		formatString: 0
+		lineageTag: ae14e2f3a4-b5c6-7890-abcd-ef12345678
+		summarizeBy: none
+		sourceColumn: PCNKey
+
+	column PODKey
+		dataType: int64
+		formatString: 0
+		lineageTag: ae15e2f3a4-b5c6-7890-abcd-ef12345678
+		summarizeBy: none
+		sourceColumn: PODKey
+
+	column OpPlanMeasureSetKey
+		dataType: int64
+		formatString: 0
+		lineageTag: ae16e2f3a4-b5c6-7890-abcd-ef12345678
+		summarizeBy: none
+		sourceColumn: OpPlanMeasureSetKey
+
+	column AttendanceDisposalKey
+		dataType: int64
+		formatString: 0
+		lineageTag: ae17e2f3a4-b5c6-7890-abcd-ef12345678
+		summarizeBy: none
+		sourceColumn: AttendanceDisposalKey
+
+	column 'Arrival Date'
+		dataType: dateTime
+		formatString: dd/MM/yyyy
+		lineageTag: ae18e2f3a4-b5c6-7890-abcd-ef12345678
+		summarizeBy: none
+		sourceColumn: Arrival Date
+
+	column 'Departure Date'
+		dataType: dateTime
+		formatString: dd/MM/yyyy
+		lineageTag: ae19e2f3a4-b5c6-7890-abcd-ef12345678
+		summarizeBy: none
+		sourceColumn: Departure Date
+
+	column Attendances
+		dataType: int64
+		formatString: #,0
+		lineageTag: ae20e2f3a4-b5c6-7890-abcd-ef12345678
+		summarizeBy: sum
+		sourceColumn: Attendances
+
+	column 'Time in Department (mins)'
+		dataType: int64
+		formatString: #,0
+		lineageTag: ae21e2f3a4-b5c6-7890-abcd-ef12345678
+		summarizeBy: sum
+		sourceColumn: Time in Department (mins)
+
+	column 'Time to Assessment (mins)'
+		dataType: int64
+		formatString: #,0
+		lineageTag: ae22e2f3a4-b5c6-7890-abcd-ef12345678
+		summarizeBy: sum
+		sourceColumn: Time to Assessment (mins)
+
+	column 'Total Cost'
+		dataType: decimal
+		formatString: "£"#,0.00;-"£"#,0.00;"£"#,0.00
+		lineageTag: ae23e2f3a4-b5c6-7890-abcd-ef12345678
+		summarizeBy: sum
+		sourceColumn: Total Cost
+
+	column 'Is 4-Hour Breach'
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: ae24e2f3a4-b5c6-7890-abcd-ef12345678
+		summarizeBy: none
+		sourceColumn: Is 4-Hour Breach
+
+	column 'Is 12-Hour Breach'
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: ae25e2f3a4-b5c6-7890-abcd-ef12345678
+		summarizeBy: none
+		sourceColumn: Is 12-Hour Breach
+
+	column 'Is Admitted'
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: ae26e2f3a4-b5c6-7890-abcd-ef12345678
+		summarizeBy: none
+		sourceColumn: Is Admitted
+
+	column 'Is Operating Plan'
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: ae27e2f3a4-b5c6-7890-abcd-ef12345678
+		summarizeBy: none
+		sourceColumn: Is Operating Plan
+
+	partition Fact_AE_Activity = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database("PSFADHSSTP02.ad.elc.nhs.uk\SWL", "Data_Lab_SWL_Live", [Query="
+				        SELECT
+				            [SK_EncounterID]                    AS [EncounterKey],
+				            [SK_PatientID]                      AS [PatientKey],
+				            [SK_DateArrivalID]                  AS [ArrivalDateKey],
+				            [SK_DateDepartureID]                AS [DepartureDateKey],
+				            [SK_Age_BandID]                     AS [AgeKey],
+				            [SK_GenderID]                       AS [GenderKey],
+				            [SK_EthnicityID]                    AS [EthnicityKey],
+				            [SK_ProviderID]                     AS [ProviderKey],
+				            [SK_LSOA_ID]                        AS [LSOAKey],
+				            [SK_SpecialtyID]                    AS [SpecialtyKey],
+				            [SK_HRG_ID]                         AS [HRGKey],
+				            [SK_CommissionerID]                 AS [CommissionerKey],
+				            [SK_GPPracticeID]                   AS [GPPracticeKey],
+				            [SK_PCN_ID]                         AS [PCNKey],
+				            [SK_POD_ID]                         AS [PODKey],
+				            [SK_OpPlan_MeasureSet]              AS [OpPlanMeasureSetKey],
+				            [SK_Attendance_DisposalID]          AS [AttendanceDisposalKey],
+				            [Arrival_Date]                      AS [Arrival Date],
+				            [Departure_Date]                    AS [Departure Date],
+				            [Attendances]                       AS [Attendances],
+				            [Time_In_Department_Mins]           AS [Time in Department (mins)],
+				            [Time_To_Initial_Assessment_Mins]   AS [Time to Assessment (mins)],
+				            [Total_Cost]                        AS [Total Cost],
+				            [Is_4Hour_Breach]                   AS [Is 4-Hour Breach],
+				            [Is_12Hour_Breach]                  AS [Is 12-Hour Breach],
+				            [Is_Admitted]                       AS [Is Admitted],
+				            [Is_Operating_Plan]                 AS [Is Operating Plan]
+				        FROM [Analytics].[tbl_Fact_AE_Activity]
+				    "]),
+				    FilteredRows = Table.SelectRows(Source, each [Arrival Date] >= RangeStart and [Arrival Date] < RangeEnd)
+				in
+				    FilteredRows
+

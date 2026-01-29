@@ -1,0 +1,58 @@
+table Dim_Age_Band
+	lineageTag: a2b2c3d4-e5f6-7890-abcd-ef1234567890
+
+	column Age
+		dataType: int64
+		isKey
+		formatString: 0
+		lineageTag: a2e2f3a4-b5c6-7890-abcd-ef1234567891
+		summarizeBy: none
+		sourceColumn: Age
+
+	column 'Age Band (5yr)'
+		dataType: string
+		lineageTag: a2e2f3a4-b5c6-7890-abcd-ef1234567892
+		summarizeBy: none
+		sourceColumn: Age Band (5yr)
+
+	column 'Age Band (GP)'
+		dataType: string
+		lineageTag: a2e2f3a4-b5c6-7890-abcd-ef1234567893
+		summarizeBy: none
+		sourceColumn: Age Band (GP)
+
+	column 'Age Band (10yr)'
+		dataType: string
+		lineageTag: a2e2f3a4-b5c6-7890-abcd-ef1234567894
+		summarizeBy: none
+		sourceColumn: Age Band (10yr)
+
+	column 'Age Band (Clinical)'
+		dataType: string
+		lineageTag: a2e2f3a4-b5c6-7890-abcd-ef1234567895
+		summarizeBy: none
+		sourceColumn: Age Band (Clinical)
+
+	column 'Age Band'
+		dataType: string
+		lineageTag: a2e2f3a4-b5c6-7890-abcd-ef1234567896
+		summarizeBy: none
+		sourceColumn: Age Band
+
+	partition Dim_Age_Band = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database("PSFADHSSTP02.ad.elc.nhs.uk\SWL", "Data_Lab_SWL_Live", [Query="
+				        SELECT
+				            [Age]               AS [Age],
+				            [Age_Band_5yr]      AS [Age Band (5yr)],
+				            [Age_Band_GP]       AS [Age Band (GP)],
+				            [Age_Band_10yr]     AS [Age Band (10yr)],
+				            [Age_Band_Clinical] AS [Age Band (Clinical)],
+				            [Age_Band_Summary]  AS [Age Band]
+				        FROM [Analytics].[vw_Dim_Age_Band]
+				    "])
+				in
+				    Source
+

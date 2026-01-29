@@ -1,0 +1,39 @@
+table Dim_Priority_Type
+	lineageTag: pt1b2c3d4-e5f6-7890-abcd-ef123456789
+
+	column PriorityTypeKey
+		dataType: int64
+		isKey
+		formatString: 0
+		lineageTag: pt1e2f3a4-b5c6-7890-abcd-ef123456789
+		summarizeBy: none
+		sourceColumn: SK_Priority_TypeID
+
+	column 'Priority Type Code'
+		dataType: string
+		lineageTag: pt2e2f3a4-b5c6-7890-abcd-ef123456789
+		summarizeBy: none
+		sourceColumn: Priority_Type_Code
+
+	column 'Priority Type Description'
+		dataType: string
+		lineageTag: pt3e2f3a4-b5c6-7890-abcd-ef123456789
+		summarizeBy: none
+		sourceColumn: Priority_Type_Description
+
+	column 'Priority Type'
+		dataType: string
+		lineageTag: pt4e2f3a4-b5c6-7890-abcd-ef123456789
+		summarizeBy: none
+		sourceColumn: Priority_Type_Short
+
+	partition Dim_Priority_Type = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database("PSFADHSSTP02.ad.elc.nhs.uk\SWL", "Data_Lab_SWL_Live", [Query="
+				        SELECT * FROM [Analytics].[vw_Dim_Priority_Type]
+				    "])
+				in
+				    Source
+

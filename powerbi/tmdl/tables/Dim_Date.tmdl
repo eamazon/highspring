@@ -1,0 +1,195 @@
+table Dim_Date
+	lineageTag: a1b2c3d4-e5f6-7890-abcd-ef1234567890
+
+	column DateKey
+		dataType: int64
+		isKey
+		formatString: 0
+		lineageTag: d1e2f3a4-b5c6-7890-abcd-ef1234567891
+		summarizeBy: none
+		sourceColumn: DateKey
+
+	column Date
+		dataType: dateTime
+		formatString: dd/MM/yyyy
+		lineageTag: d1e2f3a4-b5c6-7890-abcd-ef1234567892
+		summarizeBy: none
+		sourceColumn: Date
+
+	column 'Day of Month'
+		dataType: int64
+		formatString: 0
+		lineageTag: d1e2f3a4-b5c6-7890-abcd-ef1234567893
+		summarizeBy: none
+		sourceColumn: Day of Month
+
+	column 'Day Name'
+		dataType: string
+		lineageTag: d1e2f3a4-b5c6-7890-abcd-ef1234567894
+		summarizeBy: none
+		sourceColumn: Day Name
+
+	column 'Day of Week'
+		dataType: int64
+		formatString: 0
+		lineageTag: d1e2f3a4-b5c6-7890-abcd-ef1234567895
+		summarizeBy: none
+		sourceColumn: Day of Week
+
+	column 'Week Number'
+		dataType: int64
+		formatString: 0
+		lineageTag: d1e2f3a4-b5c6-7890-abcd-ef1234567896
+		summarizeBy: none
+		sourceColumn: Week Number
+
+	column 'Month Number'
+		dataType: int64
+		formatString: 0
+		lineageTag: d1e2f3a4-b5c6-7890-abcd-ef1234567897
+		summarizeBy: none
+		sourceColumn: Month Number
+
+	column 'Month Name'
+		dataType: string
+		lineageTag: d1e2f3a4-b5c6-7890-abcd-ef1234567898
+		summarizeBy: none
+		sourceColumn: Month Name
+
+	column Month
+		dataType: string
+		lineageTag: d1e2f3a4-b5c6-7890-abcd-ef1234567899
+		summarizeBy: none
+		sourceColumn: Month
+
+	column 'Calendar Quarter'
+		dataType: int64
+		formatString: 0
+		lineageTag: d1e2f3a4-b5c6-7890-abcd-ef123456789a
+		summarizeBy: none
+		sourceColumn: Calendar Quarter
+
+	column 'Calendar Year'
+		dataType: int64
+		formatString: 0
+		lineageTag: d1e2f3a4-b5c6-7890-abcd-ef123456789b
+		summarizeBy: none
+		sourceColumn: Calendar Year
+
+	column 'Financial Month'
+		dataType: int64
+		formatString: 0
+		lineageTag: d1e2f3a4-b5c6-7890-abcd-ef123456789c
+		summarizeBy: none
+		sourceColumn: Financial Month
+
+	column 'Financial Quarter'
+		dataType: int64
+		formatString: 0
+		lineageTag: d1e2f3a4-b5c6-7890-abcd-ef123456789d
+		summarizeBy: none
+		sourceColumn: Financial Quarter
+
+	column 'Financial Year Number'
+		dataType: int64
+		formatString: 0
+		lineageTag: d1e2f3a4-b5c6-7890-abcd-ef123456789e
+		summarizeBy: none
+		sourceColumn: Financial Year Number
+
+	column 'Financial Year'
+		dataType: string
+		lineageTag: d1e2f3a4-b5c6-7890-abcd-ef123456789f
+		summarizeBy: none
+		sourceColumn: Financial Year
+
+	column 'FY Short'
+		dataType: string
+		lineageTag: d1e2f3a4-b5c6-7890-abcd-ef1234567900
+		summarizeBy: none
+		sourceColumn: FY Short
+
+	column 'Is Weekend'
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: d1e2f3a4-b5c6-7890-abcd-ef1234567901
+		summarizeBy: none
+		sourceColumn: Is Weekend
+
+	column 'Is Bank Holiday'
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: d1e2f3a4-b5c6-7890-abcd-ef1234567902
+		summarizeBy: none
+		sourceColumn: Is Bank Holiday
+
+	column 'Bank Holiday'
+		dataType: string
+		lineageTag: d1e2f3a4-b5c6-7890-abcd-ef1234567903
+		summarizeBy: none
+		sourceColumn: Bank Holiday
+
+	column 'Is School Holiday'
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: d1e2f3a4-b5c6-7890-abcd-ef1234567904
+		summarizeBy: none
+		sourceColumn: Is School Holiday
+
+	column 'Is NHS Strike Day'
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: d1e2f3a4-b5c6-7890-abcd-ef1234567905
+		summarizeBy: none
+		sourceColumn: Is NHS Strike Day
+
+	column 'Is Christmas Period'
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: d1e2f3a4-b5c6-7890-abcd-ef1234567906
+		summarizeBy: none
+		sourceColumn: Is Christmas Period
+
+	column 'Is Easter Period'
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: d1e2f3a4-b5c6-7890-abcd-ef1234567907
+		summarizeBy: none
+		sourceColumn: Is Easter Period
+
+	partition Dim_Date = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database("PSFADHSSTP02.ad.elc.nhs.uk\SWL", "Data_Lab_SWL_Live", [Query="
+				        SELECT
+				            [SK_Date]                           AS [DateKey],
+				            [FullDate]                          AS [Date],
+				            [Day]                               AS [Day of Month],
+				            [DayOfWeek]                         AS [Day Name],
+				            [DayOfWeekNumber]                   AS [Day of Week],
+				            [WeekOfYearNumber]                  AS [Week Number],
+				            [CalendarMonthNumber]               AS [Month Number],
+				            [CalendarMonthName]                 AS [Month Name],
+				            [CalendarMonthNameShort]            AS [Month],
+				            [CalendarQuarterNumber]             AS [Calendar Quarter],
+				            [CalendarYearNumber]                AS [Calendar Year],
+				            [FiscalCalendarMonthNumber]         AS [Financial Month],
+				            [FiscalCalendarQuarterNumber]       AS [Financial Quarter],
+				            [FiscalCalendarYearNumber]          AS [Financial Year Number],
+				            [FiscalCalendarYearName]            AS [Financial Year],
+				            [FiscalCalendarYearNameShort]       AS [FY Short],
+				            [IsWeekend]                         AS [Is Weekend],
+				            [IsBankHoliday]                     AS [Is Bank Holiday],
+				            [BankHoliday_Name]                  AS [Bank Holiday],
+				            [IsSchoolHoliday]                   AS [Is School Holiday],
+				            [IsNHSStrikeDay]                    AS [Is NHS Strike Day],
+				            [IsChristmasPeriod]                 AS [Is Christmas Period],
+				            [IsEasterPeriod]                    AS [Is Easter Period]
+				        FROM [Analytics].[vw_Dim_Date]
+				        WHERE [FullDate] >= '2019-04-01'
+				          AND [FullDate] <= DATEADD(YEAR, 1, GETDATE())
+				    "])
+				in
+				    Source
+

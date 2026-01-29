@@ -1,0 +1,73 @@
+table Dim_Provider
+	lineageTag: r1b2c3d4-e5f6-7890-abcd-ef1234567890
+
+	column ProviderKey
+		dataType: int64
+		isKey
+		formatString: 0
+		lineageTag: r1e2f3a4-b5c6-7890-abcd-ef1234567891
+		summarizeBy: none
+		sourceColumn: ProviderKey
+
+	column 'Provider Code'
+		dataType: string
+		lineageTag: r1e2f3a4-b5c6-7890-abcd-ef1234567892
+		summarizeBy: none
+		sourceColumn: Provider Code
+
+	column Provider
+		dataType: string
+		lineageTag: r1e2f3a4-b5c6-7890-abcd-ef1234567893
+		summarizeBy: none
+		sourceColumn: Provider
+
+	column 'Provider Type Code'
+		dataType: string
+		lineageTag: r1e2f3a4-b5c6-7890-abcd-ef1234567894
+		summarizeBy: none
+		sourceColumn: Provider Type Code
+
+	column 'Provider Type'
+		dataType: string
+		lineageTag: r1e2f3a4-b5c6-7890-abcd-ef1234567895
+		summarizeBy: none
+		sourceColumn: Provider Type
+
+	column Town
+		dataType: string
+		lineageTag: r1e2f3a4-b5c6-7890-abcd-ef1234567896
+		summarizeBy: none
+		sourceColumn: Town
+
+	column Status
+		dataType: string
+		lineageTag: r1e2f3a4-b5c6-7890-abcd-ef1234567897
+		summarizeBy: none
+		sourceColumn: Status
+
+	column 'Is Active'
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: r1e2f3a4-b5c6-7890-abcd-ef1234567898
+		summarizeBy: none
+		sourceColumn: Is Active
+
+	partition Dim_Provider = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database("PSFADHSSTP02.ad.elc.nhs.uk\SWL", "Data_Lab_SWL_Live", [Query="
+				        SELECT
+				            [SK_ProviderID]         AS [ProviderKey],
+				            [Provider_Code]         AS [Provider Code],
+				            [Provider_Name]         AS [Provider],
+				            [Provider_Type_Code]    AS [Provider Type Code],
+				            [Provider_Type]         AS [Provider Type],
+				            [Town]                  AS [Town],
+				            [Provider_Status]       AS [Status],
+				            [Is_Active]             AS [Is Active]
+				        FROM [Analytics].[vw_Dim_Provider]
+				    "])
+				in
+				    Source
+

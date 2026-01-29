@@ -1,0 +1,44 @@
+table Dim_Attendance_Status
+	lineageTag: ts1b2c3d4-e5f6-7890-abcd-ef123456789
+
+	column AttendanceStatusKey
+		dataType: int64
+		isKey
+		formatString: 0
+		lineageTag: ts1e2f3a4-b5c6-7890-abcd-ef123456789
+		summarizeBy: none
+		sourceColumn: AttendanceStatusKey
+
+	column 'Attendance Status Code'
+		dataType: string
+		lineageTag: ts2e2f3a4-b5c6-7890-abcd-ef123456789
+		summarizeBy: none
+		sourceColumn: Attendance Status Code
+
+	column 'Attendance Status Description'
+		dataType: string
+		lineageTag: ts3e2f3a4-b5c6-7890-abcd-ef123456789
+		summarizeBy: none
+		sourceColumn: Attendance Status Description
+
+	column 'Attendance Status'
+		dataType: string
+		lineageTag: ts4e2f3a4-b5c6-7890-abcd-ef123456789
+		summarizeBy: none
+		sourceColumn: Attendance Status
+
+	partition Dim_Attendance_Status = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database("PSFADHSSTP02.ad.elc.nhs.uk\SWL", "Data_Lab_SWL_Live", [Query="
+				        SELECT
+				            [SK_AttendanceStatusID]             AS [AttendanceStatusKey],
+				            [Attendance_Status_Code]            AS [Attendance Status Code],
+				            [Attendance_Status_Description]     AS [Attendance Status Description],
+				            [Attendance_Status_Short]           AS [Attendance Status]
+				        FROM [Analytics].[vw_Dim_Attendance_Status]
+				    "])
+				in
+				    Source
+

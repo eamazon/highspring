@@ -1,0 +1,39 @@
+table Dim_DNA_Indicator
+	lineageTag: dn1b2c3d4-e5f6-7890-abcd-ef123456789
+
+	column DNAIndicatorKey
+		dataType: int64
+		isKey
+		formatString: 0
+		lineageTag: dn1e2f3a4-b5c6-7890-abcd-ef123456789
+		summarizeBy: none
+		sourceColumn: SK_DNA_IndicatorID
+
+	column 'DNA Indicator Code'
+		dataType: string
+		lineageTag: dn2e2f3a4-b5c6-7890-abcd-ef123456789
+		summarizeBy: none
+		sourceColumn: DNA_Indicator_Code
+
+	column 'DNA Indicator Description'
+		dataType: string
+		lineageTag: dn3e2f3a4-b5c6-7890-abcd-ef123456789
+		summarizeBy: none
+		sourceColumn: DNA_Indicator_Description
+
+	column 'DNA Indicator'
+		dataType: string
+		lineageTag: dn4e2f3a4-b5c6-7890-abcd-ef123456789
+		summarizeBy: none
+		sourceColumn: DNA_Indicator_Short
+
+	partition Dim_DNA_Indicator = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database("PSFADHSSTP02.ad.elc.nhs.uk\SWL", "Data_Lab_SWL_Live", [Query="
+				        SELECT * FROM [Analytics].[vw_Dim_DNA_Indicator]
+				    "])
+				in
+				    Source
+
