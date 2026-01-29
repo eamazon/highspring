@@ -285,3 +285,18 @@ relationship AE_AttendanceDisposal
 	fromColumn: Fact_AE_Activity.AttendanceDisposalKey
 	toColumn: Dim_Attendance_Disposal.AttendanceDisposalKey
 
+// ═══════════════════════════════════════════════════════════════════════════
+// OPERATING PLAN BRIDGE PATTERN (Many-to-Many via Bridge Table)
+// ═══════════════════════════════════════════════════════════════════════════
+// Flow: Fact → Dim_OpPlan_MeasureSet → Bridge → Dim_OpPlan_Measure
+// Bidirectional filtering on Bridge→Measure allows filtering facts by measure
+
+relationship OpPlan_MeasureSet_Bridge
+	fromColumn: Bridge_OpPlan_MeasureSet.OpPlanMeasureSetKey
+	toColumn: Dim_OpPlan_MeasureSet.OpPlanMeasureSetKey
+
+relationship OpPlan_Bridge_Measure
+	crossFilteringBehavior: bothDirections
+	fromColumn: Bridge_OpPlan_MeasureSet.MeasureID
+	toColumn: Dim_OpPlan_Measure.MeasureID
+

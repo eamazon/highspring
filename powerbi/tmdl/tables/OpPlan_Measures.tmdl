@@ -1,0 +1,138 @@
+/// Operating Plan Measures
+/// Uses the bridge table pattern to analyze activity by individual Operating Plan measure
+/// while preserving all dimensional slicing (GP Practice, PCN, Specialty, LSOA, etc.)
+
+table OpPlan_Measures
+	lineageTag: opmeas1a2b-3c4d-5e6f-7890-abcdef123456
+
+	/// IP Admissions flagged against selected Operating Plan measure(s)
+	/// Filters flow: Dim_OpPlan_Measure → Bridge → MeasureSet → Fact_IP_Activity
+	measure 'IP OpPlan Admissions' =
+		CALCULATE(
+			SUM(Fact_IP_Activity[Admissions]),
+			Fact_IP_Activity[Is Operating Plan] = TRUE()
+		)
+		displayFolder: Operating Plan\Inpatient
+		formatString: #,0
+		lineageTag: opmeas01-3c4d-5e6f-7890-abcdef123456
+
+	/// IP Total Cost for selected Operating Plan measure(s)
+	measure 'IP OpPlan Cost' =
+		CALCULATE(
+			SUM(Fact_IP_Activity[Total Cost]),
+			Fact_IP_Activity[Is Operating Plan] = TRUE()
+		)
+		displayFolder: Operating Plan\Inpatient
+		formatString: "£"#,0.00
+		lineageTag: opmeas02-3c4d-5e6f-7890-abcdef123456
+
+	/// IP Length of Stay for selected Operating Plan measure(s)
+	measure 'IP OpPlan LOS' =
+		CALCULATE(
+			SUM(Fact_IP_Activity[Length of Stay]),
+			Fact_IP_Activity[Is Operating Plan] = TRUE()
+		)
+		displayFolder: Operating Plan\Inpatient
+		formatString: #,0
+		lineageTag: opmeas03-3c4d-5e6f-7890-abcdef123456
+
+	/// Count of unique encounters flagged against selected Operating Plan measure(s)
+	measure 'IP OpPlan Distinct Encounters' =
+		CALCULATE(
+			DISTINCTCOUNT(Fact_IP_Activity[EncounterKey]),
+			Fact_IP_Activity[Is Operating Plan] = TRUE()
+		)
+		displayFolder: Operating Plan\Inpatient
+		formatString: #,0
+		lineageTag: opmeas04-3c4d-5e6f-7890-abcdef123456
+
+	/// OP Appointments flagged against selected Operating Plan measure(s)
+	measure 'OP OpPlan Appointments' =
+		CALCULATE(
+			SUM(Fact_OP_Activity[Appointments]),
+			Fact_OP_Activity[Is Operating Plan] = TRUE()
+		)
+		displayFolder: Operating Plan\Outpatient
+		formatString: #,0
+		lineageTag: opmeas05-3c4d-5e6f-7890-abcdef123456
+
+	/// OP Total Cost for selected Operating Plan measure(s)
+	measure 'OP OpPlan Cost' =
+		CALCULATE(
+			SUM(Fact_OP_Activity[Total Cost]),
+			Fact_OP_Activity[Is Operating Plan] = TRUE()
+		)
+		displayFolder: Operating Plan\Outpatient
+		formatString: "£"#,0.00
+		lineageTag: opmeas06-3c4d-5e6f-7890-abcdef123456
+
+	/// AE Attendances flagged against selected Operating Plan measure(s)
+	measure 'AE OpPlan Attendances' =
+		CALCULATE(
+			SUM(Fact_AE_Activity[Attendances]),
+			Fact_AE_Activity[Is Operating Plan] = TRUE()
+		)
+		displayFolder: Operating Plan\A&E
+		formatString: #,0
+		lineageTag: opmeas07-3c4d-5e6f-7890-abcdef123456
+
+	/// Total Operating Plan activity across all PODs
+	measure 'Total OpPlan Activity' =
+		[IP OpPlan Admissions] + [OP OpPlan Appointments] + [AE OpPlan Attendances]
+		displayFolder: Operating Plan\Summary
+		formatString: #,0
+		lineageTag: opmeas08-3c4d-5e6f-7890-abcdef123456
+
+	/// Total Operating Plan cost across all PODs
+	measure 'Total OpPlan Cost' =
+		CALCULATE(
+			SUM(Fact_IP_Activity[Total Cost]),
+			Fact_IP_Activity[Is Operating Plan] = TRUE()
+		) +
+		CALCULATE(
+			SUM(Fact_OP_Activity[Total Cost]),
+			Fact_OP_Activity[Is Operating Plan] = TRUE()
+		) +
+		CALCULATE(
+			SUM(Fact_AE_Activity[Total Cost]),
+			Fact_AE_Activity[Is Operating Plan] = TRUE()
+		)
+		displayFolder: Operating Plan\Summary
+		formatString: "£"#,0.00
+		lineageTag: opmeas09-3c4d-5e6f-7890-abcdef123456
+
+	/// Count of measures in the selected MeasureSet
+	/// Useful for showing "This activity is flagged against N measures"
+	measure 'Measures in Set' =
+		IF(
+			HASONEVALUE(Dim_OpPlan_MeasureSet[Measure Count]),
+			VALUES(Dim_OpPlan_MeasureSet[Measure Count]),
+			BLANK()
+		)
+		displayFolder: Operating Plan\Metadata
+		formatString: 0
+		lineageTag: opmeas10-3c4d-5e6f-7890-abcdef123456
+
+	/// Selected measure name(s) for display
+	measure 'Selected Measures' =
+		CONCATENATEX(
+			VALUES(Dim_OpPlan_Measure[Measure Name]),
+			Dim_OpPlan_Measure[Measure Name],
+			", ",
+			Dim_OpPlan_Measure[Measure Name],
+			ASC
+		)
+		displayFolder: Operating Plan\Metadata
+		lineageTag: opmeas11-3c4d-5e6f-7890-abcdef123456
+
+	partition OpPlan_Measures = m
+		mode: import
+		source =
+				let
+				    Source = #table(
+				        type table [Placeholder = text],
+				        {{"Measures only"}}
+				    )
+				in
+				    Source
+

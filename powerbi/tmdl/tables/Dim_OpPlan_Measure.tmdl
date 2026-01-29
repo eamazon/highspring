@@ -1,0 +1,80 @@
+table Dim_OpPlan_Measure
+	lineageTag: opm1a2b3c-d4e5-6789-abcd-ef1234567890
+
+	column MeasureID
+		dataType: string
+		isKey
+		lineageTag: opm1e2f3a-b5c6-7890-abcd-ef1234567890
+		summarizeBy: none
+		sourceColumn: MeasureID
+
+	column 'Measure Name'
+		dataType: string
+		lineageTag: opm2e2f3a-b5c6-7890-abcd-ef1234567890
+		summarizeBy: none
+		sourceColumn: Measure Name
+
+	column 'Measure Description'
+		dataType: string
+		lineageTag: opm3e2f3a-b5c6-7890-abcd-ef1234567890
+		summarizeBy: none
+		sourceColumn: Measure Description
+
+	column 'Measure Category'
+		dataType: string
+		lineageTag: opm4e2f3a-b5c6-7890-abcd-ef1234567890
+		summarizeBy: none
+		sourceColumn: Measure Category
+
+	column 'Measure SubCategory'
+		dataType: string
+		lineageTag: opm5e2f3a-b5c6-7890-abcd-ef1234567890
+		summarizeBy: none
+		sourceColumn: Measure SubCategory
+
+	column 'Measure Short Name'
+		dataType: string
+		lineageTag: opm6e2f3a-b5c6-7890-abcd-ef1234567890
+		summarizeBy: none
+		sourceColumn: Measure Short Name
+
+	column Scope
+		dataType: string
+		lineageTag: opm7e2f3a-b5c6-7890-abcd-ef1234567890
+		summarizeBy: none
+		sourceColumn: Scope
+
+	column 'Unit of Measure'
+		dataType: string
+		lineageTag: opm8e2f3a-b5c6-7890-abcd-ef1234567890
+		summarizeBy: none
+		sourceColumn: Unit of Measure
+
+	column 'Is Active'
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: opm9e2f3a-b5c6-7890-abcd-ef1234567890
+		summarizeBy: none
+		sourceColumn: Is Active
+
+	partition Dim_OpPlan_Measure = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database("PSFADHSSTP02.ad.elc.nhs.uk\SWL", "Data_Lab_SWL_Live", [Query="
+				        SELECT
+				            CAST([MeasureID] AS VARCHAR(20))    AS [MeasureID],
+				            [Measure_Name]                      AS [Measure Name],
+				            [Measure_Description]               AS [Measure Description],
+				            [Measure_Category]                  AS [Measure Category],
+				            [Measure_SubCategory]               AS [Measure SubCategory],
+				            [Measure_ShortName]                 AS [Measure Short Name],
+				            [Measure_Scope]                     AS [Scope],
+				            [Measure_Unit]                      AS [Unit of Measure],
+				            [Is_Active]                         AS [Is Active]
+				        FROM [Analytics].[vw_Dim_OpPlan_Measure]
+				        WHERE [Is_Active] = 1
+				    "])
+				in
+				    Source
+
