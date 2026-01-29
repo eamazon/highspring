@@ -175,6 +175,8 @@ Model format: **TMDL** (native Power BI Desktop format)
 ## Documentation
 
 - **CLAUDE.md** - Complete project context for Claude Code
+- **CONFIG.md** - Database configuration guide
+- **docs/CLAUDE_WORKFLOW.md** - Session and task management workflow
 - **docs/SCHEMA_OVERVIEW.md** - Schema design patterns
 - **docs/FACT_VALIDATION_USER_GUIDE.md** - Validation guide
 - **powerbi/PBIX_BUILD_GUIDE.md** - Power BI setup guide

@@ -149,6 +149,8 @@ sqlcmd -S "PSFADHSSTP02.ad.elc.nhs.uk\SWL" -d Data_Lab_SWL_Live -i sql/analytics
 
 **IMPORTANT: Tasks persist across sessions automatically!**
 
+📖 **See [docs/CLAUDE_WORKFLOW.md](docs/CLAUDE_WORKFLOW.md) for complete workflow guide**
+
 ### How Task Persistence Works
 
 1. **Session Storage** - Each Claude Code session has a unique ID (UUID)
