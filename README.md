@@ -98,22 +98,64 @@ See: `powerbi/PBIX_BUILD_GUIDE.md`
 ## Project Structure
 
 ```
-swl-analytics-platform/
-├── sql/
-│   ├── 00_setup/           # Schema creation, prerequisites
-│   ├── 01_dimensions/      # 26 dimension table DDL
-│   ├── 02_facts/           # 3 fact tables (IP, OP, AE)
-│   ├── 04_etl/             # ETL stored procedures
-│   └── 06_validation/      # Data validation SP
+highspring/
+├── sql/                            # Analytics Platform SQL
+│   ├── 00_*.sql                    # 4 deployment orchestration scripts
+│   ├── DEPLOYMENT_GUIDE.md         # Comprehensive deployment guide
+│   ├── 00_setup/                   # 19 setup scripts
+│   ├── 01_dimensions/              # 36 dimension DDL files
+│   ├── 02_facts/                   # 6 fact table files
+│   ├── 04_etl/                     # 33 ETL procedures
+│   └── 06_validation/              # 1 validation procedure
+│
+├── reference_sql/                  # Source schema reference (150 files)
+│   ├── README.md                   # Reference SQL documentation
+│   ├── cam/                        # 6 files - Capacity & Access Management
+│   ├── dictionary/                 # 109 files - NHS Data Dictionary
+│   ├── erf/                        # 8 files - Elective Recovery Fund
+│   ├── op_plan/                    # 6 files - Operating Plan targets
+│   └── unified_sus/                # 21 files - Unified SUS source views
+│
+├── scripts/                        # Python utilities and pipelines
+│   ├── README.md                   # Scripts documentation
+│   ├── data_integration/           # NHS ODS API integration
+│   │   ├── nhs_ods/               # 17 Python scripts + README
+│   │   ├── imd2019/               # IMD deprivation data
+│   │   ├── fetch_bank_holidays.py
+│   │   └── .env.template
+│   ├── pipeline/                   # Pipeline orchestration
+│   ├── task_coordinator.py         # Cross-session task management
+│   ├── refresh_staging_data.sh     # Refresh NHS reference data
+│   ├── setup_env.sh                # Environment setup
+│   └── requirements.txt            # Python dependencies
+│
 ├── powerbi/
-│   ├── tmdl/               # Power BI TMDL semantic model
+│   ├── tmdl/                       # Power BI TMDL semantic model
+│   │   ├── model.tmdl
+│   │   ├── relationships.tmdl
+│   │   └── tables/                # 31 table definitions
 │   └── PBIX_BUILD_GUIDE.md
-├── docs/
-│   ├── FACT_VALIDATION_USER_GUIDE.md
-│   └── SCHEMA_OVERVIEW.md
-├── CLAUDE.md               # Detailed project context
-└── README.md               # This file
+│
+├── docs/                           # Documentation (18 files)
+│   ├── 00_RUNBOOK.md              # Operational runbook
+│   ├── CLAUDE_WORKFLOW.md         # Session/task management
+│   ├── NHS_ODS_INTEGRATION.md     # NHS ODS integration guide
+│   ├── TECHNICAL_SPECIFICATION.md # Complete technical spec (72KB)
+│   ├── DESIGN_DECISIONS.md        # Architectural decisions
+│   ├── SCHEMA_OVERVIEW.md         # Schema design patterns
+│   ├── ods_dimensions_operational_guide.md
+│   ├── highspring_phase1_project_plan.md
+│   ├── Connect_WSL_Map_Networkdrive.md
+│   └── testing/                   # Testing documentation
+│
+├── .env.example                    # Configuration template
+├── .gitignore                      # Git excludes (.env already ignored)
+├── CONFIG.md                       # Configuration guide
+├── CLAUDE.md                       # Project context for Claude Code
+└── README.md                       # This file
 ```
+
+**Total Files**: ~295 files (147 core + 150 reference SQL)
 
 ## Key Components
 
@@ -174,12 +216,34 @@ Model format: **TMDL** (native Power BI Desktop format)
 
 ## Documentation
 
+### Core Documentation
 - **CLAUDE.md** - Complete project context for Claude Code
 - **CONFIG.md** - Database configuration guide
+- **README.md** - This file - quick start guide
+
+### Operational Guides
+- **docs/00_RUNBOOK.md** - Complete operational runbook (dev workflow, deployment)
 - **docs/CLAUDE_WORKFLOW.md** - Session and task management workflow
+- **sql/DEPLOYMENT_GUIDE.md** - SQL deployment procedures
+
+### Technical Documentation
+- **docs/TECHNICAL_SPECIFICATION.md** - Complete technical spec (72KB)
+- **docs/DESIGN_DECISIONS.md** - Architectural decisions log
 - **docs/SCHEMA_OVERVIEW.md** - Schema design patterns
-- **docs/FACT_VALIDATION_USER_GUIDE.md** - Validation guide
-- **powerbi/PBIX_BUILD_GUIDE.md** - Power BI setup guide
+- **docs/highspring_phase1_project_plan.md** - 5-week project roadmap
+
+### Integration Guides
+- **docs/NHS_ODS_INTEGRATION.md** - NHS ODS API integration architecture
+- **docs/ods_dimensions_operational_guide.md** - Commissioner/GP/PCN dimensions
+- **docs/Connect_WSL_Map_Networkdrive.md** - WSL H: drive mapping
+
+### Validation & Testing
+- **docs/FACT_VALIDATION_USER_GUIDE.md** - Validation framework guide
+- **docs/testing/TESTING_WORKFLOW.md** - Testing procedures
+- **docs/testing/VALIDATION_UPDATE_SUMMARY.md** - Validation updates
+
+### Power BI
+- **powerbi/PBIX_BUILD_GUIDE.md** - Power BI TMDL setup guide
 
 ## Data Sources
 
