@@ -22,30 +22,42 @@ Source data schema (configure based on your environment):
 ## Project Structure
 
 ```
-swl-analytics-platform/
+highspring/
 ├── sql/                             # Core SQL deployment scripts
 │   ├── 00_setup/                    # Schema creation, prerequisites
-│   ├── 01_dimensions/               # 26 dimension table DDL
+│   ├── 01_dimensions/               # 28 dimension DDL (5 tables + 23 views)
 │   ├── 02_facts/                    # 3 fact tables (IP, OP, AE)
+│   ├── 03_bridges/                  # Bridge tables (ERF, OpPlan, CF Segment)
 │   ├── 04_etl/                      # ETL stored procedures
-│   └── 06_validation/               # Data validation SP
+│   ├── 05_api/                      # Staging data SQL (generated)
+│   ├── 06_validation/               # Data validation SP
+│   ├── cam/                         # CAM-specific objects
+│   ├── 00_Dev_Full_Rebuild.sql      # Full rebuild script (SQLCMD)
+│   └── 00_Run_Everything_SQLCMD.sql # Deploy only script
 ├── powerbi/
 │   ├── tmdl/                        # Native TMDL folder (for PBI Desktop)
 │   │   ├── model.tmdl
 │   │   ├── relationships.tmdl
 │   │   └── tables/*.tmdl
 │   └── PBIX_BUILD_GUIDE.md          # How to build the PBIX
+├── scripts/
+│   └── refresh_staging_data.sh      # Staging data fetcher orchestrator
 ├── docs/
+│   ├── PROJECT_OVERVIEW.md          # **Key reference doc** (start here)
+│   ├── 00_RUNBOOK.md                # Operational execution handbook
 │   ├── FACT_VALIDATION_USER_GUIDE.md
-│   └── SCHEMA_OVERVIEW.md
+│   ├── SCHEMA_OVERVIEW.md
+│   └── TECHNICAL_SPECIFICATION.md
 ├── CLAUDE.md                        # Project context (this file)
 └── README.md                        # Quick start guide
 ```
 
+📖 **Start with [docs/PROJECT_OVERVIEW.md](docs/PROJECT_OVERVIEW.md)** for comprehensive project documentation.
+
 ## Key SQL Objects
 
-### Dimension Tables (26)
-Naming: `[Analytics].[tbl_Dim_*]` with views `[Analytics].[vw_Dim_*]`
+### Dimension Tables (28)
+Naming: `[Analytics].[tbl_Dim_*]` (5 tables) with views `[Analytics].[vw_Dim_*]` (23 views)
 
 | Dimension | Business Key | Notes |
 |-----------|--------------|-------|
@@ -82,12 +94,12 @@ EXEC [Analytics].[sp_Validate_Fact_Data]
 
 ## Power BI TMDL Model
 
-Located in `docs/powerbi/tmdl/` - this is the native TMDL folder structure for Power BI Desktop's TMDL View feature.
+Located in `powerbi/tmdl/` - this is the native TMDL folder structure for Power BI Desktop's TMDL View feature.
 
 ### Key Files
-- `docs/powerbi/tmdl/model.tmdl` - Model definition
-- `docs/powerbi/tmdl/relationships.tmdl` - All table relationships
-- `docs/powerbi/tmdl/tables/*.tmdl` - Individual table definitions
+- `powerbi/tmdl/model.tmdl` - Model definition
+- `powerbi/tmdl/relationships.tmdl` - All table relationships
+- `powerbi/tmdl/tables/*.tmdl` - Individual table definitions
 
 ### Measures
 - `KeyMeasures` table contains all DAX measures for Excel users
@@ -126,102 +138,33 @@ The validation SP (`sp_Validate_Fact_Data`) performs 7 checks:
 6. Missing Members - Codes not in dimensions
 7. Dictionary Validation - Cross-reference NHS Dictionary
 
-See: `docs/testing/FACT_VALIDATION_USER_GUIDE.md`
+See: `docs/FACT_VALIDATION_USER_GUIDE.md`
 
-## Recent Work (Jan 2026)
-
-1. **Power BI TMDL Model** - Complete semantic model with 26 dimensions, 3 facts, 75+ measures
-2. **Enhanced Validation** - Replaced TOP 5 limit with materiality-based health scores
-3. **Role-Playing Relationships** - IP (Discharge active), OP (Appointment active)
-4. **Financial Year Ordering** - sortByColumn for FY display
-
-## Quick Commands
+## Quick Start
 
 ```bash
-# Deploy all dimensions
-sqlcmd -S "PSFADHSSTP02.ad.elc.nhs.uk\SWL" -d Data_Lab_SWL_Live -i sql/analytics_platform/00_Deploy_Dimensions_Windows.sql
+# Step 1: WSL terminal — refresh staging data
+./scripts/refresh_staging_data.sh
 
-# Full rebuild (dev only)
-sqlcmd -S "PSFADHSSTP02.ad.elc.nhs.uk\SWL" -d Data_Lab_SWL_Live -i sql/analytics_platform/00_Dev_Full_Rebuild.sql
+# Step 2: Windows SSMS/ADS — run full rebuild
+# Open sql/00_Dev_Full_Rebuild.sql in SQLCMD Mode → Execute (F5)
 ```
 
-## Claude Code Task Management & Session Persistence
+See [docs/00_RUNBOOK.md](docs/00_RUNBOOK.md) for detailed execution instructions.
 
-**IMPORTANT: Tasks persist across sessions automatically!**
+## Component Summary
 
-📖 **See [docs/CLAUDE_WORKFLOW.md](docs/CLAUDE_WORKFLOW.md) for complete workflow guide**
+| Component | Location | Status |
+|-----------|----------|--------|
+| Setup scripts | `sql/00_setup/` | ✅ Complete |
+| Dimensions | `sql/01_dimensions/` | ✅ 28 dimensions (5 tables + 23 views) |
+| Facts | `sql/02_facts/` | ✅ 3 fact tables |
+| Bridges | `sql/03_bridges/` | ✅ ERF, OpPlan MeasureSet, CF Segment |
+| ETL procedures | `sql/04_etl/` | ✅ Complete |
+| Staging data | `sql/05_api/` | ✅ Generated by Python fetchers |
+| Validation | `sql/06_validation/` | ✅ Complete |
+| CAM objects | `sql/cam/` | ✅ CAM-specific tables and procedures |
+| Power BI model | `powerbi/tmdl/` | ✅ 31 tables, 40+ relationships |
+| Data fetchers | `scripts/data_integration/` | ✅ NHS ODS, GP Practice, IMD |
 
-### How Task Persistence Works
-
-1. **Session Storage** - Each Claude Code session has a unique ID (UUID)
-2. **Automatic Persistence** - Tasks created with `TaskCreate`/`TaskUpdate` are automatically saved to:
-   ```
-   ~/.claude/todos/<session-id>-agent-<session-id>.json
-   ```
-3. **Multi-Agent Support** - Tasks can be:
-   - Assigned to specific agents via `owner` field
-   - Delegated to sub-agents launched with the Task tool
-   - Tracked with dependencies (`blocks`, `blockedBy`)
-   - Progressed through states: `pending` → `in_progress` → `completed`
-
-### Resuming Sessions with Tasks
-
-```bash
-# Resume a specific session (preserves all tasks)
-claude --resume <session-id>
-
-# Interactive session picker
-claude --resume
-
-# Start new session with specific ID
-claude --session-id <uuid>
-
-# Fork a session (new ID, preserves history)
-claude --resume <session-id> --fork-session
-```
-
-### Task Management Commands
-
-```bash
-# View all tasks in current session
-/tasks
-
-# Tasks are managed via Claude Code tools:
-# - TaskCreate: Create new tasks
-# - TaskUpdate: Update status, assign owner, set dependencies
-# - TaskList: View all tasks
-# - TaskGet: Get full task details
-```
-
-### Best Practices
-
-- **Always use TaskCreate** for complex multi-step work (3+ steps)
-- **Mark tasks in_progress** BEFORE starting work
-- **Mark tasks completed** when fully done (not when blocked/errored)
-- **Create dependency chains** when tasks must execute in order
-- **Resume sessions** to continue work with full task context
-
-### Session Persistence Settings
-
-- **Enabled by default** - Sessions and tasks are automatically saved
-- **Disable if needed**: `claude --no-session-persistence` (only works with `--print`)
-- **Session history**: Stored in `~/.claude/history.jsonl`
-
-## Deployment Notes
-
-This is a clean analytics platform repository extracted from the original sustabular project. All essential components are included:
-
-### Included Components
-- ✅ `sql/00_setup/` - Schema setup scripts
-- ✅ `sql/01_dimensions/` - All 26 dimension DDL files
-- ✅ `sql/02_facts/` - All 3 fact table DDL files
-- ✅ `sql/04_etl/` - ETL stored procedures
-- ✅ `sql/06_validation/` - Data validation framework
-- ✅ `powerbi/tmdl/` - Complete Power BI TMDL semantic model
-- ✅ `docs/FACT_VALIDATION_USER_GUIDE.md` - Validation documentation
-- ✅ `powerbi/PBIX_BUILD_GUIDE.md` - Power BI setup guide
-
-### Not Included
-- Bridge tables (03_bridges) - not currently in use
-- API procedures (05_api) - not yet implemented
-- NHS ODS data integration scripts - source data only
+**Status:** Phase 1 Complete — Ready for data load execution

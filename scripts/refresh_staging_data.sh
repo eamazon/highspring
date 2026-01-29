@@ -14,7 +14,7 @@ set -e  # Exit on error
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
-OUTPUT_DIR="$REPO_ROOT/sql/analytics_platform/05_api"
+OUTPUT_DIR="$REPO_ROOT/sql/05_api"
 
 # Colours for output
 RED='\033[0;31m'
@@ -131,7 +131,7 @@ echo "Files generated:"
 ls -la "$OUTPUT_DIR"/staging_*.sql 2>/dev/null || echo "  (none found)"
 echo ""
 echo "Next step:"
-echo "  Open H:\\sql\\analytics_platform\\00_Dev_Full_Rebuild.sql in SSMS/ADS"
+echo "  Open H:\\sql\\00_Dev_Full_Rebuild.sql in SSMS/ADS"
 echo "  Enable SQLCMD mode and execute (F5)"
 echo ""
 echo "==============================================================================="

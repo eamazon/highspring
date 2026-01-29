@@ -14,7 +14,7 @@ Usage:   TWO STEPS ONLY:
             ./scripts/refresh_staging_data.sh --skip-imd   # Use existing IMD data
 
          Step 2 (SSMS/ADS - run this script):
-            Open H:\sql\analytics_platform\00_Dev_Full_Rebuild.sql
+            Open H:\sql\00_Dev_Full_Rebuild.sql
             Enable SQLCMD Mode
             Execute (F5)
 
@@ -48,7 +48,7 @@ PRINT '';
 -- ═══════════════════════════════════════════════════════════════════════════
 PRINT '>>> PHASE 1: DEPLOY (objects + dimensions)';
 PRINT '    Running 00_Run_Everything_SQLCMD.sql...';
-:r H:\sql\analytics_platform\00_Run_Everything_SQLCMD.sql
+:r H:\sql\00_Run_Everything_SQLCMD.sql
 PRINT '';
 PRINT '>>> PHASE 1 COMPLETE: Deploy finished';
 PRINT '';

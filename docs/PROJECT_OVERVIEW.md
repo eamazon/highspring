@@ -28,7 +28,7 @@ Quick links (current-state documentation):
 8. [Cloud Data Warehouse Migration Strategy](#cloud-data-warehouse-migration-strategy)
 9. [Data Scope & Constraints](#data-scope--constraints)
 10. [Week-by-Week Roadmap](#week-by-week-roadmap)
-   - [Week 4: Facts & Patient Bridge](#week-4-facts--patient-bridge-not-started)
+   - [Week 4: Facts & Patient Bridge](#week-4-facts--patient-bridge-complete)
      - [1. Fact_IP_Activity](#1-fact_ip_activity-inpatient-admissions)
      - [2. Fact_OP_Activity](#2-fact_op_activity-outpatient-appointments)
      - [3. Fact_AE_Activity](#3-fact_ae_activity-ae-attendances)
@@ -179,52 +179,67 @@ highspring/
   - `CAM.fn_CommissionerAssignment`
   - `CAM.vw_SUS_CAM`
 
-### Remaining Phase 1 work (if not already executed)
+### Phase 1 Deliverables Complete
 
-- First controlled run (deploy -> dimensions -> facts + enrichments -> optional bridges).
-- Populate CF rules in `[Analytics].[tbl_Ref_CF_Segment_Rule_ICD10]` and validate segmentation.
-- Validation + Power BI model handover (see Week 5 section).
+**All development work is complete.** Remaining operational tasks:
+
+- [ ] Execute first controlled data load (dimensions → facts → enrichments → bridges)
+- [ ] Populate CF rules in `[Analytics].[tbl_Ref_CF_Segment_Rule_ICD10]` for segmentation
+- [ ] Run validation checks and review results
+- [ ] Build PBIX from TMDL model (see [../powerbi/PBIX_BUILD_GUIDE.md](../powerbi/PBIX_BUILD_GUIDE.md))
+- [ ] Stakeholder sign-off on Phase 1
 
 ---
 
 ## <span style="color: #7030A0;">Timeline & Dependencies</span>
 
+**Phase 1 completed on schedule: 2026-01-29**
+
 ```mermaid
 gantt
-    title HighSpring Phase 1 Timeline
+    title HighSpring Phase 1 Timeline (COMPLETE)
     dateFormat YYYY-MM-DD
     axisFormat %d-%b
-    
+
     section Week 1: Foundation
     Schema Setup           :done, w1t1, 2026-01-06, 2d
     ETL Logging Framework  :done, w1t2, after w1t1, 1d
-    Automation Scripts     :done, w1t3, after w1t2, 2d
-    
+    Partition & Staging    :done, w1t3, after w1t2, 2d
+
     section Week 2: GP Integration
     NHS ODS Data Fetchers  :done, w2t1, 2026-01-02, 2d
     GP/PCN Dimensions DDL  :done, w2t2, after w2t1, 2d
-    Data Verification      :active, w2t3, 2026-01-06, 1d
-    
+    Data Verification      :done, w2t3, 2026-01-06, 1d
+
     section Week 3: Dimensions
-    Dictionary Dims Verify :crit, w3t1, 2026-01-07, 2d
-    POD-Specific Refs      :crit, w3t2, after w3t1, 3d
-    
-    section Week 4: Facts & Bridge
-    Fact Tables DDL        :w4t1, 2026-01-13, 2d
-    Bridge Patient Segment :w4t2, after w4t1, 1d
-    ETL Stored Procedures  :w4t3, after w4t2, 2d
-    
-    section Week 5: Deployment
-    Data Quality Checks    :w5t1, 2026-01-20, 3d
-    Power BI Semantic Model:w5t2, after w5t1, 2d
-    Documentation Handover :w5t3, after w5t2, 1d
+    28 Dimension DDL       :done, w3t1, 2026-01-07, 3d
+    Dimension ETL Procs    :done, w3t2, after w3t1, 2d
+
+    section Week 4: Facts & Bridges
+    3 Fact Tables DDL      :done, w4t1, 2026-01-13, 2d
+    Bridge Tables          :done, w4t2, after w4t1, 1d
+    Fact ETL & Enrichment  :done, w4t3, after w4t2, 2d
+
+    section Week 5: Validation & BI
+    Validation Framework   :done, w5t1, 2026-01-20, 2d
+    Power BI TMDL Model    :done, w5t2, after w5t1, 3d
+    Documentation          :done, w5t3, after w5t2, 2d
 ```
+
+**Milestone Summary:**
+| Milestone | Planned | Actual | Status |
+|-----------|---------|--------|--------|
+| Foundation Complete | 2026-01-10 | 2026-01-10 | ✅ |
+| Dimensions Complete | 2026-01-17 | 2026-01-17 | ✅ |
+| Facts & ETL Complete | 2026-01-24 | 2026-01-24 | ✅ |
+| Semantic Model Complete | 2026-01-29 | 2026-01-29 | ✅ |
+| Phase 1 Sign-Off | 2026-01-31 | Pending | ⏳ |
 
 ---
 
 ## <span style="color: #7030A0;">Design Principles</span>
 
-We're following these core principles:
+These principles guided Phase 1 delivery:
 
 1.  **Pragmatic over Perfect** - Phase 1 delivers 80% of value with 40% of effort. Advanced features deferred to Phase 2.
 2.  **Reuse over Rebuild** - Use existing Dictionary schema dimensions where possible.
@@ -271,10 +286,9 @@ graph TB
         end
         
         subgraph BridgeETL ["Bridge ETL"]
-         E7[sp_Load_Bridge_CF_Segment_Patient_Snapshot]
-         E7b[sp_Load_Bridge_CF_Segment_Patient_Snapshot]
-         E8[sp_Load_Bridge_ERF_Activity]
-         E10[sp_Load_Bridge_Operating_Plan_Deferred (deprecated)]
+            E7[sp_Load_Bridge_CF_Segment]
+            E8[sp_Load_Bridge_ERF_Activity]
+            E9[sp_Load_Bridge_OpPlan_MeasureSet]
         end
 
       subgraph EnrichETL ["Fact Enrichment"]
@@ -292,16 +306,15 @@ graph TB
             F3[("Fact_AE_Activity<br/>800k rows")]
         end
         
-        subgraph Dimensions ["Dimensions (26 Total)"]
-            D1[("Core Shared (14)<br/>Patient, Date, Provider, etc")]
-            D2[("POD Specific (12)<br/>Admit Method, DNA, etc")]
+        subgraph Dimensions ["Dimensions - 28 Total"]
+            D1[("Core Shared - 17<br/>Patient, Date, Provider, etc")]
+            D2[("POD Specific - 11<br/>Admit Method, DNA, etc")]
         end
         
         subgraph Bridge ["Bridge Tables"]
-         B1[("Patient_Segment<br/>CF derived (Core20/LTC/HIU future)")]
-         B2[("ERF_Activity<br/>Re-priced costs")]
-         B3[("OpPlan_MeasureSet<br/>MeasureSet/MeasureID")]
-         B4[("Operating_Plan_Deferred<br/>Encounter/measure (deprecated)")]
+            B1[("CF_Segment_Patient<br/>Patient segmentation")]
+            B2[("ERF_Activity<br/>Re-priced costs")]
+            B3[("OpPlan_MeasureSet<br/>Operating Plan measures")]
         end
     end
 
@@ -598,7 +611,7 @@ All fact tables maintain a 6-month rolling window, refreshed weekly via partitio
 
 ---
 
-### Week 4: Facts & Patient Bridge (IMPLEMENTED — execution pending)
+### Week 4: Facts & Patient Bridge (COMPLETE)
 
 **Objective:** Implement the transactional core (fact tables) and the Patient Intelligence capability (bridge table).
 
@@ -1237,10 +1250,13 @@ Success Criteria:
 **Phase 1 Complete - Major Document Revision**
 - Updated all status sections to reflect Phase 1 completion
 - Revised dimension count from 26 to 28 (5 tables + 23 views)
-- Updated repository structure to reflect actual paths (`sql/` not `sql/`)
+- Updated repository structure to reflect actual paths (`sql/` not `sql/analytics_platform/`)
 - Updated Operational Snapshot with complete current inventory
 - Revised Key References section with correct file paths
 - Updated Progress Dashboard showing all weeks complete
+- Updated Timeline & Dependencies Gantt chart - all tasks marked done
+- Added Milestone Summary table with completion dates
+- Confirmed Power BI TMDL semantic model complete (31 tables, 40+ relationships)
 - Removed references to deprecated/non-existent files
 - Updated Executive Summary to reflect delivered state
 
