@@ -2,6 +2,14 @@
 
 This guide provides optimized SQL queries and step-by-step instructions for building the Healthcare Analytics semantic model in Power BI Desktop.
 
+## ⚠️ Configuration Required
+
+**Before using this guide:**
+1. The connection strings in this guide contain placeholder server names
+2. Update all instances of `<YOUR_SQL_SERVER>\<INSTANCE>` with your actual server
+3. Update `<YOUR_DATABASE>` with your database name
+4. See [CONFIG.md](../CONFIG.md) for complete configuration instructions
+
 ## Why Custom SQL vs Views?
 
 | Approach | Pros | Cons |
@@ -16,8 +24,8 @@ This guide provides optimized SQL queries and step-by-step instructions for buil
 ## Prerequisites
 
 - [ ] Power BI Desktop (latest version)
-- [ ] Access to `PSFADHSSTP02.ad.elc.nhs.uk\SWL`
-- [ ] Read permissions on `Data_Lab_SWL_Live.Analytics` schema
+- [ ] Access to `<YOUR_SQL_SERVER>\<INSTANCE>`
+- [ ] Read permissions on `<YOUR_DATABASE>.Analytics` schema
 - [ ] Power BI Premium capacity (for incremental refresh)
 
 ---
@@ -37,8 +45,8 @@ This guide provides optimized SQL queries and step-by-step instructions for buil
 1. **Home > Get Data > SQL Server**
 2. Enter connection details:
    ```
-   Server: PSFADHSSTP02.ad.elc.nhs.uk\SWL
-   Database: Data_Lab_SWL_Live
+   Server: <YOUR_SQL_SERVER>\<INSTANCE>
+   Database: <YOUR_DATABASE>
    Data Connectivity Mode: Import
    ```
 3. Click **Advanced Options** and check "Include relationship columns"

@@ -16,11 +16,19 @@ The platform includes:
 - Data validation framework
 - Power BI semantic model (TMDL format)
 
-## Database Connection
+## Configuration
+
+**⚠️ IMPORTANT: This repository requires database configuration before use.**
+
+1. Copy `.env.example` to `.env`
+2. Fill in your actual database credentials
+3. Never commit `.env` to git (already in `.gitignore`)
+
+See **[CONFIG.md](CONFIG.md)** for detailed setup instructions.
 
 ```
-Server: PSFADHSSTP02.ad.elc.nhs.uk\SWL
-Database: Data_Lab_SWL_Live
+Server: <YOUR_SQL_SERVER>\<INSTANCE>
+Database: <YOUR_DATABASE>
 Schema: [Analytics]
 ```
 
@@ -30,25 +38,25 @@ Schema: [Analytics]
 
 ```bash
 # Set up schema and prerequisites
-sqlcmd -S "PSFADHSSTP02.ad.elc.nhs.uk\SWL" -d Data_Lab_SWL_Live -i sql/00_setup/01_Create_Schema.sql
+sqlcmd -S "<YOUR_SQL_SERVER>\<INSTANCE>" -d <YOUR_DATABASE> -i sql/00_setup/01_Create_Schema.sql
 
 # Deploy all dimensions
 for file in sql/01_dimensions/*.sql; do
-  sqlcmd -S "PSFADHSSTP02.ad.elc.nhs.uk\SWL" -d Data_Lab_SWL_Live -i "$file"
+  sqlcmd -S "<YOUR_SQL_SERVER>\<INSTANCE>" -d <YOUR_DATABASE> -i "$file"
 done
 
 # Deploy fact tables
 for file in sql/02_facts/*.sql; do
-  sqlcmd -S "PSFADHSSTP02.ad.elc.nhs.uk\SWL" -d Data_Lab_SWL_Live -i "$file"
+  sqlcmd -S "<YOUR_SQL_SERVER>\<INSTANCE>" -d <YOUR_DATABASE> -i "$file"
 done
 
 # Deploy ETL procedures
 for file in sql/04_etl/*.sql; do
-  sqlcmd -S "PSFADHSSTP02.ad.elc.nhs.uk\SWL" -d Data_Lab_SWL_Live -i "$file"
+  sqlcmd -S "<YOUR_SQL_SERVER>\<INSTANCE>" -d <YOUR_DATABASE> -i "$file"
 done
 
 # Deploy validation
-sqlcmd -S "PSFADHSSTP02.ad.elc.nhs.uk\SWL" -d Data_Lab_SWL_Live -i sql/06_validation/sp_Validate_Fact_Data.sql
+sqlcmd -S "<YOUR_SQL_SERVER>\<INSTANCE>" -d <YOUR_DATABASE> -i sql/06_validation/sp_Validate_Fact_Data.sql
 ```
 
 ### 2. Load Data

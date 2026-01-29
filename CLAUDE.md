@@ -6,15 +6,17 @@ This is a healthcare analytics data warehouse for South West London Integrated C
 
 ## Database Connection
 
+**IMPORTANT: Configure these values in your local environment - DO NOT commit actual credentials to the repository.**
+
 ```
-Server: PSFADHSSTP02.ad.elc.nhs.uk\SWL
-Database: Data_Lab_SWL_Live
+Server: <YOUR_SQL_SERVER>\<INSTANCE>
+Database: <YOUR_DATABASE>
 Schema: [Analytics]
 ```
 
-Source data comes from:
-- `[Data_Lab_SWL].[Unified].[tbl_IP_EncounterDenormalised_Active]` (Inpatient)
-- `[Data_Lab_SWL].[Unified].[tbl_OP_EncounterDenormalised_Active]` (Outpatient)
+Source data schema (configure based on your environment):
+- `[<SOURCE_DB>].[Unified].[tbl_IP_EncounterDenormalised_Active]` (Inpatient)
+- `[<SOURCE_DB>].[Unified].[tbl_OP_EncounterDenormalised_Active]` (Outpatient)
 - `[Dictionary]` database for NHS Data Dictionary reference tables
 
 ## Project Structure
