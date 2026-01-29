@@ -1,0 +1,16 @@
+USE [Dictionary]
+GO
+/****** Object:  Table [dbo].[OrganisationMatrixCommissioner]    Script Date: 08/01/2026 13:36:11 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[OrganisationMatrixCommissioner](
+	[SK_OrganisationID_Commissioner] [int] NOT NULL,
+	[SK_OrganisationID_STP] [int] NULL,
+ CONSTRAINT [PK_dbo_OrganisationMatrixCommissioner] PRIMARY KEY CLUSTERED 
+(
+	[SK_OrganisationID_Commissioner] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO

@@ -1,0 +1,17 @@
+USE [Dictionary]
+GO
+/****** Object:  Table [dbo].[OrganisationHierarchyPractice]    Script Date: 08/01/2026 13:36:11 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[OrganisationHierarchyPractice](
+	[SK_OrganisationID] [int] NOT NULL,
+	[SK_OrganisationID_Parent] [int] NULL,
+	[Level] [tinyint] NOT NULL,
+ CONSTRAINT [PK_dbo_OrganisationHierarchy] PRIMARY KEY NONCLUSTERED 
+(
+	[SK_OrganisationID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO

@@ -1,0 +1,21 @@
+USE [Dictionary]
+GO
+/****** Object:  Table [dbo].[Ethnicity2]    Script Date: 08/01/2026 13:36:11 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Ethnicity2](
+	[SK_EthnicityID] [tinyint] NOT NULL,
+	[EthnicityCategory] [varchar](20) NOT NULL,
+	[EthnicityDesc] [varchar](200) NOT NULL,
+ CONSTRAINT [PK_dbo_Ethnicity2] PRIMARY KEY CLUSTERED 
+(
+	[SK_EthnicityID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY],
+ CONSTRAINT [UQ_dbo_Ethnicity2] UNIQUE NONCLUSTERED 
+(
+	[EthnicityDesc] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
