@@ -124,17 +124,17 @@ BEGIN
         )
         SELECT
             s.LSOA_Code,
-            MAX(s.LSOA_Name),
-            MAX(s.SubICB_Code),
-            MAX(s.SubICB_Hierarchy_Code),
-            MAX(s.SubICB_Name),
-            MAX(s.ICB_Code),
-            MAX(s.ICB_Hierarchy_Code),
-            MAX(s.ICB_Name),
-            MAX(s.CancerAlliance_Code),
-            MAX(s.CancerAlliance_Name),
-            MAX(s.LocalAuthority_Code),
-            MAX(s.LocalAuthority_Name),
+            COALESCE(MAX(s.LSOA_Name), 'Unknown LSOA'),
+            COALESCE(MAX(s.SubICB_Code), 'UNK'),
+            COALESCE(MAX(s.SubICB_Hierarchy_Code), 'UNK'),
+            COALESCE(MAX(s.SubICB_Name), 'Unknown Sub-ICB'),
+            COALESCE(MAX(s.ICB_Code), 'UNK'),
+            COALESCE(MAX(s.ICB_Hierarchy_Code), 'UNK'),
+            COALESCE(MAX(s.ICB_Name), 'Unknown ICB'),
+            COALESCE(MAX(s.CancerAlliance_Code), 'UNK'),
+            COALESCE(MAX(s.CancerAlliance_Name), 'Unknown Cancer Alliance'),
+            COALESCE(MAX(s.LocalAuthority_Code), 'UNK'),
+            COALESCE(MAX(s.LocalAuthority_Name), 'Unknown Local Authority'),
             CASE
                 WHEN MAX(imd.IDACI_Score) IS NULL AND MAX(imd.IDAOPI_Score) IS NULL THEN NULL
                 ELSE 2019

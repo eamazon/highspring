@@ -50,7 +50,7 @@ SELECT
     -- Core dimensions
     ab.[Age_Band_5yr],
     ab.[Age_Band_10yr],
-    ab.[Age_Band_Clinical],
+    ab.[Age_Band_GP] AS [Age_Band_Clinical],
     ab.[Age_Band_Summary],
     g.[Gender] AS [Gender_Description],
     e.[EthnicityDesc] AS [Ethnicity_Description],

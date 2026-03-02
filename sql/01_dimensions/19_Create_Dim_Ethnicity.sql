@@ -57,30 +57,30 @@ WITH Ethnicity_Source AS (
         v.EthnicityShortDesc
     FROM (VALUES
         -- WHITE
-        (1,  'A',  'White - British',                                    'White British'),
-        (2,  'B',  'White - Irish',                                      'White Irish'),
-        (3,  'C',  'White - Any other White background',                 'White Other'),
+        (1,  'A',  'White - British',                                    'White'),
+        (2,  'B',  'White - Irish',                                      'White'),
+        (3,  'C',  'White - Any other White background',                 'White'),
 
         -- MIXED
-        (4,  'D',  'Mixed - White and Black Caribbean',                  'Mixed White/Black Caribbean'),
-        (5,  'E',  'Mixed - White and Black African',                    'Mixed White/Black African'),
-        (6,  'F',  'Mixed - White and Asian',                            'Mixed White/Asian'),
-        (7,  'G',  'Mixed - Any other mixed background',                 'Mixed Other'),
+        (4,  'D',  'Mixed - White and Black Caribbean',                  'Mixed'),
+        (5,  'E',  'Mixed - White and Black African',                    'Mixed'),
+        (6,  'F',  'Mixed - White and Asian',                            'Mixed'),
+        (7,  'G',  'Mixed - Any other mixed background',                 'Mixed'),
 
         -- ASIAN
-        (8,  'H',  'Asian or Asian British - Indian',                    'Asian Indian'),
-        (9,  'J',  'Asian or Asian British - Pakistani',                 'Asian Pakistani'),
-        (10, 'K',  'Asian or Asian British - Bangladeshi',               'Asian Bangladeshi'),
-        (11, 'L',  'Asian or Asian British - Any other Asian background','Asian Other'),
+        (8,  'H',  'Asian or Asian British - Indian',                    'Asian'),
+        (9,  'J',  'Asian or Asian British - Pakistani',                 'Asian'),
+        (10, 'K',  'Asian or Asian British - Bangladeshi',               'Asian'),
+        (11, 'L',  'Asian or Asian British - Any other Asian background','Asian'),
 
         -- BLACK
-        (12, 'M',  'Black or Black British - Caribbean',                 'Black Caribbean'),
-        (13, 'N',  'Black or Black British - African',                   'Black African'),
-        (14, 'P',  'Black or Black British - Any other Black background','Black Other'),
+        (12, 'M',  'Black or Black British - Caribbean',                 'Black'),
+        (13, 'N',  'Black or Black British - African',                   'Black'),
+        (14, 'P',  'Black or Black British - Any other Black background','Black'),
 
         -- OTHER
-        (15, 'R',  'Other Ethnic Groups - Chinese',                      'Chinese'),
-        (16, 'S',  'Other Ethnic Groups - Any other ethnic group',       'Other Ethnic Group'),
+        (15, 'R',  'Other Ethnic Groups - Chinese',                      'Asian'),
+        (16, 'S',  'Other Ethnic Groups - Any other ethnic group',       'Other'),
 
         -- NOT STATED / UNKNOWN
         (97, 'Z',  'Not stated',                                         'Unknown'),

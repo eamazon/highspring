@@ -59,7 +59,7 @@ BEGIN
         MERGE [Analytics].[tbl_Dim_PCN] AS Target
         USING (
             SELECT
-                GP.PCN_Code,
+                NULLIF(LTRIM(RTRIM(GP.PCN_Code)), '') AS PCN_Code,
                 MAX(NULLIF(GP.PCN_Name, '')) AS PCN_Name,
                 MAX(NULLIF(GP.ICB_Code, '')) AS ICB_Code,
                 MAX(NULLIF(GP.ICB_Name, '')) AS ICB_Name,
@@ -67,7 +67,9 @@ BEGIN
             FROM [Analytics].[tbl_Dim_GPPractice] GP
             WHERE GP.Is_Current = 1
               AND GP.PCN_Code IS NOT NULL
-            GROUP BY GP.PCN_Code
+              AND NULLIF(LTRIM(RTRIM(GP.PCN_Code)), '') IS NOT NULL
+              AND UPPER(LTRIM(RTRIM(GP.PCN_Code))) NOT IN ('UNK', 'UNKNOWN')
+            GROUP BY NULLIF(LTRIM(RTRIM(GP.PCN_Code)), '')
         ) AS Source
         ON (Target.PCN_Code = Source.PCN_Code)
         

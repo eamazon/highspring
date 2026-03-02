@@ -42,6 +42,15 @@ Dim_Commissioner (dimension table)
 | `nhs_ods_*.json` | Raw API responses (archive) | N/A |
 | `nhs_ods_*.sql` | Generated staging INSERT statements | ✅ Yes |
 
+### GP Mapping Contract (for `Dim_GPPractice`)
+
+Use a two-source join for GP staging:
+- `epraccur`: authoritative GP master list + ICB code (`High Level Health Geography`)
+- `epcncorepartnerdetails`: GP to PCN membership + Sub-ICB code/name
+
+`fetch_gp_practices_csv.py` applies this join and writes `staging_gp_practice.sql` for
+`[Analytics].[tbl_Staging_GP_Practice]`.
+
 **Note:** Legacy GP/PCN scripts have been moved to `scripts/data_integration/nhs_ods/archive/`.
 
 ---

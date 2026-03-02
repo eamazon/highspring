@@ -237,3 +237,35 @@ GO
 PRINT '[OK] Created Staging_POD';
 PRINT '[OK] All Staging Tables Created';
 GO
+
+-------------------------------------------------------------------------------
+-- Staging Table: HRG (NHS annual code-to-group releases)
+-------------------------------------------------------------------------------
+IF OBJECT_ID('[Analytics].[tbl_Staging_HRG]', 'U') IS NOT NULL
+BEGIN
+    PRINT 'Table [Analytics].[tbl_Staging_HRG] already exists. Dropping...';
+    DROP TABLE [Analytics].[tbl_Staging_HRG];
+END
+GO
+
+CREATE TABLE [Analytics].[tbl_Staging_HRG]
+(
+    HRGCode VARCHAR(20) NOT NULL,
+    HRGDescription VARCHAR(500) NULL,
+    Core_Or_Unbundled VARCHAR(30) NULL,
+    HRGSubchapterKey VARCHAR(20) NULL,
+    HRGSubchapter VARCHAR(255) NULL,
+    HRGChapterKey VARCHAR(20) NULL,
+    HRGChapter VARCHAR(255) NULL,
+    Release_Date DATE NOT NULL,
+    Source_URL VARCHAR(500) NULL,
+    Load_Timestamp DATETIME2 NOT NULL DEFAULT GETDATE()
+);
+GO
+
+CREATE NONCLUSTERED INDEX IX_Staging_HRG_CodeRelease
+    ON [Analytics].[tbl_Staging_HRG](HRGCode, Release_Date);
+GO
+
+PRINT '[OK] Created tbl_Staging_HRG';
+GO

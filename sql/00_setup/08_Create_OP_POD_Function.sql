@@ -46,7 +46,7 @@ CREATE FUNCTION [OP].[fn_GetPODType]
 RETURNS VARCHAR(50)
 AS
 BEGIN
-    DECLARE @PodType VARCHAR(50) = 'Other';
+    DECLARE @PodType VARCHAR(50) = 'OTHER';
     DECLARE @HRGCode VARCHAR(10) = LTRIM(RTRIM(ISNULL(@HRG, '')));
     DECLARE @Attend VARCHAR(2) = LTRIM(RTRIM(ISNULL(@Attended_Or_Did_Not_Attend, '')));
     DECLARE @First VARCHAR(1) = LTRIM(RTRIM(ISNULL(@First_Attendance, '')));
@@ -64,11 +64,11 @@ BEGIN
         ELSE 1
     END;
 
-    -- DNA check (2/3 or explicit DNA values). If unknown, return Other.
-    IF @Attend IN ('2', '3', 'DNA')
-        RETURN 'DNA';
-    IF @Attend NOT IN ('5', '6')
-        RETURN 'Other';
+    -- DNA / cancellation gating disabled so POD can still be derived from HRG/attendance type.
+    --IF @Attend IN ('2', '3', 'DNA')
+    --    RETURN 'DNA';
+    --IF @Attend NOT IN ('5', '6')
+    --    RETURN 'Other';
 
     -- Procedure check (non-WF HRGs).
     IF @HRGCode NOT LIKE 'WF%'
@@ -84,11 +84,14 @@ BEGIN
     IF @HRGCode LIKE 'WF01C%' OR @HRGCode LIKE 'WF01D%' OR @HRGCode LIKE 'WF01E%'
        OR @HRGCode LIKE 'WF02C%' OR @HRGCode LIKE 'WF02D%' OR @HRGCode LIKE 'WF02E%'
     BEGIN
+        -- WF01D/WF02D are treated as first telephone/telemedicine activity.
+        IF @HRGCode LIKE 'WF01D%' OR @HRGCode LIKE 'WF02D%'
+            RETURN 'NF2FFA';
         IF @IsFirst = 1
             RETURN 'NF2FFA';
         IF @IsFirst = 0
             RETURN 'NF2FFUP';
-        RETURN 'Other';
+        RETURN 'OTHER';
     END
 
     -- Face-to-face attendance.

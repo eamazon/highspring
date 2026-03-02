@@ -152,7 +152,13 @@ BEGIN
                 SRC.*,
                 COALESCE(CAST(SRC.Start_Date_Hospital_Provider_Spell AS DATE), CAST('1900-01-01' AS DATE)) AS Admission_Date,
                 COALESCE(CAST(SRC.End_Date_Hospital_Provider_Spell AS DATE), CAST('1900-01-01' AS DATE)) AS Discharge_Date,
-                TRY_CAST(SRC.dv_LengthOfStay_Gross AS INT) AS Length_Of_Stay
+                TRY_CAST(SRC.dv_LengthOfStay_Gross AS INT) AS Length_Of_Stay,
+                NULLIF(LTRIM(RTRIM(SRC.dv_LSOACode)), '') AS LSOA_Code_Norm,
+                NULLIF(LTRIM(RTRIM(SRC.GP_Practice_Code_Original_Data)), '') AS GP_Practice_Code_Norm,
+                NULLIF(LTRIM(RTRIM(SRC.Treatment_Function_Code)), '') AS Treatment_Function_Code_Norm,
+                NULLIF(LTRIM(RTRIM(SRC.Main_Specialty_Code)), '') AS Main_Specialty_Code_Norm,
+                NULLIF(LTRIM(RTRIM(SRC.Patient_Classification)), '') AS Patient_Classification_Code_Norm,
+                TRY_CONVERT(INT, NULLIF(LTRIM(RTRIM(SRC.Patient_Classification)), '')) AS Patient_Classification_Code_Int
             FROM [Data_Lab_SWL].[Unified].[tbl_IP_EncounterDenormalised_Active] SRC
             WHERE SRC.End_Date_Hospital_Provider_Spell >= @FromDateActual
               AND SRC.End_Date_Hospital_Provider_Spell < DATEADD(DAY, 1, @ToDateActual)
@@ -177,6 +183,40 @@ BEGIN
         FROM SourceFiltered;
 
         SELECT @SourceRows = COUNT(*) FROM #SourceFiltered;
+
+        IF OBJECT_ID('tempdb..#Dim_Specialty_Map') IS NOT NULL
+            DROP TABLE #Dim_Specialty_Map;
+        SELECT
+            ds.BK_SpecialtyCode,
+            MIN(ds.SK_SpecialtyID) AS SK_SpecialtyID
+        INTO #Dim_Specialty_Map
+        FROM [Analytics].[vw_Dim_Specialty] ds
+        WHERE ds.BK_SpecialtyCode IS NOT NULL
+        GROUP BY ds.BK_SpecialtyCode;
+        CREATE UNIQUE CLUSTERED INDEX IX_Dim_Specialty_Map_Code ON #Dim_Specialty_Map(BK_SpecialtyCode);
+
+        IF OBJECT_ID('tempdb..#Dim_IP_PatClass_Map_Norm') IS NOT NULL
+            DROP TABLE #Dim_IP_PatClass_Map_Norm;
+        SELECT
+            MIN(pc.SK_PatientClassificationID) AS SK_PatientClassificationID,
+            NULLIF(LTRIM(RTRIM(pc.Patient_Classification_Code)), '') AS Code_Norm
+        INTO #Dim_IP_PatClass_Map_Norm
+        FROM [Analytics].[vw_Dim_IP_Patient_Classification] pc
+        WHERE NULLIF(LTRIM(RTRIM(pc.Patient_Classification_Code)), '') IS NOT NULL
+        GROUP BY
+            NULLIF(LTRIM(RTRIM(pc.Patient_Classification_Code)), '');
+        CREATE UNIQUE CLUSTERED INDEX IX_Dim_IP_PatClass_Map_Norm ON #Dim_IP_PatClass_Map_Norm(Code_Norm);
+
+        IF OBJECT_ID('tempdb..#Dim_IP_PatClass_Map_Int') IS NOT NULL
+            DROP TABLE #Dim_IP_PatClass_Map_Int;
+        SELECT
+            MIN(pc.SK_PatientClassificationID) AS SK_PatientClassificationID,
+            TRY_CONVERT(INT, NULLIF(LTRIM(RTRIM(pc.Patient_Classification_Code)), '')) AS Code_Int
+        INTO #Dim_IP_PatClass_Map_Int
+        FROM [Analytics].[vw_Dim_IP_Patient_Classification] pc
+        WHERE TRY_CONVERT(INT, NULLIF(LTRIM(RTRIM(pc.Patient_Classification_Code)), '')) IS NOT NULL
+        GROUP BY TRY_CONVERT(INT, NULLIF(LTRIM(RTRIM(pc.Patient_Classification_Code)), ''));
+        CREATE UNIQUE CLUSTERED INDEX IX_Dim_IP_PatClass_Map_Int ON #Dim_IP_PatClass_Map_Int(Code_Int);
 
         SELECT @RowsDeleted = COUNT(*)
         FROM [Analytics].[tbl_Fact_IP_Activity] f
@@ -247,14 +287,14 @@ BEGIN
             ISNULL(D_Dis.SK_Date, -1) AS [SK_DateDischargeID],
             SRC.Admission_Date AS [Admission_Date],
             SRC.Discharge_Date AS [Discharge_Date],
-            ISNULL(AB.Age, 255) AS [SK_Age_BandID],
+            ISNULL(AB.Age, -1) AS [SK_Age_BandID],
             COALESCE(CAST(G.SK_GenderID AS INT), -1) AS [SK_GenderID],
             COALESCE(CAST(E.SK_EthnicityID AS INT), -1) AS [SK_EthnicityID],
             COALESCE(CAST(Pr.SK_ProviderID AS INT), -1) AS [SK_ProviderID],
             COALESCE(CAST(LSOA.SK_LSOA_ID AS INT), -1) AS [SK_LSOA_ID],
             NULLIF(LTRIM(RTRIM(SRC.dv_LSOACode)), '') AS [LSOA_Code],
             
-            COALESCE(CAST(S.SK_SpecialtyID AS INT), -1) AS [SK_SpecialtyID],
+            COALESCE(CAST(SpecTfc.SK_SpecialtyID AS INT), CAST(SpecMain.SK_SpecialtyID AS INT), -1) AS [SK_SpecialtyID],
             COALESCE(CAST(HRG.SK_HRGID AS INT), -1) AS [SK_HRG_ID],
             NULL AS [SK_DiagnosisID],
             NULL AS [SK_ProcedureID],
@@ -269,7 +309,7 @@ BEGIN
             COALESCE(CAST(AdmSrc.SK_AdmissionSourceID AS INT), -1) AS [SK_Admission_SourceID],
             COALESCE(CAST(DisMet.SK_DischargeMethodID AS INT), -1) AS [SK_Discharge_MethodID],
             COALESCE(CAST(DisDest.SK_DischargeDestinationID AS INT), -1) AS [SK_Discharge_DestinationID],
-            COALESCE(CAST(PatClass.SK_PatientClassificationID AS INT), -1) AS [SK_IP_Patient_ClassificationID],
+            COALESCE(CAST(PatClassNorm.SK_PatientClassificationID AS INT), CAST(PatClassInt.SK_PatientClassificationID AS INT), -1) AS [SK_IP_Patient_ClassificationID],
 
             -- Measures
             1 AS [Admissions],
@@ -300,7 +340,15 @@ BEGIN
         -- LEFT JOIN [Analytics].[tbl_Dim_Patient] P ON SRC.SK_PatientID = P.SK_PatientID
         LEFT JOIN [Analytics].[vw_Dim_Date] D_Adm ON CAST(SRC.Start_Date_Hospital_Provider_Spell AS DATE) = D_Adm.FullDate
         LEFT JOIN [Analytics].[vw_Dim_Date] D_Dis ON CAST(SRC.End_Date_Hospital_Provider_Spell AS DATE) = D_Dis.FullDate
-        LEFT JOIN [Analytics].[vw_Dim_Age_Band] AB ON SRC.Age_At_CDS_Activity_Date = AB.Age
+        LEFT JOIN [Analytics].[vw_Dim_Age_Band] AB
+            ON AB.Age =
+                CASE
+                    WHEN TRY_CONVERT(INT, SRC.Age_At_CDS_Activity_Date) BETWEEN 0 AND 99
+                        THEN TRY_CONVERT(INT, SRC.Age_At_CDS_Activity_Date)
+                    WHEN TRY_CONVERT(INT, SRC.Age_At_CDS_Activity_Date) BETWEEN 100 AND 110
+                        THEN 100
+                    ELSE -1
+                END
         LEFT JOIN [Analytics].[vw_Dim_Gender] G ON SRC.Gender_Code = G.GenderCode
         LEFT JOIN [Analytics].[vw_Dim_Ethnicity] E
             ON E.EthnicityCode =
@@ -317,9 +365,11 @@ BEGIN
                     ELSE SRC.Organisation_Code_Code_of_Provider
                 END
         LEFT JOIN [Analytics].[vw_Dim_LSOA] LSOA
-            ON LSOA.LSOA_Code = NULLIF(LTRIM(RTRIM(SRC.dv_LSOACode)), '')
-
-        LEFT JOIN [Analytics].[vw_Dim_Specialty] S ON SRC.Treatment_Function_Code = S.BK_SpecialtyCode
+            ON LSOA.LSOA_Code = SRC.LSOA_Code_Norm
+        LEFT JOIN #Dim_Specialty_Map SpecTfc
+            ON SpecTfc.BK_SpecialtyCode = SRC.Treatment_Function_Code_Norm
+        LEFT JOIN #Dim_Specialty_Map SpecMain
+            ON SpecMain.BK_SpecialtyCode = SRC.Main_Specialty_Code_Norm
         LEFT JOIN [Analytics].[vw_Dim_HRG] HRG ON SRC.Spell_Core_HRG = HRG.HRGCode
 
         LEFT JOIN [Analytics].[tbl_Dim_Commissioner] Comm
@@ -330,21 +380,26 @@ BEGIN
                     ELSE SRC.Organisation_Code_Code_of_Commissioner
                 END
         LEFT JOIN [Analytics].[tbl_Dim_GPPractice] GP
-            ON SRC.GP_Practice_Code_Original_Data = GP.GPPractice_Code
+            ON GP.GPPractice_Code = SRC.GP_Practice_Code_Norm
            AND GP.Is_Current = 1
         LEFT JOIN [Analytics].[tbl_Dim_PCN] PCN
-            ON GP.PCN_Code = PCN.PCN_Code
+            ON PCN.PCN_Code = GP.PCN_Code
            AND PCN.Is_Current = 1
 
         -- POD mapping (derived via IP.GetPodType for materialised source tables)
-        LEFT JOIN [Analytics].[tbl_Dim_POD] POD ON PodCalc.POD_Code = POD.POD_Code
+        LEFT JOIN [Analytics].[tbl_Dim_POD] POD
+            ON POD.POD_Code = UPPER(PodCalc.POD_Code)
+           AND POD.POD_Dataset IN ('IP', 'Unbundled')
 
         -- IP JOINS
         LEFT JOIN [Analytics].[vw_Dim_Admission_Method] AdmMet ON SRC.Admission_Method_Hospital_Provider_Spell = AdmMet.Admission_Method_Code
         LEFT JOIN [Analytics].[vw_Dim_Admission_Source] AdmSrc ON SRC.Source_of_Admission_Hospital_Provider_Spell = AdmSrc.Admission_Source_Code
         LEFT JOIN [Analytics].[vw_Dim_Discharge_Method] DisMet ON SRC.Discharge_Method_Hospital_Provider_Spell = DisMet.Discharge_Method_Code
         LEFT JOIN [Analytics].[vw_Dim_Discharge_Destination] DisDest ON SRC.Discharge_Destination_Hospital_Provider_Spell = DisDest.Discharge_Destination_Code
-        LEFT JOIN [Analytics].[vw_Dim_IP_Patient_Classification] PatClass ON SRC.Patient_Classification = PatClass.Patient_Classification_Code
+        LEFT JOIN #Dim_IP_PatClass_Map_Norm PatClassNorm
+            ON PatClassNorm.Code_Norm = SRC.Patient_Classification_Code_Norm
+        LEFT JOIN #Dim_IP_PatClass_Map_Int PatClassInt
+            ON PatClassInt.Code_Int = SRC.Patient_Classification_Code_Int
 
         WHERE NOT EXISTS (
             SELECT 1

@@ -1,0 +1,1249 @@
+
+(1 row affected)
+>>> STARTING MASTER DEPLOYMENT
+ 
+>>> 1. Core Setup
+Schema [Analytics] already exists.
+Partition Function [PF_OP_Activity_Monthly] already exists.
+Partition Scheme [PS_OP_Activity_Monthly] already exists.
+Partition Function [PF_IP_Activity_Monthly] already exists.
+Partition Scheme [PS_IP_Activity_Monthly] already exists.
+Partition Function [PF_AE_Activity_Monthly] already exists.
+Partition Scheme [PS_AE_Activity_Monthly] already exists.
+========================================
+Creating ETL Logging Infrastructure
+Started: 2026-03-02 14:59:08.750
+========================================
+Dropping [Analytics].[tbl_ETL_Batch_Log] (and children)...
+[OK] Created table: [Analytics].[tbl_ETL_Batch_Log]
+[OK] Created table: [Analytics].[tbl_ETL_Table_Load_Log]
+[OK] Created table: [Analytics].[tbl_ETL_Error_Details]
+[OK] Created table: [Analytics].[tbl_ETL_Performance_Metrics]
+ 
+========================================
+Creating Stored Procedures
+========================================
+[OK] Created procedure: [Analytics].[sp_Start_ETL_Batch]
+[OK] Created procedure: [Analytics].[sp_End_ETL_Batch]
+[OK] Created procedure: [Analytics].[sp_Log_Table_Load]
+[OK] Created procedure: [Analytics].[sp_Cleanup_Stale_Batches]
+ 
+========================================
+ETL Logging Infrastructure Complete
+Completed: 2026-03-02 14:59:09.687
+========================================
+ 
+Summary:
+  [OK] 4 Tables created
+  [OK] 4 Stored Procedures created
+ 
+Next Steps:
+  1. Test with: EXEC [Analytics].[sp_Start_ETL_Batch] 'Test_Batch', @BatchID OUTPUT
+  2. Create SQL Agent Job to run [Analytics].[sp_Cleanup_Stale_Batches] daily
+  3. Integrate into your ETL procedures using TRY...CATCH pattern
+ 
+========================================
+Creating NHS ODS Staging Table
+Started: 2026-03-02 14:59:09.990
+========================================
+Table [Analytics].[tbl_Staging_NHS_ODS_Commissioner] already exists. Dropping...
+[OK] Created table: [Analytics].[tbl_Staging_NHS_ODS_Commissioner]
+[OK] Created index: IX_Staging_ODS_Code
+[OK] Created index: IX_Staging_ODS_Status
+[OK] Created index: IX_Staging_ODS_Processed
+ 
+========================================
+NHS ODS Staging Table Creation Complete
+Completed: 2026-03-02 14:59:10.290
+========================================
+ 
+Summary:
+  [OK] Staging table created for ODS API data
+  [OK] 3 Indexes created for ETL performance
+  [OK] Audit columns for tracking fetch/process cycles
+ 
+Next Steps:
+  1. Run Python script to fetch ODS data:
+     python scripts/data_integration/nhs_ods/fetch_commissioners.py --output staging
+  2. Review staging data:
+     SELECT * FROM [Analytics].[tbl_Staging_NHS_ODS_Commissioner] ORDER BY Commissioner_Code;
+  3. Create ETL procedure to load from staging to Dim_Commissioner
+ 
+Data Flow:
+  NHS ODS API ? Python Script ? Staging Table ? ETL Procedure ? Dim_Commissioner
+ 
+[OK] Created tbl_Staging_GP_Practice
+[OK] Created tbl_Staging_PCN
+Table [Analytics].[Staging_POD] already exists. Dropping...
+[OK] Created Staging_POD
+[OK] All Staging Tables Created
+Table [Analytics].[tbl_Staging_HRG] already exists. Dropping...
+[OK] Created tbl_Staging_HRG
+========================================
+Creating Staging Table: tbl_Staging_LSOA_IMD2019
+Started: 2026-03-02 14:59:10.917
+========================================
+Table [Analytics].[tbl_Staging_LSOA_IMD2019] already exists. Dropping...
+[OK] Created table: [Analytics].[tbl_Staging_LSOA_IMD2019]
+========================================
+Staging Table Creation Complete
+Completed: 2026-03-02 14:59:11.040
+========================================
+========================================
+Creating Staging Table: tbl_Staging_PCN_Relationships
+Started: 2026-03-02 14:59:11.240
+========================================
+Table [Analytics].[tbl_Staging_PCN_Relationships] already exists. Dropping...
+[OK] Created table: [Analytics].[tbl_Staging_PCN_Relationships]
+========================================
+Staging Table Creation Complete
+Completed: 2026-03-02 14:59:11.370
+========================================
+========================================
+Creating SUS publish status functions
+Started: 2026-03-02 14:59:11.547
+========================================
+[OK] Created function: [Analytics].[fn_SUS_Published_Cutoff_Date]
+[OK] Created function: [Analytics].[fn_SUS_Publish_Status]
+========================================
+Creating SWL SUS publish status functions
+Started: 2026-03-02 14:59:11.860
+========================================
+[OK] Created function: [SWL].[fn_SUS_Published_Cutoff_Date]
+========================================
+Creating OP POD function
+Started: 2026-03-02 14:59:17.773
+========================================
+Schema [OP] already exists.
+[OK] Created function: [OP].[fn_GetPODType]
+========================================
+Creating partition maintenance procedure
+Started: 2026-03-02 14:59:18.113
+========================================
+[OK] Created procedure: [Analytics].[sp_Extend_Fact_Partitions]
+========================================
+Creating vw_SUS_CAM VIEW
+Started: 2026-03-02 14:59:18.403
+========================================
+View [Analytics].[vw_SUS_CAM] already exists. Dropping...
+[OK] Created view: [Analytics].[vw_SUS_CAM]
+Completed: 2026-03-02 14:59:18.513
+========================================
+========================================
+Creating vw_IP_ERF VIEW
+Started: 2026-03-02 14:59:18.713
+========================================
+View [Analytics].[vw_IP_ERF] already exists. Dropping...
+[OK] Created view: [Analytics].[vw_IP_ERF]
+Completed: 2026-03-02 14:59:18.833
+========================================
+========================================
+Creating vw_OP_ERF VIEW
+Started: 2026-03-02 14:59:18.867
+========================================
+View [Analytics].[vw_OP_ERF] already exists. Dropping...
+[OK] Created view: [Analytics].[vw_OP_ERF]
+Completed: 2026-03-02 14:59:19.057
+========================================
+========================================
+Creating tbl_CAM_Raw TABLE
+Started: 2026-03-02 14:59:19.247
+========================================
+[OK] Created table: [CAM].[tbl_CAM_Raw]
+========================================
+    [OK] Setup Complete
+>>> 1b. Resetting ETL Logs
+
+(0 rows affected)
+Checking identity information: current identity value 'NULL'.
+DBCC execution completed. If DBCC printed error messages, contact your system administrator.
+
+(0 rows affected)
+Checking identity information: current identity value 'NULL'.
+DBCC execution completed. If DBCC printed error messages, contact your system administrator.
+
+(0 rows affected)
+Checking identity information: current identity value 'NULL'.
+DBCC execution completed. If DBCC printed error messages, contact your system administrator.
+
+(0 rows affected)
+Checking identity information: current identity value 'NULL'.
+DBCC execution completed. If DBCC printed error messages, contact your system administrator.
+    [OK] ETL Logs Reset
+>>> 2. Creating Dimensions
+    2a. API Dimensions (Tables with ETL)
+========================================
+Creating tbl_Dim_Patient TABLE
+Started: 2026-03-02 14:59:19.887
+========================================
+Table [Analytics].[tbl_Dim_Patient] already exists. Skipping create.
+[OK] Created table: [Analytics].[tbl_Dim_Patient]
+ 
+========================================
+tbl_Dim_Patient TABLE Created
+Completed: 2026-03-02 14:59:20.027
+========================================
+ 
+========================================
+Creating Dim_Commissioner
+Started: 2026-03-02 14:59:20.203
+========================================
+[SKIP] Table [Analytics].[tbl_Dim_Commissioner] already exists - preserving surrogate keys
+ 
+========================================
+Dim_Commissioner Creation Complete
+Completed: 2026-03-02 14:59:20.283
+========================================
+ 
+Current Row Count:
+
+(1 row affected)
+ 
+========================================
+Creating Dim_POD
+Started: 2026-03-02 14:59:20.563
+========================================
+Table [Analytics].[tbl_Dim_POD] already exists. Dropping...
+[OK] Created table: [Analytics].[tbl_Dim_POD]
+
+(1 row affected)
+[OK] Inserted default "Unknown" member (SK_PodID = -1)
+[OK] Created index: IX_Dim_POD_Domain
+[OK] Created index: IX_Dim_POD_Dataset
+[OK] Created index: IX_Dim_POD_Category
+[OK] Created index: IX_Dim_POD_Flags
+ 
+========================================
+Dim_POD Creation Complete
+Completed: 2026-03-02 14:59:21.037
+========================================
+ 
+Summary:
+  [OK] Table created with 4-level NHS taxonomy hierarchy
+  [OK] POD_Code as VARCHAR(20) - matches function return values
+  [OK] POD_Display computed column for clean labels
+  [OK] Default "Unknown" member inserted (SK = -1)
+  [OK] 4 Indexes created for performance
+ 
+NHS Taxonomy Hierarchy (Power BI drill-down):
+  Level 1: POD_Domain       - Admitted Patient Care, Outpatient, A&E, etc.
+  Level 2: POD_Subcategory  - Non-elective, First Attendance, etc.
+  Level 3: POD_Measure      - SPELL, ATT, OBD, FCE, etc.
+  Level 4: POD_Code         - NEL, OPFASPCL, AE, etc.
+ 
+Next Steps:
+  1. Run 05_Populate_Dim_POD.sql to insert all NHS taxonomy codes
+  2. POD codes will match values returned by IP.GetPodType and OP.GetPodType
+  3. Use POD_Display column in Power BI for clean labels
+ 
+========================================
+Creating Dim_GPPractice
+Started: 2026-03-02 14:59:21.267
+========================================
+[SKIP] Table [Analytics].[tbl_Dim_GPPractice] already exists - preserving surrogate keys
+ 
+========================================
+Dim_GPPractice Creation Complete
+Completed: 2026-03-02 14:59:21.333
+========================================
+ 
+Current Row Count:
+
+(1 row affected)
+ 
+========================================
+Creating Dim_PCN
+Started: 2026-03-02 14:59:21.563
+========================================
+[SKIP] Table [Analytics].[tbl_Dim_PCN] already exists - preserving surrogate keys
+ 
+========================================
+Dim_PCN Creation Complete
+Completed: 2026-03-02 14:59:21.653
+========================================
+ 
+Current Row Count:
+
+(1 row affected)
+ 
+========================================
+Creating Dim_LSOA
+Started: 2026-03-02 14:59:21.883
+========================================
+[SKIP] Table [Analytics].[tbl_Dim_LSOA] already exists - preserving surrogate keys
+ 
+========================================
+Dim_LSOA Creation Complete
+Completed: 2026-03-02 14:59:21.973
+========================================
+ 
+Current Row Count:
+
+(1 row affected)
+ 
+========================================
+Creating Dim_CAM_Service_Category
+Started: 2026-03-02 14:59:22.247
+========================================
+Table [Analytics].[tbl_Dim_CAM_Service_Category] already exists. Dropping...
+[OK] Created table: [Analytics].[tbl_Dim_CAM_Service_Category]
+
+(1 row affected)
+[OK] Inserted default "Unknown" member (SK_CAM_Service_CategoryID = -1)
+ 
+========================================
+Dim_CAM_Service_Category Creation Complete
+Completed: 2026-03-02 14:59:22.497
+========================================
+ 
+========================================
+Creating Dim_CAM_Assignment_Reason
+Started: 2026-03-02 14:59:22.687
+========================================
+Table [Analytics].[tbl_Dim_CAM_Assignment_Reason] already exists. Dropping...
+[OK] Created table: [Analytics].[tbl_Dim_CAM_Assignment_Reason]
+
+(1 row affected)
+[OK] Inserted default "Unknown" member (SK_CAM_Assignment_ReasonID = -1)
+ 
+========================================
+Dim_CAM_Assignment_Reason Creation Complete
+Completed: 2026-03-02 14:59:22.927
+========================================
+ 
+========================================
+Creating Dim_OpPlan_MeasureSet
+Started: 2026-03-02 14:59:23.117
+========================================
+Table [Analytics].[tbl_Dim_OpPlan_MeasureSet] already exists. Dropping...
+
+(1 row affected)
+Warning! The maximum key length for a nonclustered index is 1700 bytes. The index 'UQ_Dim_OpPlan_MeasureSet_Hash' has maximum length of 4032 bytes. For some combination of large values, the insert/update operation will fail.
+[OK] Created table: [Analytics].[tbl_Dim_OpPlan_MeasureSet]
+[OK] Inserted default "Unknown" member (SK_OpPlan_MeasureSet = -1)
+========================================
+Dim_OpPlan_MeasureSet Creation Complete
+Completed: 2026-03-02 14:59:23.347
+========================================
+========================================
+Creating vw_Dim_Measures_Catalogue VIEW
+Started: 2026-03-02 14:59:23.487
+========================================
+View [Analytics].[vw_Dim_Measures_Catalogue] already exists. Dropping...
+[OK] Created view: [Analytics].[vw_Dim_Measures_Catalogue]
+     Note: Placeholder view - will be populated with actual measures in future
+ 
+========================================
+vw_Dim_Measures_Catalogue VIEW Created
+Completed: 2026-03-02 14:59:23.873
+========================================
+ 
+    2b. Dictionary NHS DD Dimensions (Views - IP)
+========================================
+Creating vw_Dim_Admission_Method VIEW
+Started: 2026-03-02 14:59:24.067
+========================================
+View [Analytics].[vw_Dim_Admission_Method] already exists. Dropping...
+[OK] Created view: [Analytics].[vw_Dim_Admission_Method]
+     Source: [Dictionary].[IP].[AdmissionMethods]
+ 
+Validation: Sample data from view
+
+(5 rows affected)
+ 
+========================================
+vw_Dim_Admission_Method VIEW Created
+Completed: 2026-03-02 14:59:24.657
+========================================
+ 
+========================================
+Creating vw_Dim_Admission_Source VIEW
+Started: 2026-03-02 14:59:24.827
+========================================
+View [Analytics].[vw_Dim_Admission_Source] already exists. Dropping...
+[OK] Created view: [Analytics].[vw_Dim_Admission_Source]
+     Source: [Dictionary].[IP].[SourceOfAdmissions]
+ 
+Validation: Sample data from view
+
+(5 rows affected)
+ 
+========================================
+vw_Dim_Admission_Source VIEW Created
+Completed: 2026-03-02 14:59:25.157
+========================================
+ 
+========================================
+Creating vw_Dim_Discharge_Method VIEW
+Started: 2026-03-02 14:59:25.547
+========================================
+View [Analytics].[vw_Dim_Discharge_Method] already exists. Dropping...
+[OK] Created view: [Analytics].[vw_Dim_Discharge_Method]
+     Source: [Dictionary].[IP].[DischargeMethod]
+ 
+Validation: Sample data from view
+
+(5 rows affected)
+ 
+========================================
+vw_Dim_Discharge_Method VIEW Created
+Completed: 2026-03-02 14:59:25.807
+========================================
+ 
+========================================
+Creating vw_Dim_Discharge_Destination VIEW
+Started: 2026-03-02 14:59:26.003
+========================================
+View [Analytics].[vw_Dim_Discharge_Destination] already exists. Dropping...
+[OK] Created view: [Analytics].[vw_Dim_Discharge_Destination]
+     Source: [Dictionary].[IP].[DischargeDestination]
+ 
+Validation: Sample data from view
+
+(5 rows affected)
+ 
+========================================
+vw_Dim_Discharge_Destination VIEW Created
+Completed: 2026-03-02 14:59:26.353
+========================================
+ 
+========================================
+Creating Dim_IP_Patient_Classification VIEW
+Started: 2026-03-02 14:59:26.543
+========================================
+View [Analytics].[vw_Dim_IP_Patient_Classification] already exists. Dropping...
+[OK] Created view: [Analytics].[vw_Dim_IP_Patient_Classification]
+     Source: [Dictionary].[dbo].[PatientClassification]
+ 
+Validation: Sample data from view
+
+(5 rows affected)
+ 
+========================================
+Dim_IP_Patient_Classification VIEW Created
+Completed: 2026-03-02 14:59:26.817
+========================================
+ 
+    2c. Dictionary NHS DD Dimensions (Views - OP)
+========================================
+Creating vw_Dim_Attendance_Status VIEW
+Started: 2026-03-02 14:59:27.003
+========================================
+View [Analytics].[vw_Dim_Attendance_Status] already exists. Dropping...
+[OK] Created view: [Analytics].[vw_Dim_Attendance_Status]
+     Source: [Dictionary].[OP].[DNAIndicators]
+ 
+Validation: Sample data from view
+
+(5 rows affected)
+ 
+========================================
+vw_Dim_Attendance_Status VIEW Created
+Completed: 2026-03-02 14:59:27.297
+========================================
+ 
+========================================
+Creating vw_Dim_Attendance_Outcome VIEW
+Started: 2026-03-02 14:59:27.447
+========================================
+View [Analytics].[vw_Dim_Attendance_Outcome] already exists. Dropping...
+[OK] Created view: [Analytics].[vw_Dim_Attendance_Outcome]
+     Source: [Dictionary].[OP].[AttendanceOutcomes]
+ 
+Validation: Sample data from view
+
+(5 rows affected)
+ 
+========================================
+vw_Dim_Attendance_Outcome VIEW Created
+Completed: 2026-03-02 14:59:27.677
+========================================
+ 
+========================================
+Creating vw_Dim_Attendance_Type VIEW
+Started: 2026-03-02 14:59:27.853
+========================================
+View [Analytics].[vw_Dim_Attendance_Type] already exists. Dropping...
+[OK] Created view: [Analytics].[vw_Dim_Attendance_Type]
+     Source: [Dictionary].[OP].[AttendanceTypes]
+ 
+Validation: Sample data from view
+
+(5 rows affected)
+ 
+========================================
+vw_Dim_Attendance_Type VIEW Created
+Completed: 2026-03-02 14:59:28.113
+========================================
+ 
+========================================
+Creating vw_Dim_DNA_Indicator VIEW
+Started: 2026-03-02 14:59:28.313
+========================================
+View [Analytics].[vw_Dim_DNA_Indicator] already exists. Dropping...
+[OK] Created view: [Analytics].[vw_Dim_DNA_Indicator]
+     Source: [Dictionary].[OP].[DNAIndicators]
+ 
+Validation: Sample data from view
+
+(5 rows affected)
+ 
+========================================
+vw_Dim_DNA_Indicator VIEW Created
+Completed: 2026-03-02 14:59:28.573
+========================================
+ 
+========================================
+Creating vw_Dim_Priority_Type VIEW
+Started: 2026-03-02 14:59:28.747
+========================================
+View [Analytics].[vw_Dim_Priority_Type] already exists. Dropping...
+[OK] Created view: [Analytics].[vw_Dim_Priority_Type]
+     Source: [Dictionary].[OP].[PriorityType]
+ 
+Validation: Sample data from view
+
+(4 rows affected)
+ 
+========================================
+vw_Dim_Priority_Type VIEW Created
+Completed: 2026-03-02 14:59:29.053
+========================================
+ 
+========================================
+Creating vw_Dim_Referral_Source VIEW
+Started: 2026-03-02 14:59:29.257
+========================================
+View [Analytics].[vw_Dim_Referral_Source] already exists. Dropping...
+[OK] Created view: [Analytics].[vw_Dim_Referral_Source]
+     Source: [Dictionary].[OP].[SourceOfReferrals]
+ 
+Validation: Sample data from view
+
+(5 rows affected)
+ 
+========================================
+vw_Dim_Referral_Source VIEW Created
+Completed: 2026-03-02 14:59:29.583
+========================================
+ 
+    2d. Dictionary NHS DD Dimensions (Views - AE)
+========================================
+Creating vw_Dim_Attendance_Disposal VIEW
+Started: 2026-03-02 14:59:29.963
+========================================
+View [Analytics].[vw_Dim_Attendance_Disposal] already exists. Dropping...
+[OK] Created view: [Analytics].[vw_Dim_Attendance_Disposal]
+     Source: [Dictionary].[AE].[AttendanceDisposals]
+ 
+Validation: Sample data from view
+
+(5 rows affected)
+ 
+========================================
+vw_Dim_Attendance_Disposal VIEW Created
+Completed: 2026-03-02 14:59:30.177
+========================================
+ 
+    2e. Dictionary NHS DD Dimensions (Views - Core)
+========================================
+Creating vw_Dim_Date VIEW
+Started: 2026-03-02 14:59:30.343
+========================================
+View [Analytics].[vw_Dim_Date] already exists. Dropping...
+[OK] Created view: [Analytics].[vw_Dim_Date]
+     Source: [Dictionary].[dbo].[Dates]
+ 
+Validation: Sample data from view
+
+(5 rows affected)
+ 
+========================================
+vw_Dim_Date VIEW Created
+Completed: 2026-03-02 14:59:30.623
+========================================
+ 
+========================================
+Creating vw_Dim_Gender VIEW
+Started: 2026-03-02 14:59:30.783
+========================================
+View [Analytics].[vw_Dim_Gender] already exists. Dropping...
+[OK] Created view: [Analytics].[vw_Dim_Gender]
+     Source: [Dictionary].[dbo].[Gender]
+ 
+Validation: Sample data from view
+
+(4 rows affected)
+ 
+========================================
+vw_Dim_Gender VIEW Created
+Completed: 2026-03-02 14:59:31.057
+========================================
+ 
+========================================
+Creating vw_Dim_Ethnicity VIEW
+Started: 2026-03-02 14:59:31.197
+========================================
+View [Analytics].[vw_Dim_Ethnicity] already exists. Dropping...
+[OK] Created view: [Analytics].[vw_Dim_Ethnicity]
+     Source: Inline NHS HES ethnicity codes (no Dictionary dependency)
+ 
+Validation: Sample data from view
+
+(5 rows affected)
+ 
+========================================
+vw_Dim_Ethnicity VIEW Created
+Completed: 2026-03-02 14:59:31.487
+========================================
+ 
+========================================
+Creating vw_Dim_LSOA VIEW
+Started: 2026-03-02 14:59:31.673
+========================================
+View [Analytics].[vw_Dim_LSOA] already exists. Dropping...
+[OK] Created view: [Analytics].[vw_Dim_LSOA]
+ 
+Validation: Sample data from view
+
+(5 rows affected)
+ 
+========================================
+vw_Dim_LSOA VIEW Created
+Completed: 2026-03-02 14:59:31.987
+========================================
+ 
+========================================
+Creating vw_Dim_Provider VIEW
+Started: 2026-03-02 14:59:32.133
+========================================
+View [Analytics].[vw_Dim_Provider] already exists. Dropping...
+[OK] Created view: [Analytics].[vw_Dim_Provider]
+     Source: [Dictionary].[dbo].[Organisation]
+ 
+Validation: Sample providers
+
+(10 rows affected)
+ 
+Provider counts by type:
+
+(4 rows affected)
+========================================
+Creating vw_Dim_Specialty VIEW
+Started: 2026-03-02 14:59:33.057
+========================================
+View [Analytics].[vw_Dim_Specialty] already exists. Dropping...
+[OK] Created view: [Analytics].[vw_Dim_Specialty]
+     Source: [Dictionary].[dbo].[Specialties]
+ 
+Validation: Sample data from view
+
+(5 rows affected)
+ 
+========================================
+vw_Dim_Specialty VIEW Created
+Completed: 2026-03-02 14:59:33.293
+========================================
+ 
+========================================
+Creating tbl_HRG and vw_Dim_HRG
+Started: 2026-03-02 14:59:33.433
+========================================
+View [Analytics].[vw_Dim_HRG] already exists. Dropping...
+Table [Analytics].[tbl_HRG] already exists. Dropping...
+
+(1 row affected)
+[OK] Created view: [Analytics].[vw_Dim_HRG]
+     Source: [Analytics].[tbl_HRG] (SCD Current Rows)
+ 
+Validation: Sample data from view
+
+(1 row affected)
+ 
+========================================
+vw_Dim_HRG VIEW Created
+Completed: 2026-03-02 14:59:33.807
+========================================
+ 
+========================================
+Creating vw_Dim_Age_Band VIEW
+Started: 2026-03-02 14:59:34.083
+========================================
+View [Analytics].[vw_Dim_Age_Band] already exists. Dropping...
+[OK] Created view: [Analytics].[vw_Dim_Age_Band]
+     Source: Inline generated age set (0-100 + Unknown)
+ 
+Validation: Sample age bands
+
+(20 rows affected)
+ 
+Age distribution summary:
+
+(11 rows affected)
+========================================
+Creating vw_Dim_OpPlan_Measure
+Started: 2026-03-02 14:59:34.557
+========================================
+View [Analytics].[vw_Dim_OpPlan_Measure] already exists. Dropping...
+[OK] Created view: [Analytics].[vw_Dim_OpPlan_Measure]
+ 
+========================================
+vw_Dim_OpPlan_Measure VIEW Created
+Completed: 2026-03-02 14:59:34.677
+========================================
+ 
+========================================
+Creating vw_Dim_OpPlan_MeasureSet_Detail
+Started: 2026-03-02 14:59:34.803
+========================================
+View [Analytics].[vw_Dim_OpPlan_MeasureSet_Detail] already exists. Dropping...
+[OK] Created view: [Analytics].[vw_Dim_OpPlan_MeasureSet_Detail]
+    [OK] All Dimensions Created (30 total: 9 tables + 21 views)
+>>> 2.5 Creating Facts + Bridges (DDL)
+========================================
+Creating tbl_Fact_IP_Activity TABLE
+Started: 2026-03-02 14:59:35.263
+========================================
+Table [Analytics].[tbl_Fact_IP_Activity] already exists. Dropping...
+[OK] Created table: [Analytics].[tbl_Fact_IP_Activity]
+     Grain: Inpatient Spell
+ 
+========================================
+tbl_Fact_IP_Activity TABLE Created
+Completed: 2026-03-02 14:59:35.637
+========================================
+ 
+========================================
+Creating tbl_Fact_OP_Activity TABLE
+Started: 2026-03-02 14:59:35.783
+========================================
+Table [Analytics].[tbl_Fact_OP_Activity] already exists. Dropping...
+[OK] Created table: [Analytics].[tbl_Fact_OP_Activity]
+ 
+========================================
+tbl_Fact_OP_Activity TABLE Created
+Completed: 2026-03-02 14:59:36.177
+========================================
+ 
+========================================
+Creating tbl_Fact_AE_Activity TABLE
+Started: 2026-03-02 14:59:36.323
+========================================
+Table [Analytics].[tbl_Fact_AE_Activity] already exists. Dropping...
+[OK] Created table: [Analytics].[tbl_Fact_AE_Activity]
+ 
+========================================
+tbl_Fact_AE_Activity TABLE Created
+Completed: 2026-03-02 14:59:36.623
+========================================
+ 
+========================================
+Creating tbl_Bridge_CF_Segment_Patient_Snapshot TABLE
+Started: 2026-03-02 14:59:36.797
+========================================
+Table [Analytics].[tbl_Bridge_CF_Segment_Patient_Snapshot] already exists. Dropping...
+[OK] Created table: [Analytics].[tbl_Bridge_CF_Segment_Patient_Snapshot]
+ 
+========================================
+tbl_Bridge_CF_Segment_Patient_Snapshot TABLE Created
+Completed: 2026-03-02 14:59:36.993
+========================================
+ 
+========================================
+Creating CF segmentation reference tables
+Started: 2026-03-02 14:59:37.173
+========================================
+
+(9 rows affected)
+[OK] Created: [Analytics].[tbl_Ref_CF_Segment]
+[OK] Created: [Analytics].[tbl_Ref_CF_Segment_Rule_ICD10]
+ 
+========================================
+CF segmentation reference tables created
+Completed: 2026-03-02 14:59:37.517
+========================================
+ 
+========================================
+Creating CF code lookup reference table
+Started: 2026-03-02 14:59:37.677
+========================================
+[INFO] [Analytics].[tbl_Ref_CF_Code_Lookup] already populated. Skipping reload.
+[OK] Created and loaded: [Analytics].[tbl_Ref_CF_Code_Lookup]
+ 
+========================================
+CF code lookup reference table ready
+Completed: 2026-03-02 14:59:37.833
+========================================
+ 
+========================================
+Loading CF segmentation ICD10 rules
+Started: 2026-03-02 14:59:37.997
+========================================
+
+(0 rows affected)
+
+(1425 rows affected)
+
+(1 row affected)
+[OK] CF ICD10 rules loaded: 1
+ 
+========================================
+CF ICD10 rules load completed
+Completed: 2026-03-02 14:59:38.137
+========================================
+ 
+========================================
+Creating tbl_Bridge_Operating_Plan_Deferred TABLE
+Started: 2026-03-02 14:59:38.263
+========================================
+Table [Analytics].[tbl_Bridge_Operating_Plan_Deferred] already exists. Dropping...
+[OK] Created table: [Analytics].[tbl_Bridge_Operating_Plan_Deferred]
+ 
+========================================
+tbl_Bridge_Operating_Plan_Deferred TABLE Created
+Completed: 2026-03-02 14:59:38.397
+========================================
+ 
+========================================
+Creating tbl_Bridge_OpPlan_MeasureSet TABLE
+Started: 2026-03-02 14:59:38.533
+========================================
+Table [Analytics].[tbl_Bridge_OpPlan_MeasureSet] already exists. Dropping...
+[OK] Created table: [Analytics].[tbl_Bridge_OpPlan_MeasureSet]
+ 
+========================================
+tbl_Bridge_OpPlan_MeasureSet TABLE Created
+Completed: 2026-03-02 14:59:38.737
+========================================
+ 
+========================================
+Creating tbl_Bridge_ERF_Activity TABLE
+Started: 2026-03-02 14:59:38.857
+========================================
+Table [Analytics].[tbl_Bridge_ERF_Activity] already exists. Dropping...
+[OK] Created table: [Analytics].[tbl_Bridge_ERF_Activity]
+ 
+========================================
+tbl_Bridge_ERF_Activity TABLE Created
+Completed: 2026-03-02 14:59:39.003
+========================================
+ 
+========================================
+Creating tbl_CAM_Assignment_Active TABLE
+Started: 2026-03-02 14:59:39.153
+========================================
+[OK] Created table: [Analytics].[tbl_CAM_Assignment_Active]
+========================================
+========================================
+Creating tbl_ERF_Repriced_Active TABLE
+Started: 2026-03-02 14:59:39.373
+========================================
+[OK] Created table: [Analytics].[tbl_ERF_Repriced_Active]
+========================================
+========================================
+Creating tbl_OpPlan_Active TABLE
+Started: 2026-03-02 14:59:39.737
+========================================
+[OK] Created table: [Analytics].[tbl_OpPlan_Active]
+========================================
+    [OK] Facts + Bridges Created
+>>> 2.6 Creating Fact Denormalised Views
+========================================
+Creating vw_Fact_IP_Activity_Denormalised VIEW
+Started: 2026-03-02 14:59:40.063
+========================================
+[OK] Created view: [Analytics].[vw_Fact_IP_Activity_Denormalised]
+ 
+========================================
+vw_Fact_IP_Activity_Denormalised VIEW Created
+Completed: 2026-03-02 14:59:40.183
+========================================
+ 
+========================================
+Creating vw_Fact_OP_Activity_Denormalised VIEW
+Started: 2026-03-02 14:59:40.377
+========================================
+[OK] Created view: [Analytics].[vw_Fact_OP_Activity_Denormalised]
+ 
+========================================
+vw_Fact_OP_Activity_Denormalised VIEW Created
+Completed: 2026-03-02 14:59:40.493
+========================================
+ 
+    [OK] Fact Denormalised Views Created
+>>> 3. Creating ETL Procedures
+[OK] Created procedure: [Analytics].[sp_Load_Dim_Commissioner]
+ 
+Usage:
+  EXEC [Analytics].[sp_Load_Dim_Commissioner];
+ 
+Notes:
+  - Uses TRUNCATE/RELOAD pattern (SCD Type 1)
+  - Preserves default members (SK = -1, -2)
+  - Integrates with ETL logging framework
+  - Sub-ICB mapping is placeholder - may need refinement based on actual data
+ 
+[OK] Created Procedure: [Analytics].[sp_Load_Dim_PCN]
+========================================
+Creating sp_Load_Dim_POD
+========================================
+[OK] Created procedure: sp_Load_Dim_POD
+[OK] Created Procedure: [Analytics].[sp_Load_Dim_HRG]
+[OK] Created procedure: [Analytics].[sp_Load_Dim_LSOA]
+[OK] Created procedure: [Analytics].[sp_Load_Dim_CAM_Service_Category]
+[OK] Created procedure: [Analytics].[sp_Load_Dim_CAM_Assignment_Reason]
+    3b. Fact Load Procedures (Create only - do NOT execute yet)
+    3c. Precompute CAM/ERF Procedures (Create only - execute when ready)
+[OK] Created OPTIMIZED procedure: [Analytics].[sp_Load_CAM_Assignment_Active]
+ 
+========================================
+PERFORMANCE OPTIMIZATIONS APPLIED:
+1. Deduplicate FIRST, then join dimensions (save 3 joins on millions of rows)
+2. Clustered indexes on temp tables for faster processing
+3. Removed redundant duplicate check
+4. OPTION (RECOMPILE) for optimal query plans
+5. Batched DELETE for large datasets
+6. TABLOCK hint for faster INSERT
+7. Update statistics after load for optimal query plans
+ 
+Expected speedup: 3-5x faster (28 min ? 6-10 min)
+========================================
+    3c.1 Precompute Operating Plan Active (Create only - execute when ready)
+    3c.2 CF Code Lookup Loader (Create only - execute when ready)
+    3d. Bridge Load Procedures (Create only - execute when ready)
+    3e. Fact Enrichment Procedures (Create only - execute when ready)
+    3f. Patient Segmentation Procedures (Create only - execute when ready)
+    [OK] ETL Procedures Created
+>>> 4. Loading Static Reference Data
+========================================
+Populating Dim_POD with NHS Taxonomy
+Started: 2026-03-02 14:59:47.767
+========================================
+>>> Started Batch ID: 0 (Populate_Dim_POD)
+ Start Time: 2026-03-02 14:59:47.773
+ Lock acquired. Timeout set to 720 minutes.
+ 
+Batch ID: 0
+
+(81 rows affected)
+[OK] Inserted 81 POD codes
+  |- [OK] Analytics.tbl_Dim_POD: Success (81 rows, Static)
+ Released lock for batch: Populate_Dim_POD
+ 
+[OK] ETL SUCCESS - Batch ID: 0
+ Rows: +81 (inserted), ~0 (updated), -0 (deleted)
+  Duration: 0 seconds
+ 
+ 
+========================================
+Dim_POD Population Complete
+Completed: 2026-03-02 14:59:47.813
+========================================
+Table [Analytics].[Ref_Prescribing_Setting] already exists. Dropping...
+[OK] Created table: [Analytics].[Ref_Prescribing_Setting]
+
+(1 row affected)
+
+(1 row affected)
+
+(1 row affected)
+
+(1 row affected)
+
+(1 row affected)
+
+(1 row affected)
+
+(1 row affected)
+
+(1 row affected)
+
+(1 row affected)
+
+(1 row affected)
+
+(1 row affected)
+
+(1 row affected)
+
+(1 row affected)
+
+(1 row affected)
+
+(1 row affected)
+
+(1 row affected)
+
+(1 row affected)
+
+(1 row affected)
+
+(1 row affected)
+
+(1 row affected)
+
+(1 row affected)
+
+(1 row affected)
+
+(1 row affected)
+
+(1 row affected)
+[OK] Inserted 1 prescribing role reference records
+[OK] Created index: IX_Ref_Prescribing_Setting_Code
+    [OK] Static Data Loaded
+>>> 5. Loading Staging Data (Snapshots)
+
+(1000 rows affected)
+
+(1000 rows affected)
+
+(1000 rows affected)
+
+(1000 rows affected)
+
+(1000 rows affected)
+
+(1000 rows affected)
+
+(1000 rows affected)
+
+(1000 rows affected)
+
+(1000 rows affected)
+
+(1000 rows affected)
+
+(1000 rows affected)
+
+(1000 rows affected)
+
+(1000 rows affected)
+
+(1000 rows affected)
+
+(1000 rows affected)
+
+(407 rows affected)
+    [OK] Staging Tables Populated
+>>> 6. Executing Dimension Loads
+ 
+==============================================================================
+DIMENSION ETL ORCHESTRATION
+Started: 2026-03-02 15:00:15.383
+==============================================================================
+ 
+------------------------------------------------------------------------------
+Step 1: Loading Dim_POD (NHS Taxonomy)
+------------------------------------------------------------------------------
+Executing: 05_Populate_Dim_POD.sql
+  [WARNING] Currently manual - convert to sp_Load_Dim_POD for automation
+ 
+Executing: [Analytics].[sp_Load_Dim_POD] (from [Analytics].[Staging_POD])
+>>> Started Batch ID: 1 (Load_Dim_POD)
+ Start Time: 2026-03-02 15:00:15.410
+ Lock acquired. Timeout set to 720 minutes.
+ 
+Batch ID: 1
+[INFO] Starting POD dimension load from staging...
+[OK] POD dimension load complete
+  Rows affected: 0
+  |- [OK] Analytics.tbl_Dim_POD: Success (0 rows, SCD Type 1)
+ Released lock for batch: Load_Dim_POD
+ 
+[OK] ETL SUCCESS - Batch ID: 1
+ Rows: +0 (inserted), ~0 (updated), -0 (deleted)
+  Duration: 0 seconds
+ 
+  Duration: 0 seconds
+ 
+------------------------------------------------------------------------------
+Step 1.5: Loading Dim_HRG
+------------------------------------------------------------------------------
+>>> Started Batch ID: 2 (Load_Dim_HRG)
+ Start Time: 2026-03-02 15:00:15.440
+ Lock acquired. Timeout set to 720 minutes.
+ 
+  |- [FAIL Analytics.tbl_HRG: Failed (0 rows, SCD Type 2 (single r)
+ Released lock for batch: Load_Dim_HRG
+ 
+[FAIL] ETL FAILED - Batch ID: 2
+[WARNING]  Error: No rows found in [Analytics].[tbl_Staging_HRG].
+ 
+[FAIL] Error loading Dim_HRG: No rows found in [Analytics].[tbl_Staging_HRG].
+ 
+  Duration: 0 seconds
+ 
+------------------------------------------------------------------------------
+Step 2: Loading Dim_Commissioner
+------------------------------------------------------------------------------
+>>> Started Batch ID: 3 (Load_Dim_Commissioner)
+ Start Time: 2026-03-02 15:00:15.510
+ Lock acquired. Timeout set to 720 minutes.
+ 
+>>> Starting ETL: Load Dim_Commissioner
+    Start Time: 2026-03-02 15:00:15
+    Source: [Analytics].[tbl_Staging_NHS_ODS_Commissioner]
+    Batch ID: 3
+ 
+    Updated 0 commissioner records
+    Inserted 0 commissioner records
+  |- [OK] Dim_Commissioner: Success (0 rows, Full Refresh)
+ Released lock for batch: Load_Dim_Commissioner
+ 
+[OK] ETL SUCCESS - Batch ID: 3
+ Rows: +0 (inserted), ~0 (updated), -0 (deleted)
+  Duration: 0 seconds
+ 
+ 
+[OK] ETL Complete: Dim_Commissioner loaded successfully from ODS Staging
+     Total commissioners: 0
+  Duration: 0 seconds
+ 
+------------------------------------------------------------------------------
+Step 3: Loading Dim_GPPractice
+------------------------------------------------------------------------------
+========================================
+Starting Dimension Load: Dim_GPPractice
+Timestamp: 2026-03-02 15:00:15.6733333
+========================================
+>>> Started Batch ID: 4 (Load_Dim_GPPractice)
+ Start Time: 2026-03-02 15:00:15.673
+ Lock acquired. Timeout set to 720 minutes.
+ 
+Batch ID: 4
+SCD Type 2 Merge completed successfully.
+  |- [OK] Analytics.tbl_Dim_GPPractice: Success (12407 rows, SCD Type 2)
+ Released lock for batch: Load_Dim_GPPractice
+ 
+[OK] ETL SUCCESS - Batch ID: 4
+ Rows: +6204 (inserted), ~6203 (updated), -0 (deleted)
+  Duration: 15 seconds
+ 
+========================================
+Completed Dimension Load: Dim_GPPractice
+========================================
+  Duration: 15 seconds
+ 
+------------------------------------------------------------------------------
+Step 3.5: Loading Dim_PCN
+------------------------------------------------------------------------------
+========================================
+Starting Dimension Load: Dim_PCN
+Timestamp: 2026-03-02 15:00:30.7266667
+========================================
+>>> Started Batch ID: 5 (Load_Dim_PCN)
+ Start Time: 2026-03-02 15:00:30.730
+ Lock acquired. Timeout set to 720 minutes.
+ 
+Batch ID: 5
+Merge completed successfully.
+  |- [OK] Analytics.tbl_Dim_PCN: Success (1302 rows, SCD Type 1)
+ Released lock for batch: Load_Dim_PCN
+ 
+[OK] ETL SUCCESS - Batch ID: 5
+ Rows: +1 (inserted), ~1301 (updated), -0 (deleted)
+  Duration: 0 seconds
+ 
+========================================
+Completed Dimension Load: Dim_PCN
+Timestamp: 2026-03-02 15:00:30.987
+========================================
+  Duration: 0 seconds
+ 
+------------------------------------------------------------------------------
+Step 4: Loading Dim_LSOA
+------------------------------------------------------------------------------
+>>> Started Batch ID: 6 (Load_Dim_LSOA)
+ Start Time: 2026-03-02 15:00:31.057
+ Lock acquired. Timeout set to 720 minutes.
+ 
+Starting Load: [Analytics].[tbl_Dim_LSOA]
+Rows Deleted: 33755
+Warning: Null value is eliminated by an aggregate or other SET operation.
+Rows Inserted: 33755
+  |- [OK] Analytics.tbl_Dim_LSOA: Success (33755 rows, Full)
+ Released lock for batch: Load_Dim_LSOA
+ 
+[OK] ETL SUCCESS - Batch ID: 6
+ Rows: +33755 (inserted), ~0 (updated), -33755 (deleted)
+  Duration: 18 seconds
+ 
+  Duration: 19 seconds
+ 
+------------------------------------------------------------------------------
+Step 5: Loading Dim_CAM_Service_Category
+------------------------------------------------------------------------------
+>>> Started Batch ID: 7 (Load_Dim_CAM_Service_Category)
+ Start Time: 2026-03-02 15:00:49.570
+ Lock acquired. Timeout set to 720 minutes.
+ 
+Starting Load: [Analytics].[tbl_Dim_CAM_Service_Category]
+Rows Deleted: 0
+Rows Inserted: 9
+  |- [OK] Analytics.tbl_Dim_CAM_Service_Category: Success (9 rows, Full)
+ Released lock for batch: Load_Dim_CAM_Service_Category
+ 
+[OK] ETL SUCCESS - Batch ID: 7
+ Rows: +9 (inserted), ~0 (updated), -0 (deleted)
+  Duration: 0 seconds
+ 
+  Duration: 0 seconds
+ 
+------------------------------------------------------------------------------
+Step 6: Loading Dim_CAM_Assignment_Reason
+------------------------------------------------------------------------------
+>>> Started Batch ID: 8 (Load_Dim_CAM_Assignment_Reason)
+ Start Time: 2026-03-02 15:00:49.700
+ Lock acquired. Timeout set to 720 minutes.
+ 
+Starting Load: [Analytics].[tbl_Dim_CAM_Assignment_Reason]
+Rows Deleted: 0
+Rows Inserted: 871
+  |- [OK] Analytics.tbl_Dim_CAM_Assignment_Reason: Success (871 rows, Full)
+ Released lock for batch: Load_Dim_CAM_Assignment_Reason
+ 
+[OK] ETL SUCCESS - Batch ID: 8
+ Rows: +871 (inserted), ~0 (updated), -0 (deleted)
+  Duration: 0 seconds
+ 
+  Duration: 0 seconds
+ 
+------------------------------------------------------------------------------
+Step 8: Verifying Dim_Measures_Catalogue (VIEW)
+------------------------------------------------------------------------------
+  [OK] Dim_Measures_Catalogue accessible
+  Active measures: 0
+ 
+------------------------------------------------------------------------------
+Step 8.1: Verifying Dim_OpPlan_Measure (VIEW)
+------------------------------------------------------------------------------
+  [OK] Dim_OpPlan_Measure accessible
+  Measures: 382
+ 
+ 
+==============================================================================
+DIMENSION ETL COMPLETE
+Completed: 2026-03-02 15:00:49.730
+==============================================================================
+ 
+Summary:
+  Total Duration: 34 seconds
+  Total Errors: 1
+ 
+[WARNING] ETL completed with 1 error(s)
+Review ETL_Batch_Log for details:
+ 
+ 
+Next Steps:
+  1. Review ETL logs: SELECT * FROM [Analytics].[tbl_ETL_Batch_Log] ORDER BY Start_DateTime DESC
+  2. Schedule this script via SQL Agent for weekly refresh
+  3. Proceed to Week 2: Fact table creation
+ 
+    [OK] All Dimensions Loaded
+ 
+===============================================================================
+DEPLOYMENT & DATA LOAD COMPLETE
+===============================================================================
+
+Completion time: 2026-03-02T15:00:49.8248779+00:00

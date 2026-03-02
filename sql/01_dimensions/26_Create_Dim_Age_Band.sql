@@ -29,61 +29,75 @@ Created:       2026-01-09
 
 Change Log:
   2026-01-09   Sridhar Peddi    Initial creation
+  2026-02-27   Codex            Remove Dictionary dependency; inline age dimension (0-100 + Unknown)
 **/
 CREATE VIEW [Analytics].[vw_Dim_Age_Band] AS
-SELECT 
-    A.[SK_AgeID] AS [Age],
-    
-    -- 5-year age bands (0-4, 5-9, 10-14, etc.)
-    B.[BK_AgeBand] AS [Age_Band_5yr],
-    
-    -- GP-specific banding (varies by practice)
-    C.[BK_AgeBandGP] AS [Age_Band_GP],
-    
-    -- 10-year age bands (0-9, 10-19, 20-29, etc.)
-    CASE 
-        WHEN A.[SK_AgeID] = 255 THEN 'Unknown'
-        WHEN A.[SK_AgeID] < 10 THEN '0-9'
-        WHEN A.[SK_AgeID] < 20 THEN '10-19'
-        WHEN A.[SK_AgeID] < 30 THEN '20-29'
-        WHEN A.[SK_AgeID] < 40 THEN '30-39'
-        WHEN A.[SK_AgeID] < 50 THEN '40-49'
-        WHEN A.[SK_AgeID] < 60 THEN '50-59'
-        WHEN A.[SK_AgeID] < 70 THEN '60-69'
-        WHEN A.[SK_AgeID] < 80 THEN '70-79'
-        WHEN A.[SK_AgeID] < 90 THEN '80-89'
-        ELSE '90+'
+WITH AgeBase AS (
+    SELECT CAST(-1 AS INT) AS Age
+    UNION ALL
+    SELECT TOP (101)
+        ROW_NUMBER() OVER (ORDER BY (SELECT NULL)) - 1 AS Age
+    FROM (VALUES (0),(0),(0),(0),(0),(0),(0),(0),(0),(0),(0)) AS a(n)
+    CROSS JOIN (VALUES (0),(0),(0),(0),(0),(0),(0),(0),(0),(0),(0)) AS b(n)
+)
+SELECT
+    A.Age,
+
+    -- 5-year age bands (capped at 100+)
+    CASE
+        WHEN A.Age = -1 THEN 'Unknown'
+        WHEN A.Age = 100 THEN '100+'
+        ELSE CONCAT(CAST((A.Age / 5) * 5 AS VARCHAR(3)), '-', CAST(((A.Age / 5) * 5) + 4 AS VARCHAR(3)))
+    END AS [Age_Band_5yr],
+
+    -- GP banding aligned to 5-year bands for a self-contained dimension
+    CASE
+        WHEN A.Age = -1 THEN 'Unknown'
+        WHEN A.Age = 100 THEN '100+'
+        ELSE CONCAT(CAST((A.Age / 5) * 5 AS VARCHAR(3)), '-', CAST(((A.Age / 5) * 5) + 4 AS VARCHAR(3)))
+    END AS [Age_Band_GP],
+
+    -- 10-year age bands (capped at 100+)
+    CASE
+        WHEN A.Age = -1 THEN 'Unknown'
+        WHEN A.Age = 100 THEN '100+'
+        WHEN A.Age < 10 THEN '0-9'
+        WHEN A.Age < 20 THEN '10-19'
+        WHEN A.Age < 30 THEN '20-29'
+        WHEN A.Age < 40 THEN '30-39'
+        WHEN A.Age < 50 THEN '40-49'
+        WHEN A.Age < 60 THEN '50-59'
+        WHEN A.Age < 70 THEN '60-69'
+        WHEN A.Age < 80 THEN '70-79'
+        WHEN A.Age < 90 THEN '80-89'
+        ELSE '90-99'
     END AS [Age_Band_10yr],
-    
-    -- Clinical age bands (for frailty/risk analysis)
-    CASE 
-        WHEN A.[SK_AgeID] = 255 THEN 'Unknown'
-        WHEN A.[SK_AgeID] < 18 THEN 'Children (0-17)'
-        WHEN A.[SK_AgeID] < 65 THEN 'Working Age (18-64)'
-        WHEN A.[SK_AgeID] < 75 THEN 'Older Adults (65-74)'
-        WHEN A.[SK_AgeID] < 85 THEN 'Frail Elderly (75-84)'
-        ELSE 'Very Frail (85+)'
-    END AS [Age_Band_Clinical],
-    
+
+    -- Clinical age bands (commented out by request)
+    --CASE
+    --    WHEN A.Age = -1 THEN 'Unknown'
+    --    WHEN A.Age < 18 THEN 'Children (0-17)'
+    --    WHEN A.Age < 65 THEN 'Working Age (18-64)'
+    --    WHEN A.Age < 75 THEN 'Older Adults (65-74)'
+    --    WHEN A.Age < 85 THEN 'Frail Elderly (75-84)'
+    --    ELSE 'Very Frail (85+)'
+    --END AS [Age_Band_Clinical],
+
     -- Simple bands for high-level reporting
-    CASE 
-        WHEN A.[SK_AgeID] = 255 THEN 'Unknown'
-        WHEN A.[SK_AgeID] < 5 THEN '0-4'
-        WHEN A.[SK_AgeID] < 19 THEN '5-18'
-        WHEN A.[SK_AgeID] < 50 THEN '19-49'
-        WHEN A.[SK_AgeID] < 65 THEN '50-64'
-        ELSE '65+'
+    CASE
+        WHEN A.Age = -1 THEN 'Unknown'
+        WHEN A.Age < 5 THEN '0-4'
+        WHEN A.Age < 19 THEN '5-18'
+        WHEN A.Age < 50 THEN '19-49'
+        WHEN A.Age < 65 THEN '50-64'
+        WHEN A.Age < 100 THEN '65-99'
+        ELSE '100+'
     END AS [Age_Band_Summary]
-    
-FROM [Dictionary].[dbo].[Age] A
-LEFT JOIN [Dictionary].[dbo].[AgeBand] B 
-    ON A.[SK_AgeBandID] = B.[SK_AgeBandID]
-LEFT JOIN [Dictionary].[dbo].[AgeBand_GP] C 
-    ON A.[SK_AgeBandGPID] = C.[SK_AgeBandGPID];
+FROM AgeBase A;
 GO
 
 PRINT '[OK] Created view: [Analytics].[vw_Dim_Age_Band]';
-PRINT '     Source: [Dictionary].[dbo].[Age] + AgeBand tables';
+PRINT '     Source: Inline generated age set (0-100 + Unknown)';
 GO
 
 -- Validation: Sample data from view
@@ -93,10 +107,10 @@ SELECT TOP 20
     Age,
     Age_Band_5yr,
     Age_Band_10yr,
-    Age_Band_Clinical,
+    --Age_Band_Clinical,
     Age_Band_Summary
 FROM [Analytics].[vw_Dim_Age_Band]
-WHERE Age < 100
+WHERE Age BETWEEN 0 AND 100
 ORDER BY Age;
 GO
 
@@ -108,7 +122,7 @@ SELECT
     MAX(Age) AS Max_Age,
     COUNT(*) AS Age_Count
 FROM [Analytics].[vw_Dim_Age_Band]
-WHERE Age < 255  -- Exclude 'Unknown'
+WHERE Age BETWEEN 0 AND 100
 GROUP BY Age_Band_10yr
 ORDER BY MIN(Age);
 GO

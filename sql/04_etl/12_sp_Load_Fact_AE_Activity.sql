@@ -121,7 +121,7 @@ BEGIN
             ISNULL(D_Dep.SK_Date, -1) AS [SK_DateDepartureID],
             COALESCE(CAST(SRC.Arrival_Date AS DATE), CAST('1900-01-01' AS DATE)) AS [Arrival_Date],
             TRY_CAST(SRC.EM_Departure_Date AS DATE) AS [Departure_Date],
-            ISNULL(AB.Age, 255) AS [SK_Age_BandID],
+            ISNULL(AB.Age, -1) AS [SK_Age_BandID],
             COALESCE(CAST(G.SK_GenderID AS INT), -1) AS [SK_GenderID],
             COALESCE(CAST(E.SK_EthnicityID AS INT), -1) AS [SK_EthnicityID],
             COALESCE(CAST(Pr.SK_ProviderID AS INT), -1) AS [SK_ProviderID],
@@ -172,7 +172,15 @@ BEGIN
     -- LEFT JOIN [Analytics].[tbl_Dim_Patient] P ON SRC.SK_PatientID = P.SK_PatientID
     LEFT JOIN [Analytics].[vw_Dim_Date] D_Arr ON CAST(SRC.Arrival_Date AS DATE) = D_Arr.FullDate
     LEFT JOIN [Analytics].[vw_Dim_Date] D_Dep ON CAST(SRC.EM_Departure_Date AS DATE) = D_Dep.FullDate
-    LEFT JOIN [Analytics].[vw_Dim_Age_Band] AB ON SRC.Age_At_CDS_Activity_Date = AB.Age
+    LEFT JOIN [Analytics].[vw_Dim_Age_Band] AB
+        ON AB.Age =
+            CASE
+                WHEN TRY_CONVERT(INT, SRC.Age_At_CDS_Activity_Date) BETWEEN 0 AND 99
+                    THEN TRY_CONVERT(INT, SRC.Age_At_CDS_Activity_Date)
+                WHEN TRY_CONVERT(INT, SRC.Age_At_CDS_Activity_Date) BETWEEN 100 AND 110
+                    THEN 100
+                ELSE -1
+            END
     LEFT JOIN [Analytics].[vw_Dim_Gender] G ON SRC.Gender_Code = G.GenderCode
     LEFT JOIN [Analytics].[vw_Dim_Ethnicity] E
         ON E.EthnicityCode =

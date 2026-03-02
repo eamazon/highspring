@@ -147,6 +147,12 @@ BEGIN
                 ON LC.SK_CommissionerID = M.SK_CommissionerID
             LEFT JOIN [Dictionary].[dbo].[PODTeams] AS P 
                 ON M.SK_PODTeamID = P.SK_PODTeamID
+            WHERE
+                (
+                    S.ODS_Role_Code IN ('RO98', 'RO207', 'RO261')
+                    OR S.Commissioner_Code IN ('36L', 'QWE')
+                )
+                AND ISNULL(S.Commissioner_Name, '') NOT LIKE '%HUB%'
         )
         SELECT
             Commissioner_Code,

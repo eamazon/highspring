@@ -111,11 +111,12 @@ BEGIN
         INTO #CAM_Raw
         FROM [Data_Lab_SWL].[CAM].[tbl_CAM_Raw] c
         LEFT JOIN [Analytics].[tbl_Dim_Commissioner] dc
-            ON dc.[Commissioner_Code] = c.[CAM_Commissioner_Code]
+            ON UPPER(LTRIM(RTRIM(dc.[Commissioner_Code]))) = UPPER(LTRIM(RTRIM(c.[CAM_Commissioner_Code])))
+           AND dc.[Is_Current] = 1
         LEFT JOIN [Analytics].[tbl_Dim_CAM_Service_Category] dsc
-            ON dsc.[CAM_Service_Category] = c.[CAM_Service_Category]
+            ON UPPER(LTRIM(RTRIM(dsc.[CAM_Service_Category]))) = UPPER(LTRIM(RTRIM(c.[CAM_Service_Category])))
         LEFT JOIN [Analytics].[tbl_Dim_CAM_Assignment_Reason] dar
-            ON dar.[CAM_Assignment_Code] = c.[ReassignmentID]
+            ON UPPER(LTRIM(RTRIM(dar.[CAM_Assignment_Code]))) = UPPER(LTRIM(RTRIM(CAST(c.[ReassignmentID] AS VARCHAR(50)))))
         WHERE c.[Dataset] IN ('IP', 'OP')
           AND c.[Activity_Date] >= @WindowStartDate
           AND c.[Activity_Date] <= @WindowEndDate

@@ -68,7 +68,13 @@ BEGIN
             SELECT
                 SRC.*,
                 COALESCE(CAST(SRC.Appointment_Date AS DATE), CAST('1900-01-01' AS DATE)) AS Appointment_Date_Cast,
-                TRY_CAST(SRC.Referral_Request_Received_Date AS DATE) AS Referral_Date
+                TRY_CAST(SRC.Referral_Request_Received_Date AS DATE) AS Referral_Date,
+                NULLIF(LTRIM(RTRIM(SRC.dv_LSOA)), '') AS LSOA_Code_Norm,
+                NULLIF(LTRIM(RTRIM(SRC.GP_Practice_Code_Original_Data)), '') AS GP_Practice_Code_Norm,
+                NULLIF(LTRIM(RTRIM(SRC.Treatment_Function_Code)), '') AS Treatment_Function_Code_Norm,
+                NULLIF(LTRIM(RTRIM(SRC.Main_Specialty_Code)), '') AS Main_Specialty_Code_Norm,
+                NULLIF(LTRIM(RTRIM(SRC.Source_of_Referral_for_Outpatients)), '') AS Referral_Source_Code_Norm,
+                TRY_CONVERT(INT, NULLIF(LTRIM(RTRIM(SRC.Source_of_Referral_for_Outpatients)), '')) AS Referral_Source_Code_Int
             FROM [Data_Lab_SWL].[Unified].[tbl_OP_EncounterDenormalised_Active] SRC
             WHERE SRC.Appointment_Date >= @FromDateActual
               AND SRC.Appointment_Date < DATEADD(DAY, 1, @ToDateActual)
@@ -92,6 +98,40 @@ BEGIN
         FROM SourceFiltered;
 
         SELECT @SourceRows = COUNT(*) FROM #SourceFiltered;
+
+        IF OBJECT_ID('tempdb..#Dim_Specialty_Map') IS NOT NULL
+            DROP TABLE #Dim_Specialty_Map;
+        SELECT
+            ds.BK_SpecialtyCode,
+            MIN(ds.SK_SpecialtyID) AS SK_SpecialtyID
+        INTO #Dim_Specialty_Map
+        FROM [Analytics].[vw_Dim_Specialty] ds
+        WHERE ds.BK_SpecialtyCode IS NOT NULL
+        GROUP BY ds.BK_SpecialtyCode;
+        CREATE UNIQUE CLUSTERED INDEX IX_Dim_Specialty_Map_Code ON #Dim_Specialty_Map(BK_SpecialtyCode);
+
+        IF OBJECT_ID('tempdb..#Dim_Referral_Source_Map_Norm') IS NOT NULL
+            DROP TABLE #Dim_Referral_Source_Map_Norm;
+        SELECT
+            MIN(rs.SK_ReferralSourceID) AS SK_ReferralSourceID,
+            NULLIF(LTRIM(RTRIM(rs.Referral_Source_Code)), '') AS Code_Norm
+        INTO #Dim_Referral_Source_Map_Norm
+        FROM [Analytics].[vw_Dim_Referral_Source] rs
+        WHERE NULLIF(LTRIM(RTRIM(rs.Referral_Source_Code)), '') IS NOT NULL
+        GROUP BY
+            NULLIF(LTRIM(RTRIM(rs.Referral_Source_Code)), '');
+        CREATE UNIQUE CLUSTERED INDEX IX_Dim_Referral_Source_Map_Norm ON #Dim_Referral_Source_Map_Norm(Code_Norm);
+
+        IF OBJECT_ID('tempdb..#Dim_Referral_Source_Map_Int') IS NOT NULL
+            DROP TABLE #Dim_Referral_Source_Map_Int;
+        SELECT
+            MIN(rs.SK_ReferralSourceID) AS SK_ReferralSourceID,
+            TRY_CONVERT(INT, NULLIF(LTRIM(RTRIM(rs.Referral_Source_Code)), '')) AS Code_Int
+        INTO #Dim_Referral_Source_Map_Int
+        FROM [Analytics].[vw_Dim_Referral_Source] rs
+        WHERE TRY_CONVERT(INT, NULLIF(LTRIM(RTRIM(rs.Referral_Source_Code)), '')) IS NOT NULL
+        GROUP BY TRY_CONVERT(INT, NULLIF(LTRIM(RTRIM(rs.Referral_Source_Code)), ''));
+        CREATE UNIQUE CLUSTERED INDEX IX_Dim_Referral_Source_Map_Int ON #Dim_Referral_Source_Map_Int(Code_Int);
 
         SELECT @RowsDeleted = COUNT(*)
         FROM [Analytics].[tbl_Fact_OP_Activity] f
@@ -161,14 +201,14 @@ BEGIN
             ISNULL(D_Ref.SK_Date, -1) AS [SK_DateReferralID],
             SRC.Appointment_Date_Cast AS [Appointment_Date],
             SRC.Referral_Date AS [Referral_Date],
-            ISNULL(AB.Age, 255) AS [SK_Age_BandID],
+            ISNULL(AB.Age, -1) AS [SK_Age_BandID],
             COALESCE(CAST(G.SK_GenderID AS INT), -1) AS [SK_GenderID],
             COALESCE(CAST(E.SK_EthnicityID AS INT), -1) AS [SK_EthnicityID],
             COALESCE(CAST(Pr.SK_ProviderID AS INT), -1) AS [SK_ProviderID],
             COALESCE(CAST(LSOA.SK_LSOA_ID AS INT), -1) AS [SK_LSOA_ID],
             NULLIF(LTRIM(RTRIM(SRC.dv_LSOA)), '') AS [LSOA_Code],
             
-            COALESCE(CAST(S.SK_SpecialtyID AS INT), -1) AS [SK_SpecialtyID],
+            COALESCE(CAST(SpecTfc.SK_SpecialtyID AS INT), CAST(SpecMain.SK_SpecialtyID AS INT), -1) AS [SK_SpecialtyID],
             COALESCE(CAST(HRG.SK_HRGID AS INT), -1) AS [SK_HRG_ID],
             NULL AS [SK_ProcedureID],
             
@@ -183,14 +223,14 @@ BEGIN
             COALESCE(CAST(AttTyp.SK_AttendanceTypeID AS INT), -1) AS [SK_Attendance_TypeID],
             COALESCE(CAST(DNA.SK_DNAIndicatorID AS INT), -1) AS [SK_DNA_IndicatorID],
             COALESCE(CAST(Prio.SK_PriorityTypeID AS INT), -1) AS [SK_Priority_TypeID],
-            COALESCE(CAST(RefSrc.SK_ReferralSourceID AS INT), -1) AS [SK_Referral_SourceID],
+            COALESCE(CAST(RefSrcNorm.SK_ReferralSourceID AS INT), CAST(RefSrcInt.SK_ReferralSourceID AS INT), -1) AS [SK_Referral_SourceID],
 
             -- Measures
             1 AS [Appointments],
             TRY_CAST(SRC.Pbr_Final_Tariff AS DECIMAL(12,2)) AS [Total_Cost],
             CASE WHEN SRC.Attended_Or_Did_Not_Attend IN ('3', 'DNA') THEN 1 ELSE 0 END AS [DNA_Count],
             CASE
-                WHEN TRY_CONVERT(INT, NULLIF(LTRIM(RTRIM(SRC.First_Attendance)), '')) = 1 THEN 1
+                WHEN TRY_CONVERT(INT, NULLIF(LTRIM(RTRIM(SRC.First_Attendance)), '')) IN (1, 3) THEN 1
                 ELSE 0
             END AS [Is_FirstAttendance],
             
@@ -221,7 +261,15 @@ BEGIN
         -- LEFT JOIN [Analytics].[tbl_Dim_Patient] P ON SRC.SK_PatientID = P.SK_PatientID
         LEFT JOIN [Analytics].[vw_Dim_Date] D_Appt ON CAST(SRC.Appointment_Date AS DATE) = D_Appt.FullDate
         LEFT JOIN [Analytics].[vw_Dim_Date] D_Ref ON CAST(SRC.Referral_Request_Received_Date AS DATE) = D_Ref.FullDate
-        LEFT JOIN [Analytics].[vw_Dim_Age_Band] AB ON SRC.Age = AB.Age
+        LEFT JOIN [Analytics].[vw_Dim_Age_Band] AB
+            ON AB.Age =
+                CASE
+                    WHEN TRY_CONVERT(INT, SRC.Age) BETWEEN 0 AND 99
+                        THEN TRY_CONVERT(INT, SRC.Age)
+                    WHEN TRY_CONVERT(INT, SRC.Age) BETWEEN 100 AND 110
+                        THEN 100
+                    ELSE -1
+                END
         LEFT JOIN [Analytics].[vw_Dim_Gender] G ON SRC.Gender_Code = G.GenderCode
         LEFT JOIN [Analytics].[vw_Dim_Ethnicity] E
             ON E.EthnicityCode =
@@ -238,9 +286,11 @@ BEGIN
                     ELSE SRC.Organisation_Code_Code_of_Provider
                 END
         LEFT JOIN [Analytics].[vw_Dim_LSOA] LSOA
-            ON LSOA.LSOA_Code = NULLIF(LTRIM(RTRIM(SRC.dv_LSOA)), '')
-        
-        LEFT JOIN [Analytics].[vw_Dim_Specialty] S ON SRC.Treatment_Function_Code = S.BK_SpecialtyCode
+            ON LSOA.LSOA_Code = SRC.LSOA_Code_Norm
+        LEFT JOIN #Dim_Specialty_Map SpecTfc
+            ON SpecTfc.BK_SpecialtyCode = SRC.Treatment_Function_Code_Norm
+        LEFT JOIN #Dim_Specialty_Map SpecMain
+            ON SpecMain.BK_SpecialtyCode = SRC.Main_Specialty_Code_Norm
         LEFT JOIN [Analytics].[vw_Dim_HRG] HRG ON SRC.Core_HRG = HRG.HRGCode
         
         LEFT JOIN [Analytics].[tbl_Dim_Commissioner] Comm
@@ -251,14 +301,16 @@ BEGIN
                     ELSE SRC.Organisation_Code_Code_of_Commissioner
                 END
         LEFT JOIN [Analytics].[tbl_Dim_GPPractice] GP
-            ON SRC.GP_Practice_Code_Original_Data = GP.GPPractice_Code
+            ON GP.GPPractice_Code = SRC.GP_Practice_Code_Norm
            AND GP.Is_Current = 1
         LEFT JOIN [Analytics].[tbl_Dim_PCN] PCN
-            ON GP.PCN_Code = PCN.PCN_Code
+            ON PCN.PCN_Code = GP.PCN_Code
            AND PCN.Is_Current = 1
 
         -- POD mapping (derived via OP.fn_GetPODType for materialised source tables)
-        LEFT JOIN [Analytics].[tbl_Dim_POD] POD ON PodCalc.POD_Code = POD.POD_Code
+        LEFT JOIN [Analytics].[tbl_Dim_POD] POD
+            ON POD.POD_Code = UPPER(PodCalc.POD_Code)
+           AND POD.POD_Dataset = 'OP'
 
         -- OP Specific Joins
         LEFT JOIN [Analytics].[vw_Dim_Attendance_Outcome] AttOut
@@ -276,9 +328,10 @@ BEGIN
         LEFT JOIN [Analytics].[vw_Dim_Priority_Type] Prio
             ON TRY_CONVERT(INT, NULLIF(LTRIM(RTRIM(SRC.Priority_Type)), '')) =
                TRY_CONVERT(INT, Prio.Priority_Type_Code)
-        LEFT JOIN [Analytics].[vw_Dim_Referral_Source] RefSrc
-            ON TRY_CONVERT(INT, NULLIF(LTRIM(RTRIM(SRC.Source_of_Referral_for_Outpatients)), '')) =
-               TRY_CONVERT(INT, RefSrc.Referral_Source_Code)
+        LEFT JOIN #Dim_Referral_Source_Map_Norm RefSrcNorm
+            ON RefSrcNorm.Code_Norm = SRC.Referral_Source_Code_Norm
+        LEFT JOIN #Dim_Referral_Source_Map_Int RefSrcInt
+            ON RefSrcInt.Code_Int = SRC.Referral_Source_Code_Int
 
         WHERE NOT EXISTS (
             SELECT 1

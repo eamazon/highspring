@@ -16,9 +16,6 @@ TIMESTAMP = datetime.now().strftime('%Y%m%d_%H%M%S')
 # URL_GP_PRACTICES (epraccur) = GP Practices / Prescribing Cost Centres
 URL_EPRACCUR = "https://www.odsdatasearchandexport.nhs.uk/api/getReport?report=epraccur"
 
-# URL_PCN (epcn) = Primary Care Networks
-URL_EPCN = "https://www.odsdatasearchandexport.nhs.uk/api/getReport?report=epcn"
-
 # URL_MEMBERSHIPS (epcncorepartnerdetails) = PCN Core Partner Details (Links GPs to PCNs)
 URL_EPCN_MEMBERS = "https://www.odsdatasearchandexport.nhs.uk/api/getReport?report=epcncorepartnerdetails"
 
@@ -79,11 +76,21 @@ def save_output(df: pd.DataFrame, prefix: str):
     df.to_csv(filepath, index=False)
     print(f"Saved {prefix} to {filepath}")
 
+def normalize_status(status_code: str) -> str:
+    """Normalize ODS status codes to Active/Inactive for the staging table."""
+    code = (status_code or '').strip().upper()
+    if code in ('A', 'ACTIVE'):
+        return 'Active'
+    if code in ('C', 'CLOSED', 'I', 'INACTIVE', 'D', 'DORMANT'):
+        return 'Inactive'
+    return 'Inactive'
+
 # ---------------------------------------------------------
 # Main Logic
 # ---------------------------------------------------------
 def main():
     print("Starting ODS CSV Fetch Pipeline (Pandas)...")
+    print("Source pattern: epraccur (master GP) + epcncorepartnerdetails (GP->PCN/Sub-ICB)")
     
     # -------------------------------------------------------------------------
     # 1. Fetch PCN Memberships (epcncorepartnerdetails) - For PCN/ICB Info
@@ -191,25 +198,22 @@ def main():
             if pd.isna(val) or val == 'nan': return "NULL"
             return f"'{str(val).replace("'", "''")}'"
             
-        # Commissioner Logic: Use PCN Membership info if available (contains Name), else epraccur code
+        # Sub-ICB/Commissioner logic:
+        # 1) Prefer membership feed (has Sub-ICB code/name)
+        # 2) Fall back to epraccur commissioner code when membership is absent
         comm_code = row.get('Practice Parent Sub ICB Location Code')
         if pd.isna(comm_code):
              comm_code = row.get('Commissioner') # Fallback to epraccur
 
         comm_name = row.get('Practice Parent Sub ICB Location Name') # Only in Memberships
+        icb_code = row.get('High Level Health Geography')  # epraccur col 4
         
         # Helper for extracting codes
         # Col 25 = Prescribing Setting, Col 13 = Organisation Sub-Type
         presc_setting = row.get('Prescribing Setting')
         org_sub_type = row.get('Organisation Sub-Type Code')
 
-        status_code = (row.get('Status Code') or '').strip().upper()
-        if status_code in ('A', 'ACTIVE'):
-            status = 'Active'
-        elif status_code in ('C', 'CLOSED', 'I', 'INACTIVE'):
-            status = 'Inactive'
-        else:
-            status = 'Inactive'
+        status = normalize_status(row.get('Status Code'))
 
         row_vals = (
             f"({fmt(row['Organisation Code'])}, {fmt(row['Name'])}, "
@@ -218,7 +222,7 @@ def main():
             f"{fmt(row.get('Address Line 1'))}, {fmt(row.get('Address Line 2'))}, {fmt(row.get('Address Line 3'))}, "
             f"{fmt(row.get('Address Line 4'))}, {fmt(row.get('Postcode'))}, {fmt(row.get('Contact Telephone Number'))}, "
             f"{fmt(row.get('PCN Code'))}, {fmt(row.get('PCN Name'))}, {fmt(comm_code)}, {fmt(comm_name)}, "
-            f"NULL, NULL, "
+            f"{fmt(icb_code)}, NULL, "
             f"{fmt(row.get('Open Date'))}, {fmt(row.get('Close Date'))})"
         )
         rows.append(row_vals)
@@ -264,6 +268,15 @@ def main():
     with open(latest_file, 'w') as f:
         f.write(sql_content)
     print(f"Saved latest to: {latest_file}")
+
+    # Quick completeness summary to validate staging readiness
+    missing_pcn = int(df_merged['PCN Code'].isna().sum()) if 'PCN Code' in df_merged.columns else 0
+    missing_subicb = int(df_merged['Practice Parent Sub ICB Location Code'].isna().sum()) if 'Practice Parent Sub ICB Location Code' in df_merged.columns else 0
+    missing_icb = int(df_merged['High Level Health Geography'].isna().sum()) if 'High Level Health Geography' in df_merged.columns else 0
+    print("Staging completeness summary:")
+    print(f"  Missing PCN_Code: {missing_pcn}")
+    print(f"  Missing SubICB (membership): {missing_subicb}")
+    print(f"  Missing ICB_Code (epraccur): {missing_icb}")
 
     
 if __name__ == "__main__":

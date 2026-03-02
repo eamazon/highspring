@@ -67,6 +67,44 @@ PRINT '  Duration: ' + CAST(@StepDuration AS VARCHAR) + ' seconds';
 PRINT '';
 
 -------------------------------------------------------------------------------
+-- Step 1.5: Load Dim_HRG (SCD from staged NHS HRG releases)
+-------------------------------------------------------------------------------
+
+PRINT '------------------------------------------------------------------------------';
+PRINT 'Step 1.5: Loading Dim_HRG';
+PRINT '------------------------------------------------------------------------------';
+
+SET @StepStartTime = GETDATE();
+
+BEGIN TRY
+    IF OBJECT_ID('[Analytics].[sp_Load_Dim_HRG]', 'P') IS NOT NULL
+       AND OBJECT_ID('[Analytics].[tbl_Staging_HRG]', 'U') IS NOT NULL
+    BEGIN
+        IF EXISTS (SELECT 1 FROM [Analytics].[tbl_Staging_HRG])
+        BEGIN
+            EXEC [Analytics].[sp_Load_Dim_HRG];
+        END
+        ELSE
+        BEGIN
+            PRINT '[WARNING] Skipping sp_Load_Dim_HRG - [Analytics].[tbl_Staging_HRG] is empty.';
+        END
+    END
+    ELSE
+    BEGIN
+        PRINT '[INFO] Skipping sp_Load_Dim_HRG - procedure and/or [Analytics].[tbl_Staging_HRG] not present.';
+    END
+END TRY
+BEGIN CATCH
+    SET @TotalErrors = @TotalErrors + 1;
+    PRINT '[FAIL] Error loading Dim_HRG: ' + ERROR_MESSAGE();
+    PRINT '';
+END CATCH
+
+SET @StepDuration = DATEDIFF(SECOND, @StepStartTime, GETDATE());
+PRINT '  Duration: ' + CAST(@StepDuration AS VARCHAR) + ' seconds';
+PRINT '';
+
+-------------------------------------------------------------------------------
 -- Step 2: Load Dim_Commissioner
 -------------------------------------------------------------------------------
 

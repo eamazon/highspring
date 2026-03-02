@@ -21,6 +21,10 @@ Created:       2026-01-02
 Change Log:
   2026-01-02  Sridhar Peddi    Initial creation
   2026-01-12  Sridhar Peddi    Add ETL batch/table logging
+  2026-03-02  Codex            Resolve ICB/Sub-ICB via Commissioner/PCN lookup and broaden SCD change detection
+  2026-03-02  Codex            Restrict to current GP practices (Status=Active, Org_Sub_Type=B)
+  2026-03-02  Codex            Enforce Prescribing_Setting=RO76 for real GP practices
+  2026-03-02  Codex            Auto-seed missing default members (-1 to -4) when table pre-exists
 **/
 CREATE PROCEDURE [Analytics].[sp_Load_Dim_GPPractice]
 AS
@@ -50,7 +54,169 @@ BEGIN
 
         PRINT 'Batch ID: ' + CAST(@BatchID AS VARCHAR);
 
+        -- Ensure mandatory default members exist even when dimension table was
+        -- created historically and skipped initial default inserts.
+        IF (SELECT COUNT(*) FROM [Analytics].[tbl_Dim_GPPractice] WHERE SK_GPPracticeID IN (-1, -2, -3, -4)) < 4
+        BEGIN
+            SET IDENTITY_INSERT [Analytics].[tbl_Dim_GPPractice] ON;
+
+            IF NOT EXISTS (SELECT 1 FROM [Analytics].[tbl_Dim_GPPractice] WHERE SK_GPPracticeID = -1 OR GPPractice_Code = 'UNKNOWN')
+            BEGIN
+                INSERT INTO [Analytics].[tbl_Dim_GPPractice]
+                    (SK_GPPracticeID, GPPractice_Code, GPPractice_Name, Practice_Category,
+                     Address_Line1, Postcode, Contact_Telephone,
+                     PCN_Code, PCN_Name, SubICB_Code, SubICB_Name, ICB_Code, ICB_Name,
+                     ICB_Grouping, ICB_Grouping_Sort, Registration_Status, Is_Active, Valid_From, Valid_To, Is_Current)
+                VALUES
+                    (-1, 'UNKNOWN', 'Unknown GP Practice', 'Unknown',
+                     'Unknown Address', 'UNK', 'Unknown',
+                     'UNKNOWN', 'Unknown PCN', 'UNKNOWN', 'Unknown Sub-ICB', 'UNK', 'Unknown ICB',
+                     'Other ICB', 3, 'Non-SWL', 1, '1900-01-01', '9999-12-31', 1);
+            END
+
+            IF NOT EXISTS (SELECT 1 FROM [Analytics].[tbl_Dim_GPPractice] WHERE SK_GPPracticeID = -2 OR GPPractice_Code = 'V81997')
+            BEGIN
+                INSERT INTO [Analytics].[tbl_Dim_GPPractice]
+                    (SK_GPPracticeID, GPPractice_Code, GPPractice_Name, Practice_Category,
+                     Address_Line1, Postcode, Contact_Telephone,
+                     PCN_Code, PCN_Name, SubICB_Code, SubICB_Name, ICB_Code, ICB_Name,
+                     ICB_Grouping, ICB_Grouping_Sort, Registration_Status, Is_Active, Valid_From, Valid_To, Is_Current)
+                VALUES
+                    (-2, 'V81997', 'No Registered GP Practice', 'No Registered GP',
+                     'Not Applicable', 'N/A', 'N/A',
+                     'UNK', 'No PCN', 'UNK', 'No Sub-ICB', 'UNK', 'No ICB',
+                     'Other ICB', 3, 'Non-SWL', 1, '1900-01-01', '9999-12-31', 1);
+            END
+
+            IF NOT EXISTS (SELECT 1 FROM [Analytics].[tbl_Dim_GPPractice] WHERE SK_GPPracticeID = -3 OR GPPractice_Code = 'V81998')
+            BEGIN
+                INSERT INTO [Analytics].[tbl_Dim_GPPractice]
+                    (SK_GPPracticeID, GPPractice_Code, GPPractice_Name, Practice_Category,
+                     Address_Line1, Postcode, Contact_Telephone,
+                     PCN_Code, PCN_Name, SubICB_Code, SubICB_Name, ICB_Code, ICB_Name,
+                     ICB_Grouping, ICB_Grouping_Sort, Registration_Status, Is_Active, Valid_From, Valid_To, Is_Current)
+                VALUES
+                    (-3, 'V81998', 'GP Practice Not Known', 'No Registered GP',
+                     'Not Applicable', 'N/A', 'N/A',
+                     'UNK', 'No PCN', 'UNK', 'No Sub-ICB', 'UNK', 'No ICB',
+                     'Other ICB', 3, 'Non-SWL', 1, '1900-01-01', '9999-12-31', 1);
+            END
+
+            IF NOT EXISTS (SELECT 1 FROM [Analytics].[tbl_Dim_GPPractice] WHERE SK_GPPracticeID = -4 OR GPPractice_Code = 'V81999')
+            BEGIN
+                INSERT INTO [Analytics].[tbl_Dim_GPPractice]
+                    (SK_GPPracticeID, GPPractice_Code, GPPractice_Name, Practice_Category,
+                     Address_Line1, Postcode, Contact_Telephone,
+                     PCN_Code, PCN_Name, SubICB_Code, SubICB_Name, ICB_Code, ICB_Name,
+                     ICB_Grouping, ICB_Grouping_Sort, Registration_Status, Is_Active, Valid_From, Valid_To, Is_Current)
+                VALUES
+                    (-4, 'V81999', 'No Fixed Abode', 'No Registered GP',
+                     'Not Applicable', 'N/A', 'N/A',
+                     'UNK', 'No PCN', 'UNK', 'No Sub-ICB', 'UNK', 'No ICB',
+                     'Other ICB', 3, 'Non-SWL', 1, '1900-01-01', '9999-12-31', 1);
+            END
+
+            SET IDENTITY_INSERT [Analytics].[tbl_Dim_GPPractice] OFF;
+        END
+
         SELECT @PreRowCount = COUNT(*) FROM [Analytics].[tbl_Dim_GPPractice];
+
+        IF OBJECT_ID('tempdb..#SourceResolved') IS NOT NULL
+            DROP TABLE #SourceResolved;
+
+        ;WITH SourceResolved AS (
+            SELECT
+                Stg.Practice_Code,
+                Stg.Practice_Name,
+                Stg.Status,
+                Stg.Prescribing_Setting,
+                Stg.Org_Sub_Type,
+                Stg.Address_Line1,
+                Stg.Address_Line2,
+                Stg.Address_Line3,
+                Stg.Town,
+                Stg.Postcode,
+                Stg.Contact_Telephone,
+                Stg.Open_Date,
+                Stg.Close_Date,
+                ISNULL(NULLIF(Stg.PCN_Code, ''), 'UNK') AS Resolved_PCN_Code,
+                ISNULL(NULLIF(Stg.PCN_Name, ''), 'Unknown PCN') AS Resolved_PCN_Name,
+                COALESCE(
+                    NULLIF(Pcn.Sub_ICB_Code, ''),
+                    CASE WHEN ISNULL(CommFromStg.Commissioner_Type, '') <> 'ICB' THEN NULLIF(Stg.Commissioner_Code, '') END,
+                    CASE WHEN ISNULL(CommFromStg.Commissioner_Type, '') <> 'ICB' THEN NULLIF(CommFromStg.SubICB_Code, '') END,
+                    'UNK'
+                ) AS Resolved_SubICB_Code,
+                COALESCE(
+                    NULLIF(Pcn.Sub_ICB_Name, ''),
+                    CASE WHEN ISNULL(CommFromStg.Commissioner_Type, '') <> 'ICB' THEN NULLIF(Stg.Commissioner_Name, '') END,
+                    CASE WHEN ISNULL(CommFromStg.Commissioner_Type, '') <> 'ICB' THEN NULLIF(CommFromStg.SubICB_Name, '') END,
+                    'Unknown Sub-ICB'
+                ) AS Resolved_SubICB_Name,
+                COALESCE(
+                    NULLIF(Stg.ICB_Code, ''),
+                    CASE WHEN CommFromStg.Commissioner_Type = 'ICB' THEN NULLIF(Stg.Commissioner_Code, '') END,
+                    NULLIF(CommFromStg.ICB_Code, ''),
+                    NULLIF(CommFromPcn.ICB_Code, ''),
+                    'UNK'
+                ) AS Resolved_ICB_Code,
+                COALESCE(
+                    NULLIF(Stg.ICB_Name, ''),
+                    CASE WHEN CommFromStg.Commissioner_Type = 'ICB' THEN NULLIF(Stg.Commissioner_Name, '') END,
+                    NULLIF(CommFromStg.ICB_Name, ''),
+                    NULLIF(CommFromPcn.ICB_Name, ''),
+                    'Unknown ICB'
+                ) AS Resolved_ICB_Name
+            FROM [Analytics].[tbl_Staging_GP_Practice] Stg
+            LEFT JOIN [Analytics].[tbl_Staging_PCN] Pcn
+                ON Stg.PCN_Code = Pcn.PCN_Code
+            LEFT JOIN [Analytics].[tbl_Dim_Commissioner] CommFromStg
+                ON CommFromStg.Commissioner_Code = Stg.Commissioner_Code
+            LEFT JOIN [Analytics].[tbl_Dim_Commissioner] CommFromPcn
+                ON CommFromPcn.Commissioner_Code = Pcn.Sub_ICB_Code
+            WHERE
+                ISNULL(Stg.Status, '') = 'Active'
+                AND ISNULL(Stg.Org_Sub_Type, '') = 'B'
+                AND ISNULL(Stg.Prescribing_Setting, '') = 'RO76'
+        )
+        SELECT
+            Practice_Code,
+            Practice_Name,
+            Status,
+            Prescribing_Setting,
+            Org_Sub_Type,
+            Address_Line1,
+            Address_Line2,
+            Address_Line3,
+            Town,
+            Postcode,
+            Contact_Telephone,
+            Open_Date,
+            Close_Date,
+            Resolved_PCN_Code,
+            Resolved_PCN_Name,
+            Resolved_SubICB_Code,
+            Resolved_SubICB_Name,
+            Resolved_ICB_Code,
+            Resolved_ICB_Name
+        INTO #SourceResolved
+        FROM SourceResolved;
+
+        -- Expire current rows that are no longer in the eligible source
+        -- (not Active GP practices anymore or no longer present in staging).
+        UPDATE Dim
+        SET
+            Valid_To = DATEADD(DAY, -1, CAST(GETDATE() AS DATE)),
+            Is_Current = 0,
+            Updated_Date = GETDATE(),
+            Updated_By = SUSER_SNAME()
+        FROM [Analytics].[tbl_Dim_GPPractice] Dim
+        LEFT JOIN #SourceResolved Src
+            ON Dim.GPPractice_Code = Src.Practice_Code
+        WHERE
+            Dim.Is_Current = 1
+            AND Dim.SK_GPPracticeID > 0
+            AND Src.Practice_Code IS NULL;
 
         -- 1. Identify Changes (New Records + Changed Records)
         -- Uses "Type 2" logic: If attribute changes, expire old record, insert new one.
@@ -63,19 +229,29 @@ BEGIN
             Updated_Date = GETDATE(),
             Updated_By = SUSER_SNAME()
         FROM [Analytics].[tbl_Dim_GPPractice] Dim
-        JOIN [Analytics].[tbl_Staging_GP_Practice] Stg
-            ON Dim.GPPractice_Code = Stg.Practice_Code
+        JOIN #SourceResolved Src
+            ON Dim.GPPractice_Code = Src.Practice_Code
         WHERE Dim.Is_Current = 1
           AND (
-              ISNULL(Dim.GPPractice_Name, '') <> ISNULL(Stg.Practice_Name, '') OR
-              ISNULL(Dim.Practice_Category, '') <> ISNULL(Stg.Status, '') OR
-              ISNULL(Dim.PCN_Code, '') <> ISNULL(Stg.PCN_Code, 'UNK') OR
-              ISNULL(Dim.SubICB_Code, '') <> ISNULL(Stg.Commissioner_Code, 'UNK') OR -- Map Commissioner -> SubICB
-              ISNULL(Dim.Address_Line1, '') <> ISNULL(Stg.Address_Line1, '') OR
-              ISNULL(Dim.Postcode, '') <> ISNULL(Stg.Postcode, '') OR
-              ISNULL(Dim.Contact_Telephone, '') <> ISNULL(Stg.Contact_Telephone, '') OR
-              ISNULL(Dim.Prescribing_Setting, '') <> ISNULL(Stg.Prescribing_Setting, '') OR
-              ISNULL(Dim.Org_Sub_Type, '') <> ISNULL(Stg.Org_Sub_Type, '')
+              ISNULL(Dim.GPPractice_Name, '') <> ISNULL(Src.Practice_Name, '') OR
+              ISNULL(Dim.Practice_Category, '') <> ISNULL(Src.Status, '') OR
+              ISNULL(Dim.PCN_Code, '') <> ISNULL(Src.Resolved_PCN_Code, 'UNK') OR
+              ISNULL(Dim.PCN_Name, '') <> ISNULL(Src.Resolved_PCN_Name, 'Unknown PCN') OR
+              ISNULL(Dim.SubICB_Code, '') <> ISNULL(Src.Resolved_SubICB_Code, 'UNK') OR
+              ISNULL(Dim.SubICB_Name, '') <> ISNULL(Src.Resolved_SubICB_Name, 'Unknown Sub-ICB') OR
+              ISNULL(Dim.ICB_Code, '') <> ISNULL(Src.Resolved_ICB_Code, 'UNK') OR
+              ISNULL(Dim.ICB_Name, '') <> ISNULL(Src.Resolved_ICB_Name, 'Unknown ICB') OR
+              ISNULL(Dim.Address_Line1, '') <> ISNULL(Src.Address_Line1, '') OR
+              ISNULL(Dim.Address_Line2, '') <> ISNULL(Src.Address_Line2, '') OR
+              ISNULL(Dim.Address_Line3, '') <> ISNULL(Src.Address_Line3, '') OR
+              ISNULL(Dim.Town, '') <> ISNULL(Src.Town, '') OR
+              ISNULL(Dim.Postcode, '') <> ISNULL(Src.Postcode, '') OR
+              ISNULL(Dim.Contact_Telephone, '') <> ISNULL(Src.Contact_Telephone, '') OR
+              ISNULL(Dim.Prescribing_Setting, '') <> ISNULL(Src.Prescribing_Setting, '') OR
+              ISNULL(Dim.Org_Sub_Type, '') <> ISNULL(Src.Org_Sub_Type, '') OR
+              ISNULL(Dim.Effective_From_Date, '1900-01-01') <> ISNULL(Src.Open_Date, '1900-01-01') OR
+              ISNULL(Dim.Effective_To_Date, '9999-12-31') <> ISNULL(Src.Close_Date, '9999-12-31') OR
+              ISNULL(Dim.Is_Active, 0) <> CASE WHEN Src.Status = 'Active' THEN 1 ELSE 0 END
           );
 
         SET @RowsUpdated = @@ROWCOUNT;
@@ -113,44 +289,44 @@ BEGIN
             Created_Date
         )
         SELECT 
-            Stg.Practice_Code,
-            Stg.Practice_Name,
-            Stg.Status,
-            Stg.Prescribing_Setting,
-            Stg.Org_Sub_Type,
-            Stg.Address_Line1,
-            Stg.Address_Line2,
-            Stg.Address_Line3,
-            Stg.Town,
-            Stg.Postcode,
-            Stg.Contact_Telephone,
-            ISNULL(Stg.PCN_Code, 'UNK'),
-            ISNULL(Stg.PCN_Name, 'Unknown PCN'),
-            ISNULL(Stg.Commissioner_Code, 'UNK'), -- Commissioner is the Sub-ICB  
-            ISNULL(Stg.Commissioner_Name, 'Unknown Sub-ICB'),
-            ISNULL(Stg.ICB_Code, 'UNK'),           -- ICB_Code from epraccur Column 4!
-            ISNULL(Stg.ICB_Name, 'Unknown ICB'),   -- ICB_Name (may need enrichment)
+            Src.Practice_Code,
+            Src.Practice_Name,
+            Src.Status,
+            Src.Prescribing_Setting,
+            Src.Org_Sub_Type,
+            Src.Address_Line1,
+            Src.Address_Line2,
+            Src.Address_Line3,
+            Src.Town,
+            Src.Postcode,
+            Src.Contact_Telephone,
+            ISNULL(Src.Resolved_PCN_Code, 'UNK'),
+            ISNULL(Src.Resolved_PCN_Name, 'Unknown PCN'),
+            ISNULL(Src.Resolved_SubICB_Code, 'UNK'),
+            ISNULL(Src.Resolved_SubICB_Name, 'Unknown Sub-ICB'),
+            ISNULL(Src.Resolved_ICB_Code, 'UNK'),
+            ISNULL(Src.Resolved_ICB_Name, 'Unknown ICB'),
             CASE 
-                WHEN Stg.ICB_Code = 'QWE' THEN 'SWL ICB'  -- QWE is the actual SWL ICB code
+                WHEN Src.Resolved_ICB_Code = 'QWE' THEN 'SWL ICB'  -- QWE is the actual SWL ICB code
                 ELSE 'Other ICB'
             END,                                   -- ICB_Grouping
             CASE 
-                WHEN Stg.ICB_Code = 'QWE' THEN 1
+                WHEN Src.Resolved_ICB_Code = 'QWE' THEN 1
                 ELSE 3
             END,                                   -- ICB_Grouping_Sort
-            CASE WHEN Stg.ICB_Code = 'QWE' THEN 'SWL' ELSE 'Non-SWL' END,
-            CASE WHEN Stg.Status = 'Active' THEN 1 ELSE 0 END,
-            Stg.Open_Date,
-            Stg.Close_Date,
-            ISNULL(Stg.Open_Date, '1900-01-01'),  -- Valid_From
+            CASE WHEN Src.Resolved_ICB_Code = 'QWE' THEN 'SWL' ELSE 'Non-SWL' END,
+            CASE WHEN Src.Status = 'Active' THEN 1 ELSE 0 END,
+            Src.Open_Date,
+            Src.Close_Date,
+            ISNULL(Src.Open_Date, '1900-01-01'),  -- Valid_From
             '9999-12-31',                         -- Valid_To
             1,                                    -- Is_Current
             'NHS ODS',
             SUSER_SNAME(),
             GETDATE()
-        FROM [Analytics].[tbl_Staging_GP_Practice] Stg
+        FROM #SourceResolved Src
         LEFT JOIN [Analytics].[tbl_Dim_GPPractice] Dim
-            ON Stg.Practice_Code = Dim.GPPractice_Code
+            ON Src.Practice_Code = Dim.GPPractice_Code
             AND Dim.Is_Current = 1
         WHERE Dim.SK_GPPracticeID IS NULL; -- Record doesn't exist or was just expired
 
@@ -201,6 +377,12 @@ BEGIN
     END TRY
     BEGIN CATCH
         SET @ErrorMessage = ERROR_MESSAGE();
+        BEGIN TRY
+            SET IDENTITY_INSERT [Analytics].[tbl_Dim_GPPractice] OFF;
+        END TRY
+        BEGIN CATCH
+            -- No-op: ensure original ETL error is returned.
+        END CATCH
         PRINT 'Error Number: ' + CAST(ERROR_NUMBER() AS VARCHAR);
         PRINT 'Error Message: ' + @ErrorMessage;
         IF @BatchID IS NOT NULL
