@@ -1,0 +1,180 @@
+table Fact_AE_Activity
+	lineageTag: ca57e19b-01dc-4941-b229-eb6c40304c4a
+
+	column EncounterKey
+		dataType: int64
+		isKey
+		lineageTag: 029c3937-b38a-4890-883a-f31c91188639
+		summarizeBy: none
+		sourceColumn: EncounterKey
+
+	column PatientKey
+		dataType: int64
+		lineageTag: 877d71ab-0362-4727-b5ca-c2d031e31911
+		summarizeBy: none
+		sourceColumn: PatientKey
+
+	column ArrivalDateKey
+		dataType: int64
+		lineageTag: 0173c660-95fe-4a42-8b23-00ee3ebc2adc
+		summarizeBy: none
+		sourceColumn: ArrivalDateKey
+
+	column DepartureDateKey
+		dataType: int64
+		lineageTag: 69264c8c-9253-41fb-b481-bcf24219666a
+		summarizeBy: none
+		sourceColumn: DepartureDateKey
+
+	column AgeKey
+		dataType: int64
+		lineageTag: 9a8d0a09-80d3-489d-9ddf-1e9f771cf71e
+		summarizeBy: none
+		sourceColumn: AgeKey
+
+	column GenderKey
+		dataType: int64
+		lineageTag: b4a0fe6b-dd3e-4949-8ee5-2633df02a568
+		summarizeBy: none
+		sourceColumn: GenderKey
+
+	column EthnicityKey
+		dataType: int64
+		lineageTag: c6cc2101-5971-4bb1-aeb0-89d9e85eb1e7
+		summarizeBy: none
+		sourceColumn: EthnicityKey
+
+	column ProviderKey
+		dataType: int64
+		lineageTag: a32469d7-2052-4869-997d-6dee34f9562c
+		summarizeBy: none
+		sourceColumn: ProviderKey
+
+	column LSOAKey
+		dataType: int64
+		lineageTag: bdb92c52-f0db-42f3-b4b9-dbf7fb92f003
+		summarizeBy: none
+		sourceColumn: LSOAKey
+
+	column SpecialtyKey
+		dataType: int64
+		lineageTag: 9e2c0bf2-359b-42c1-84ee-44e650f4a903
+		summarizeBy: none
+		sourceColumn: SpecialtyKey
+
+	column HRGKey
+		dataType: int64
+		lineageTag: 490fa83d-67ff-47e9-8e7a-0a73114924e4
+		summarizeBy: none
+		sourceColumn: HRGKey
+
+	column CommissionerKey
+		dataType: int64
+		lineageTag: 95c0ac26-2f70-4ac7-89f2-42b1bdae2f49
+		summarizeBy: none
+		sourceColumn: CommissionerKey
+
+	column GPPracticeKey
+		dataType: int64
+		lineageTag: 26542b12-59b6-4310-b339-aeaa0dd06519
+		summarizeBy: none
+		sourceColumn: GPPracticeKey
+
+	column PCNKey
+		dataType: int64
+		lineageTag: 680109de-ee11-46cb-8e87-b867246730c8
+		summarizeBy: none
+		sourceColumn: PCNKey
+
+	column PODKey
+		dataType: int64
+		lineageTag: 55cbc4c7-57ec-40d1-8af0-63456f02c5fc
+		summarizeBy: none
+		sourceColumn: PODKey
+
+	column OpPlanMeasureSetKey
+		dataType: int64
+		lineageTag: 3f338499-3d78-4188-83de-a4dec07aee45
+		summarizeBy: none
+		sourceColumn: OpPlanMeasureSetKey
+
+	column AttendanceDisposalKey
+		dataType: int64
+		lineageTag: a6437c1b-62d7-4317-a69b-c3ce9f68ec93
+		summarizeBy: none
+		sourceColumn: AttendanceDisposalKey
+
+	column 'Arrival Date'
+		dataType: dateTime
+		formatString: dd/MM/yyyy
+		lineageTag: 37bb0749-afef-40ee-a453-ae5fce7e80c4
+		summarizeBy: none
+		sourceColumn: Arrival Date
+
+	column 'Departure Date'
+		dataType: dateTime
+		formatString: dd/MM/yyyy
+		lineageTag: dc2ea9b0-1fb7-4724-ba7e-28ee1cf1986f
+		summarizeBy: none
+		sourceColumn: Departure Date
+
+	column Attendances
+		dataType: int64
+		lineageTag: 66b9c7ff-ad60-436a-ad0d-5c07b29c840d
+		summarizeBy: sum
+		sourceColumn: Attendances
+
+	column 'Time in Department (mins)'
+		dataType: int64
+		lineageTag: 57d3ec56-ec7d-4270-90a4-e9a1119b397f
+		summarizeBy: sum
+		sourceColumn: Time in Department (mins)
+
+	column 'Time to Assessment (mins)'
+		dataType: int64
+		lineageTag: b90e0572-5c0d-497b-89f1-eb55d57f4029
+		summarizeBy: sum
+		sourceColumn: Time to Assessment (mins)
+
+	column 'Total Cost'
+		dataType: double
+		lineageTag: f19a9df7-5e82-4e73-bd40-99b4fcc5d0cf
+		summarizeBy: sum
+		sourceColumn: Total Cost
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Is 4-Hour Breach'
+		dataType: boolean
+		lineageTag: 13f4f560-0e10-42a8-957f-20d4d8956dcf
+		summarizeBy: none
+		sourceColumn: Is 4-Hour Breach
+
+	column 'Is 12-Hour Breach'
+		dataType: boolean
+		lineageTag: 0fe3a73b-679a-49d5-b009-81e712a6bf38
+		summarizeBy: none
+		sourceColumn: Is 12-Hour Breach
+
+	column 'Is Admitted'
+		dataType: boolean
+		lineageTag: 14726196-f164-462b-915f-b5417e1a54fe
+		summarizeBy: none
+		sourceColumn: Is Admitted
+
+	column 'Is Operating Plan'
+		dataType: boolean
+		lineageTag: 34e06694-d1e0-4203-88dc-13c186123701
+		summarizeBy: none
+		sourceColumn: Is Operating Plan
+
+	partition Fact_AE_Activity = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database("PSFADHSSTP02.ad.elc.nhs.uk\SWL", "Data_Lab_SWL_Live", [Query="SELECT [SK_EncounterID] AS [EncounterKey], [SK_PatientID] AS [PatientKey], [SK_DateArrivalID] AS [ArrivalDateKey], [SK_DateDepartureID] AS [DepartureDateKey], [SK_Age_BandID] AS [AgeKey], [SK_GenderID] AS [GenderKey], [SK_EthnicityID] AS [EthnicityKey], [SK_ProviderID] AS [ProviderKey], [SK_LSOA_ID] AS [LSOAKey], [SK_SpecialtyID] AS [SpecialtyKey], [SK_HRG_ID] AS [HRGKey], [SK_CommissionerID] AS [CommissionerKey], [SK_GPPracticeID] AS [GPPracticeKey], [SK_PCN_ID] AS [PCNKey], [SK_POD_ID] AS [PODKey], [SK_OpPlan_MeasureSet] AS [OpPlanMeasureSetKey], [SK_Attendance_DisposalID] AS [AttendanceDisposalKey], [Arrival_Date] AS [Arrival Date], [Departure_Date] AS [Departure Date], [Attendances], [Time_In_Department_Mins] AS [Time in Department (mins)], [Time_To_Initial_Assessment_Mins] AS [Time to Assessment (mins)], [Total_Cost] AS [Total Cost], [Is_4Hour_Breach] AS [Is 4-Hour Breach], [Is_12Hour_Breach] AS [Is 12-Hour Breach], [Is_Admitted] AS [Is Admitted], [Is_Operating_Plan] AS [Is Operating Plan] FROM [Analytics].[tbl_Fact_AE_Activity]"])
+				in
+				    Source
+
+	annotation PBI_ResultType = Table
+

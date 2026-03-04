@@ -824,6 +824,7 @@
             "dataType": "string",
             "sourceColumn": "Age Band (GP)",
             "lineageTag": "a2e2f3a4-b5c6-7890-abcd-ef1234567893",
+            "isHidden": true,
             "summarizeBy": "none"
           },
           {
@@ -831,6 +832,7 @@
             "dataType": "string",
             "sourceColumn": "Age Band (10yr)",
             "lineageTag": "a2e2f3a4-b5c6-7890-abcd-ef1234567894",
+            "isHidden": true,
             "summarizeBy": "none"
           },
           {
@@ -838,6 +840,7 @@
             "dataType": "string",
             "sourceColumn": "Age Band (Clinical)",
             "lineageTag": "a2e2f3a4-b5c6-7890-abcd-ef1234567895",
+            "isHidden": true,
             "summarizeBy": "none"
           },
           {
@@ -845,6 +848,7 @@
             "dataType": "string",
             "sourceColumn": "Age Band",
             "lineageTag": "a2e2f3a4-b5c6-7890-abcd-ef1234567896",
+            "isHidden": true,
             "summarizeBy": "none"
           }
         ],

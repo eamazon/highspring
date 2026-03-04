@@ -1,0 +1,42 @@
+table Dim_Attendance_Outcome
+	lineageTag: dc0b9220-7495-4d49-98fe-bc4e069ffdc4
+
+	column AttendanceOutcomeKey
+		dataType: int64
+		isKey
+		lineageTag: 4df3cf54-0a06-4297-bfc4-1c1068506a9a
+		summarizeBy: none
+		sourceColumn: AttendanceOutcomeKey
+
+	column 'Attendance Outcome Code'
+		dataType: string
+		lineageTag: fe41b8ed-a399-468f-bd26-5440702916a6
+		summarizeBy: none
+		sourceColumn: Attendance Outcome Code
+
+	column 'Attendance Outcome Description'
+		dataType: string
+		lineageTag: e2f0036a-8b41-478b-a7b2-9560f46c083f
+		summarizeBy: none
+		sourceColumn: Attendance Outcome Description
+
+	column 'Attendance Outcome'
+		dataType: string
+		lineageTag: dcbd226c-20e0-4a7e-95ac-8b63474ddb84
+		summarizeBy: none
+		sourceColumn: Attendance Outcome
+
+	partition Dim_Attendance_Outcome = m
+		mode: import
+		source =
+				let
+					Source = Sql.Database(
+						"PSFADHSSTP02.ad.elc.nhs.uk\SWL",
+						"Data_Lab_SWL_Live",
+						[
+							Query = "SELECT [SK_AttendanceOutcomeID] AS [AttendanceOutcomeKey], [Attendance_Outcome_Code] AS [Attendance Outcome Code], [Attendance_Outcome_Description] AS [Attendance Outcome Description], [Attendance_Outcome_Short] AS [Attendance Outcome] FROM [Analytics].[vw_Dim_Attendance_Outcome]"
+						]
+					)
+				in
+					Source
+

@@ -3,6 +3,8 @@
 *.pbit
 *.tmp
 .pbiworkspace/
+**/.pbi/
+**/.pbiworkspace/
 
 # SQL Server
 *.bak

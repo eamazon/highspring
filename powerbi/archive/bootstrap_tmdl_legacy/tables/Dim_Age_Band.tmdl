@@ -19,24 +19,28 @@ table Dim_Age_Band
 		dataType: string
 		lineageTag: a2e2f3a4-b5c6-7890-abcd-ef1234567893
 		summarizeBy: none
+		isHidden
 		sourceColumn: Age Band (GP)
 
 	column 'Age Band (10yr)'
 		dataType: string
 		lineageTag: a2e2f3a4-b5c6-7890-abcd-ef1234567894
 		summarizeBy: none
+		isHidden
 		sourceColumn: Age Band (10yr)
 
 	column 'Age Band (Clinical)'
 		dataType: string
 		lineageTag: a2e2f3a4-b5c6-7890-abcd-ef1234567895
 		summarizeBy: none
+		isHidden
 		sourceColumn: Age Band (Clinical)
 
 	column 'Age Band'
 		dataType: string
 		lineageTag: a2e2f3a4-b5c6-7890-abcd-ef1234567896
 		summarizeBy: none
+		isHidden
 		sourceColumn: Age Band
 
 	partition Dim_Age_Band = m

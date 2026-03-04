@@ -1,0 +1,42 @@
+table Dim_Attendance_Disposal
+	lineageTag: 64b26d8f-4a6a-45ab-aef1-995725d3cddf
+
+	column AttendanceDisposalKey
+		dataType: int64
+		isKey
+		lineageTag: 1775131f-e205-4694-99a8-4a99d54eb1c5
+		summarizeBy: none
+		sourceColumn: AttendanceDisposalKey
+
+	column 'Attendance Disposal Code'
+		dataType: string
+		lineageTag: 41af68f4-8a08-412f-be78-ddbba543ac01
+		summarizeBy: none
+		sourceColumn: Attendance Disposal Code
+
+	column 'Attendance Disposal Description'
+		dataType: string
+		lineageTag: d079ca1e-ce51-4724-80b7-c946400e7e64
+		summarizeBy: none
+		sourceColumn: Attendance Disposal Description
+
+	column 'Attendance Disposal'
+		dataType: string
+		lineageTag: 73918c11-ba1b-41c5-9afa-4b465528cf29
+		summarizeBy: none
+		sourceColumn: Attendance Disposal
+
+	partition Dim_Attendance_Disposal = m
+		mode: import
+		source =
+				let
+					Source = Sql.Database(
+						"PSFADHSSTP02.ad.elc.nhs.uk\SWL",
+						"Data_Lab_SWL_Live",
+						[
+							Query = "SELECT [SK_AttendanceDisposalID] AS [AttendanceDisposalKey], [Attendance_Disposal_Code] AS [Attendance Disposal Code], [Attendance_Disposal_Description] AS [Attendance Disposal Description], [Attendance_Disposal_Short] AS [Attendance Disposal] FROM [Analytics].[vw_Dim_Attendance_Disposal]"
+						]
+					)
+				in
+					Source
+

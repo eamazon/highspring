@@ -1,0 +1,42 @@
+table Dim_Priority_Type
+	lineageTag: 610d5c25-7948-49ca-843e-6ab8203fa280
+
+	column PriorityTypeKey
+		dataType: int64
+		isKey
+		lineageTag: aba2aff5-1b23-4da7-800f-15ffd70441f0
+		summarizeBy: none
+		sourceColumn: PriorityTypeKey
+
+	column 'Priority Type Code'
+		dataType: string
+		lineageTag: bdf2ffa0-4cee-4379-b16d-2492d2533edf
+		summarizeBy: none
+		sourceColumn: Priority Type Code
+
+	column 'Priority Type Description'
+		dataType: string
+		lineageTag: a109da1e-cbdc-4085-a3a4-d0c4818e5325
+		summarizeBy: none
+		sourceColumn: Priority Type Description
+
+	column 'Priority Type'
+		dataType: string
+		lineageTag: 45f496ae-3f55-4b75-88a6-028fc373fff2
+		summarizeBy: none
+		sourceColumn: Priority Type
+
+	partition Dim_Priority_Type = m
+		mode: import
+		source =
+				let
+					Source = Sql.Database(
+						"PSFADHSSTP02.ad.elc.nhs.uk\SWL",
+						"Data_Lab_SWL_Live",
+						[
+							Query = "SELECT [SK_PriorityTypeID] AS [PriorityTypeKey], [Priority_Type_Code] AS [Priority Type Code], [Priority_Type_Description] AS [Priority Type Description], [Priority_Type_Short] AS [Priority Type] FROM [Analytics].[vw_Dim_Priority_Type]"
+						]
+					)
+				in
+					Source
+

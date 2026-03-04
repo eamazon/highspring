@@ -1,0 +1,1619 @@
+createOrReplace
+
+	table Dim_Date
+
+		column DateKey
+			dataType: int64
+			isKey
+			summarizeBy: none
+			sourceColumn: DateKey
+
+		column Date
+			dataType: dateTime
+			formatString: dd/MM/yyyy
+			summarizeBy: none
+			sourceColumn: Date
+
+		column 'Day of Month'
+			dataType: int64
+			summarizeBy: none
+			sourceColumn: Day of Month
+
+		column 'Day Name'
+			dataType: string
+			summarizeBy: none
+			sourceColumn: Day Name
+
+		column 'Day of Week'
+			dataType: int64
+			summarizeBy: none
+			sourceColumn: Day of Week
+
+		column 'Week Number'
+			dataType: int64
+			summarizeBy: none
+			sourceColumn: Week Number
+
+		column 'Month Number'
+			dataType: int64
+			summarizeBy: none
+			sourceColumn: Month Number
+
+		column 'Month Name'
+			dataType: string
+			summarizeBy: none
+			sourceColumn: Month Name
+
+		column Month
+			dataType: string
+			summarizeBy: none
+			sourceColumn: Month
+
+		column 'Calendar Quarter'
+			dataType: int64
+			summarizeBy: none
+			sourceColumn: Calendar Quarter
+
+		column 'Calendar Year'
+			dataType: int64
+			summarizeBy: none
+			sourceColumn: Calendar Year
+
+		column 'Financial Month'
+			dataType: int64
+			summarizeBy: none
+			sourceColumn: Financial Month
+
+		column 'Financial Quarter'
+			dataType: int64
+			summarizeBy: none
+			sourceColumn: Financial Quarter
+
+		column 'Financial Year Number'
+			dataType: int64
+			summarizeBy: none
+			sourceColumn: Financial Year Number
+
+		column 'Financial Year'
+			dataType: string
+			summarizeBy: none
+			sourceColumn: Financial Year
+
+		column 'FY Short'
+			dataType: string
+			summarizeBy: none
+			sourceColumn: FY Short
+
+		column 'Is Weekend'
+			dataType: boolean
+			summarizeBy: none
+			sourceColumn: Is Weekend
+
+		column 'Is Bank Holiday'
+			dataType: boolean
+			summarizeBy: none
+			sourceColumn: Is Bank Holiday
+
+		column 'Bank Holiday'
+			dataType: string
+			summarizeBy: none
+			sourceColumn: Bank Holiday
+
+		column 'Is School Holiday'
+			dataType: boolean
+			summarizeBy: none
+			sourceColumn: Is School Holiday
+
+		column 'Is NHS Strike Day'
+			dataType: boolean
+			summarizeBy: none
+			sourceColumn: Is NHS Strike Day
+
+		column 'Is Christmas Period'
+			dataType: boolean
+			summarizeBy: none
+			sourceColumn: Is Christmas Period
+
+		column 'Is Easter Period'
+			dataType: boolean
+			summarizeBy: none
+			sourceColumn: Is Easter Period
+
+		partition Dim_Date = m
+			mode: import
+			source = 
+					let
+						Source = Sql.Database(
+							"PSFADHSSTP02.ad.elc.nhs.uk\SWL",
+							"Data_Lab_SWL_Live",
+							[
+								Query = "SELECT [SK_Date] AS [DateKey], [FullDate] AS [Date], [Day] AS [Day of Month], [DayOfWeek] AS [Day Name], [DayOfWeekNumber] AS [Day of Week], [WeekOfYearNumber] AS [Week Number], [CalendarMonthNumber] AS [Month Number], [CalendarMonthName] AS [Month Name], [CalendarMonthNameShort] AS [Month], [CalendarQuarterNumber] AS [Calendar Quarter], [CalendarYearNumber] AS [Calendar Year], [FiscalCalendarMonthNumber] AS [Financial Month], [FiscalCalendarQuarterNumber] AS [Financial Quarter], [FiscalCalendarYearNumber] AS [Financial Year Number], [FiscalCalendarYearName] AS [Financial Year], [FiscalCalendarYearNameShort] AS [FY Short], [IsWeekend] AS [Is Weekend], [IsBankHoliday] AS [Is Bank Holiday], [BankHoliday_Name] AS [Bank Holiday], [IsSchoolHoliday] AS [Is School Holiday], [IsNHSStrikeDay] AS [Is NHS Strike Day], [IsChristmasPeriod] AS [Is Christmas Period], [IsEasterPeriod] AS [Is Easter Period] FROM [Analytics].[vw_Dim_Date] WHERE [FullDate] >= '2019-04-01' AND [FullDate] <= DATEADD(YEAR, 1, GETDATE())"
+							]
+						)
+					in
+						Source
+
+		hierarchy 'Calendar Hierarchy'
+
+			level 'Calendar Year'
+				column: 'Calendar Year'
+
+			level 'Calendar Quarter'
+				column: 'Calendar Quarter'
+
+			level 'Month Name'
+				column: 'Month Name'
+
+			level Date
+				column: Date
+
+		hierarchy 'Financial Year Hierarchy'
+
+			level 'Financial Year'
+				column: 'Financial Year'
+
+			level 'Financial Quarter'
+				column: 'Financial Quarter'
+
+			level 'Financial Month'
+				column: 'Financial Month'
+
+			level Date
+				column: Date
+
+		hierarchy 'Week Hierarchy'
+
+			level 'Calendar Year'
+				column: 'Calendar Year'
+
+			level 'Week Number'
+				column: 'Week Number'
+
+			level 'Day Name'
+				column: 'Day Name'
+
+	table Dim_Commissioner
+
+		column CommissionerKey
+			dataType: int64
+			isKey
+			summarizeBy: none
+			sourceColumn: CommissionerKey
+
+		column 'Commissioner Code'
+			dataType: string
+			summarizeBy: none
+			sourceColumn: Commissioner Code
+
+		column Commissioner
+			dataType: string
+			summarizeBy: none
+			sourceColumn: Commissioner
+
+		column 'ICB Code'
+			dataType: string
+			summarizeBy: none
+			sourceColumn: ICB Code
+
+		column ICB
+			dataType: string
+			summarizeBy: none
+			sourceColumn: ICB
+
+		column 'Is SWL'
+			dataType: boolean
+			summarizeBy: none
+			sourceColumn: Is SWL
+
+		column 'CAM Method'
+			dataType: string
+			summarizeBy: none
+			sourceColumn: CAM Method
+
+		column 'POD Team Code'
+			dataType: string
+			summarizeBy: none
+			sourceColumn: POD Team Code
+
+		column 'POD Team'
+			dataType: string
+			summarizeBy: none
+			sourceColumn: POD Team
+
+		column 'Sub-ICB Code'
+			dataType: string
+			summarizeBy: none
+			sourceColumn: Sub-ICB Code
+
+		column 'Sub-ICB'
+			dataType: string
+			summarizeBy: none
+			sourceColumn: Sub-ICB
+
+		column 'Sub-ICB Location'
+			dataType: string
+			summarizeBy: none
+			sourceColumn: Sub-ICB Location
+
+		column 'Commissioner Type'
+			dataType: string
+			summarizeBy: none
+			sourceColumn: Commissioner Type
+
+		column 'ODS Role'
+			dataType: string
+			summarizeBy: none
+			sourceColumn: ODS Role
+
+		column 'Legacy Name'
+			dataType: string
+			summarizeBy: none
+			sourceColumn: Legacy Name
+
+		column 'Is Current'
+			dataType: boolean
+			summarizeBy: none
+			sourceColumn: Is Current
+
+		partition Dim_Commissioner = m
+			mode: import
+			source = 
+					let
+						Source = Sql.Database(
+							"PSFADHSSTP02.ad.elc.nhs.uk\SWL",
+							"Data_Lab_SWL_Live",
+							[
+								Query = "SELECT [SK_CommissionerID] AS [CommissionerKey], [Commissioner_Code] AS [Commissioner Code], [Commissioner_Name] AS [Commissioner], [ICB_Code] AS [ICB Code], [ICB_Name] AS [ICB], [Is_SWL_ICB] AS [Is SWL], [CAM_Attribution_Method] AS [CAM Method], [PODTeam_Code] AS [POD Team Code], [PODTeam_Name] AS [POD Team], [SubICB_Code] AS [Sub-ICB Code], [SubICB_Name] AS [Sub-ICB], [SubICB_Location_Name] AS [Sub-ICB Location], [Commissioner_Type] AS [Commissioner Type], [ODS_Role_Code] AS [ODS Role], [Legacy_Commissioner_Name] AS [Legacy Name], [Is_Current] AS [Is Current] FROM [Analytics].[tbl_Dim_Commissioner] WHERE [Is_Current] = 1 OR [SK_CommissionerID] IN (-1, -2)"
+							]
+						)
+					in
+						Source
+
+		hierarchy 'Commissioner Hierarchy'
+
+			level ICB
+				column: ICB
+
+			level 'Sub-ICB'
+				column: 'Sub-ICB'
+
+			level 'POD Team'
+				column: 'POD Team'
+
+			level Commissioner
+				column: Commissioner
+
+	table Dim_GPPractice
+
+		column GPPracticeKey
+			dataType: int64
+			isKey
+			summarizeBy: none
+			sourceColumn: GPPracticeKey
+
+		column 'GP Practice Code'
+			dataType: string
+			summarizeBy: none
+			sourceColumn: GP Practice Code
+
+		column 'GP Practice'
+			dataType: string
+			summarizeBy: none
+			sourceColumn: GP Practice
+
+		column 'Practice Category'
+			dataType: string
+			summarizeBy: none
+			sourceColumn: Practice Category
+
+		column 'Prescribing Setting'
+			dataType: string
+			summarizeBy: none
+			sourceColumn: Prescribing Setting
+
+		column Town
+			dataType: string
+			summarizeBy: none
+			sourceColumn: Town
+
+		column Postcode
+			dataType: string
+			summarizeBy: none
+			sourceColumn: Postcode
+
+		column 'PCN Code'
+			dataType: string
+			summarizeBy: none
+			sourceColumn: PCN Code
+
+		column PCN
+			dataType: string
+			summarizeBy: none
+			sourceColumn: PCN
+
+		column 'Sub-ICB Code'
+			dataType: string
+			summarizeBy: none
+			sourceColumn: Sub-ICB Code
+
+		column 'Sub-ICB'
+			dataType: string
+			summarizeBy: none
+			sourceColumn: Sub-ICB
+
+		column 'ICB Code'
+			dataType: string
+			summarizeBy: none
+			sourceColumn: ICB Code
+
+		column ICB
+			dataType: string
+			summarizeBy: none
+			sourceColumn: ICB
+
+		column 'ICB Group'
+			dataType: string
+			summarizeBy: none
+			sourceColumn: ICB Group
+
+		column 'ICB Group Sort'
+			dataType: int64
+			summarizeBy: none
+			sourceColumn: ICB Group Sort
+
+		column 'Registration Status'
+			dataType: string
+			summarizeBy: none
+			sourceColumn: Registration Status
+
+		column 'Is Active'
+			dataType: boolean
+			summarizeBy: none
+			sourceColumn: Is Active
+
+		column 'Is Current'
+			dataType: boolean
+			summarizeBy: none
+			sourceColumn: Is Current
+
+		partition Dim_GPPractice = m
+			mode: import
+			source = 
+					let
+						Source = Sql.Database(
+							"PSFADHSSTP02.ad.elc.nhs.uk\SWL",
+							"Data_Lab_SWL_Live",
+							[
+								Query = "SELECT [SK_GPPracticeID] AS [GPPracticeKey], [GPPractice_Code] AS [GP Practice Code], [GPPractice_Name] AS [GP Practice], [Practice_Category] AS [Practice Category], [Prescribing_Setting] AS [Prescribing Setting], [Town], [Postcode], [PCN_Code] AS [PCN Code], [PCN_Name] AS [PCN], [SubICB_Code] AS [Sub-ICB Code], [SubICB_Name] AS [Sub-ICB], [ICB_Code] AS [ICB Code], [ICB_Name] AS [ICB], [ICB_Grouping] AS [ICB Group], [ICB_Grouping_Sort] AS [ICB Group Sort], [Registration_Status] AS [Registration Status], [Is_Active] AS [Is Active], [Is_Current] AS [Is Current] FROM [Analytics].[tbl_Dim_GPPractice] WHERE [Is_Current] = 1 OR [SK_GPPracticeID] IN (-1, -2, -3, -4)"
+							]
+						)
+					in
+						Source
+
+		hierarchy 'GP Practice Hierarchy'
+
+			level 'ICB Group'
+				column: 'ICB Group'
+
+			level ICB
+				column: ICB
+
+			level 'Sub-ICB'
+				column: 'Sub-ICB'
+
+			level PCN
+				column: PCN
+
+			level 'GP Practice'
+				column: 'GP Practice'
+
+	table Dim_PCN
+
+		column PCNKey
+			dataType: int64
+			isKey
+			summarizeBy: none
+			sourceColumn: PCNKey
+
+		column 'PCN Code'
+			dataType: string
+			summarizeBy: none
+			sourceColumn: PCN Code
+
+		column PCN
+			dataType: string
+			summarizeBy: none
+			sourceColumn: PCN
+
+		column 'ICB Code'
+			dataType: string
+			summarizeBy: none
+			sourceColumn: ICB Code
+
+		column ICB
+			dataType: string
+			summarizeBy: none
+			sourceColumn: ICB
+
+		column Town
+			dataType: string
+			summarizeBy: none
+			sourceColumn: Town
+
+		column Postcode
+			dataType: string
+			summarizeBy: none
+			sourceColumn: Postcode
+
+		column 'Is Active'
+			dataType: boolean
+			summarizeBy: none
+			sourceColumn: Is Active
+
+		column 'Is Current'
+			dataType: boolean
+			summarizeBy: none
+			sourceColumn: Is Current
+
+		partition Dim_PCN = m
+			mode: import
+			source = 
+					let
+						Source = Sql.Database(
+							"PSFADHSSTP02.ad.elc.nhs.uk\SWL",
+							"Data_Lab_SWL_Live",
+							[
+								Query = "SELECT [SK_PCNID] AS [PCNKey], [PCN_Code] AS [PCN Code], [PCN_Name] AS [PCN], [ICB_Code] AS [ICB Code], [ICB_Name] AS [ICB], [Town], [Postcode], [Is_Active] AS [Is Active], [Is_Current] AS [Is Current] FROM [Analytics].[tbl_Dim_PCN] WHERE [Is_Current] = 1 OR [SK_PCNID] = -1"
+							]
+						)
+					in
+						Source
+
+		hierarchy 'PCN Hierarchy'
+
+			level ICB
+				column: ICB
+
+			level PCN
+				column: PCN
+
+	table Dim_POD
+
+		column PODKey
+			dataType: int64
+			isKey
+			summarizeBy: none
+			sourceColumn: PODKey
+
+		column 'POD Code'
+			dataType: string
+			summarizeBy: none
+			sourceColumn: POD Code
+
+		column 'POD Domain'
+			dataType: string
+			summarizeBy: none
+			sourceColumn: POD Domain
+
+		column 'POD Subcategory'
+			dataType: string
+			summarizeBy: none
+			sourceColumn: POD Subcategory
+
+		column 'POD Measure'
+			dataType: string
+			summarizeBy: none
+			sourceColumn: POD Measure
+
+		column 'POD Description'
+			dataType: string
+			summarizeBy: none
+			sourceColumn: POD Description
+
+		column 'Point of Delivery'
+			dataType: string
+			summarizeBy: none
+			sourceColumn: Point of Delivery
+
+		column Dataset
+			dataType: string
+			summarizeBy: none
+			sourceColumn: Dataset
+
+		column 'Main Group'
+			dataType: string
+			summarizeBy: none
+			sourceColumn: Main Group
+
+		column 'Sub Group'
+			dataType: string
+			summarizeBy: none
+			sourceColumn: Sub Group
+
+		column Category
+			dataType: string
+			summarizeBy: none
+			sourceColumn: Category
+
+		column 'Is Elective'
+			dataType: boolean
+			summarizeBy: none
+			sourceColumn: Is Elective
+
+		column 'Is Emergency'
+			dataType: boolean
+			summarizeBy: none
+			sourceColumn: Is Emergency
+
+		column 'Is Admitted'
+			dataType: boolean
+			summarizeBy: none
+			sourceColumn: Is Admitted
+
+		column 'Is Outpatient'
+			dataType: boolean
+			summarizeBy: none
+			sourceColumn: Is Outpatient
+
+		column 'Is A&E'
+			dataType: boolean
+			summarizeBy: none
+			sourceColumn: Is A&E
+
+		partition Dim_POD = m
+			mode: import
+			source = 
+					let
+						Source = Sql.Database(
+							"PSFADHSSTP02.ad.elc.nhs.uk\SWL",
+							"Data_Lab_SWL_Live",
+							[
+								Query = "SELECT [SK_PodID] AS [PODKey], [POD_Code] AS [POD Code], [POD_Domain] AS [POD Domain], [POD_Subcategory] AS [POD Subcategory], [POD_Measure] AS [POD Measure], [POD_Description] AS [POD Description], [POD_Display] AS [Point of Delivery], [POD_Dataset] AS [Dataset], [POD_MainGroup] AS [Main Group], [POD_SubGroup] AS [Sub Group], [POD_Category] AS [Category], [Is_Elective] AS [Is Elective], [Is_Emergency] AS [Is Emergency], [Is_Admitted] AS [Is Admitted], [Is_Outpatient] AS [Is Outpatient], [Is_AE] AS [Is A&E] FROM [Analytics].[tbl_Dim_POD]"
+							]
+						)
+					in
+						Source
+
+		hierarchy 'POD Hierarchy'
+
+			level 'POD Domain'
+				column: 'POD Domain'
+
+			level 'Main Group'
+				column: 'Main Group'
+
+			level 'Sub Group'
+				column: 'Sub Group'
+
+			level Category
+				column: Category
+
+			level 'Point of Delivery'
+				column: 'Point of Delivery'
+
+		hierarchy 'POD Dataset Hierarchy'
+
+			level Dataset
+				column: Dataset
+
+			level 'Main Group'
+				column: 'Main Group'
+
+			level 'Point of Delivery'
+				column: 'Point of Delivery'
+
+	table Dim_LSOA
+
+		column LSOAKey
+			dataType: int64
+			isKey
+			summarizeBy: none
+			sourceColumn: LSOAKey
+
+		column 'LSOA Code'
+			dataType: string
+			summarizeBy: none
+			sourceColumn: LSOA Code
+
+		column 'LSOA Name'
+			dataType: string
+			summarizeBy: none
+			sourceColumn: LSOA Name
+
+		column LSOA
+			dataType: string
+			summarizeBy: none
+			sourceColumn: LSOA
+
+		column 'Sub-ICB Code'
+			dataType: string
+			summarizeBy: none
+			sourceColumn: Sub-ICB Code
+
+		column 'Sub-ICB'
+			dataType: string
+			summarizeBy: none
+			sourceColumn: Sub-ICB
+
+		column 'ICB Code'
+			dataType: string
+			summarizeBy: none
+			sourceColumn: ICB Code
+
+		column ICB
+			dataType: string
+			summarizeBy: none
+			sourceColumn: ICB
+
+		column 'Local Authority Code'
+			dataType: string
+			summarizeBy: none
+			sourceColumn: Local Authority Code
+
+		column 'Local Authority'
+			dataType: string
+			summarizeBy: none
+			sourceColumn: Local Authority
+
+		column 'IMD Year'
+			dataType: int64
+			summarizeBy: none
+			sourceColumn: IMD Year
+
+		column 'IMD Rank'
+			dataType: int64
+			summarizeBy: none
+			sourceColumn: IMD Rank
+
+		column 'IMD Decile'
+			dataType: int64
+			summarizeBy: none
+			sourceColumn: IMD Decile
+
+		column 'Child Deprivation Decile'
+			dataType: int64
+			summarizeBy: none
+			sourceColumn: Child Deprivation Decile
+
+		column 'Older Person Deprivation Decile'
+			dataType: int64
+			summarizeBy: none
+			sourceColumn: Older Person Deprivation Decile
+
+		partition Dim_LSOA = m
+			mode: import
+			source = 
+					let
+						Source = Sql.Database(
+							"PSFADHSSTP02.ad.elc.nhs.uk\SWL",
+							"Data_Lab_SWL_Live",
+							[
+								Query = "SELECT [SK_LSOA_ID] AS [LSOAKey], [LSOA_Code] AS [LSOA Code], [LSOA_Name] AS [LSOA Name], [LSOA_Display] AS [LSOA], [SubICB_Code] AS [Sub-ICB Code], [SubICB_Name] AS [Sub-ICB], [ICB_Code] AS [ICB Code], [ICB_Name] AS [ICB], [LocalAuthority_Code] AS [Local Authority Code], [LocalAuthority_Name] AS [Local Authority], [IMD_Year] AS [IMD Year], [IMD_Rank] AS [IMD Rank], [IMD_Decile] AS [IMD Decile], [IDACI_Decile] AS [Child Deprivation Decile], [IDAOPI_Decile] AS [Older Person Deprivation Decile] FROM [Analytics].[vw_Dim_LSOA]"
+							]
+						)
+					in
+						Source
+
+		hierarchy 'Geography Hierarchy'
+
+			level ICB
+				column: ICB
+
+			level 'Sub-ICB'
+				column: 'Sub-ICB'
+
+			level 'Local Authority'
+				column: 'Local Authority'
+
+			level LSOA
+				column: LSOA
+
+		hierarchy 'Deprivation Hierarchy'
+
+			level 'IMD Decile'
+				column: 'IMD Decile'
+
+			level LSOA
+				column: LSOA
+
+	table Dim_Provider
+
+		column ProviderKey
+			dataType: int64
+			isKey
+			summarizeBy: none
+			sourceColumn: ProviderKey
+
+		column 'Provider Code'
+			dataType: string
+			summarizeBy: none
+			sourceColumn: Provider Code
+
+		column Provider
+			dataType: string
+			summarizeBy: none
+			sourceColumn: Provider
+
+		column 'Provider Type Code'
+			dataType: string
+			summarizeBy: none
+			sourceColumn: Provider Type Code
+
+		column 'Provider Type'
+			dataType: string
+			summarizeBy: none
+			sourceColumn: Provider Type
+
+		column Town
+			dataType: string
+			summarizeBy: none
+			sourceColumn: Town
+
+		column Status
+			dataType: string
+			summarizeBy: none
+			sourceColumn: Status
+
+		column 'Is Active'
+			dataType: boolean
+			summarizeBy: none
+			sourceColumn: Is Active
+
+		partition Dim_Provider = m
+			mode: import
+			source = 
+					let
+						Source = Sql.Database(
+							"PSFADHSSTP02.ad.elc.nhs.uk\SWL",
+							"Data_Lab_SWL_Live",
+							[
+								Query = "SELECT [SK_ProviderID] AS [ProviderKey], [Provider_Code] AS [Provider Code], [Provider_Name] AS [Provider], [Provider_Type_Code] AS [Provider Type Code], [Provider_Type] AS [Provider Type], [Town], [Provider_Status] AS [Status], [Is_Active] AS [Is Active] FROM [Analytics].[vw_Dim_Provider]"
+							]
+						)
+					in
+						Source
+
+	table Dim_Specialty
+
+		column SpecialtyKey
+			dataType: int64
+			isKey
+			summarizeBy: none
+			sourceColumn: SpecialtyKey
+
+		column 'Specialty Code'
+			dataType: string
+			summarizeBy: none
+			sourceColumn: Specialty Code
+
+		column 'Specialty Name'
+			dataType: string
+			summarizeBy: none
+			sourceColumn: Specialty Name
+
+		column 'Specialty Category'
+			dataType: string
+			summarizeBy: none
+			sourceColumn: Specialty Category
+
+		column 'Is Treatment Function'
+			dataType: boolean
+			summarizeBy: none
+			sourceColumn: Is Treatment Function
+
+		column 'Is Main Specialty'
+			dataType: boolean
+			summarizeBy: none
+			sourceColumn: Is Main Specialty
+
+		column 'Main Specialty'
+			dataType: string
+			summarizeBy: none
+			sourceColumn: Main Specialty
+
+		column 'Treatment Function'
+			dataType: string
+			summarizeBy: none
+			sourceColumn: Treatment Function
+
+		column Specialty
+			dataType: string
+			summarizeBy: none
+			sourceColumn: Specialty
+
+		partition Dim_Specialty = m
+			mode: import
+			source = 
+					let
+						Source = Sql.Database(
+							"PSFADHSSTP02.ad.elc.nhs.uk\SWL",
+							"Data_Lab_SWL_Live",
+							[
+								Query = "SELECT [SK_SpecialtyID] AS [SpecialtyKey], [BK_SpecialtyCode] AS [Specialty Code], [SpecialtyName] AS [Specialty Name], [SpecialtyCategory] AS [Specialty Category], [IsTreatmentFunction] AS [Is Treatment Function], [IsMainSpecialty] AS [Is Main Specialty], [MainSpecialtyDescription] AS [Main Specialty], [TreatmentFunctionDescription] AS [Treatment Function], [Specialty_Short] AS [Specialty] FROM [Analytics].[vw_Dim_Specialty]"
+							]
+						)
+					in
+						Source
+
+		hierarchy 'Specialty Hierarchy'
+
+			level 'Specialty Category'
+				column: 'Specialty Category'
+
+			level 'Main Specialty'
+				column: 'Main Specialty'
+
+			level 'Treatment Function'
+				column: 'Treatment Function'
+
+	table Dim_HRG
+
+		column HRGKey
+			dataType: int64
+			isKey
+			summarizeBy: none
+			sourceColumn: HRGKey
+
+		column 'HRG Code'
+			dataType: string
+			summarizeBy: none
+			sourceColumn: HRG Code
+
+		column 'HRG Description'
+			dataType: string
+			summarizeBy: none
+			sourceColumn: HRG Description
+
+		column 'HRG Chapter Code'
+			dataType: string
+			summarizeBy: none
+			sourceColumn: HRG Chapter Code
+
+		column 'HRG Chapter'
+			dataType: string
+			summarizeBy: none
+			sourceColumn: HRG Chapter
+
+		column 'HRG Subchapter Code'
+			dataType: string
+			summarizeBy: none
+			sourceColumn: HRG Subchapter Code
+
+		column 'HRG Subchapter'
+			dataType: string
+			summarizeBy: none
+			sourceColumn: HRG Subchapter
+
+		column HRG
+			dataType: string
+			summarizeBy: none
+			sourceColumn: HRG
+
+		partition Dim_HRG = m
+			mode: import
+			source = 
+					let
+						Source = Sql.Database(
+							"PSFADHSSTP02.ad.elc.nhs.uk\SWL",
+							"Data_Lab_SWL_Live",
+							[
+								Query = "SELECT [SK_HRGID] AS [HRGKey], [HRGCode] AS [HRG Code], [HRGDescription] AS [HRG Description], [HRGChapterKey] AS [HRG Chapter Code], [HRGChapter] AS [HRG Chapter], [HRGSubchapterKey] AS [HRG Subchapter Code], [HRGSubchapter] AS [HRG Subchapter], [HRG_Short] AS [HRG] FROM [Analytics].[vw_Dim_HRG]"
+							]
+						)
+					in
+						Source
+
+		hierarchy 'HRG Hierarchy'
+
+			level 'HRG Chapter'
+				column: 'HRG Chapter'
+
+			level 'HRG Subchapter'
+				column: 'HRG Subchapter'
+
+			level HRG
+				column: HRG
+
+	table Dim_Gender
+
+		column GenderKey
+			dataType: int64
+			isKey
+			summarizeBy: none
+			sourceColumn: GenderKey
+
+		column Gender
+			dataType: string
+			summarizeBy: none
+			sourceColumn: Gender
+
+		column 'Gender Code'
+			dataType: string
+			summarizeBy: none
+			sourceColumn: Gender Code
+
+		column 'Gender Code 1'
+			dataType: string
+			summarizeBy: none
+			sourceColumn: Gender Code 1
+
+		column 'Gender Code 2'
+			dataType: string
+			summarizeBy: none
+			sourceColumn: Gender Code 2
+
+		partition Dim_Gender = m
+			mode: import
+			source = 
+					let
+						Source = Sql.Database(
+							"PSFADHSSTP02.ad.elc.nhs.uk\SWL",
+							"Data_Lab_SWL_Live",
+							[
+								Query = "SELECT [SK_GenderID] AS [GenderKey], [Gender], [GenderCode] AS [Gender Code], [GenderCode1] AS [Gender Code 1], [GenderCode2] AS [Gender Code 2] FROM [Analytics].[vw_Dim_Gender]"
+							]
+						)
+					in
+						Source
+
+	table Dim_Ethnicity
+
+		column EthnicityKey
+			dataType: int64
+			isKey
+			summarizeBy: none
+			sourceColumn: EthnicityKey
+
+		column 'Ethnicity Code'
+			dataType: string
+			summarizeBy: none
+			sourceColumn: Ethnicity Code
+
+		column 'Ethnicity Description'
+			dataType: string
+			summarizeBy: none
+			sourceColumn: Ethnicity Description
+
+		column 'Ethnicity Group'
+			dataType: string
+			summarizeBy: none
+			sourceColumn: Ethnicity Group
+
+		column Ethnicity
+			dataType: string
+			summarizeBy: none
+			sourceColumn: Ethnicity
+
+		partition Dim_Ethnicity = m
+			mode: import
+			source = 
+					let
+						Source = Sql.Database(
+							"PSFADHSSTP02.ad.elc.nhs.uk\SWL",
+							"Data_Lab_SWL_Live",
+							[
+								Query = "SELECT [SK_EthnicityID] AS [EthnicityKey], [EthnicityCode] AS [Ethnicity Code], [EthnicityDesc] AS [Ethnicity Description], [EthnicityDesc2] AS [Ethnicity Group], [Ethnicity_Short] AS [Ethnicity] FROM [Analytics].[vw_Dim_Ethnicity]"
+							]
+						)
+					in
+						Source
+
+		hierarchy 'Ethnicity Hierarchy'
+
+			level 'Ethnicity Group'
+				column: 'Ethnicity Group'
+
+			level Ethnicity
+				column: Ethnicity
+
+	table Dim_Age_Band
+
+		column Age
+			dataType: int64
+			isKey
+			summarizeBy: none
+			sourceColumn: Age
+
+		column 'Age Band (5yr)'
+			dataType: string
+			summarizeBy: none
+			sourceColumn: Age Band (5yr)
+
+		column 'Age Band (GP)'
+			dataType: string
+			summarizeBy: none
+			sourceColumn: Age Band (GP)
+
+		column 'Age Band (10yr)'
+			dataType: string
+			summarizeBy: none
+			sourceColumn: Age Band (10yr)
+
+		column 'Age Band'
+			dataType: string
+			summarizeBy: none
+			sourceColumn: Age Band
+
+		partition Dim_Age_Band = m
+			mode: import
+			source = 
+					let
+						Source = Sql.Database(
+							"PSFADHSSTP02.ad.elc.nhs.uk\SWL",
+							"Data_Lab_SWL_Live",
+							[
+								Query = "SELECT [Age], [Age_Band_5yr] AS [Age Band (5yr)], [Age_Band_GP] AS [Age Band (GP)], [Age_Band_10yr] AS [Age Band (10yr)], [Age_Band_Summary] AS [Age Band] FROM [Analytics].[vw_Dim_Age_Band]"
+							]
+						)
+					in
+						Source
+
+		hierarchy 'Age Hierarchy'
+
+			level 'Age Band'
+				column: 'Age Band'
+
+			level 'Age Band (10yr)'
+				column: 'Age Band (10yr)'
+
+			level 'Age Band (5yr)'
+				column: 'Age Band (5yr)'
+
+			level Age
+				column: Age
+
+		hierarchy 'Clinical Age Hierarchy'
+
+			level 'Age Band (5yr)'
+				column: 'Age Band (5yr)'
+
+			level Age
+				column: Age
+
+	table Dim_CAM_Service_Category
+
+		column CAMServiceCategoryKey
+			dataType: int64
+			isKey
+			summarizeBy: none
+			sourceColumn: CAMServiceCategoryKey
+
+		column 'CAM Service Category'
+			dataType: string
+			summarizeBy: none
+			sourceColumn: CAM Service Category
+
+		partition Dim_CAM_Service_Category = m
+			mode: import
+			source = 
+					let
+						Source = Sql.Database(
+							"PSFADHSSTP02.ad.elc.nhs.uk\SWL",
+							"Data_Lab_SWL_Live",
+							[
+								Query = "SELECT [SK_CAM_Service_CategoryID] AS [CAMServiceCategoryKey], [CAM_Service_Category] AS [CAM Service Category] FROM [Analytics].[tbl_Dim_CAM_Service_Category]"
+							]
+						)
+					in
+						Source
+
+	table Dim_CAM_Assignment_Reason
+
+		column CAMAssignmentReasonKey
+			dataType: int64
+			isKey
+			summarizeBy: none
+			sourceColumn: CAMAssignmentReasonKey
+
+		column 'CAM Assignment Code'
+			dataType: string
+			summarizeBy: none
+			sourceColumn: CAM Assignment Code
+
+		column 'CAM Assignment Reason'
+			dataType: string
+			summarizeBy: none
+			sourceColumn: CAM Assignment Reason
+
+		partition Dim_CAM_Assignment_Reason = m
+			mode: import
+			source = 
+					let
+						Source = Sql.Database(
+							"PSFADHSSTP02.ad.elc.nhs.uk\SWL",
+							"Data_Lab_SWL_Live",
+							[
+								Query = "SELECT [SK_CAM_Assignment_ReasonID] AS [CAMAssignmentReasonKey], [CAM_Assignment_Code] AS [CAM Assignment Code], [CAM_Assignment_Reason] AS [CAM Assignment Reason] FROM [Analytics].[tbl_Dim_CAM_Assignment_Reason]"
+							]
+						)
+					in
+						Source
+
+	table Dim_OpPlan_MeasureSet
+
+		column OpPlanMeasureSetKey
+			dataType: int64
+			isKey
+			summarizeBy: none
+			sourceColumn: OpPlanMeasureSetKey
+
+		column 'Measure IDs'
+			dataType: string
+			summarizeBy: none
+			sourceColumn: Measure IDs
+
+		column 'Measure Count'
+			dataType: int64
+			summarizeBy: none
+			sourceColumn: Measure Count
+
+		column 'Is Active'
+			dataType: boolean
+			summarizeBy: none
+			sourceColumn: Is Active
+
+		partition Dim_OpPlan_MeasureSet = m
+			mode: import
+			source = 
+					let
+						Source = Sql.Database(
+							"PSFADHSSTP02.ad.elc.nhs.uk\SWL",
+							"Data_Lab_SWL_Live",
+							[
+								Query = "SELECT [SK_OpPlan_MeasureSet] AS [OpPlanMeasureSetKey], [MeasureIds] AS [Measure IDs], [MeasureCount] AS [Measure Count], [Is_Active] AS [Is Active] FROM [Analytics].[tbl_Dim_OpPlan_MeasureSet]"
+							]
+						)
+					in
+						Source
+
+	table Dim_Admission_Method
+
+		column AdmissionMethodKey
+			dataType: int64
+			isKey
+			summarizeBy: none
+			sourceColumn: AdmissionMethodKey
+
+		column 'Admission Method Code'
+			dataType: string
+			summarizeBy: none
+			sourceColumn: Admission Method Code
+
+		column 'Admission Method Name'
+			dataType: string
+			summarizeBy: none
+			sourceColumn: Admission Method Name
+
+		column 'Admission Method Group'
+			dataType: string
+			summarizeBy: none
+			sourceColumn: Admission Method Group
+
+		column 'Admission Method'
+			dataType: string
+			summarizeBy: none
+			sourceColumn: Admission Method
+
+		partition Dim_Admission_Method = m
+			mode: import
+			source = 
+					let
+						Source = Sql.Database(
+							"PSFADHSSTP02.ad.elc.nhs.uk\SWL",
+							"Data_Lab_SWL_Live",
+							[
+								Query = "SELECT [SK_AdmissionMethodID] AS [AdmissionMethodKey], [Admission_Method_Code] AS [Admission Method Code], [Admission_Method_Name] AS [Admission Method Name], [Admission_Method_Group] AS [Admission Method Group], [Admission_Method_Short] AS [Admission Method] FROM [Analytics].[vw_Dim_Admission_Method]"
+							]
+						)
+					in
+						Source
+
+		hierarchy 'Admission Method Hierarchy'
+
+			level 'Admission Method Group'
+				column: 'Admission Method Group'
+
+			level 'Admission Method'
+				column: 'Admission Method'
+
+	table Dim_Admission_Source
+
+		column AdmissionSourceKey
+			dataType: int64
+			isKey
+			summarizeBy: none
+			sourceColumn: AdmissionSourceKey
+
+		column 'Admission Source Code'
+			dataType: string
+			summarizeBy: none
+			sourceColumn: Admission Source Code
+
+		column 'Admission Source Name'
+			dataType: string
+			summarizeBy: none
+			sourceColumn: Admission Source Name
+
+		column 'Admission Source'
+			dataType: string
+			summarizeBy: none
+			sourceColumn: Admission Source
+
+		partition Dim_Admission_Source = m
+			mode: import
+			source = 
+					let
+						Source = Sql.Database(
+							"PSFADHSSTP02.ad.elc.nhs.uk\SWL",
+							"Data_Lab_SWL_Live",
+							[
+								Query = "SELECT [SK_AdmissionSourceID] AS [AdmissionSourceKey], [Admission_Source_Code] AS [Admission Source Code], [Admission_Source_Name] AS [Admission Source Name], [Admission_Source_Short] AS [Admission Source] FROM [Analytics].[vw_Dim_Admission_Source]"
+							]
+						)
+					in
+						Source
+
+	table Dim_Discharge_Method
+
+		column DischargeMethodKey
+			dataType: int64
+			isKey
+			summarizeBy: none
+			sourceColumn: DischargeMethodKey
+
+		column 'Discharge Method Code'
+			dataType: string
+			summarizeBy: none
+			sourceColumn: Discharge Method Code
+
+		column 'Discharge Method Name'
+			dataType: string
+			summarizeBy: none
+			sourceColumn: Discharge Method Name
+
+		column 'Discharge Method'
+			dataType: string
+			summarizeBy: none
+			sourceColumn: Discharge Method
+
+		partition Dim_Discharge_Method = m
+			mode: import
+			source = 
+					let
+						Source = Sql.Database(
+							"PSFADHSSTP02.ad.elc.nhs.uk\SWL",
+							"Data_Lab_SWL_Live",
+							[
+								Query = "SELECT [SK_DischargeMethodID] AS [DischargeMethodKey], [Discharge_Method_Code] AS [Discharge Method Code], [Discharge_Method_Name] AS [Discharge Method Name], [Discharge_Method_Short] AS [Discharge Method] FROM [Analytics].[vw_Dim_Discharge_Method]"
+							]
+						)
+					in
+						Source
+
+	table Dim_Discharge_Destination
+
+		column DischargeDestinationKey
+			dataType: int64
+			isKey
+			summarizeBy: none
+			sourceColumn: DischargeDestinationKey
+
+		column 'Discharge Destination Code'
+			dataType: string
+			summarizeBy: none
+			sourceColumn: Discharge Destination Code
+
+		column 'Discharge Destination Name'
+			dataType: string
+			summarizeBy: none
+			sourceColumn: Discharge Destination Name
+
+		column 'Discharge Destination'
+			dataType: string
+			summarizeBy: none
+			sourceColumn: Discharge Destination
+
+		partition Dim_Discharge_Destination = m
+			mode: import
+			source = 
+					let
+						Source = Sql.Database(
+							"PSFADHSSTP02.ad.elc.nhs.uk\SWL",
+							"Data_Lab_SWL_Live",
+							[
+								Query = "SELECT [SK_DischargeDestinationID] AS [DischargeDestinationKey], [Discharge_Destination_Code] AS [Discharge Destination Code], [Discharge_Destination_Name] AS [Discharge Destination Name], [Discharge_Destination_Short] AS [Discharge Destination] FROM [Analytics].[vw_Dim_Discharge_Destination]"
+							]
+						)
+					in
+						Source
+
+	table Dim_IP_Patient_Classification
+
+		column PatientClassificationKey
+			dataType: int64
+			isKey
+			summarizeBy: none
+			sourceColumn: PatientClassificationKey
+
+		column 'Patient Classification Code'
+			dataType: string
+			summarizeBy: none
+			sourceColumn: Patient Classification Code
+
+		column 'Patient Classification'
+			dataType: string
+			summarizeBy: none
+			sourceColumn: Patient Classification
+
+		partition Dim_IP_Patient_Classification = m
+			mode: import
+			source = 
+					let
+						Source = Sql.Database(
+							"PSFADHSSTP02.ad.elc.nhs.uk\SWL",
+							"Data_Lab_SWL_Live",
+							[
+								Query = "SELECT [SK_PatientClassificationID] AS [PatientClassificationKey], [Patient_Classification_Code] AS [Patient Classification Code], [Patient_Classification_Description] AS [Patient Classification] FROM [Analytics].[vw_Dim_IP_Patient_Classification]"
+							]
+						)
+					in
+						Source
+
+	table Dim_Attendance_Status
+
+		column AttendanceStatusKey
+			dataType: int64
+			isKey
+			summarizeBy: none
+			sourceColumn: AttendanceStatusKey
+
+		column 'Attendance Status Code'
+			dataType: string
+			summarizeBy: none
+			sourceColumn: Attendance Status Code
+
+		column 'Attendance Status Description'
+			dataType: string
+			summarizeBy: none
+			sourceColumn: Attendance Status Description
+
+		column 'Attendance Status'
+			dataType: string
+			summarizeBy: none
+			sourceColumn: Attendance Status
+
+		partition Dim_Attendance_Status = m
+			mode: import
+			source = 
+					let
+						Source = Sql.Database(
+							"PSFADHSSTP02.ad.elc.nhs.uk\SWL",
+							"Data_Lab_SWL_Live",
+							[
+								Query = "SELECT [SK_AttendanceStatusID] AS [AttendanceStatusKey], [Attendance_Status_Code] AS [Attendance Status Code], [Attendance_Status_Description] AS [Attendance Status Description], [Attendance_Status_Short] AS [Attendance Status] FROM [Analytics].[vw_Dim_Attendance_Status]"
+							]
+						)
+					in
+						Source
+
+	table Dim_Attendance_Outcome
+
+		column AttendanceOutcomeKey
+			dataType: int64
+			isKey
+			summarizeBy: none
+			sourceColumn: AttendanceOutcomeKey
+
+		column 'Attendance Outcome Code'
+			dataType: string
+			summarizeBy: none
+			sourceColumn: Attendance Outcome Code
+
+		column 'Attendance Outcome Description'
+			dataType: string
+			summarizeBy: none
+			sourceColumn: Attendance Outcome Description
+
+		column 'Attendance Outcome'
+			dataType: string
+			summarizeBy: none
+			sourceColumn: Attendance Outcome
+
+		partition Dim_Attendance_Outcome = m
+			mode: import
+			source = 
+					let
+						Source = Sql.Database(
+							"PSFADHSSTP02.ad.elc.nhs.uk\SWL",
+							"Data_Lab_SWL_Live",
+							[
+								Query = "SELECT [SK_AttendanceOutcomeID] AS [AttendanceOutcomeKey], [Attendance_Outcome_Code] AS [Attendance Outcome Code], [Attendance_Outcome_Description] AS [Attendance Outcome Description], [Attendance_Outcome_Short] AS [Attendance Outcome] FROM [Analytics].[vw_Dim_Attendance_Outcome]"
+							]
+						)
+					in
+						Source
+
+	table Dim_Attendance_Type
+
+		column AttendanceTypeKey
+			dataType: int64
+			isKey
+			summarizeBy: none
+			sourceColumn: AttendanceTypeKey
+
+		column 'Attendance Type Code'
+			dataType: string
+			summarizeBy: none
+			sourceColumn: Attendance Type Code
+
+		column 'Attendance Type Description'
+			dataType: string
+			summarizeBy: none
+			sourceColumn: Attendance Type Description
+
+		column 'Attendance Type'
+			dataType: string
+			summarizeBy: none
+			sourceColumn: Attendance Type
+
+		partition Dim_Attendance_Type = m
+			mode: import
+			source = 
+					let
+						Source = Sql.Database(
+							"PSFADHSSTP02.ad.elc.nhs.uk\SWL",
+							"Data_Lab_SWL_Live",
+							[
+								Query = "SELECT [SK_AttendanceTypeID] AS [AttendanceTypeKey], [Attendance_Type_Code] AS [Attendance Type Code], [Attendance_Type_Description] AS [Attendance Type Description], [Attendance_Type_Short] AS [Attendance Type] FROM [Analytics].[vw_Dim_Attendance_Type]"
+							]
+						)
+					in
+						Source
+
+	table Dim_DNA_Indicator
+
+		column DNAIndicatorKey
+			dataType: int64
+			isKey
+			summarizeBy: none
+			sourceColumn: DNAIndicatorKey
+
+		column 'DNA Indicator Code'
+			dataType: string
+			summarizeBy: none
+			sourceColumn: DNA Indicator Code
+
+		column 'DNA Indicator Description'
+			dataType: string
+			summarizeBy: none
+			sourceColumn: DNA Indicator Description
+
+		column 'DNA Indicator'
+			dataType: string
+			summarizeBy: none
+			sourceColumn: DNA Indicator
+
+		partition Dim_DNA_Indicator = m
+			mode: import
+			source = 
+					let
+						Source = Sql.Database(
+							"PSFADHSSTP02.ad.elc.nhs.uk\SWL",
+							"Data_Lab_SWL_Live",
+							[
+								Query = "SELECT [SK_DNAIndicatorID] AS [DNAIndicatorKey], [DNA_Indicator_Code] AS [DNA Indicator Code], [DNA_Indicator_Description] AS [DNA Indicator Description], [DNA_Indicator_Status] AS [DNA Indicator] FROM [Analytics].[vw_Dim_DNA_Indicator]"
+							]
+						)
+					in
+						Source
+
+	table Dim_Priority_Type
+
+		column PriorityTypeKey
+			dataType: int64
+			isKey
+			summarizeBy: none
+			sourceColumn: PriorityTypeKey
+
+		column 'Priority Type Code'
+			dataType: string
+			summarizeBy: none
+			sourceColumn: Priority Type Code
+
+		column 'Priority Type Description'
+			dataType: string
+			summarizeBy: none
+			sourceColumn: Priority Type Description
+
+		column 'Priority Type'
+			dataType: string
+			summarizeBy: none
+			sourceColumn: Priority Type
+
+		partition Dim_Priority_Type = m
+			mode: import
+			source = 
+					let
+						Source = Sql.Database(
+							"PSFADHSSTP02.ad.elc.nhs.uk\SWL",
+							"Data_Lab_SWL_Live",
+							[
+								Query = "SELECT [SK_PriorityTypeID] AS [PriorityTypeKey], [Priority_Type_Code] AS [Priority Type Code], [Priority_Type_Description] AS [Priority Type Description], [Priority_Type_Short] AS [Priority Type] FROM [Analytics].[vw_Dim_Priority_Type]"
+							]
+						)
+					in
+						Source
+
+	table Dim_Referral_Source
+
+		column ReferralSourceKey
+			dataType: int64
+			isKey
+			summarizeBy: none
+			sourceColumn: ReferralSourceKey
+
+		column 'Referral Source Code'
+			dataType: string
+			summarizeBy: none
+			sourceColumn: Referral Source Code
+
+		column 'Referral Source Description'
+			dataType: string
+			summarizeBy: none
+			sourceColumn: Referral Source Description
+
+		column 'Referral Source'
+			dataType: string
+			summarizeBy: none
+			sourceColumn: Referral Source
+
+		partition Dim_Referral_Source = m
+			mode: import
+			source = 
+					let
+						Source = Sql.Database(
+							"PSFADHSSTP02.ad.elc.nhs.uk\SWL",
+							"Data_Lab_SWL_Live",
+							[
+								Query = "SELECT [SK_ReferralSourceID] AS [ReferralSourceKey], [Referral_Source_Code] AS [Referral Source Code], [Referral_Source_Description] AS [Referral Source Description], [Referral_Source_Short] AS [Referral Source] FROM [Analytics].[vw_Dim_Referral_Source]"
+							]
+						)
+					in
+						Source
+
+	table Dim_Attendance_Disposal
+
+		column AttendanceDisposalKey
+			dataType: int64
+			isKey
+			summarizeBy: none
+			sourceColumn: AttendanceDisposalKey
+
+		column 'Attendance Disposal Code'
+			dataType: string
+			summarizeBy: none
+			sourceColumn: Attendance Disposal Code
+
+		column 'Attendance Disposal Description'
+			dataType: string
+			summarizeBy: none
+			sourceColumn: Attendance Disposal Description
+
+		column 'Attendance Disposal'
+			dataType: string
+			summarizeBy: none
+			sourceColumn: Attendance Disposal
+
+		partition Dim_Attendance_Disposal = m
+			mode: import
+			source = 
+					let
+						Source = Sql.Database(
+							"PSFADHSSTP02.ad.elc.nhs.uk\SWL",
+							"Data_Lab_SWL_Live",
+							[
+								Query = "SELECT [SK_AttendanceDisposalID] AS [AttendanceDisposalKey], [Attendance_Disposal_Code] AS [Attendance Disposal Code], [Attendance_Disposal_Description] AS [Attendance Disposal Description], [Attendance_Disposal_Short] AS [Attendance Disposal] FROM [Analytics].[vw_Dim_Attendance_Disposal]"
+							]
+						)
+					in
+						Source

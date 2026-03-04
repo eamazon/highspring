@@ -1,0 +1,81 @@
+table Dim_HRG
+	lineageTag: 6af01c06-e60b-435c-a0ff-883457bd0be6
+
+	column HRGKey
+		dataType: int64
+		isKey
+		lineageTag: 321ce274-0ca9-438a-a73a-c445170f7f8a
+		summarizeBy: none
+		sourceColumn: HRGKey
+
+	column 'HRG Code'
+		dataType: string
+		lineageTag: 2e6c8292-a71c-44bd-ab0d-95ae979bc8ad
+		summarizeBy: none
+		sourceColumn: HRG Code
+
+	column 'HRG Description'
+		dataType: string
+		lineageTag: a62b9c18-af7f-45ad-92f3-60604c859374
+		summarizeBy: none
+		sourceColumn: HRG Description
+
+	column 'HRG Chapter Code'
+		dataType: string
+		lineageTag: 0a133a2b-ff20-49c6-92e7-35d4a1f4450d
+		summarizeBy: none
+		sourceColumn: HRG Chapter Code
+
+	column 'HRG Chapter'
+		dataType: string
+		lineageTag: 050e523c-8182-404d-8821-68cbb184c665
+		summarizeBy: none
+		sourceColumn: HRG Chapter
+
+	column 'HRG Subchapter Code'
+		dataType: string
+		lineageTag: bd749581-a101-4a3f-bf77-7baac0082c51
+		summarizeBy: none
+		sourceColumn: HRG Subchapter Code
+
+	column 'HRG Subchapter'
+		dataType: string
+		lineageTag: d01b1217-894c-4c12-8bf5-b456b3527e2f
+		summarizeBy: none
+		sourceColumn: HRG Subchapter
+
+	column HRG
+		dataType: string
+		lineageTag: eb356deb-3e1d-461b-8748-c56cf3928d1f
+		summarizeBy: none
+		sourceColumn: HRG
+
+	hierarchy 'HRG Hierarchy'
+		lineageTag: 8036ce99-2f63-4ce8-a881-e4167596ec1d
+
+		level 'HRG Chapter'
+			lineageTag: daf1bda6-823c-472c-bee0-59b32162820e
+			column: 'HRG Chapter'
+
+		level 'HRG Subchapter'
+			lineageTag: 547256b1-82bb-4667-8239-5263e52cdf0b
+			column: 'HRG Subchapter'
+
+		level HRG
+			lineageTag: b208938b-310c-4c6f-8ded-d7def18fce99
+			column: HRG
+
+	partition Dim_HRG = m
+		mode: import
+		source =
+				let
+					Source = Sql.Database(
+						"PSFADHSSTP02.ad.elc.nhs.uk\SWL",
+						"Data_Lab_SWL_Live",
+						[
+							Query = "SELECT [SK_HRGID] AS [HRGKey], [HRGCode] AS [HRG Code], [HRGDescription] AS [HRG Description], [HRGChapterKey] AS [HRG Chapter Code], [HRGChapter] AS [HRG Chapter], [HRGSubchapterKey] AS [HRG Subchapter Code], [HRGSubchapter] AS [HRG Subchapter], [HRG_Short] AS [HRG] FROM [Analytics].[vw_Dim_HRG]"
+						]
+					)
+				in
+					Source
+

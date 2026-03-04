@@ -1,0 +1,149 @@
+table Dim_GPPractice
+	lineageTag: a180646d-8197-4dfa-a8f0-265dbfab533e
+
+	column GPPracticeKey
+		dataType: int64
+		isKey
+		lineageTag: 4fc5795c-21d1-4b2d-822d-7f06b42c59c7
+		summarizeBy: none
+		sourceColumn: GPPracticeKey
+
+	column 'GP Practice Code'
+		dataType: string
+		lineageTag: aa56581d-fe2c-4d68-b4ab-1f983d8313db
+		summarizeBy: none
+		sourceColumn: GP Practice Code
+
+	column 'GP Practice'
+		dataType: string
+		lineageTag: 83795ee8-5552-4fc6-bbb2-06c5b28e0ca2
+		summarizeBy: none
+		sourceColumn: GP Practice
+
+	column 'Practice Category'
+		dataType: string
+		lineageTag: 005fdcb8-7141-42f3-9756-797b8097d323
+		summarizeBy: none
+		sourceColumn: Practice Category
+
+	column 'Prescribing Setting'
+		dataType: string
+		lineageTag: ca6075df-92b8-4e00-8c3f-06f70ca9c482
+		summarizeBy: none
+		sourceColumn: Prescribing Setting
+
+	column Town
+		dataType: string
+		lineageTag: 8b3c716e-a499-4fb9-8a63-bc91e27d18b1
+		summarizeBy: none
+		sourceColumn: Town
+
+	column Postcode
+		dataType: string
+		lineageTag: ccc34072-ccb7-4526-8811-edc8733f6588
+		summarizeBy: none
+		sourceColumn: Postcode
+
+	column 'PCN Code'
+		dataType: string
+		lineageTag: de220bcf-9421-4af2-949b-7c3d04bf2891
+		summarizeBy: none
+		sourceColumn: PCN Code
+
+	column PCN
+		dataType: string
+		lineageTag: d1f20f30-6be4-4635-b9a3-99f624614561
+		summarizeBy: none
+		sourceColumn: PCN
+
+	column 'Sub-ICB Code'
+		dataType: string
+		lineageTag: f8190396-adf1-4752-90ef-23f273baa303
+		summarizeBy: none
+		sourceColumn: Sub-ICB Code
+
+	column Sub-ICB
+		dataType: string
+		lineageTag: 1cfc5757-2749-4a19-a00d-f1ac788afb43
+		summarizeBy: none
+		sourceColumn: Sub-ICB
+
+	column 'ICB Code'
+		dataType: string
+		lineageTag: 4a703712-8f8b-4528-9de6-f5383ebd3411
+		summarizeBy: none
+		sourceColumn: ICB Code
+
+	column ICB
+		dataType: string
+		lineageTag: 8faa6612-cfe0-4c24-9708-235678f71223
+		summarizeBy: none
+		sourceColumn: ICB
+
+	column 'ICB Group'
+		dataType: string
+		lineageTag: 5ffe63e2-2f7d-403c-8d53-c7c249de3583
+		summarizeBy: none
+		sourceColumn: ICB Group
+
+	column 'ICB Group Sort'
+		dataType: int64
+		lineageTag: f58953b5-99d1-49e0-baa8-27b89f8f3a52
+		summarizeBy: none
+		sourceColumn: ICB Group Sort
+
+	column 'Registration Status'
+		dataType: string
+		lineageTag: e4892e42-cb60-4793-b1c6-577492213caf
+		summarizeBy: none
+		sourceColumn: Registration Status
+
+	column 'Is Active'
+		dataType: boolean
+		lineageTag: 055f7644-eaf4-4fe7-baa7-4d3ed16dcc78
+		summarizeBy: none
+		sourceColumn: Is Active
+
+	column 'Is Current'
+		dataType: boolean
+		lineageTag: 5e68a245-cdde-4d45-ae88-1a07972c74b6
+		summarizeBy: none
+		sourceColumn: Is Current
+
+	hierarchy 'GP Practice Hierarchy'
+		lineageTag: 61553433-03d5-4e85-8173-d6bcd2fa16d0
+
+		level 'ICB Group'
+			lineageTag: c8268bb0-70d7-4c9c-b16a-b7651a10a7ae
+			column: 'ICB Group'
+
+		level ICB
+			lineageTag: e0cb8c03-b0a9-4c3a-be70-a11a3db54224
+			column: ICB
+
+		level Sub-ICB
+			lineageTag: da57783e-6ca9-4474-be82-4072241d510e
+			column: Sub-ICB
+
+		level PCN
+			lineageTag: 2cff9104-5cad-4566-9d3e-4bc83523c297
+			column: PCN
+
+		level 'GP Practice'
+			lineageTag: d732611b-ce64-4c62-9915-3c46b7ec1acf
+			column: 'GP Practice'
+
+	partition Dim_GPPractice = m
+		mode: import
+		source =
+				let
+					Source = Sql.Database(
+						"PSFADHSSTP02.ad.elc.nhs.uk\SWL",
+						"Data_Lab_SWL_Live",
+						[
+							Query = "SELECT [SK_GPPracticeID] AS [GPPracticeKey], [GPPractice_Code] AS [GP Practice Code], [GPPractice_Name] AS [GP Practice], [Practice_Category] AS [Practice Category], [Prescribing_Setting] AS [Prescribing Setting], [Town], [Postcode], [PCN_Code] AS [PCN Code], [PCN_Name] AS [PCN], [SubICB_Code] AS [Sub-ICB Code], [SubICB_Name] AS [Sub-ICB], [ICB_Code] AS [ICB Code], [ICB_Name] AS [ICB], [ICB_Grouping] AS [ICB Group], [ICB_Grouping_Sort] AS [ICB Group Sort], [Registration_Status] AS [Registration Status], [Is_Active] AS [Is Active], [Is_Current] AS [Is Current] FROM [Analytics].[tbl_Dim_GPPractice] WHERE [Is_Current] = 1 OR [SK_GPPracticeID] IN (-1, -2, -3, -4)"
+						]
+					)
+				in
+					Source
+

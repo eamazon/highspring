@@ -1,0 +1,30 @@
+table Dim_CAM_Service_Category
+	lineageTag: 48b06290-eeb7-4983-9fd4-529c253e8006
+
+	column CAMServiceCategoryKey
+		dataType: int64
+		isKey
+		lineageTag: 1ef0c6df-2d97-40af-bf67-385ae20acf40
+		summarizeBy: none
+		sourceColumn: CAMServiceCategoryKey
+
+	column 'CAM Service Category'
+		dataType: string
+		lineageTag: 54c70614-616d-4146-ad9d-ccd03546076b
+		summarizeBy: none
+		sourceColumn: CAM Service Category
+
+	partition Dim_CAM_Service_Category = m
+		mode: import
+		source =
+				let
+					Source = Sql.Database(
+						"PSFADHSSTP02.ad.elc.nhs.uk\SWL",
+						"Data_Lab_SWL_Live",
+						[
+							Query = "SELECT [SK_CAM_Service_CategoryID] AS [CAMServiceCategoryKey], [CAM_Service_Category] AS [CAM Service Category] FROM [Analytics].[tbl_Dim_CAM_Service_Category]"
+						]
+					)
+				in
+					Source
+

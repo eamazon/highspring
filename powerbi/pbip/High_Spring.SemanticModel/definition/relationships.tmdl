@@ -1,0 +1,184 @@
+relationship 02a2b2c2-d2e2-f2a2-b2c2-d2e2f2a2b2c2
+	fromColumn: Fact_IP_Activity.DischargeDateKey
+	toColumn: Dim_Date.DateKey
+
+relationship 01a1b1c1-d1e1-f1a1-b1c1-d1e1f1a1b1c1
+	isActive: false
+	fromColumn: Fact_IP_Activity.AdmissionDateKey
+	toColumn: Dim_Date.DateKey
+
+relationship 03a3b3c3-d3e3-f3a3-b3c3-d3e3f3a3b3c3
+	fromColumn: Fact_IP_Activity.AgeKey
+	toColumn: Dim_Age_Band.Age
+
+relationship 04a4b4c4-d4e4-f4a4-b4c4-d4e4f4a4b4c4
+	fromColumn: Fact_IP_Activity.GenderKey
+	toColumn: Dim_Gender.GenderKey
+
+relationship 05a5b5c5-d5e5-f5a5-b5c5-d5e5f5a5b5c5
+	fromColumn: Fact_IP_Activity.EthnicityKey
+	toColumn: Dim_Ethnicity.EthnicityKey
+
+relationship 06a6b6c6-d6e6-f6a6-b6c6-d6e6f6a6b6c6
+	fromColumn: Fact_IP_Activity.ProviderKey
+	toColumn: Dim_Provider.ProviderKey
+
+relationship 07a7b7c7-d7e7-f7a7-b7c7-d7e7f7a7b7c7
+	fromColumn: Fact_IP_Activity.LSOAKey
+	toColumn: Dim_LSOA.LSOAKey
+
+relationship 08a8b8c8-d8e8-f8a8-b8c8-d8e8f8a8b8c8
+	fromColumn: Fact_IP_Activity.SpecialtyKey
+	toColumn: Dim_Specialty.SpecialtyKey
+
+relationship 09a9b9c9-d9e9-f9a9-b9c9-d9e9f9a9b9c9
+	fromColumn: Fact_IP_Activity.HRGKey
+	toColumn: Dim_HRG.HRGKey
+
+relationship 10a0b0c0-d0e0-f0a0-b0c0-d0e0f0a0b0c0
+	fromColumn: Fact_IP_Activity.CommissionerKey
+	toColumn: Dim_Commissioner.CommissionerKey
+
+relationship 11a1b1c1-d1e1-f1a1-b1c1-d1e1f1a1b1d1
+	fromColumn: Fact_IP_Activity.GPPracticeKey
+	toColumn: Dim_GPPractice.GPPracticeKey
+
+relationship 12a2b2c2-d2e2-f2a2-b2c2-d2e2f2a2b2e2
+	fromColumn: Fact_IP_Activity.PCNKey
+	toColumn: Dim_PCN.PCNKey
+
+relationship 13a3b3c3-d3e3-f3a3-b3c3-d3e3f3a3b3f3
+	fromColumn: Fact_IP_Activity.PODKey
+	toColumn: Dim_POD.PODKey
+
+relationship 14a4b4c4-d4e4-f4a4-b4c4-d4e4f4a4b4a4
+	fromColumn: Fact_IP_Activity.OpPlanMeasureSetKey
+	toColumn: Dim_OpPlan_MeasureSet.OpPlanMeasureSetKey
+
+relationship 15a5b5c5-d5e5-f5a5-b5c5-d5e5f5a5b5b5
+	fromColumn: Fact_IP_Activity.AdmissionMethodKey
+	toColumn: Dim_Admission_Method.AdmissionMethodKey
+
+relationship 16a6b6c6-d6e6-f6a6-b6c6-d6e6f6a6b6c6
+	fromColumn: Fact_IP_Activity.AdmissionSourceKey
+	toColumn: Dim_Admission_Source.AdmissionSourceKey
+
+relationship 17a7b7c7-d7e7-f7a7-b7c7-d7e7f7a7b7d7
+	fromColumn: Fact_IP_Activity.DischargeMethodKey
+	toColumn: Dim_Discharge_Method.DischargeMethodKey
+
+relationship 18a8b8c8-d8e8-f8a8-b8c8-d8e8f8a8b8e8
+	fromColumn: Fact_IP_Activity.DischargeDestinationKey
+	toColumn: Dim_Discharge_Destination.DischargeDestinationKey
+
+relationship 19a9b9c9-d9e9-f9a9-b9c9-d9e9f9a9b9f9
+	fromColumn: Fact_IP_Activity.PatientClassificationKey
+	toColumn: Dim_IP_Patient_Classification.PatientClassificationKey
+
+relationship 20a0b0c0-d0e0-f0a0-b0c0-d0e0f0a0b0a0
+	isActive: false
+	fromColumn: Fact_IP_Activity.CAMCommissionerKey
+	toColumn: Dim_Commissioner.CommissionerKey
+
+relationship 21a1b1c1-d1e1-f1a1-b1c1-d1e1f1a1b1e1
+	fromColumn: Fact_IP_Activity.CAMServiceCategoryKey
+	toColumn: Dim_CAM_Service_Category.CAMServiceCategoryKey
+
+relationship 22a2b2c2-d2e2-f2a2-b2c2-d2e2f2a2b2f2
+	fromColumn: Fact_IP_Activity.CAMAssignmentReasonKey
+	toColumn: Dim_CAM_Assignment_Reason.CAMAssignmentReasonKey
+
+relationship 30a0b0c0-d0e0-f0a0-b0c0-d0e0f0a0b0c0
+	fromColumn: Fact_OP_Activity.AppointmentDateKey
+	toColumn: Dim_Date.DateKey
+
+relationship 31a1b1c1-d1e1-f1a1-b1c1-d1e1f1a1b1c1
+	isActive: false
+	fromColumn: Fact_OP_Activity.ReferralDateKey
+	toColumn: Dim_Date.DateKey
+
+relationship 32a2b2c2-d2e2-f2a2-b2c2-d2e2f2a2b2c2
+	fromColumn: Fact_OP_Activity.AgeKey
+	toColumn: Dim_Age_Band.Age
+
+relationship 33a3b3c3-d3e3-f3a3-b3c3-d3e3f3a3b3c3
+	fromColumn: Fact_OP_Activity.GenderKey
+	toColumn: Dim_Gender.GenderKey
+
+relationship 34a4b4c4-d4e4-f4a4-b4c4-d4e4f4a4b4c4
+	fromColumn: Fact_OP_Activity.EthnicityKey
+	toColumn: Dim_Ethnicity.EthnicityKey
+
+relationship 35a5b5c5-d5e5-f5a5-b5c5-d5e5f5a5b5c5
+	fromColumn: Fact_OP_Activity.ProviderKey
+	toColumn: Dim_Provider.ProviderKey
+
+relationship 36a6b6c6-d6e6-f6a6-b6c6-d6e6f6a6b6c6
+	fromColumn: Fact_OP_Activity.LSOAKey
+	toColumn: Dim_LSOA.LSOAKey
+
+relationship 37a7b7c7-d7e7-f7a7-b7c7-d7e7f7a7b7c7
+	fromColumn: Fact_OP_Activity.SpecialtyKey
+	toColumn: Dim_Specialty.SpecialtyKey
+
+relationship 38a8b8c8-d8e8-f8a8-b8c8-d8e8f8a8b8c8
+	fromColumn: Fact_OP_Activity.HRGKey
+	toColumn: Dim_HRG.HRGKey
+
+relationship 39a9b9c9-d9e9-f9a9-b9c9-d9e9f9a9b9c9
+	fromColumn: Fact_OP_Activity.CommissionerKey
+	toColumn: Dim_Commissioner.CommissionerKey
+
+relationship 40a0b0c0-d0e0-f0a0-b0c0-d0e0f0a0b0d0
+	fromColumn: Fact_OP_Activity.GPPracticeKey
+	toColumn: Dim_GPPractice.GPPracticeKey
+
+relationship 41a1b1c1-d1e1-f1a1-b1c1-d1e1f1a1b1e1
+	fromColumn: Fact_OP_Activity.PCNKey
+	toColumn: Dim_PCN.PCNKey
+
+relationship 42a2b2c2-d2e2-f2a2-b2c2-d2e2f2a2b2f2
+	fromColumn: Fact_OP_Activity.PODKey
+	toColumn: Dim_POD.PODKey
+
+relationship 43a3b3c3-d3e3-f3a3-b3c3-d3e3f3a3b3a3
+	fromColumn: Fact_OP_Activity.OpPlanMeasureSetKey
+	toColumn: Dim_OpPlan_MeasureSet.OpPlanMeasureSetKey
+
+relationship 44a4b4c4-d4e4-f4a4-b4c4-d4e4f4a4b4b4
+	fromColumn: Fact_OP_Activity.AttendanceStatusKey
+	toColumn: Dim_Attendance_Status.AttendanceStatusKey
+
+relationship 45a5b5c5-d5e5-f5a5-b5c5-d5e5f5a5b5c5
+	fromColumn: Fact_OP_Activity.AttendanceOutcomeKey
+	toColumn: Dim_Attendance_Outcome.AttendanceOutcomeKey
+
+relationship 46a6b6c6-d6e6-f6a6-b6c6-d6e6f6a6b6d6
+	fromColumn: Fact_OP_Activity.AttendanceTypeKey
+	toColumn: Dim_Attendance_Type.AttendanceTypeKey
+
+relationship 47a7b7c7-d7e7-f7a7-b7c7-d7e7f7a7b7e7
+	fromColumn: Fact_OP_Activity.DNAIndicatorKey
+	toColumn: Dim_DNA_Indicator.DNAIndicatorKey
+
+relationship 48a8b8c8-d8e8-f8a8-b8c8-d8e8f8a8b8f8
+	fromColumn: Fact_OP_Activity.PriorityTypeKey
+	toColumn: Dim_Priority_Type.PriorityTypeKey
+
+relationship 49a9b9c9-d9e9-f9a9-b9c9-d9e9f9a9b9a9
+	fromColumn: Fact_OP_Activity.ReferralSourceKey
+	toColumn: Dim_Referral_Source.ReferralSourceKey
+
+relationship 50a0b0c0-d0e0-f0a0-b0c0-d0e0f0a0b0b0
+	isActive: false
+	fromColumn: Fact_OP_Activity.CAMCommissionerKey
+	toColumn: Dim_Commissioner.CommissionerKey
+
+relationship 51a1b1c1-d1e1-f1a1-b1c1-d1e1f1a1b1c2
+	fromColumn: Fact_OP_Activity.CAMServiceCategoryKey
+	toColumn: Dim_CAM_Service_Category.CAMServiceCategoryKey
+
+relationship 52a2b2c2-d2e2-f2a2-b2c2-d2e2f2a2b2d2
+	fromColumn: Fact_OP_Activity.CAMAssignmentReasonKey
+	toColumn: Dim_CAM_Assignment_Reason.CAMAssignmentReasonKey
+

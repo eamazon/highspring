@@ -1,0 +1,87 @@
+table Dim_Specialty
+	lineageTag: e1d1a2e4-5fec-4c78-a73d-20149eb5a9de
+
+	column SpecialtyKey
+		dataType: int64
+		isKey
+		lineageTag: a22e449b-8c30-40d3-8f8b-9b963e255fb3
+		summarizeBy: none
+		sourceColumn: SpecialtyKey
+
+	column 'Specialty Code'
+		dataType: string
+		lineageTag: ed869023-7bee-4382-bd43-b3d4b96de217
+		summarizeBy: none
+		sourceColumn: Specialty Code
+
+	column 'Specialty Name'
+		dataType: string
+		lineageTag: 0731c2cc-9b8f-413f-9d92-2f598e5bec1e
+		summarizeBy: none
+		sourceColumn: Specialty Name
+
+	column 'Specialty Category'
+		dataType: string
+		lineageTag: 689f72e2-9861-4349-8c95-460c666ea9be
+		summarizeBy: none
+		sourceColumn: Specialty Category
+
+	column 'Is Treatment Function'
+		dataType: boolean
+		lineageTag: 997bd9a7-a7ef-40c7-bffe-b0bad1bbc6a4
+		summarizeBy: none
+		sourceColumn: Is Treatment Function
+
+	column 'Is Main Specialty'
+		dataType: boolean
+		lineageTag: 84dd729a-bb5c-47ae-9dae-b81eabd40b48
+		summarizeBy: none
+		sourceColumn: Is Main Specialty
+
+	column 'Main Specialty'
+		dataType: string
+		lineageTag: c330fb2a-897f-4de8-ab19-463d93a2836a
+		summarizeBy: none
+		sourceColumn: Main Specialty
+
+	column 'Treatment Function'
+		dataType: string
+		lineageTag: c679018a-c049-48f2-b480-2930f6ba7ffc
+		summarizeBy: none
+		sourceColumn: Treatment Function
+
+	column Specialty
+		dataType: string
+		lineageTag: 4dcbf1eb-c4fa-4bde-bff7-91ed26889dcf
+		summarizeBy: none
+		sourceColumn: Specialty
+
+	hierarchy 'Specialty Hierarchy'
+		lineageTag: 9f2c307f-e4a0-42ef-9a83-60327680ea1f
+
+		level 'Specialty Category'
+			lineageTag: 1fd827a4-7cb9-4dba-a562-78e8916b53da
+			column: 'Specialty Category'
+
+		level 'Main Specialty'
+			lineageTag: 89751808-a3f4-41d8-81b7-e5d6a7c2069c
+			column: 'Main Specialty'
+
+		level 'Treatment Function'
+			lineageTag: 5b3fd019-a1c3-4059-9e19-726d856269b5
+			column: 'Treatment Function'
+
+	partition Dim_Specialty = m
+		mode: import
+		source =
+				let
+					Source = Sql.Database(
+						"PSFADHSSTP02.ad.elc.nhs.uk\SWL",
+						"Data_Lab_SWL_Live",
+						[
+							Query = "SELECT [SK_SpecialtyID] AS [SpecialtyKey], [BK_SpecialtyCode] AS [Specialty Code], [SpecialtyName] AS [Specialty Name], [SpecialtyCategory] AS [Specialty Category], [IsTreatmentFunction] AS [Is Treatment Function], [IsMainSpecialty] AS [Is Main Specialty], [MainSpecialtyDescription] AS [Main Specialty], [TreatmentFunctionDescription] AS [Treatment Function], [Specialty_Short] AS [Specialty] FROM [Analytics].[vw_Dim_Specialty]"
+						]
+					)
+				in
+					Source
+

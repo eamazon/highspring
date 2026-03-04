@@ -1,0 +1,42 @@
+table Dim_Attendance_Type
+	lineageTag: f19f6738-7893-48fc-8787-c293c8aa4f4c
+
+	column AttendanceTypeKey
+		dataType: int64
+		isKey
+		lineageTag: 15fe8e66-c240-448f-98c6-af5c1c03b63e
+		summarizeBy: none
+		sourceColumn: AttendanceTypeKey
+
+	column 'Attendance Type Code'
+		dataType: string
+		lineageTag: d2e33cc9-6726-4c94-a8be-7c5bcd943741
+		summarizeBy: none
+		sourceColumn: Attendance Type Code
+
+	column 'Attendance Type Description'
+		dataType: string
+		lineageTag: 3131fd4d-794c-43e0-986f-5f05be3709b4
+		summarizeBy: none
+		sourceColumn: Attendance Type Description
+
+	column 'Attendance Type'
+		dataType: string
+		lineageTag: 7edf35d9-a567-46de-b81c-bb000af1b077
+		summarizeBy: none
+		sourceColumn: Attendance Type
+
+	partition Dim_Attendance_Type = m
+		mode: import
+		source =
+				let
+					Source = Sql.Database(
+						"PSFADHSSTP02.ad.elc.nhs.uk\SWL",
+						"Data_Lab_SWL_Live",
+						[
+							Query = "SELECT [SK_AttendanceTypeID] AS [AttendanceTypeKey], [Attendance_Type_Code] AS [Attendance Type Code], [Attendance_Type_Description] AS [Attendance Type Description], [Attendance_Type_Short] AS [Attendance Type] FROM [Analytics].[vw_Dim_Attendance_Type]"
+						]
+					)
+				in
+					Source
+

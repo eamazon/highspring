@@ -1,0 +1,69 @@
+table Dim_Provider
+	lineageTag: 4f6b0de0-60b8-49b3-beb8-b03aa0e3dc58
+
+	column ProviderKey
+		dataType: int64
+		isKey
+		lineageTag: e43ea75b-e615-4fc2-adb1-304c42e049a2
+		summarizeBy: none
+		sourceColumn: ProviderKey
+
+	column 'Provider Code'
+		dataType: string
+		lineageTag: 4f7f48e7-0885-4dce-966c-d545a7bfb1ed
+		summarizeBy: none
+		sourceColumn: Provider Code
+
+	column Provider
+		dataType: string
+		lineageTag: 08e6d781-614e-4c32-b202-571b4f9d3d4d
+		summarizeBy: none
+		sourceColumn: Provider
+
+	column 'Provider Type Code'
+		dataType: string
+		lineageTag: 2f63d976-7e5f-471f-8c10-cbb6e75f632b
+		summarizeBy: none
+		sourceColumn: Provider Type Code
+
+	column 'Provider Type'
+		dataType: string
+		lineageTag: ff9fbdef-62d5-4b13-a89f-4c92ab16bc4c
+		summarizeBy: none
+		sourceColumn: Provider Type
+
+	column Town
+		dataType: string
+		lineageTag: 3a9f5820-a7f1-4366-a17f-f440a4ce19cb
+		summarizeBy: none
+		sourceColumn: Town
+
+	column Status
+		dataType: string
+		lineageTag: 84655e78-697e-4780-80ed-9b0a21d39976
+		summarizeBy: none
+		sourceColumn: Status
+
+	column 'Is Active'
+		dataType: int64
+		formatString: 0
+		lineageTag: f0791e3a-edbf-48e5-b79b-214d3b7ea17c
+		summarizeBy: sum
+		sourceColumn: Is Active
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Dim_Provider = m
+		mode: import
+		source =
+				let
+					Source = Sql.Database(
+						"PSFADHSSTP02.ad.elc.nhs.uk\SWL",
+						"Data_Lab_SWL_Live",
+						[
+							Query = "SELECT [SK_ProviderID] AS [ProviderKey], [Provider_Code] AS [Provider Code], [Provider_Name] AS [Provider], [Provider_Type_Code] AS [Provider Type Code], [Provider_Type] AS [Provider Type], [Town], [Provider_Status] AS [Status], [Is_Active] AS [Is Active] FROM [Analytics].[vw_Dim_Provider]"
+						]
+					)
+				in
+					Source
+

@@ -1,0 +1,42 @@
+table Dim_Discharge_Destination
+	lineageTag: d9f94730-8f33-4767-8e8f-90a64e86b015
+
+	column DischargeDestinationKey
+		dataType: int64
+		isKey
+		lineageTag: 8688a27d-1c09-4943-abae-bc8bd2328356
+		summarizeBy: none
+		sourceColumn: DischargeDestinationKey
+
+	column 'Discharge Destination Code'
+		dataType: string
+		lineageTag: 276e5fd5-50e3-4998-bc05-d170c1e41eb5
+		summarizeBy: none
+		sourceColumn: Discharge Destination Code
+
+	column 'Discharge Destination Name'
+		dataType: string
+		lineageTag: 3a6fd1f2-b1f7-458a-a5d9-b73700c5a5c4
+		summarizeBy: none
+		sourceColumn: Discharge Destination Name
+
+	column 'Discharge Destination'
+		dataType: string
+		lineageTag: 1d60d360-3458-440d-b97b-26563e4067b9
+		summarizeBy: none
+		sourceColumn: Discharge Destination
+
+	partition Dim_Discharge_Destination = m
+		mode: import
+		source =
+				let
+					Source = Sql.Database(
+						"PSFADHSSTP02.ad.elc.nhs.uk\SWL",
+						"Data_Lab_SWL_Live",
+						[
+							Query = "SELECT [SK_DischargeDestinationID] AS [DischargeDestinationKey], [Discharge_Destination_Code] AS [Discharge Destination Code], [Discharge_Destination_Name] AS [Discharge Destination Name], [Discharge_Destination_Short] AS [Discharge Destination] FROM [Analytics].[vw_Dim_Discharge_Destination]"
+						]
+					)
+				in
+					Source
+

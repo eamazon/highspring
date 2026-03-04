@@ -1,0 +1,291 @@
+table Fact_IP_Activity
+	lineageTag: 22bd216c-b562-4cf2-bdf2-a5787c8b898b
+
+	column EncounterKey
+		dataType: int64
+		isKey
+		lineageTag: f122ef94-0b5d-4cc6-9d93-e8b5fba0d91b
+		summarizeBy: none
+		sourceColumn: EncounterKey
+
+	column PatientKey
+		dataType: int64
+		lineageTag: 406bbb06-e64a-4ba2-8bdf-35458611882b
+		summarizeBy: none
+		sourceColumn: PatientKey
+
+	column AdmissionDateKey
+		dataType: int64
+		lineageTag: abef7929-1dfe-45af-9f49-b1c38634d739
+		summarizeBy: none
+		sourceColumn: AdmissionDateKey
+
+	column DischargeDateKey
+		dataType: int64
+		lineageTag: 945a952d-aaf1-43f5-b4fd-2719b45ee989
+		summarizeBy: none
+		sourceColumn: DischargeDateKey
+
+	column AgeKey
+		dataType: int64
+		lineageTag: 3e64399f-48b4-4ace-8192-6488e0f09fa5
+		summarizeBy: none
+		sourceColumn: AgeKey
+
+	column GenderKey
+		dataType: int64
+		lineageTag: bca6d754-4ae6-4e7f-828f-12e78f741192
+		summarizeBy: none
+		sourceColumn: GenderKey
+
+	column EthnicityKey
+		dataType: int64
+		lineageTag: 37169e5f-4318-4524-b0d9-38a9f26a28ba
+		summarizeBy: none
+		sourceColumn: EthnicityKey
+
+	column ProviderKey
+		dataType: int64
+		lineageTag: 2dabe66d-9087-4dcb-810b-a87a52a26ba8
+		summarizeBy: none
+		sourceColumn: ProviderKey
+
+	column LSOAKey
+		dataType: int64
+		lineageTag: 0ff0848d-7a73-4ff7-b6c7-7e927d5a6ca7
+		summarizeBy: none
+		sourceColumn: LSOAKey
+
+	column SpecialtyKey
+		dataType: int64
+		lineageTag: 03ec7f88-d5b5-4a8c-bf0c-7e74255575b5
+		summarizeBy: none
+		sourceColumn: SpecialtyKey
+
+	column HRGKey
+		dataType: int64
+		lineageTag: a6dfc1ae-bdbc-4763-b384-945227e4a777
+		summarizeBy: none
+		sourceColumn: HRGKey
+
+	column CommissionerKey
+		dataType: int64
+		lineageTag: cbf901fa-fe48-481f-86a8-8ce06f49e088
+		summarizeBy: none
+		sourceColumn: CommissionerKey
+
+	column GPPracticeKey
+		dataType: int64
+		lineageTag: 76314f13-0dec-4783-830b-924cd7d467d2
+		summarizeBy: none
+		sourceColumn: GPPracticeKey
+
+	column PCNKey
+		dataType: int64
+		lineageTag: b4097ace-345b-492c-82c0-6b54f5bfe0c2
+		summarizeBy: none
+		sourceColumn: PCNKey
+
+	column PODKey
+		dataType: int64
+		lineageTag: 663ffa0d-e2f4-411b-89ea-1427727a5b48
+		summarizeBy: none
+		sourceColumn: PODKey
+
+	column OpPlanMeasureSetKey
+		dataType: int64
+		lineageTag: 21321c44-ba90-440d-9ed3-5bc6a3d00be3
+		summarizeBy: none
+		sourceColumn: OpPlanMeasureSetKey
+
+	column AdmissionMethodKey
+		dataType: int64
+		lineageTag: 8281ad96-666f-42b1-9dc0-b6665dda5e38
+		summarizeBy: none
+		sourceColumn: AdmissionMethodKey
+
+	column AdmissionSourceKey
+		dataType: int64
+		lineageTag: 0aa3276a-ec71-42d2-800d-41cc15f2ff44
+		summarizeBy: none
+		sourceColumn: AdmissionSourceKey
+
+	column DischargeMethodKey
+		dataType: int64
+		lineageTag: 162433bc-72cf-47cf-9bcc-8ddde7d3dc7c
+		summarizeBy: none
+		sourceColumn: DischargeMethodKey
+
+	column DischargeDestinationKey
+		dataType: int64
+		lineageTag: f9197004-db37-42ee-ba68-797b511caa13
+		summarizeBy: none
+		sourceColumn: DischargeDestinationKey
+
+	column PatientClassificationKey
+		dataType: int64
+		lineageTag: 82cbd655-8e92-452c-a9b6-7ac0bdb76566
+		summarizeBy: none
+		sourceColumn: PatientClassificationKey
+
+	column CAMCommissionerKey
+		dataType: int64
+		lineageTag: f69455fa-cd5a-4614-86f7-9e9622382023
+		summarizeBy: none
+		sourceColumn: CAMCommissionerKey
+
+	column CAMServiceCategoryKey
+		dataType: int64
+		lineageTag: b7a23948-6a6a-4130-a640-74a3a50b44b9
+		summarizeBy: none
+		sourceColumn: CAMServiceCategoryKey
+
+	column CAMAssignmentReasonKey
+		dataType: int64
+		lineageTag: f08214be-fcd1-4f80-96fc-a9be86c4788f
+		summarizeBy: none
+		sourceColumn: CAMAssignmentReasonKey
+
+	column 'Admission Date'
+		dataType: dateTime
+		formatString: dd/MM/yyyy
+		lineageTag: 1ac21f81-3638-4457-bffb-c23161f18a71
+		summarizeBy: none
+		sourceColumn: Admission Date
+
+	column 'Discharge Date'
+		dataType: dateTime
+		formatString: dd/MM/yyyy
+		lineageTag: 30162147-4e3e-405b-93fb-50b48b86e22a
+		summarizeBy: none
+		sourceColumn: Discharge Date
+
+	column Admissions
+		dataType: int64
+		lineageTag: 9f35bf5d-3310-4d20-9b70-7d360ed0c40a
+		summarizeBy: sum
+		sourceColumn: Admissions
+
+	column 'Length of Stay'
+		dataType: int64
+		lineageTag: 5abf07b9-b09e-45e5-9c13-2a04fc93a197
+		summarizeBy: sum
+		sourceColumn: Length of Stay
+
+	column 'Total Cost'
+		dataType: double
+		lineageTag: e364f661-5d41-4f12-8529-18e3198164b9
+		summarizeBy: sum
+		sourceColumn: Total Cost
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Delayed Discharge Days'
+		dataType: int64
+		lineageTag: 82798ee9-fbd8-42d1-8d4f-d8409dae208d
+		summarizeBy: sum
+		sourceColumn: Delayed Discharge Days
+
+	column 'Excess Bed Days'
+		dataType: int64
+		lineageTag: e62ca294-af60-4a57-b4d9-22cc038246b1
+		summarizeBy: sum
+		sourceColumn: Excess Bed Days
+
+	column 'Excess Bed Days Cost'
+		dataType: double
+		lineageTag: 7e53b173-baf9-4f03-97aa-73c4f5350e32
+		summarizeBy: sum
+		sourceColumn: Excess Bed Days Cost
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Palliative Care Days'
+		dataType: int64
+		lineageTag: be67a363-9b8f-4dfe-adf0-992043c80571
+		summarizeBy: sum
+		sourceColumn: Palliative Care Days
+
+	column 'Rehab Days'
+		dataType: int64
+		lineageTag: 41b27d72-d74e-4ddc-baec-1fb44e93aa6c
+		summarizeBy: sum
+		sourceColumn: Rehab Days
+
+	column 'Base Tariff'
+		dataType: double
+		lineageTag: c53e75b1-1407-42ac-b502-4065d7a1b34e
+		summarizeBy: sum
+		sourceColumn: Base Tariff
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'MFF Multiplier'
+		dataType: double
+		lineageTag: c3c26e61-2aec-4b2f-bfdf-020714912fab
+		summarizeBy: none
+		sourceColumn: MFF Multiplier
+
+	column 'ERF National Price'
+		dataType: double
+		lineageTag: e3bc87e3-e1e3-46f7-a95e-61c98755cc6a
+		summarizeBy: sum
+		sourceColumn: ERF National Price
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'ERF Cost'
+		dataType: double
+		lineageTag: 7ac573cb-e819-4dd4-b5c2-fbe2cd042d85
+		summarizeBy: sum
+		sourceColumn: ERF Cost
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Commissioner Variance'
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 859a9e23-da42-46d8-95b3-dd6a4be6d7af
+		summarizeBy: none
+		sourceColumn: Commissioner Variance
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Service Category Variance'
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: eacde30b-bb0a-43ce-973a-c27ebac8dc64
+		summarizeBy: none
+		sourceColumn: Service Category Variance
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Is Operating Plan'
+		dataType: boolean
+		lineageTag: f34967c5-1e15-4c51-bf58-091a3449d8a7
+		summarizeBy: none
+		sourceColumn: Is Operating Plan
+
+	column 'Is ERF Eligible'
+		dataType: boolean
+		lineageTag: 55102ee2-bdcc-4d7e-b654-0f8e47355552
+		summarizeBy: none
+		sourceColumn: Is ERF Eligible
+
+	hierarchy 'Discharge Date Hierarchy'
+		lineageTag: 72da8719-6151-4a03-a7c3-a8a0a9bcc32c
+
+		level 'Discharge Date'
+			lineageTag: 3698b084-fc6a-4c3a-8c31-0da1d15f6ce6
+			column: 'Discharge Date'
+
+	partition Fact_IP_Activity = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database("PSFADHSSTP02.ad.elc.nhs.uk\SWL", "Data_Lab_SWL_Live", [Query="SELECT [SK_EncounterID] AS [EncounterKey], [SK_PatientID] AS [PatientKey], [SK_DateAdmissionID] AS [AdmissionDateKey], [SK_DateDischargeID] AS [DischargeDateKey], [SK_Age_BandID] AS [AgeKey], [SK_GenderID] AS [GenderKey], [SK_EthnicityID] AS [EthnicityKey], [SK_ProviderID] AS [ProviderKey], [SK_LSOA_ID] AS [LSOAKey], [SK_SpecialtyID] AS [SpecialtyKey], [SK_HRG_ID] AS [HRGKey], [SK_CommissionerID] AS [CommissionerKey], [SK_GPPracticeID] AS [GPPracticeKey], [SK_PCN_ID] AS [PCNKey], [SK_POD_ID] AS [PODKey], [SK_OpPlan_MeasureSet] AS [OpPlanMeasureSetKey], [SK_Admission_MethodID] AS [AdmissionMethodKey], [SK_Admission_SourceID] AS [AdmissionSourceKey], [SK_Discharge_MethodID] AS [DischargeMethodKey], [SK_Discharge_DestinationID] AS [DischargeDestinationKey], [SK_IP_Patient_ClassificationID] AS [PatientClassificationKey], [SK_CAM_CommissionerID] AS [CAMCommissionerKey], [SK_CAM_Service_CategoryID] AS [CAMServiceCategoryKey], [SK_CAM_Assignment_ReasonID] AS [CAMAssignmentReasonKey], [Admission_Date] AS [Admission Date], [Discharge_Date] AS [Discharge Date], [Admissions], [Length_Of_Stay] AS [Length of Stay], [Total_Cost] AS [Total Cost], [Delayed_Discharge_Days] AS [Delayed Discharge Days], [Excess_Bed_Days] AS [Excess Bed Days], [Excess_Bed_Days_Cost] AS [Excess Bed Days Cost], [Palliative_Care_Days] AS [Palliative Care Days], [Rehab_Days] AS [Rehab Days], [Base_Tariff] AS [Base Tariff], [MFF_Multiplier] AS [MFF Multiplier], [ERF_National_Price] AS [ERF National Price], [ERF_Total_Cost_Incl_MFF] AS [ERF Cost], [Commissioner_Variance] AS [Commissioner Variance], [Service_Category_Variance] AS [Service Category Variance], [Is_Operating_Plan] AS [Is Operating Plan], [Is_ERF_Eligible] AS [Is ERF Eligible] FROM [Analytics].[tbl_Fact_IP_Activity]"])
+				in
+				    Source
+
+	annotation PBI_ResultType = Table
+

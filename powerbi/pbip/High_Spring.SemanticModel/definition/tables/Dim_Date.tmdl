@@ -1,0 +1,210 @@
+table Dim_Date
+	lineageTag: 98327776-8ad9-4e07-9ca0-b168daa29ba5
+
+	column DateKey
+		dataType: int64
+		isKey
+		lineageTag: a1f6a663-000f-4bc7-8758-48c2f61b4b4a
+		summarizeBy: none
+		sourceColumn: DateKey
+
+	column Date
+		dataType: dateTime
+		formatString: dd/MM/yyyy
+		lineageTag: f73caaba-da3e-4db7-b6b0-cc5b16887772
+		summarizeBy: none
+		sourceColumn: Date
+
+	column 'Day of Month'
+		dataType: int64
+		lineageTag: 53f09ea8-1656-48fc-9c78-bbf625d402d1
+		summarizeBy: none
+		sourceColumn: Day of Month
+
+	column 'Day Name'
+		dataType: string
+		lineageTag: 19195b80-00aa-4eb8-9772-2c1cdaafc693
+		summarizeBy: none
+		sourceColumn: Day Name
+
+	column 'Day of Week'
+		dataType: int64
+		lineageTag: 92705afc-4dba-4bff-9a52-c4482ab15b14
+		summarizeBy: none
+		sourceColumn: Day of Week
+
+	column 'Week Number'
+		dataType: int64
+		lineageTag: a43b1568-7948-443b-8005-4204713eabb3
+		summarizeBy: none
+		sourceColumn: Week Number
+
+	column 'Month Number'
+		dataType: int64
+		lineageTag: b9004133-a104-4fd1-9844-6a62c65415c2
+		summarizeBy: none
+		sourceColumn: Month Number
+
+	column 'Month Name'
+		dataType: string
+		lineageTag: 359280e0-1401-4dba-8153-207401e0fe56
+		summarizeBy: none
+		sourceColumn: Month Name
+
+	column Month
+		dataType: string
+		lineageTag: 79750ed0-4411-42ff-b51b-0c9685d7acf9
+		summarizeBy: none
+		sourceColumn: Month
+
+	column 'Calendar Quarter'
+		dataType: int64
+		lineageTag: 3dcc54ef-4896-4c92-8b50-5dc48043f0ab
+		summarizeBy: none
+		sourceColumn: Calendar Quarter
+
+	column 'Calendar Year'
+		dataType: int64
+		lineageTag: ebaf654d-77c1-4be5-96f8-4681afbd1c4a
+		summarizeBy: none
+		sourceColumn: Calendar Year
+
+	column 'Financial Month'
+		dataType: int64
+		lineageTag: 89766a49-0fff-401c-a8d4-f35c1d425886
+		summarizeBy: none
+		sourceColumn: Financial Month
+
+	column 'Financial Quarter'
+		dataType: int64
+		lineageTag: f590b299-ce4d-4c31-9937-ec8157417d65
+		summarizeBy: none
+		sourceColumn: Financial Quarter
+
+	column 'Financial Year Number'
+		dataType: int64
+		lineageTag: fc3b2a1b-e4d7-4194-99e0-26c45c670cae
+		summarizeBy: none
+		sourceColumn: Financial Year Number
+
+	column 'Financial Year'
+		dataType: string
+		lineageTag: a453ab5e-ccea-441c-8db3-c4a89d4b812b
+		summarizeBy: none
+		sourceColumn: Financial Year
+
+	column 'FY Short'
+		dataType: string
+		lineageTag: d0a63955-9bd5-496e-bd8e-e733cb64ab67
+		summarizeBy: none
+		sourceColumn: FY Short
+
+	column 'Is Weekend'
+		dataType: boolean
+		lineageTag: 10f689f0-04be-4531-8bb1-fb77548f0810
+		summarizeBy: none
+		sourceColumn: Is Weekend
+
+	column 'Is Bank Holiday'
+		dataType: boolean
+		lineageTag: 8595e3a3-bd35-4300-bdbc-a4f4e67f7815
+		summarizeBy: none
+		sourceColumn: Is Bank Holiday
+
+	column 'Bank Holiday'
+		dataType: string
+		lineageTag: bfac7236-b309-4fab-99a9-1b1bb303fa85
+		summarizeBy: none
+		sourceColumn: Bank Holiday
+
+	column 'Is School Holiday'
+		dataType: boolean
+		lineageTag: d45a0555-c32c-4c7e-9d8c-0ca93fbd91e6
+		summarizeBy: none
+		sourceColumn: Is School Holiday
+
+	column 'Is NHS Strike Day'
+		dataType: boolean
+		lineageTag: 2c94dd35-1b8f-4e75-85cb-dbc4907d8206
+		summarizeBy: none
+		sourceColumn: Is NHS Strike Day
+
+	column 'Is Christmas Period'
+		dataType: boolean
+		lineageTag: 37a1d059-e0fc-4e29-98e4-41055e9e0dba
+		summarizeBy: none
+		sourceColumn: Is Christmas Period
+
+	column 'Is Easter Period'
+		dataType: boolean
+		lineageTag: d21f5a7a-ec35-45a2-8b45-eab280a012c3
+		summarizeBy: none
+		sourceColumn: Is Easter Period
+
+	hierarchy 'Calendar Hierarchy'
+		lineageTag: 1e2ef290-205a-4e99-aea9-42efc5a071d7
+
+		level 'Calendar Year'
+			lineageTag: cf3b4954-ca56-4022-8909-82a8b6690408
+			column: 'Calendar Year'
+
+		level 'Calendar Quarter'
+			lineageTag: b2e8f90a-4905-4e28-ae6a-c0b2ae853e99
+			column: 'Calendar Quarter'
+
+		level 'Month Name'
+			lineageTag: 9dc48bc8-77f6-42df-b647-96cd5810c543
+			column: 'Month Name'
+
+		level Date
+			lineageTag: ee710c0c-16b5-4175-a8e4-b311102f9613
+			column: Date
+
+	hierarchy 'Financial Year Hierarchy'
+		lineageTag: 5c234d1c-f85a-4ea5-9115-e26dd0df92df
+
+		level 'Financial Year'
+			lineageTag: bf885459-ef64-4578-8cb8-9d8a3aa443ec
+			column: 'Financial Year'
+
+		level 'Financial Quarter'
+			lineageTag: fdedd9b4-0ba1-45e5-8ebd-5b70fd50c9be
+			column: 'Financial Quarter'
+
+		level 'Financial Month'
+			lineageTag: 4d3c52d8-f31c-4ffb-87ff-a6fe85bcc3d7
+			column: 'Financial Month'
+
+		level Date
+			lineageTag: f717aeea-9670-441b-ab1a-2f2a2e231930
+			column: Date
+
+	hierarchy 'Week Hierarchy'
+		lineageTag: 59641176-f52b-4f82-b35c-ed600da1dd0a
+
+		level 'Calendar Year'
+			lineageTag: 4ad2ec71-6ca2-4ec9-bd96-991317d1bbba
+			column: 'Calendar Year'
+
+		level 'Week Number'
+			lineageTag: 09d880a1-52fe-47e7-bce9-17b97eb8c149
+			column: 'Week Number'
+
+		level 'Day Name'
+			lineageTag: a69be169-0777-4856-9fa6-bf80c5718f0c
+			column: 'Day Name'
+
+	partition Dim_Date = m
+		mode: import
+		source =
+				let
+					Source = Sql.Database(
+						"PSFADHSSTP02.ad.elc.nhs.uk\SWL",
+						"Data_Lab_SWL_Live",
+						[
+							Query = "SELECT [SK_Date] AS [DateKey], [FullDate] AS [Date], [Day] AS [Day of Month], [DayOfWeek] AS [Day Name], [DayOfWeekNumber] AS [Day of Week], [WeekOfYearNumber] AS [Week Number], [CalendarMonthNumber] AS [Month Number], [CalendarMonthName] AS [Month Name], [CalendarMonthNameShort] AS [Month], [CalendarQuarterNumber] AS [Calendar Quarter], [CalendarYearNumber] AS [Calendar Year], [FiscalCalendarMonthNumber] AS [Financial Month], [FiscalCalendarQuarterNumber] AS [Financial Quarter], [FiscalCalendarYearNumber] AS [Financial Year Number], [FiscalCalendarYearName] AS [Financial Year], [FiscalCalendarYearNameShort] AS [FY Short], [IsWeekend] AS [Is Weekend], [IsBankHoliday] AS [Is Bank Holiday], [BankHoliday_Name] AS [Bank Holiday], [IsSchoolHoliday] AS [Is School Holiday], [IsNHSStrikeDay] AS [Is NHS Strike Day], [IsChristmasPeriod] AS [Is Christmas Period], [IsEasterPeriod] AS [Is Easter Period] FROM [Analytics].[vw_Dim_Date] WHERE [FullDate] >= '2019-04-01' AND [FullDate] <= DATEADD(YEAR, 1, GETDATE())"
+						]
+					)
+				in
+					Source
+

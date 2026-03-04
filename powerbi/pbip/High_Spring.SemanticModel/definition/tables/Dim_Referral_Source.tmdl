@@ -1,0 +1,42 @@
+table Dim_Referral_Source
+	lineageTag: 7294d75a-fc3f-4a1e-a286-34973e289b69
+
+	column ReferralSourceKey
+		dataType: int64
+		isKey
+		lineageTag: a694b857-fe89-4d74-8698-943c3a25010d
+		summarizeBy: none
+		sourceColumn: ReferralSourceKey
+
+	column 'Referral Source Code'
+		dataType: string
+		lineageTag: 47658236-0d65-4754-b26e-3fc5d6e20f90
+		summarizeBy: none
+		sourceColumn: Referral Source Code
+
+	column 'Referral Source Description'
+		dataType: string
+		lineageTag: 753b0288-129a-42d2-aaba-d6afb0e3f00d
+		summarizeBy: none
+		sourceColumn: Referral Source Description
+
+	column 'Referral Source'
+		dataType: string
+		lineageTag: c14ca457-d72e-4db0-a6bc-00168086699d
+		summarizeBy: none
+		sourceColumn: Referral Source
+
+	partition Dim_Referral_Source = m
+		mode: import
+		source =
+				let
+					Source = Sql.Database(
+						"PSFADHSSTP02.ad.elc.nhs.uk\SWL",
+						"Data_Lab_SWL_Live",
+						[
+							Query = "SELECT [SK_ReferralSourceID] AS [ReferralSourceKey], [Referral_Source_Code] AS [Referral Source Code], [Referral_Source_Description] AS [Referral Source Description], [Referral_Source_Short] AS [Referral Source] FROM [Analytics].[vw_Dim_Referral_Source]"
+						]
+					)
+				in
+					Source
+

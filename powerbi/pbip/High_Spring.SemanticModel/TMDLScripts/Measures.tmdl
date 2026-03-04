@@ -1,0 +1,438 @@
+createOrReplace
+
+	/// Centralised measures for Excel users and report builders
+	table KeyMeasures
+
+		column MeasuresColumn
+			dataType: int64
+			isHidden
+			summarizeBy: none
+			sourceColumn: MeasuresColumn
+
+		partition KeyMeasures = m
+			mode: import
+			source =
+				let
+				    Source = #table(type table [MeasuresColumn = Int64.Type], {{1}})
+				in
+				    Source
+
+		/// Total number of inpatient admissions
+		measure 'IP Admissions' = SUM(Fact_IP_Activity[Admissions])
+			formatString: #,##0
+			displayFolder: Inpatient\Activity
+
+		/// Total number of inpatient spells (episodes of care)
+		measure 'IP Spells' = COUNTROWS(Fact_IP_Activity)
+			formatString: #,##0
+			displayFolder: Inpatient\Activity
+
+		/// Unique count of inpatient patients
+		measure 'IP Patients' = DISTINCTCOUNT(Fact_IP_Activity[PatientKey])
+			formatString: #,##0
+			displayFolder: Inpatient\Activity
+
+		/// Planned/scheduled inpatient admissions
+		measure 'IP Elective Admissions' = CALCULATE([IP Admissions], Dim_POD[Is Elective] = TRUE)
+			formatString: #,##0
+			displayFolder: Inpatient\Activity
+
+		/// Unplanned/emergency inpatient admissions
+		measure 'IP Emergency Admissions' = CALCULATE([IP Admissions], Dim_POD[Is Emergency] = TRUE)
+			formatString: #,##0
+			displayFolder: Inpatient\Activity
+
+		/// Same-day elective admissions (0 bed days)
+		measure 'IP Day Cases' = CALCULATE([IP Admissions], Fact_IP_Activity[Length of Stay] = 0, Dim_POD[Is Elective] = TRUE)
+			formatString: #,##0
+			displayFolder: Inpatient\Activity
+
+		/// Total cost of inpatient activity
+		measure 'IP Total Cost' = SUM(Fact_IP_Activity[Total Cost])
+			formatString: £ #,##0
+			displayFolder: Inpatient\Cost
+
+		/// National tariff price for inpatient activity
+		measure 'IP Base Tariff' = SUM(Fact_IP_Activity[Base Tariff])
+			formatString: £ #,##0
+			displayFolder: Inpatient\Cost
+
+		/// Additional cost for stays exceeding trim point
+		measure 'IP Excess Bed Days Cost' = SUM(Fact_IP_Activity[Excess Bed Days Cost])
+			formatString: £ #,##0
+			displayFolder: Inpatient\Cost
+
+		/// Average cost per inpatient spell
+		measure 'IP Cost per Spell' = DIVIDE([IP Total Cost], [IP Spells], 0)
+			formatString: £ #,##0
+			displayFolder: Inpatient\Cost
+
+		/// Elective Recovery Fund national price component
+		measure 'IP ERF National Price' = SUM(Fact_IP_Activity[ERF National Price])
+			formatString: £ #,##0
+			displayFolder: Inpatient\ERF
+
+		/// Elective Recovery Fund cost
+		measure 'IP ERF Cost' = SUM(Fact_IP_Activity[ERF Cost])
+			formatString: £ #,##0
+			displayFolder: Inpatient\ERF
+
+		/// Spells eligible for Elective Recovery Fund
+		measure 'IP ERF Eligible Spells' = CALCULATE([IP Spells], Fact_IP_Activity[Is ERF Eligible] = TRUE)
+			formatString: #,##0
+			displayFolder: Inpatient\ERF
+
+		/// Total bed days used by inpatients
+		measure 'IP Total Bed Days' = SUM(Fact_IP_Activity[Length of Stay])
+			formatString: #,##0
+			displayFolder: Inpatient\Performance
+
+		/// Average number of days per admission
+		measure 'IP Average Length of Stay' = DIVIDE([IP Total Bed Days], [IP Admissions], 0)
+			formatString: #,##0.0
+			displayFolder: Inpatient\Performance
+
+		/// Bed days exceeding HRG trim point
+		measure 'IP Excess Bed Days' = SUM(Fact_IP_Activity[Excess Bed Days])
+			formatString: #,##0
+			displayFolder: Inpatient\Performance
+
+		/// Days delayed due to discharge issues
+		measure 'IP Delayed Discharge Days' = SUM(Fact_IP_Activity[Delayed Discharge Days])
+			formatString: #,##0
+			displayFolder: Inpatient\Performance
+
+		/// Days spent in rehabilitation
+		measure 'IP Rehab Days' = SUM(Fact_IP_Activity[Rehab Days])
+			formatString: #,##0
+			displayFolder: Inpatient\Performance
+
+		/// Days receiving palliative care
+		measure 'IP Palliative Care Days' = SUM(Fact_IP_Activity[Palliative Care Days])
+			formatString: #,##0
+			displayFolder: Inpatient\Performance
+
+		/// Spells included in operating plan
+		measure 'IP Operating Plan Spells' = CALCULATE([IP Spells], Fact_IP_Activity[Is Operating Plan] = TRUE)
+			formatString: #,##0
+			displayFolder: Inpatient\Operating Plan
+
+		/// Cost of operating plan activity
+		measure 'IP Operating Plan Cost' = CALCULATE([IP Total Cost], Fact_IP_Activity[Is Operating Plan] = TRUE)
+			formatString: £ #,##0
+			displayFolder: Inpatient\Operating Plan
+
+		/// Total outpatient appointments booked
+		measure 'OP Appointments' = SUM(Fact_OP_Activity[Appointments])
+			formatString: #,##0
+			displayFolder: Outpatient\Activity
+
+		/// Total outpatient attendances
+		measure 'OP Attendances' = COUNTROWS(Fact_OP_Activity)
+			formatString: #,##0
+			displayFolder: Outpatient\Activity
+
+		/// Unique count of outpatient patients
+		measure 'OP Patients' = DISTINCTCOUNT(Fact_OP_Activity[PatientKey])
+			formatString: #,##0
+			displayFolder: Outpatient\Activity
+
+		/// First/new outpatient appointments
+		measure 'OP First Attendances' = CALCULATE([OP Attendances], Fact_OP_Activity[Is First Attendance] = TRUE)
+			formatString: #,##0
+			displayFolder: Outpatient\Activity
+
+		/// Follow-up outpatient appointments
+		measure 'OP Follow-up Attendances' = CALCULATE([OP Attendances], Fact_OP_Activity[Is First Attendance] = FALSE)
+			formatString: #,##0
+			displayFolder: Outpatient\Activity
+
+		/// Ratio of follow-ups to first attendances
+		measure 'OP Follow-up Ratio' = DIVIDE([OP Follow-up Attendances], [OP First Attendances], 0)
+			formatString: #,##0.00
+			displayFolder: Outpatient\Activity
+
+		/// Total cost of outpatient activity
+		measure 'OP Total Cost' = SUM(Fact_OP_Activity[Total Cost])
+			formatString: £ #,##0
+			displayFolder: Outpatient\Cost
+
+		/// Average cost per outpatient attendance
+		measure 'OP Cost per Attendance' = DIVIDE([OP Total Cost], [OP Attendances], 0)
+			formatString: £ #,##0
+			displayFolder: Outpatient\Cost
+
+		/// Did Not Attend count
+		measure 'OP DNA Count' = SUM(Fact_OP_Activity[DNA Count])
+			formatString: #,##0
+			displayFolder: Outpatient\Performance
+
+		/// Percentage of appointments where patient did not attend
+		measure 'OP DNA Rate' = DIVIDE([OP DNA Count], [OP Appointments], 0)
+			formatString: 0.0%
+			displayFolder: Outpatient\Performance
+
+		/// Average days from referral to appointment
+		measure 'OP Avg Days to Appointment' = AVERAGE(Fact_OP_Activity[Days to Appointment])
+			formatString: #,##0.0
+			displayFolder: Outpatient\Performance
+
+		/// Average Referral to Treatment wait in weeks
+		measure 'OP Avg RTT Wait Weeks' = AVERAGE(Fact_OP_Activity[RTT Wait Weeks])
+			formatString: #,##0.0
+			displayFolder: Outpatient\Performance
+
+		/// Attendances breaching 18-week RTT target
+		measure 'OP RTT 18 Week Breaches' = CALCULATE([OP Attendances], Fact_OP_Activity[RTT Wait Weeks] > 18)
+			formatString: #,##0
+			displayFolder: Outpatient\Performance
+
+		/// Percentage meeting 18-week RTT target
+		measure 'OP RTT 18 Week Performance' = 1 - DIVIDE([OP RTT 18 Week Breaches], [OP Attendances], 0)
+			formatString: 0.0%
+			displayFolder: Outpatient\Performance
+
+		/// Attendances eligible for Elective Recovery Fund
+		measure 'OP ERF Eligible Attendances' = CALCULATE([OP Attendances], Fact_OP_Activity[Is ERF Eligible] = TRUE)
+			formatString: #,##0
+			displayFolder: Outpatient\ERF
+
+		/// Attendances included in operating plan
+		measure 'OP Operating Plan Attendances' = CALCULATE([OP Attendances], Fact_OP_Activity[Is Operating Plan] = TRUE)
+			formatString: #,##0
+			displayFolder: Outpatient\Operating Plan
+
+		/// Cost of operating plan outpatient activity
+		measure 'OP Operating Plan Cost' = CALCULATE([OP Total Cost], Fact_OP_Activity[Is Operating Plan] = TRUE)
+			formatString: £ #,##0
+			displayFolder: Outpatient\Operating Plan
+
+		/// Total A&E attendances
+		measure 'AE Attendances' = SUM(Fact_AE_Activity[Attendances])
+			formatString: #,##0
+			displayFolder: A&E\Activity
+
+		/// Total A&E visits
+		measure 'AE Visits' = COUNTROWS(Fact_AE_Activity)
+			formatString: #,##0
+			displayFolder: A&E\Activity
+
+		/// Unique count of A&E patients
+		measure 'AE Patients' = DISTINCTCOUNT(Fact_AE_Activity[PatientKey])
+			formatString: #,##0
+			displayFolder: A&E\Activity
+
+		/// A&E attendances resulting in admission
+		measure 'AE Admitted' = CALCULATE([AE Attendances], Fact_AE_Activity[Is Admitted] = TRUE)
+			formatString: #,##0
+			displayFolder: A&E\Activity
+
+		/// Percentage of A&E attendances resulting in admission
+		measure 'AE Admission Rate' = DIVIDE([AE Admitted], [AE Attendances], 0)
+			formatString: 0.0%
+			displayFolder: A&E\Activity
+
+		/// Total cost of A&E activity
+		measure 'AE Total Cost' = SUM(Fact_AE_Activity[Total Cost])
+			formatString: £ #,##0
+			displayFolder: A&E\Cost
+
+		/// Average cost per A&E attendance
+		measure 'AE Cost per Attendance' = DIVIDE([AE Total Cost], [AE Attendances], 0)
+			formatString: £ #,##0
+			displayFolder: A&E\Cost
+
+		/// Attendances exceeding 4-hour target
+		measure 'AE 4-Hour Breaches' = CALCULATE([AE Attendances], Fact_AE_Activity[Is 4-Hour Breach] = TRUE)
+			formatString: #,##0
+			displayFolder: A&E\Performance
+
+		/// Percentage meeting 4-hour A&E target
+		measure 'AE 4-Hour Performance' = 1 - DIVIDE([AE 4-Hour Breaches], [AE Attendances], 0)
+			formatString: 0.0%
+			displayFolder: A&E\Performance
+
+		/// Attendances exceeding 12-hour trolley wait
+		measure 'AE 12-Hour Breaches' = CALCULATE([AE Attendances], Fact_AE_Activity[Is 12-Hour Breach] = TRUE)
+			formatString: #,##0
+			displayFolder: A&E\Performance
+
+		/// Total minutes spent in A&E department
+		measure 'AE Total Time in Department' = SUM(Fact_AE_Activity[Time in Department (mins)])
+			formatString: #,##0
+			displayFolder: A&E\Performance
+
+		/// Average time in A&E department in minutes
+		measure 'AE Avg Time in Department (mins)' = AVERAGE(Fact_AE_Activity[Time in Department (mins)])
+			formatString: #,##0.0
+			displayFolder: A&E\Performance
+
+		/// Average time to initial assessment in minutes
+		measure 'AE Avg Time to Assessment (mins)' = AVERAGE(Fact_AE_Activity[Time to Assessment (mins)])
+			formatString: #,##0.0
+			displayFolder: A&E\Performance
+
+		/// Attendances included in operating plan
+		measure 'AE Operating Plan Attendances' = CALCULATE([AE Attendances], Fact_AE_Activity[Is Operating Plan] = TRUE)
+			formatString: #,##0
+			displayFolder: A&E\Operating Plan
+
+		/// Cost of operating plan A&E activity
+		measure 'AE Operating Plan Cost' = CALCULATE([AE Total Cost], Fact_AE_Activity[Is Operating Plan] = TRUE)
+			formatString: £ #,##0
+			displayFolder: A&E\Operating Plan
+
+		/// Combined activity across all services (IP + OP + A&E)
+		measure 'Total Activity' = [IP Admissions] + [OP Appointments] + [AE Attendances]
+			formatString: #,##0
+			displayFolder: Summary
+
+		/// Total unique patients across all services
+		measure 'Total Patients' = DISTINCTCOUNT(Fact_IP_Activity[PatientKey]) + DISTINCTCOUNT(Fact_OP_Activity[PatientKey]) + DISTINCTCOUNT(Fact_AE_Activity[PatientKey])
+			formatString: #,##0
+			displayFolder: Summary
+
+		/// Combined cost across all services
+		measure 'Total Cost' = [IP Total Cost] + [OP Total Cost] + [AE Total Cost]
+			formatString: £ #,##0
+			displayFolder: Summary
+
+		/// Total operating plan cost across all services
+		measure 'Operating Plan Total Cost' = [IP Operating Plan Cost] + [OP Operating Plan Cost] + [AE Operating Plan Cost]
+			formatString: £ #,##0
+			displayFolder: Summary
+
+		/// Inpatient admissions same period last year
+		measure 'IP Admissions PY' = CALCULATE([IP Admissions], SAMEPERIODLASTYEAR(Dim_Date[Date]))
+			formatString: #,##0
+			displayFolder: Time Comparison\Prior Year
+
+		/// Change in admissions vs prior year
+		measure 'IP Admissions vs PY' = [IP Admissions] - [IP Admissions PY]
+			formatString: +#,##0;-#,##0;0
+			displayFolder: Time Comparison\Prior Year
+
+		/// Percentage change in admissions vs prior year
+		measure 'IP Admissions vs PY %' = DIVIDE([IP Admissions vs PY], [IP Admissions PY], 0)
+			formatString: +0.0%;-0.0%;0.0%
+			displayFolder: Time Comparison\Prior Year
+
+		/// Inpatient cost same period last year
+		measure 'IP Total Cost PY' = CALCULATE([IP Total Cost], SAMEPERIODLASTYEAR(Dim_Date[Date]))
+			formatString: £ #,##0
+			displayFolder: Time Comparison\Prior Year
+
+		/// Change in inpatient cost vs prior year
+		measure 'IP Total Cost vs PY' = [IP Total Cost] - [IP Total Cost PY]
+			formatString: £ +#,##0;£ -#,##0;£ 0
+			displayFolder: Time Comparison\Prior Year
+
+		/// Inpatient admissions financial year to date
+		measure 'IP Admissions YTD' = TOTALYTD([IP Admissions], Dim_Date[Date], "31/03")
+			formatString: #,##0
+			displayFolder: Time Comparison\Year to Date
+
+		/// Inpatient cost financial year to date
+		measure 'IP Total Cost YTD' = TOTALYTD([IP Total Cost], Dim_Date[Date], "31/03")
+			formatString: £ #,##0
+			displayFolder: Time Comparison\Year to Date
+
+		/// Outpatient appointments financial year to date
+		measure 'OP Appointments YTD' = TOTALYTD([OP Appointments], Dim_Date[Date], "31/03")
+			formatString: #,##0
+			displayFolder: Time Comparison\Year to Date
+
+		/// A&E attendances financial year to date
+		measure 'AE Attendances YTD' = TOTALYTD([AE Attendances], Dim_Date[Date], "31/03")
+			formatString: #,##0
+			displayFolder: Time Comparison\Year to Date
+
+		/// Outpatient cost same period last year
+		measure 'OP Total Cost PY' = CALCULATE([OP Total Cost], SAMEPERIODLASTYEAR(Dim_Date[Date]))
+			formatString: £ #,##0
+			displayFolder: Time Comparison\Prior Year
+
+		/// Change in outpatient cost vs prior year
+		measure 'OP Total Cost vs PY' = [OP Total Cost] - [OP Total Cost PY]
+			formatString: £ +#,##0;£ -#,##0;£ 0
+			displayFolder: Time Comparison\Prior Year
+
+		/// Percentage change in outpatient cost vs prior year
+		measure 'OP Total Cost vs PY %' = DIVIDE([OP Total Cost vs PY], [OP Total Cost PY], 0)
+			formatString: +0.0%;-0.0%;0.0%
+			displayFolder: Time Comparison\Prior Year
+
+		/// Outpatient cost financial year to date
+		measure 'OP Total Cost YTD' = TOTALYTD([OP Total Cost], Dim_Date[Date], "31/03")
+			formatString: £ #,##0
+			displayFolder: Time Comparison\Year to Date
+
+		/// Outpatient attendances same period last year
+		measure 'OP Attendances PY' = CALCULATE([OP Attendances], SAMEPERIODLASTYEAR(Dim_Date[Date]))
+			formatString: #,##0
+			displayFolder: Time Comparison\Prior Year
+
+		/// Change in outpatient attendances vs prior year
+		measure 'OP Attendances vs PY' = [OP Attendances] - [OP Attendances PY]
+			formatString: +#,##0;-#,##0;0
+			displayFolder: Time Comparison\Prior Year
+
+		/// Percentage change in outpatient attendances vs prior year
+		measure 'OP Attendances vs PY %' = DIVIDE([OP Attendances vs PY], [OP Attendances PY], 0)
+			formatString: +0.0%;-0.0%;0.0%
+			displayFolder: Time Comparison\Prior Year
+
+		/// A&E cost same period last year
+		measure 'AE Total Cost PY' = CALCULATE([AE Total Cost], SAMEPERIODLASTYEAR(Dim_Date[Date]))
+			formatString: £ #,##0
+			displayFolder: Time Comparison\Prior Year
+
+		/// Change in A&E cost vs prior year
+		measure 'AE Total Cost vs PY' = [AE Total Cost] - [AE Total Cost PY]
+			formatString: £ +#,##0;£ -#,##0;£ 0
+			displayFolder: Time Comparison\Prior Year
+
+		/// Percentage change in A&E cost vs prior year
+		measure 'AE Total Cost vs PY %' = DIVIDE([AE Total Cost vs PY], [AE Total Cost PY], 0)
+			formatString: +0.0%;-0.0%;0.0%
+			displayFolder: Time Comparison\Prior Year
+
+		/// A&E cost financial year to date
+		measure 'AE Total Cost YTD' = TOTALYTD([AE Total Cost], Dim_Date[Date], "31/03")
+			formatString: £ #,##0
+			displayFolder: Time Comparison\Year to Date
+
+		/// A&E attendances same period last year
+		measure 'AE Attendances PY' = CALCULATE([AE Attendances], SAMEPERIODLASTYEAR(Dim_Date[Date]))
+			formatString: #,##0
+			displayFolder: Time Comparison\Prior Year
+
+		/// Change in A&E attendances vs prior year
+		measure 'AE Attendances vs PY' = [AE Attendances] - [AE Attendances PY]
+			formatString: +#,##0;-#,##0;0
+			displayFolder: Time Comparison\Prior Year
+
+		/// Percentage change in A&E attendances vs prior year
+		measure 'AE Attendances vs PY %' = DIVIDE([AE Attendances vs PY], [AE Attendances PY], 0)
+			formatString: +0.0%;-0.0%;0.0%
+			displayFolder: Time Comparison\Prior Year
+
+		/// Total cost same period last year
+		measure 'Total Cost PY' = CALCULATE([Total Cost], SAMEPERIODLASTYEAR(Dim_Date[Date]))
+			formatString: £ #,##0
+			displayFolder: Time Comparison\Prior Year
+
+		/// Change in total cost vs prior year
+		measure 'Total Cost vs PY' = [Total Cost] - [Total Cost PY]
+			formatString: £ +#,##0;£ -#,##0;£ 0
+			displayFolder: Time Comparison\Prior Year
+
+		/// Percentage change in total cost vs prior year
+		measure 'Total Cost vs PY %' = DIVIDE([Total Cost vs PY], [Total Cost PY], 0)
+			formatString: +0.0%;-0.0%;0.0%
+			displayFolder: Time Comparison\Prior Year
+
+		/// Total cost financial year to date
+		measure 'Total Cost YTD' = TOTALYTD([Total Cost], Dim_Date[Date], "31/03")
+			formatString: £ #,##0
+			displayFolder: Time Comparison\Year to Date

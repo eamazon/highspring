@@ -1,0 +1,135 @@
+createOrReplace
+
+	relationship 01a1b1c1-d1e1-f1a1-b1c1-d1e1f1a1b1c1
+		fromColumn: Fact_IP_Activity.AdmissionDateKey
+		toColumn: Dim_Date.DateKey
+		fromCardinality: many
+		toCardinality: one
+		isActive: false
+
+	relationship 02a2b2c2-d2e2-f2a2-b2c2-d2e2f2a2b2c2
+		fromColumn: Fact_IP_Activity.DischargeDateKey
+		toColumn: Dim_Date.DateKey
+		fromCardinality: many
+		toCardinality: one
+
+	relationship 03a3b3c3-d3e3-f3a3-b3c3-d3e3f3a3b3c3
+		fromColumn: Fact_IP_Activity.AgeKey
+		toColumn: Dim_Age_Band.Age
+		fromCardinality: many
+		toCardinality: one
+
+	relationship 04a4b4c4-d4e4-f4a4-b4c4-d4e4f4a4b4c4
+		fromColumn: Fact_IP_Activity.GenderKey
+		toColumn: Dim_Gender.GenderKey
+		fromCardinality: many
+		toCardinality: one
+
+	relationship 05a5b5c5-d5e5-f5a5-b5c5-d5e5f5a5b5c5
+		fromColumn: Fact_IP_Activity.EthnicityKey
+		toColumn: Dim_Ethnicity.EthnicityKey
+		fromCardinality: many
+		toCardinality: one
+
+	relationship 06a6b6c6-d6e6-f6a6-b6c6-d6e6f6a6b6c6
+		fromColumn: Fact_IP_Activity.ProviderKey
+		toColumn: Dim_Provider.ProviderKey
+		fromCardinality: many
+		toCardinality: one
+
+	relationship 07a7b7c7-d7e7-f7a7-b7c7-d7e7f7a7b7c7
+		fromColumn: Fact_IP_Activity.LSOAKey
+		toColumn: Dim_LSOA.LSOAKey
+		fromCardinality: many
+		toCardinality: one
+
+	relationship 08a8b8c8-d8e8-f8a8-b8c8-d8e8f8a8b8c8
+		fromColumn: Fact_IP_Activity.SpecialtyKey
+		toColumn: Dim_Specialty.SpecialtyKey
+		fromCardinality: many
+		toCardinality: one
+
+	relationship 09a9b9c9-d9e9-f9a9-b9c9-d9e9f9a9b9c9
+		fromColumn: Fact_IP_Activity.HRGKey
+		toColumn: Dim_HRG.HRGKey
+		fromCardinality: many
+		toCardinality: one
+
+	relationship 10a0b0c0-d0e0-f0a0-b0c0-d0e0f0a0b0c0
+		fromColumn: Fact_IP_Activity.CommissionerKey
+		toColumn: Dim_Commissioner.CommissionerKey
+		fromCardinality: many
+		toCardinality: one
+
+	relationship 11a1b1c1-d1e1-f1a1-b1c1-d1e1f1a1b1d1
+		fromColumn: Fact_IP_Activity.GPPracticeKey
+		toColumn: Dim_GPPractice.GPPracticeKey
+		fromCardinality: many
+		toCardinality: one
+
+	relationship 12a2b2c2-d2e2-f2a2-b2c2-d2e2f2a2b2e2
+		fromColumn: Fact_IP_Activity.PCNKey
+		toColumn: Dim_PCN.PCNKey
+		fromCardinality: many
+		toCardinality: one
+
+	relationship 13a3b3c3-d3e3-f3a3-b3c3-d3e3f3a3b3f3
+		fromColumn: Fact_IP_Activity.PODKey
+		toColumn: Dim_POD.PODKey
+		fromCardinality: many
+		toCardinality: one
+
+	relationship 14a4b4c4-d4e4-f4a4-b4c4-d4e4f4a4b4a4
+		fromColumn: Fact_IP_Activity.OpPlanMeasureSetKey
+		toColumn: Dim_OpPlan_MeasureSet.OpPlanMeasureSetKey
+		fromCardinality: many
+		toCardinality: one
+
+	relationship 15a5b5c5-d5e5-f5a5-b5c5-d5e5f5a5b5b5
+		fromColumn: Fact_IP_Activity.AdmissionMethodKey
+		toColumn: Dim_Admission_Method.AdmissionMethodKey
+		fromCardinality: many
+		toCardinality: one
+
+	relationship 16a6b6c6-d6e6-f6a6-b6c6-d6e6f6a6b6c6
+		fromColumn: Fact_IP_Activity.AdmissionSourceKey
+		toColumn: Dim_Admission_Source.AdmissionSourceKey
+		fromCardinality: many
+		toCardinality: one
+
+	relationship 17a7b7c7-d7e7-f7a7-b7c7-d7e7f7a7b7d7
+		fromColumn: Fact_IP_Activity.DischargeMethodKey
+		toColumn: Dim_Discharge_Method.DischargeMethodKey
+		fromCardinality: many
+		toCardinality: one
+
+	relationship 18a8b8c8-d8e8-f8a8-b8c8-d8e8f8a8b8e8
+		fromColumn: Fact_IP_Activity.DischargeDestinationKey
+		toColumn: Dim_Discharge_Destination.DischargeDestinationKey
+		fromCardinality: many
+		toCardinality: one
+
+	relationship 19a9b9c9-d9e9-f9a9-b9c9-d9e9f9a9b9f9
+		fromColumn: Fact_IP_Activity.PatientClassificationKey
+		toColumn: Dim_IP_Patient_Classification.PatientClassificationKey
+		fromCardinality: many
+		toCardinality: one
+
+	relationship 20a0b0c0-d0e0-f0a0-b0c0-d0e0f0a0b0a0
+		fromColumn: Fact_IP_Activity.CAMCommissionerKey
+		toColumn: Dim_Commissioner.CommissionerKey
+		fromCardinality: many
+		toCardinality: one
+		isActive: false
+
+	relationship 21a1b1c1-d1e1-f1a1-b1c1-d1e1f1a1b1e1
+		fromColumn: Fact_IP_Activity.CAMServiceCategoryKey
+		toColumn: Dim_CAM_Service_Category.CAMServiceCategoryKey
+		fromCardinality: many
+		toCardinality: one
+
+	relationship 22a2b2c2-d2e2-f2a2-b2c2-d2e2f2a2b2f2
+		fromColumn: Fact_IP_Activity.CAMAssignmentReasonKey
+		toColumn: Dim_CAM_Assignment_Reason.CAMAssignmentReasonKey
+		fromCardinality: many
+		toCardinality: one

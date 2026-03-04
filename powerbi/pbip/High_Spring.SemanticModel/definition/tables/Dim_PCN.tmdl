@@ -1,0 +1,83 @@
+table Dim_PCN
+	lineageTag: 5b03f0d1-8940-4df7-b7e5-3467c36ccf0c
+
+	column PCNKey
+		dataType: int64
+		isKey
+		lineageTag: a577f68e-73de-434a-b06b-cc5fe6744b02
+		summarizeBy: none
+		sourceColumn: PCNKey
+
+	column 'PCN Code'
+		dataType: string
+		lineageTag: e7fd92b6-0961-4655-a64e-51662a40455f
+		summarizeBy: none
+		sourceColumn: PCN Code
+
+	column PCN
+		dataType: string
+		lineageTag: dca0b4ac-6175-4b94-8971-5a671976b134
+		summarizeBy: none
+		sourceColumn: PCN
+
+	column 'ICB Code'
+		dataType: string
+		lineageTag: b91c59ff-b9fa-43ed-9c6a-24b666430650
+		summarizeBy: none
+		sourceColumn: ICB Code
+
+	column ICB
+		dataType: string
+		lineageTag: 3d3a12f1-1d12-4954-8b46-9152f0dbda70
+		summarizeBy: none
+		sourceColumn: ICB
+
+	column Town
+		dataType: string
+		lineageTag: c106398b-1473-44bd-9809-3079af497c38
+		summarizeBy: none
+		sourceColumn: Town
+
+	column Postcode
+		dataType: string
+		lineageTag: 0e8097d6-bafa-424f-a096-0a2f506887a7
+		summarizeBy: none
+		sourceColumn: Postcode
+
+	column 'Is Active'
+		dataType: boolean
+		lineageTag: 3b0f7a3f-6bc0-41a8-af31-cd37892a768c
+		summarizeBy: none
+		sourceColumn: Is Active
+
+	column 'Is Current'
+		dataType: boolean
+		lineageTag: b03c49d4-4c24-4269-93e7-fb8c893b2c1a
+		summarizeBy: none
+		sourceColumn: Is Current
+
+	hierarchy 'PCN Hierarchy'
+		lineageTag: 3966d33f-a744-4b80-9835-ab9d687a1356
+
+		level ICB
+			lineageTag: 8ea127e1-2048-42da-9926-57cea002950b
+			column: ICB
+
+		level PCN
+			lineageTag: a15b4a4d-042b-489c-8402-7ae4d5cfdeaa
+			column: PCN
+
+	partition Dim_PCN = m
+		mode: import
+		source =
+				let
+					Source = Sql.Database(
+						"PSFADHSSTP02.ad.elc.nhs.uk\SWL",
+						"Data_Lab_SWL_Live",
+						[
+							Query = "SELECT [SK_PCNID] AS [PCNKey], [PCN_Code] AS [PCN Code], [PCN_Name] AS [PCN], [ICB_Code] AS [ICB Code], [ICB_Name] AS [ICB], [Town], [Postcode], [Is_Active] AS [Is Active], [Is_Current] AS [Is Current] FROM [Analytics].[tbl_Dim_PCN] WHERE [Is_Current] = 1 OR [SK_PCNID] = -1"
+						]
+					)
+				in
+					Source
+

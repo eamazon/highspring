@@ -1,0 +1,133 @@
+table Dim_Commissioner
+	lineageTag: ce829414-728e-4603-b77d-395424f45fd4
+
+	column CommissionerKey
+		dataType: int64
+		isKey
+		lineageTag: 5f45508b-03e5-464f-8233-7bd581b984c1
+		summarizeBy: none
+		sourceColumn: CommissionerKey
+
+	column 'Commissioner Code'
+		dataType: string
+		lineageTag: e3666744-03b7-4ea0-90a3-afb78981dbea
+		summarizeBy: none
+		sourceColumn: Commissioner Code
+
+	column Commissioner
+		dataType: string
+		lineageTag: 58f2b29d-490e-40a3-8771-e84098fc09d3
+		summarizeBy: none
+		sourceColumn: Commissioner
+
+	column 'ICB Code'
+		dataType: string
+		lineageTag: a238230c-3d6a-4b99-a4d4-8223f89ec700
+		summarizeBy: none
+		sourceColumn: ICB Code
+
+	column ICB
+		dataType: string
+		lineageTag: 342e4c2f-1de6-407e-80c0-e3d3d1ba6a8e
+		summarizeBy: none
+		sourceColumn: ICB
+
+	column 'Is SWL'
+		dataType: boolean
+		lineageTag: 6c7daafa-2f33-4c61-8cad-d434bd8731d8
+		summarizeBy: none
+		sourceColumn: Is SWL
+
+	column 'CAM Method'
+		dataType: string
+		lineageTag: 07ca7997-f179-46c8-9096-e44e802eb0b5
+		summarizeBy: none
+		sourceColumn: CAM Method
+
+	column 'POD Team Code'
+		dataType: string
+		lineageTag: 075d615c-2def-43b5-81c8-eb38e1086795
+		summarizeBy: none
+		sourceColumn: POD Team Code
+
+	column 'POD Team'
+		dataType: string
+		lineageTag: 9b23ebeb-53c2-4266-98e7-31e5ad3da2f3
+		summarizeBy: none
+		sourceColumn: POD Team
+
+	column 'Sub-ICB Code'
+		dataType: string
+		lineageTag: 4a184a45-9916-45cb-9935-b767f6777345
+		summarizeBy: none
+		sourceColumn: Sub-ICB Code
+
+	column Sub-ICB
+		dataType: string
+		lineageTag: afd65789-ecc7-46ef-aff8-6d278e55a0d9
+		summarizeBy: none
+		sourceColumn: Sub-ICB
+
+	column 'Sub-ICB Location'
+		dataType: string
+		lineageTag: 11782cbd-3daf-4375-aec3-bc19c1695e71
+		summarizeBy: none
+		sourceColumn: Sub-ICB Location
+
+	column 'Commissioner Type'
+		dataType: string
+		lineageTag: 6860ab59-77e0-4b19-96a7-5297aafa70e0
+		summarizeBy: none
+		sourceColumn: Commissioner Type
+
+	column 'ODS Role'
+		dataType: string
+		lineageTag: f8aa113b-c0cf-4b7d-8ee6-0eca6499de40
+		summarizeBy: none
+		sourceColumn: ODS Role
+
+	column 'Legacy Name'
+		dataType: string
+		lineageTag: 5dbdb6b0-1b58-4fe2-ac0e-fcebaba59834
+		summarizeBy: none
+		sourceColumn: Legacy Name
+
+	column 'Is Current'
+		dataType: boolean
+		lineageTag: 1cf4f6d8-2b14-4d5a-b272-9949ddea3c74
+		summarizeBy: none
+		sourceColumn: Is Current
+
+	hierarchy 'Commissioner Hierarchy'
+		lineageTag: 029e8f6c-9510-473f-a782-3dc7d891bb92
+
+		level ICB
+			lineageTag: b8b8a493-7f8f-49d1-9f66-1d0fe7ec1f92
+			column: ICB
+
+		level Sub-ICB
+			lineageTag: fc849eb2-0852-472c-b348-b1f39ab0e972
+			column: Sub-ICB
+
+		level 'POD Team'
+			lineageTag: 3aaf96e6-deb4-4148-a412-4c4a540744e6
+			column: 'POD Team'
+
+		level Commissioner
+			lineageTag: 8c683086-c0b5-4fab-9493-c25d0a863f9e
+			column: Commissioner
+
+	partition Dim_Commissioner = m
+		mode: import
+		source =
+				let
+					Source = Sql.Database(
+						"PSFADHSSTP02.ad.elc.nhs.uk\SWL",
+						"Data_Lab_SWL_Live",
+						[
+							Query = "SELECT [SK_CommissionerID] AS [CommissionerKey], [Commissioner_Code] AS [Commissioner Code], [Commissioner_Name] AS [Commissioner], [ICB_Code] AS [ICB Code], [ICB_Name] AS [ICB], [Is_SWL_ICB] AS [Is SWL], [CAM_Attribution_Method] AS [CAM Method], [PODTeam_Code] AS [POD Team Code], [PODTeam_Name] AS [POD Team], [SubICB_Code] AS [Sub-ICB Code], [SubICB_Name] AS [Sub-ICB], [SubICB_Location_Name] AS [Sub-ICB Location], [Commissioner_Type] AS [Commissioner Type], [ODS_Role_Code] AS [ODS Role], [Legacy_Commissioner_Name] AS [Legacy Name], [Is_Current] AS [Is Current] FROM [Analytics].[tbl_Dim_Commissioner] WHERE [Is_Current] = 1 OR [SK_CommissionerID] IN (-1, -2)"
+						]
+					)
+				in
+					Source
+

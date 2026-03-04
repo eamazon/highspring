@@ -1,0 +1,42 @@
+table Dim_Discharge_Method
+	lineageTag: 6774e37c-a60c-4bd9-83f5-39b8589eef73
+
+	column DischargeMethodKey
+		dataType: int64
+		isKey
+		lineageTag: 3b30d8b5-edf2-461e-b095-57e3004a7174
+		summarizeBy: none
+		sourceColumn: DischargeMethodKey
+
+	column 'Discharge Method Code'
+		dataType: string
+		lineageTag: 14853b84-3e79-4751-a929-3680ac6b6e6c
+		summarizeBy: none
+		sourceColumn: Discharge Method Code
+
+	column 'Discharge Method Name'
+		dataType: string
+		lineageTag: 71446910-67dc-45cd-bdd0-76b143cd0c95
+		summarizeBy: none
+		sourceColumn: Discharge Method Name
+
+	column 'Discharge Method'
+		dataType: string
+		lineageTag: 765d6b69-7bb3-4b84-989c-973007d0e6db
+		summarizeBy: none
+		sourceColumn: Discharge Method
+
+	partition Dim_Discharge_Method = m
+		mode: import
+		source =
+				let
+					Source = Sql.Database(
+						"PSFADHSSTP02.ad.elc.nhs.uk\SWL",
+						"Data_Lab_SWL_Live",
+						[
+							Query = "SELECT [SK_DischargeMethodID] AS [DischargeMethodKey], [Discharge_Method_Code] AS [Discharge Method Code], [Discharge_Method_Name] AS [Discharge Method Name], [Discharge_Method_Short] AS [Discharge Method] FROM [Analytics].[vw_Dim_Discharge_Method]"
+						]
+					)
+				in
+					Source
+

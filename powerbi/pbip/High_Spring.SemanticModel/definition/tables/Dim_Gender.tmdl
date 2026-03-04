@@ -1,0 +1,48 @@
+table Dim_Gender
+	lineageTag: 59eb4a43-c3ae-4955-96f4-4b3054309a69
+
+	column GenderKey
+		dataType: int64
+		isKey
+		lineageTag: 59ae6572-b6eb-456d-ba95-df916f9d898b
+		summarizeBy: none
+		sourceColumn: GenderKey
+
+	column Gender
+		dataType: string
+		lineageTag: 2b6fbb4e-b28c-488f-9775-ef76368f0178
+		summarizeBy: none
+		sourceColumn: Gender
+
+	column 'Gender Code'
+		dataType: string
+		lineageTag: 2afe18b9-691c-48a4-804f-838d20ab06b9
+		summarizeBy: none
+		sourceColumn: Gender Code
+
+	column 'Gender Code 1'
+		dataType: string
+		lineageTag: 2c3ba5fe-100c-4880-92d4-76b5d2404fef
+		summarizeBy: none
+		sourceColumn: Gender Code 1
+
+	column 'Gender Code 2'
+		dataType: string
+		lineageTag: aa741e37-17a8-4876-b94c-0ca90499a2f3
+		summarizeBy: none
+		sourceColumn: Gender Code 2
+
+	partition Dim_Gender = m
+		mode: import
+		source =
+				let
+					Source = Sql.Database(
+						"PSFADHSSTP02.ad.elc.nhs.uk\SWL",
+						"Data_Lab_SWL_Live",
+						[
+							Query = "SELECT [SK_GenderID] AS [GenderKey], [Gender], [GenderCode] AS [Gender Code], [GenderCode1] AS [Gender Code 1], [GenderCode2] AS [Gender Code 2] FROM [Analytics].[vw_Dim_Gender]"
+						]
+					)
+				in
+					Source
+

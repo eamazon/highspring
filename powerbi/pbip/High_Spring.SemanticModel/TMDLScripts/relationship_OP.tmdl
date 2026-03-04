@@ -1,0 +1,141 @@
+createOrReplace
+
+	relationship 30a0b0c0-d0e0-f0a0-b0c0-d0e0f0a0b0c0
+		fromColumn: Fact_OP_Activity.AppointmentDateKey
+		toColumn: Dim_Date.DateKey
+		fromCardinality: many
+		toCardinality: one
+
+	relationship 31a1b1c1-d1e1-f1a1-b1c1-d1e1f1a1b1c1
+		fromColumn: Fact_OP_Activity.ReferralDateKey
+		toColumn: Dim_Date.DateKey
+		fromCardinality: many
+		toCardinality: one
+		isActive: false
+
+	relationship 32a2b2c2-d2e2-f2a2-b2c2-d2e2f2a2b2c2
+		fromColumn: Fact_OP_Activity.AgeKey
+		toColumn: Dim_Age_Band.Age
+		fromCardinality: many
+		toCardinality: one
+
+	relationship 33a3b3c3-d3e3-f3a3-b3c3-d3e3f3a3b3c3
+		fromColumn: Fact_OP_Activity.GenderKey
+		toColumn: Dim_Gender.GenderKey
+		fromCardinality: many
+		toCardinality: one
+
+	relationship 34a4b4c4-d4e4-f4a4-b4c4-d4e4f4a4b4c4
+		fromColumn: Fact_OP_Activity.EthnicityKey
+		toColumn: Dim_Ethnicity.EthnicityKey
+		fromCardinality: many
+		toCardinality: one
+
+	relationship 35a5b5c5-d5e5-f5a5-b5c5-d5e5f5a5b5c5
+		fromColumn: Fact_OP_Activity.ProviderKey
+		toColumn: Dim_Provider.ProviderKey
+		fromCardinality: many
+		toCardinality: one
+
+	relationship 36a6b6c6-d6e6-f6a6-b6c6-d6e6f6a6b6c6
+		fromColumn: Fact_OP_Activity.LSOAKey
+		toColumn: Dim_LSOA.LSOAKey
+		fromCardinality: many
+		toCardinality: one
+
+	relationship 37a7b7c7-d7e7-f7a7-b7c7-d7e7f7a7b7c7
+		fromColumn: Fact_OP_Activity.SpecialtyKey
+		toColumn: Dim_Specialty.SpecialtyKey
+		fromCardinality: many
+		toCardinality: one
+
+	relationship 38a8b8c8-d8e8-f8a8-b8c8-d8e8f8a8b8c8
+		fromColumn: Fact_OP_Activity.HRGKey
+		toColumn: Dim_HRG.HRGKey
+		fromCardinality: many
+		toCardinality: one
+
+	relationship 39a9b9c9-d9e9-f9a9-b9c9-d9e9f9a9b9c9
+		fromColumn: Fact_OP_Activity.CommissionerKey
+		toColumn: Dim_Commissioner.CommissionerKey
+		fromCardinality: many
+		toCardinality: one
+
+	relationship 40a0b0c0-d0e0-f0a0-b0c0-d0e0f0a0b0d0
+		fromColumn: Fact_OP_Activity.GPPracticeKey
+		toColumn: Dim_GPPractice.GPPracticeKey
+		fromCardinality: many
+		toCardinality: one
+
+	relationship 41a1b1c1-d1e1-f1a1-b1c1-d1e1f1a1b1e1
+		fromColumn: Fact_OP_Activity.PCNKey
+		toColumn: Dim_PCN.PCNKey
+		fromCardinality: many
+		toCardinality: one
+
+	relationship 42a2b2c2-d2e2-f2a2-b2c2-d2e2f2a2b2f2
+		fromColumn: Fact_OP_Activity.PODKey
+		toColumn: Dim_POD.PODKey
+		fromCardinality: many
+		toCardinality: one
+
+	relationship 43a3b3c3-d3e3-f3a3-b3c3-d3e3f3a3b3a3
+		fromColumn: Fact_OP_Activity.OpPlanMeasureSetKey
+		toColumn: Dim_OpPlan_MeasureSet.OpPlanMeasureSetKey
+		fromCardinality: many
+		toCardinality: one
+
+	relationship 44a4b4c4-d4e4-f4a4-b4c4-d4e4f4a4b4b4
+		fromColumn: Fact_OP_Activity.AttendanceStatusKey
+		toColumn: Dim_Attendance_Status.AttendanceStatusKey
+		fromCardinality: many
+		toCardinality: one
+
+	relationship 45a5b5c5-d5e5-f5a5-b5c5-d5e5f5a5b5c5
+		fromColumn: Fact_OP_Activity.AttendanceOutcomeKey
+		toColumn: Dim_Attendance_Outcome.AttendanceOutcomeKey
+		fromCardinality: many
+		toCardinality: one
+
+	relationship 46a6b6c6-d6e6-f6a6-b6c6-d6e6f6a6b6d6
+		fromColumn: Fact_OP_Activity.AttendanceTypeKey
+		toColumn: Dim_Attendance_Type.AttendanceTypeKey
+		fromCardinality: many
+		toCardinality: one
+
+	relationship 47a7b7c7-d7e7-f7a7-b7c7-d7e7f7a7b7e7
+		fromColumn: Fact_OP_Activity.DNAIndicatorKey
+		toColumn: Dim_DNA_Indicator.DNAIndicatorKey
+		fromCardinality: many
+		toCardinality: one
+
+	relationship 48a8b8c8-d8e8-f8a8-b8c8-d8e8f8a8b8f8
+		fromColumn: Fact_OP_Activity.PriorityTypeKey
+		toColumn: Dim_Priority_Type.PriorityTypeKey
+		fromCardinality: many
+		toCardinality: one
+
+	relationship 49a9b9c9-d9e9-f9a9-b9c9-d9e9f9a9b9a9
+		fromColumn: Fact_OP_Activity.ReferralSourceKey
+		toColumn: Dim_Referral_Source.ReferralSourceKey
+		fromCardinality: many
+		toCardinality: one
+
+	relationship 50a0b0c0-d0e0-f0a0-b0c0-d0e0f0a0b0b0
+		fromColumn: Fact_OP_Activity.CAMCommissionerKey
+		toColumn: Dim_Commissioner.CommissionerKey
+		fromCardinality: many
+		toCardinality: one
+		isActive: false
+
+	relationship 51a1b1c1-d1e1-f1a1-b1c1-d1e1f1a1b1c2
+		fromColumn: Fact_OP_Activity.CAMServiceCategoryKey
+		toColumn: Dim_CAM_Service_Category.CAMServiceCategoryKey
+		fromCardinality: many
+		toCardinality: one
+
+	relationship 52a2b2c2-d2e2-f2a2-b2c2-d2e2f2a2b2d2
+		fromColumn: Fact_OP_Activity.CAMAssignmentReasonKey
+		toColumn: Dim_CAM_Assignment_Reason.CAMAssignmentReasonKey
+		fromCardinality: many
+		toCardinality: one

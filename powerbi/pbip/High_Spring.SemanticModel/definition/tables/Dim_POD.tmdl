@@ -1,0 +1,152 @@
+table Dim_POD
+	lineageTag: 4c442148-58f0-4203-a66c-0b3033df98d8
+
+	column PODKey
+		dataType: int64
+		isKey
+		lineageTag: 1e3841e9-a5fe-4a66-be93-143740a1fd40
+		summarizeBy: none
+		sourceColumn: PODKey
+
+	column 'POD Code'
+		dataType: string
+		lineageTag: e81fc9c7-df3e-462c-87af-52c7ad1cd33a
+		summarizeBy: none
+		sourceColumn: POD Code
+
+	column 'POD Domain'
+		dataType: string
+		lineageTag: 6b6170fd-d70f-4132-a48a-ded00a892c5c
+		summarizeBy: none
+		sourceColumn: POD Domain
+
+	column 'POD Subcategory'
+		dataType: string
+		lineageTag: fcf233ed-e1c8-48e1-9d78-fd601df802aa
+		summarizeBy: none
+		sourceColumn: POD Subcategory
+
+	column 'POD Measure'
+		dataType: string
+		lineageTag: af6958bf-8c39-4358-b86f-d7fd92eefb82
+		summarizeBy: none
+		sourceColumn: POD Measure
+
+	column 'POD Description'
+		dataType: string
+		lineageTag: a5b4cff0-65f2-4e14-962a-f0d848ad5690
+		summarizeBy: none
+		sourceColumn: POD Description
+
+	column 'Point of Delivery'
+		dataType: string
+		lineageTag: c13b16ef-16b8-496e-9467-909d17a2e724
+		summarizeBy: none
+		sourceColumn: Point of Delivery
+
+	column Dataset
+		dataType: string
+		lineageTag: a09502cc-23a5-4af9-9aea-39f2cdee94e7
+		summarizeBy: none
+		sourceColumn: Dataset
+
+	column 'Main Group'
+		dataType: string
+		lineageTag: 1005bff2-059d-4b8a-ac15-37dac28a6dbe
+		summarizeBy: none
+		sourceColumn: Main Group
+
+	column 'Sub Group'
+		dataType: string
+		lineageTag: 2519318e-d745-4463-83d7-acef87d3c037
+		summarizeBy: none
+		sourceColumn: Sub Group
+
+	column Category
+		dataType: string
+		lineageTag: 13cc56f1-5385-4c58-94a8-0ec04d0b752d
+		summarizeBy: none
+		sourceColumn: Category
+
+	column 'Is Elective'
+		dataType: boolean
+		lineageTag: 6aa29e94-96ce-4fda-8f8a-c2c70d5b7d03
+		summarizeBy: none
+		sourceColumn: Is Elective
+
+	column 'Is Emergency'
+		dataType: boolean
+		lineageTag: 283dd60a-1328-4fc7-b387-c34afc85fba1
+		summarizeBy: none
+		sourceColumn: Is Emergency
+
+	column 'Is Admitted'
+		dataType: boolean
+		lineageTag: 12ad6ccb-ba64-4d67-9566-c5533d0f6a8c
+		summarizeBy: none
+		sourceColumn: Is Admitted
+
+	column 'Is Outpatient'
+		dataType: boolean
+		lineageTag: 513a9009-5ac5-462b-8c06-eced60dbe8fa
+		summarizeBy: none
+		sourceColumn: Is Outpatient
+
+	column 'Is A&E'
+		dataType: boolean
+		lineageTag: 659ec7e6-fecf-4a41-9b2d-07b921a02045
+		summarizeBy: none
+		sourceColumn: Is A&E
+
+	hierarchy 'POD Hierarchy'
+		lineageTag: ba654faf-fbb1-46a7-a485-c36869bb74a7
+
+		level 'POD Domain'
+			lineageTag: 824f74a7-7080-4d84-a952-26e26abe08c6
+			column: 'POD Domain'
+
+		level 'Main Group'
+			lineageTag: 3884a3f4-d8e1-4109-9475-280ee62e3f2d
+			column: 'Main Group'
+
+		level 'Sub Group'
+			lineageTag: 79ea76d3-bce4-4dfb-b963-24298ee747be
+			column: 'Sub Group'
+
+		level Category
+			lineageTag: a0d74bf4-e7a8-4610-88c2-dc6b293ca7de
+			column: Category
+
+		level 'Point of Delivery'
+			lineageTag: 14e5813e-8705-411f-ae29-60d513099b78
+			column: 'Point of Delivery'
+
+	hierarchy 'POD Dataset Hierarchy'
+		lineageTag: 18dbbb76-6626-4141-96d1-dad9dc511d26
+
+		level Dataset
+			lineageTag: 6039e721-3755-4e98-8a3e-cceb44aede5d
+			column: Dataset
+
+		level 'Main Group'
+			lineageTag: 9eba06a8-598d-4e17-92fb-7f776a7ff45b
+			column: 'Main Group'
+
+		level 'Point of Delivery'
+			lineageTag: d642b4d2-db6b-4e8e-bbea-36242b84fca2
+			column: 'Point of Delivery'
+
+	partition Dim_POD = m
+		mode: import
+		source =
+				let
+					Source = Sql.Database(
+						"PSFADHSSTP02.ad.elc.nhs.uk\SWL",
+						"Data_Lab_SWL_Live",
+						[
+							Query = "SELECT [SK_PodID] AS [PODKey], [POD_Code] AS [POD Code], [POD_Domain] AS [POD Domain], [POD_Subcategory] AS [POD Subcategory], [POD_Measure] AS [POD Measure], [POD_Description] AS [POD Description], [POD_Display] AS [Point of Delivery], [POD_Dataset] AS [Dataset], [POD_MainGroup] AS [Main Group], [POD_SubGroup] AS [Sub Group], [POD_Category] AS [Category], [Is_Elective] AS [Is Elective], [Is_Emergency] AS [Is Emergency], [Is_Admitted] AS [Is Admitted], [Is_Outpatient] AS [Is Outpatient], [Is_AE] AS [Is A&E] FROM [Analytics].[tbl_Dim_POD]"
+						]
+					)
+				in
+					Source
+

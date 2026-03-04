@@ -1,0 +1,59 @@
+table Dim_Admission_Method
+	lineageTag: 0aa946b8-9018-4feb-abc3-68c4d8a53aa7
+
+	column AdmissionMethodKey
+		dataType: int64
+		isKey
+		lineageTag: 74f0f35f-ae8f-4b62-8e5f-fad30f27ae62
+		summarizeBy: none
+		sourceColumn: AdmissionMethodKey
+
+	column 'Admission Method Code'
+		dataType: string
+		lineageTag: c7f8edd0-128d-4887-af2a-c00c712f94dd
+		summarizeBy: none
+		sourceColumn: Admission Method Code
+
+	column 'Admission Method Name'
+		dataType: string
+		lineageTag: b743530c-3982-416e-8b40-ac1e6e3e86d6
+		summarizeBy: none
+		sourceColumn: Admission Method Name
+
+	column 'Admission Method Group'
+		dataType: string
+		lineageTag: 2eb2e76e-e30b-4ca6-96cd-d62e1d4ff677
+		summarizeBy: none
+		sourceColumn: Admission Method Group
+
+	column 'Admission Method'
+		dataType: string
+		lineageTag: b66c1a45-774d-4b86-93fa-45e7f6dde473
+		summarizeBy: none
+		sourceColumn: Admission Method
+
+	hierarchy 'Admission Method Hierarchy'
+		lineageTag: 177b49ae-0b7f-4f6f-a18a-7bacbd820601
+
+		level 'Admission Method Group'
+			lineageTag: 1fa93dbc-1195-448e-b686-17b96205520f
+			column: 'Admission Method Group'
+
+		level 'Admission Method'
+			lineageTag: fc5faf48-c690-49c3-bd01-792da4347b0c
+			column: 'Admission Method'
+
+	partition Dim_Admission_Method = m
+		mode: import
+		source =
+				let
+					Source = Sql.Database(
+						"PSFADHSSTP02.ad.elc.nhs.uk\SWL",
+						"Data_Lab_SWL_Live",
+						[
+							Query = "SELECT [SK_AdmissionMethodID] AS [AdmissionMethodKey], [Admission_Method_Code] AS [Admission Method Code], [Admission_Method_Name] AS [Admission Method Name], [Admission_Method_Group] AS [Admission Method Group], [Admission_Method_Short] AS [Admission Method] FROM [Analytics].[vw_Dim_Admission_Method]"
+						]
+					)
+				in
+					Source
+
