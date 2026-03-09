@@ -10,9 +10,12 @@ table Dim_Age_Band
 
 	column 'Age Band (5yr)'
 		dataType: string
+		isHidden
 		lineageTag: de9cae8e-286d-478b-b1ac-166d5e38b83e
 		summarizeBy: none
 		sourceColumn: Age Band (5yr)
+
+		changedProperty = IsHidden
 
 	column 'Age Band (GP)'
 		dataType: string
@@ -61,6 +64,7 @@ table Dim_Age_Band
 		changedProperty = IsHidden
 
 	hierarchy 'Clinical Age Hierarchy'
+		isHidden
 		lineageTag: 3f61ce51-dbf0-4100-a79e-55b37c7d811e
 
 		level 'Age Band (5yr)'
@@ -70,6 +74,8 @@ table Dim_Age_Band
 		level Age
 			lineageTag: 2c252821-6b4a-4220-9868-8172cb8cd5d5
 			column: Age
+
+		changedProperty = IsHidden
 
 	partition Dim_Age_Band = m
 		mode: import

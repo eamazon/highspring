@@ -47,6 +47,7 @@ Created:       2026-01-09
 Change Log:
   2026-01-09   Sridhar Peddi    Initial creation
   2026-01-12   Sridhar Peddi    Replace Dictionary dependency with inline HES code list
+  2026-03-04   Sridhar Peddi     Add explicit Unknown member (SK=-1) for unmatched fact keys
 **/
 CREATE VIEW [Analytics].[vw_Dim_Ethnicity] AS
 WITH Ethnicity_Source AS (
@@ -56,6 +57,9 @@ WITH Ethnicity_Source AS (
         v.EthnicityDesc,
         v.EthnicityShortDesc
     FROM (VALUES
+        -- UNKNOWN DEFAULT MEMBER
+        (-1, 'UNKNOWN', 'Unknown',                                          'Unknown'),
+
         -- WHITE
         (1,  'A',  'White - British',                                    'White'),
         (2,  'B',  'White - Irish',                                      'White'),

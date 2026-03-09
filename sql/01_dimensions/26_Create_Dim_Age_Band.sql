@@ -29,7 +29,7 @@ Created:       2026-01-09
 
 Change Log:
   2026-01-09   Sridhar Peddi    Initial creation
-  2026-02-27   Codex            Remove Dictionary dependency; inline age dimension (0-100 + Unknown)
+  2026-02-27   Sridhar Peddi            Remove Dictionary dependency; inline age dimension (0-100 + Unknown)
 **/
 CREATE VIEW [Analytics].[vw_Dim_Age_Band] AS
 WITH AgeBase AS (

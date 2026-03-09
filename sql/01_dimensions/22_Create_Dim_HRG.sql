@@ -53,7 +53,7 @@ Created:       2026-01-09
 
 Change Log:
   2026-01-09   Sridhar Peddi    Initial creation
-  2026-02-27   Codex            Replace Dictionary dependency with Analytics.tbl_HRG (SCD-ready)
+  2026-02-27   Sridhar Peddi            Replace Dictionary dependency with Analytics.tbl_HRG (SCD-ready)
 **/
 CREATE TABLE [Analytics].[tbl_HRG]
 (

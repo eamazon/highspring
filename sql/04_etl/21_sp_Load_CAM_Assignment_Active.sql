@@ -20,6 +20,9 @@ Notes:
 - Window defaults to FY start through SUS inclusion cutoff.
 - Source is Data_Lab_SWL.CAM.tbl_CAM_Raw (precomputed).
 - Activity_Date is Discharge_Date for IP and Appointment_Date for OP.
+
+Change Log:
+  2026-03-04  Sridhar Peddi    Auto-seed CAM category/reason dimensions from CAM raw to prevent blanket Unknown mappings
 **/
 CREATE PROCEDURE [Analytics].[sp_Load_CAM_Assignment_Active]
     @FinYearStart CHAR(4),
@@ -94,6 +97,64 @@ BEGIN
             DROP TABLE #CAM_Raw;
         IF OBJECT_ID('tempdb..#CAM') IS NOT NULL
             DROP TABLE #CAM;
+
+        -- Ensure CAM dimensions contain values present in CAM raw for the load window.
+        -- This avoids all -1 mappings when dimension loaders have not been run recently.
+        INSERT INTO [Analytics].[tbl_Dim_CAM_Service_Category]
+        (
+            [CAM_Service_Category],
+            [Source_System],
+            [Created_By],
+            [Created_Date]
+        )
+        SELECT DISTINCT
+            v.[CAM_Service_Category],
+            'CAM.tbl_CAM_Raw',
+            SUSER_SNAME(),
+            GETDATE()
+        FROM (
+            SELECT NULLIF(LTRIM(RTRIM(CAST(c.[CAM_Service_Category] AS VARCHAR(50)))), '') AS [CAM_Service_Category]
+            FROM [Data_Lab_SWL].[CAM].[tbl_CAM_Raw] c
+            WHERE c.[Dataset] IN ('IP', 'OP')
+              AND c.[Activity_Date] >= @WindowStartDate
+              AND c.[Activity_Date] <= @WindowEndDate
+              AND c.[Financial_Year] = @FinancialYear
+              AND (@ProviderCode IS NULL OR c.[Provider_Code] = @ProviderCode)
+        ) v
+        LEFT JOIN [Analytics].[tbl_Dim_CAM_Service_Category] d
+            ON UPPER(LTRIM(RTRIM(d.[CAM_Service_Category]))) = UPPER(v.[CAM_Service_Category])
+        WHERE v.[CAM_Service_Category] IS NOT NULL
+          AND d.[SK_CAM_Service_CategoryID] IS NULL;
+
+        INSERT INTO [Analytics].[tbl_Dim_CAM_Assignment_Reason]
+        (
+            [CAM_Assignment_Code],
+            [CAM_Assignment_Reason],
+            [Source_System],
+            [Created_By],
+            [Created_Date]
+        )
+        SELECT DISTINCT
+            v.[CAM_Assignment_Code],
+            v.[CAM_Assignment_Reason],
+            'CAM.tbl_CAM_Raw',
+            SUSER_SNAME(),
+            GETDATE()
+        FROM (
+            SELECT
+                NULLIF(LTRIM(RTRIM(CAST(c.[ReassignmentID] AS VARCHAR(50)))), '') AS [CAM_Assignment_Code],
+                NULLIF(LTRIM(RTRIM(CAST(c.[CAM_Assignment_Reason] AS VARCHAR(255)))), '') AS [CAM_Assignment_Reason]
+            FROM [Data_Lab_SWL].[CAM].[tbl_CAM_Raw] c
+            WHERE c.[Dataset] IN ('IP', 'OP')
+              AND c.[Activity_Date] >= @WindowStartDate
+              AND c.[Activity_Date] <= @WindowEndDate
+              AND c.[Financial_Year] = @FinancialYear
+              AND (@ProviderCode IS NULL OR c.[Provider_Code] = @ProviderCode)
+        ) v
+        LEFT JOIN [Analytics].[tbl_Dim_CAM_Assignment_Reason] d
+            ON UPPER(LTRIM(RTRIM(d.[CAM_Assignment_Code]))) = UPPER(v.[CAM_Assignment_Code])
+        WHERE v.[CAM_Assignment_Code] IS NOT NULL
+          AND d.[SK_CAM_Assignment_ReasonID] IS NULL;
 
         SELECT
             CAST(c.[RecordIdentifier] AS BIGINT) AS [SK_EncounterID],

@@ -8,7 +8,7 @@ GO
 /*
 Object Name:    Unified.sp_Refresh_Active_ED_v2
 Description:    Refresh Unified.tbl_ED_EncounterDenormalised_Active_v2 from vw_ED_EncounterDenormalised_DateRange_v2
-Author:         Sridhar Peddi (refactor: Codex)
+Author:         Sridhar Peddi (refactor: Sridhar Peddi)
 Created Date:   2026-01-16 11:30 UTC
 Parameters:
     @MonthsToRefresh INT = 12

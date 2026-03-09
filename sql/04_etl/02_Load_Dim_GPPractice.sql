@@ -21,10 +21,10 @@ Created:       2026-01-02
 Change Log:
   2026-01-02  Sridhar Peddi    Initial creation
   2026-01-12  Sridhar Peddi    Add ETL batch/table logging
-  2026-03-02  Codex            Resolve ICB/Sub-ICB via Commissioner/PCN lookup and broaden SCD change detection
-  2026-03-02  Codex            Restrict to current GP practices (Status=Active, Org_Sub_Type=B)
-  2026-03-02  Codex            Enforce Prescribing_Setting=RO76 for real GP practices
-  2026-03-02  Codex            Auto-seed missing default members (-1 to -4) when table pre-exists
+  2026-03-02  Sridhar Peddi            Resolve ICB/Sub-ICB via Commissioner/PCN lookup and broaden SCD change detection
+  2026-03-02  Sridhar Peddi            Restrict to current GP practices (Status=Active, Org_Sub_Type=B)
+  2026-03-02  Sridhar Peddi            Enforce Prescribing_Setting=RO76 for real GP practices
+  2026-03-02  Sridhar Peddi            Auto-seed missing default members (-1 to -4) when table pre-exists
 **/
 CREATE PROCEDURE [Analytics].[sp_Load_Dim_GPPractice]
 AS

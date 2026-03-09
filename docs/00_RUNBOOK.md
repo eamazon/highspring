@@ -42,7 +42,7 @@ That's it. The dev rebuild script handles deploy → precompute → facts → en
 | Unified SUS tables | `[Data_Lab_SWL].[Unified]` | `tbl_*_EncounterDenormalised_Active` (IP/OP/AE) |
 | ERF repriced views | `[Data_Lab_SWL].[Analytics]` | 25/26 financial year views |
 | Operating Plan TVFs | `[Data_Lab_SWL].[PLNG]` | `Get_OpPlan_ActivityBridge_*_UfS` |
-| CAM function | `[Data_Lab_SWL].[CAM]` | `fn_CommissionerAssignment` |
+| CAM raw table | `[Data_Lab_SWL].[CAM]` | `tbl_CAM_Raw` (built by `Analytics.sp_Compute_CAM_Raw`) |
 | SUS delivery schedule | `[Data_Lab_SWL].[SWL]` | `tbl_SUS_Delivery_Schedule` |
 | LSOA reference | `[Data_Lab_SWL].[ref]` | `tbl_LSOA_ICB_CA_LocalAuthority` |
 

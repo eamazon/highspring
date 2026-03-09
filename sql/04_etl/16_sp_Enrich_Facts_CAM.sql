@@ -21,17 +21,18 @@ Created:       2026-01-09
 
 Notes:
 - Uses precomputed CAM outputs from [Analytics].[tbl_CAM_Assignment_Active].
-- [Analytics].[fn_CommissionerAssignment] remains the upstream source for CAM precompute.
+- Upstream CAM precompute path is:
+    [Analytics].[sp_Compute_CAM_Raw] -> [Data_Lab_SWL].[CAM].[tbl_CAM_Raw]
+    -> [Analytics].[sp_Load_CAM_Assignment_Active] -> [Analytics].[tbl_CAM_Assignment_Active]
     RecordIdentifier, Dataset, CAM_Commissioner_Code, CAM_Service_Category,
     [Commissioner Assignment Reason], Commissioner_Variance, Service_Category_Variance
--- The CAM function currently sources [Analytics].[vw_SUS_CAM] which is financial-year scoped.
 -- Populates CAM dimension keys on facts (commissioner, service category, assignment reason).
 -- Designed as an explicit post-load enrichment step (deploy now; run later).
 
 Parameters:
 - @FinancialYear: 'YYYY/YYYY' e.g. '2025/2026'
-- @ProviderCode: optional provider filter passed to CAM function
--- @FromDate/@ToDate: optional discharge/appointment date window passed to CAM function
+- @ProviderCode: retained for interface compatibility (not used by this procedure)
+- @FromDate/@ToDate: optional discharge/appointment date window filter for enrichment
 
 Change Log:
   2026-01-12  Sridhar Peddi    Add ETL batch/table logging

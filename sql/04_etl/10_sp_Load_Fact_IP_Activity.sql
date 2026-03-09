@@ -23,6 +23,7 @@ Change Log:
   2026-01-09  Sridhar Peddi    Add date parameters for dev window control
   2026-01-27  Sridhar Peddi    Skip duplicate PK rows to allow load to complete
   2026-01-27  Sridhar Peddi    Avoid @@ROWCOUNT after connection recovery
+  2026-03-04  Sridhar Peddi     Accept legacy POD_Dataset 'APC' for IP POD lookup
 **/
 CREATE PROCEDURE [Analytics].[sp_Load_Fact_IP_Activity]
     @FromDate DATE = NULL,
@@ -389,7 +390,8 @@ BEGIN
         -- POD mapping (derived via IP.GetPodType for materialised source tables)
         LEFT JOIN [Analytics].[tbl_Dim_POD] POD
             ON POD.POD_Code = UPPER(PodCalc.POD_Code)
-           AND POD.POD_Dataset IN ('IP', 'Unbundled')
+           -- Backward compatibility: some POD loads use 'APC' for inpatient dataset.
+           AND POD.POD_Dataset IN ('IP', 'APC', 'Unbundled')
 
         -- IP JOINS
         LEFT JOIN [Analytics].[vw_Dim_Admission_Method] AdmMet ON SRC.Admission_Method_Hospital_Provider_Spell = AdmMet.Admission_Method_Code

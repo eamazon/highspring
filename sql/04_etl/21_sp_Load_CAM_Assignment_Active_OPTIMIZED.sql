@@ -131,6 +131,53 @@ BEGIN
         DECLARE @RawCount INT = @@ROWCOUNT;
         PRINT '  Loaded ' + CAST(@RawCount AS VARCHAR(20)) + ' rows from CAM raw staging';
 
+        -- Ensure CAM dimensions contain values present in this CAM raw slice.
+        INSERT INTO [Analytics].[tbl_Dim_CAM_Service_Category]
+        (
+            [CAM_Service_Category],
+            [Source_System],
+            [Created_By],
+            [Created_Date]
+        )
+        SELECT DISTINCT
+            v.[CAM_Service_Category],
+            'CAM.tbl_CAM_Raw',
+            SUSER_SNAME(),
+            GETDATE()
+        FROM (
+            SELECT NULLIF(LTRIM(RTRIM([CAM_Service_Category])), '') AS [CAM_Service_Category]
+            FROM #CAM_Raw
+        ) v
+        LEFT JOIN [Analytics].[tbl_Dim_CAM_Service_Category] d
+            ON UPPER(LTRIM(RTRIM(d.[CAM_Service_Category]))) = UPPER(v.[CAM_Service_Category])
+        WHERE v.[CAM_Service_Category] IS NOT NULL
+          AND d.[SK_CAM_Service_CategoryID] IS NULL;
+
+        INSERT INTO [Analytics].[tbl_Dim_CAM_Assignment_Reason]
+        (
+            [CAM_Assignment_Code],
+            [CAM_Assignment_Reason],
+            [Source_System],
+            [Created_By],
+            [Created_Date]
+        )
+        SELECT DISTINCT
+            v.[CAM_Assignment_Code],
+            v.[CAM_Assignment_Reason],
+            'CAM.tbl_CAM_Raw',
+            SUSER_SNAME(),
+            GETDATE()
+        FROM (
+            SELECT
+                NULLIF(LTRIM(RTRIM([CAM_Assignment_Code])), '') AS [CAM_Assignment_Code],
+                NULLIF(LTRIM(RTRIM([CAM_Assignment_Reason])), '') AS [CAM_Assignment_Reason]
+            FROM #CAM_Raw
+        ) v
+        LEFT JOIN [Analytics].[tbl_Dim_CAM_Assignment_Reason] d
+            ON UPPER(LTRIM(RTRIM(d.[CAM_Assignment_Code]))) = UPPER(v.[CAM_Assignment_Code])
+        WHERE v.[CAM_Assignment_Code] IS NOT NULL
+          AND d.[SK_CAM_Assignment_ReasonID] IS NULL;
+
         -- ================================================================
         -- OPTIMIZATION 2: Add clustered index on temp table
         -- This makes the ROW_NUMBER() partition much faster
@@ -205,11 +252,13 @@ BEGIN
         INTO #CAM_Final
         FROM #CAM_Dedup d
         LEFT JOIN [Analytics].[tbl_Dim_Commissioner] dc
-            ON dc.[Commissioner_Code] = d.[CAM_Commissioner_Code]
+            ON UPPER(LTRIM(RTRIM(dc.[Commissioner_Code]))) = UPPER(LTRIM(RTRIM(d.[CAM_Commissioner_Code])))
+           AND dc.[Is_Current] = 1
         LEFT JOIN [Analytics].[tbl_Dim_CAM_Service_Category] dsc
-            ON dsc.[CAM_Service_Category] = d.[CAM_Service_Category]
+            ON UPPER(LTRIM(RTRIM(dsc.[CAM_Service_Category]))) = UPPER(LTRIM(RTRIM(d.[CAM_Service_Category])))
         LEFT JOIN [Analytics].[tbl_Dim_CAM_Assignment_Reason] dar
-            ON dar.[CAM_Assignment_Code] = d.[CAM_Assignment_Code]
+            ON UPPER(LTRIM(RTRIM(dar.[CAM_Assignment_Code]))) = UPPER(LTRIM(RTRIM(d.[CAM_Assignment_Code]))
+            )
         OPTION (RECOMPILE);
 
         PRINT '  Joined dimension lookups to ' + CAST(@@ROWCOUNT AS VARCHAR(20)) + ' rows';

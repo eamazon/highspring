@@ -62,7 +62,7 @@ The fact/bridge loaders read from existing upstream objects in `[Data_Lab_SWL]`:
 - ERF repriced activity views (25/26): `Analytics.vw_IP_ERF`, `Analytics.vw_OP_ERF`
 - Operating Plan TVFs: `PLNG.Get_OpPlan_ActivityBridge_IP_UfS`, `..._OP_...`, `..._ED_...`
 - Operating Plan TVFs: `PLNG.Get_OpPlan_ActivityBridge_*_UfS`
-- CAM function for enrichment: `Analytics.fn_CommissionerAssignment` (via CAM views/mapping)
+- CAM precompute pipeline: `Analytics.sp_Compute_CAM_Raw` -> `Data_Lab_SWL.CAM.tbl_CAM_Raw` -> `Analytics.sp_Load_CAM_Assignment_Active`
 
 ## 5. Run order (manual loads)
 

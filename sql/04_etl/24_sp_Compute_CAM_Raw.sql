@@ -471,7 +471,10 @@ BEGIN
             S2.[Current SERVICE CODE] as [Current_Service_Code],
             S2.[ReassignmentID],
             CAR.[Comm] as [CAM_Commissioner_Code],
-            CAR.[Service Category] as [CAM_Service_Category],
+            COALESCE(
+                NULLIF(LTRIM(RTRIM(CAR.[Service Category])), ''),
+                NULLIF(LTRIM(RTRIM(S2.[Current COMMISSIONED SERVICE CATEGORY CODE])), '')
+            ) as [CAM_Service_Category],
             CAR.[Commissioner Assignment Reason] AS [CAM_Assignment_Reason],
             S2.[TotalCost],
             S2.[AdmissionDate],
@@ -483,11 +486,21 @@ BEGIN
             
             -- Variance flags for monitoring
             CASE WHEN S2.[Current ORGANISATION IDENTIFIER (CODE OF COMMISSIONER)] != CAR.[Comm] THEN 1 ELSE 0 END as [Commissioner_Variance],
-            CASE WHEN S2.[Current COMMISSIONED SERVICE CATEGORY CODE] != CAR.[Service Category] THEN 1 ELSE 0 END as [Service_Category_Variance]
+            CASE
+                WHEN ISNULL(LTRIM(RTRIM(S2.[Current COMMISSIONED SERVICE CATEGORY CODE])), '') <>
+                     ISNULL(
+                        COALESCE(
+                            NULLIF(LTRIM(RTRIM(CAR.[Service Category])), ''),
+                            NULLIF(LTRIM(RTRIM(S2.[Current COMMISSIONED SERVICE CATEGORY CODE])), '')
+                        ),
+                        ''
+                     )
+                THEN 1 ELSE 0
+            END as [Service_Category_Variance]
             
         FROM CAM_Stage2 S2
         LEFT JOIN [Data_Lab_SWL].[CAM_Ref].[CommissionerAssignmentReason] CAR
-            ON S2.[ReassignmentID] = CAR.[CAM_Code]
+            ON UPPER(LTRIM(RTRIM(S2.[ReassignmentID]))) = UPPER(LTRIM(RTRIM(CAR.[CAM_Code])))
         WHERE S2.[Current ORGANISATION IDENTIFIER (CODE OF COMMISSIONER)] <> 'VPP'
     )
     SELECT

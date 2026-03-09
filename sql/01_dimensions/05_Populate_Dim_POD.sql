@@ -7,6 +7,7 @@ Created:      2026-01-02
 Change Log:
   2026-01-02  Sridhar Peddi    Initial creation
   2026-01-12  Sridhar Peddi    Add ETL batch/table logging
+  2026-03-04  Sridhar Peddi     Use POD_Dataset='IP' (was 'APC') for inpatient taxonomy rows
 **/
 
 USE [Data_Lab_SWL_Live];
@@ -61,25 +62,25 @@ BEGIN TRY
                1. ADMITTED PATIENT CARE (Inpatient)
                ====================================================================================== */
             -- Non-Elective (Emergency)
-            ('NEL',       'Admitted Patient Care', 'Non-Elective', 'SPELL', 'Non-elective inpatient spell',     'APC', 'Inpatient', 'Non-Elective', 'Activity', 0, 1, 1, 0, 0, SUSER_SNAME()),
-            ('NELXBD',    'Admitted Patient Care', 'Non-Elective', 'XBD',   'Emergency excess bed days',        'APC', 'Inpatient', 'Bed Days',     'Activity', 0, 1, 1, 0, 0, SUSER_SNAME()),
-            ('NELST',     'Admitted Patient Care', 'Non-Elective', 'SPELL', 'Emergency short stay spell',       'APC', 'Inpatient', 'Non-Elective', 'Activity', 0, 1, 1, 0, 0, SUSER_SNAME()),
-            ('NELOBD',    'Admitted Patient Care', 'Non-Elective', 'OBD',   'Emergency occupied bed days',      'APC', 'Inpatient', 'Bed Days',     'Activity', 0, 1, 1, 0, 0, SUSER_SNAME()),
+            ('NEL',       'Admitted Patient Care', 'Non-Elective', 'SPELL', 'Non-elective inpatient spell',     'IP', 'Inpatient', 'Non-Elective', 'Activity', 0, 1, 1, 0, 0, SUSER_SNAME()),
+            ('NELXBD',    'Admitted Patient Care', 'Non-Elective', 'XBD',   'Emergency excess bed days',        'IP', 'Inpatient', 'Bed Days',     'Activity', 0, 1, 1, 0, 0, SUSER_SNAME()),
+            ('NELST',     'Admitted Patient Care', 'Non-Elective', 'SPELL', 'Emergency short stay spell',       'IP', 'Inpatient', 'Non-Elective', 'Activity', 0, 1, 1, 0, 0, SUSER_SNAME()),
+            ('NELOBD',    'Admitted Patient Care', 'Non-Elective', 'OBD',   'Emergency occupied bed days',      'IP', 'Inpatient', 'Bed Days',     'Activity', 0, 1, 1, 0, 0, SUSER_SNAME()),
             -- Non-Elective (Non-Emergency/Transfers)
-            ('NELNE',     'Admitted Patient Care', 'Non-Elective', 'SPELL', 'Non-emergency finished spell',     'APC', 'Inpatient', 'Non-Elective', 'Activity', 0, 0, 1, 0, 0, SUSER_SNAME()),
-            ('NELNEXBD',  'Admitted Patient Care', 'Non-Elective', 'XBD',   'Non-emergency excess bed days',    'APC', 'Inpatient', 'Bed Days',     'Activity', 0, 0, 1, 0, 0, SUSER_SNAME()),
-            ('NELNEOBD',  'Admitted Patient Care', 'Non-Elective', 'XBD',   'Non-emergency occupied bed days',  'APC', 'Inpatient', 'Bed Days',     'Activity', 0, 0, 1, 0, 0, SUSER_SNAME()),
+            ('NELNE',     'Admitted Patient Care', 'Non-Elective', 'SPELL', 'Non-emergency finished spell',     'IP', 'Inpatient', 'Non-Elective', 'Activity', 0, 0, 1, 0, 0, SUSER_SNAME()),
+            ('NELNEXBD',  'Admitted Patient Care', 'Non-Elective', 'XBD',   'Non-emergency excess bed days',    'IP', 'Inpatient', 'Bed Days',     'Activity', 0, 0, 1, 0, 0, SUSER_SNAME()),
+            ('NELNEOBD',  'Admitted Patient Care', 'Non-Elective', 'XBD',   'Non-emergency occupied bed days',  'IP', 'Inpatient', 'Bed Days',     'Activity', 0, 0, 1, 0, 0, SUSER_SNAME()),
             -- Elective & Daycase
-            ('DC',        'Admitted Patient Care', 'Day Case',     'SPELL', 'Day case spell',                   'APC', 'Inpatient', 'Day Case',     'Activity', 1, 0, 1, 0, 0, SUSER_SNAME()),
-            ('EL',        'Admitted Patient Care', 'Elective',     'SPELL', 'Ordinary elective spell',          'APC', 'Inpatient', 'Elective',     'Activity', 1, 0, 1, 0, 0, SUSER_SNAME()),
-            ('RADAY',     'Admitted Patient Care', 'Elective',     'SPELL', 'Regular day admission spell',      'APC', 'Inpatient', 'Elective',     'Activity', 1, 0, 1, 0, 0, SUSER_SNAME()),
-            ('RANIGHT',   'Admitted Patient Care', 'Elective',     'SPELL', 'Regular night admission spell',    'APC', 'Inpatient', 'Elective',     'Activity', 1, 0, 1, 0, 0, SUSER_SNAME()),
-            ('ELXBD',     'Admitted Patient Care', 'Elective',     'XBD',   'Elective excess bed days',         'APC', 'Inpatient', 'Bed Days',     'Activity', 1, 0, 1, 0, 0, SUSER_SNAME()),
-            ('ELOBD',     'Admitted Patient Care', 'Elective',     'OBD',   'Elective occupied bed days',       'APC', 'Inpatient', 'Bed Days',     'Activity', 1, 0, 1, 0, 0, SUSER_SNAME()),
+            ('DC',        'Admitted Patient Care', 'Day Case',     'SPELL', 'Day case spell',                   'IP', 'Inpatient', 'Day Case',     'Activity', 1, 0, 1, 0, 0, SUSER_SNAME()),
+            ('EL',        'Admitted Patient Care', 'Elective',     'SPELL', 'Ordinary elective spell',          'IP', 'Inpatient', 'Elective',     'Activity', 1, 0, 1, 0, 0, SUSER_SNAME()),
+            ('RADAY',     'Admitted Patient Care', 'Elective',     'SPELL', 'Regular day admission spell',      'IP', 'Inpatient', 'Elective',     'Activity', 1, 0, 1, 0, 0, SUSER_SNAME()),
+            ('RANIGHT',   'Admitted Patient Care', 'Elective',     'SPELL', 'Regular night admission spell',    'IP', 'Inpatient', 'Elective',     'Activity', 1, 0, 1, 0, 0, SUSER_SNAME()),
+            ('ELXBD',     'Admitted Patient Care', 'Elective',     'XBD',   'Elective excess bed days',         'IP', 'Inpatient', 'Bed Days',     'Activity', 1, 0, 1, 0, 0, SUSER_SNAME()),
+            ('ELOBD',     'Admitted Patient Care', 'Elective',     'OBD',   'Elective occupied bed days',       'IP', 'Inpatient', 'Bed Days',     'Activity', 1, 0, 1, 0, 0, SUSER_SNAME()),
             -- General Inpatient
-            ('IPOBD',     'Admitted Patient Care', 'General',      'OBD',   'Generic occupied bed days',        'APC', 'Inpatient', 'Bed Days',     'Activity', 0, 0, 1, 0, 0, SUSER_SNAME()),
-            ('IPFCE',     'Admitted Patient Care', 'General',      'FCE',   'Finished Consultant Episode',      'APC', 'Inpatient', 'Episodic',     'Activity', 0, 0, 1, 0, 0, SUSER_SNAME()),
-            ('IPSPECIAL', 'Admitted Patient Care', 'General',      'HOUR',  'Specialling (enhanced observation)','APC', 'Inpatient', 'Other',       'Activity', 0, 0, 1, 0, 0, SUSER_SNAME()),
+            ('IPOBD',     'Admitted Patient Care', 'General',      'OBD',   'Generic occupied bed days',        'IP', 'Inpatient', 'Bed Days',     'Activity', 0, 0, 1, 0, 0, SUSER_SNAME()),
+            ('IPFCE',     'Admitted Patient Care', 'General',      'FCE',   'Finished Consultant Episode',      'IP', 'Inpatient', 'Episodic',     'Activity', 0, 0, 1, 0, 0, SUSER_SNAME()),
+            ('IPSPECIAL', 'Admitted Patient Care', 'General',      'HOUR',  'Specialling (enhanced observation)','IP', 'Inpatient', 'Other',       'Activity', 0, 0, 1, 0, 0, SUSER_SNAME()),
 
             /* ======================================================================================
                2. OUTPATIENT (Attendance & Procedures)
