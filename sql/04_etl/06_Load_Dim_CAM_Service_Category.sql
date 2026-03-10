@@ -30,6 +30,7 @@ BEGIN
     DECLARE @RowsInserted INT = 0;
     DECLARE @RowsDeleted INT = 0;
     DECLARE @ErrorMessage NVARCHAR(4000);
+    DECLARE @HasRefServiceCategoryCodes BIT = 0;
 
     BEGIN TRY
         EXEC [Analytics].[sp_Start_ETL_Batch]
@@ -64,12 +65,16 @@ BEGIN
         INSERT INTO [Analytics].[tbl_Dim_CAM_Service_Category]
         (
             CAM_Service_Category,
+            CAM_Service_Category_Description,
+            CAM_Service_Category_Short_Description,
             Source_System,
             Created_By,
             Created_Date
         )
         SELECT
             s.CAM_Service_Category,
+            NULL AS CAM_Service_Category_Description,
+            NULL AS CAM_Service_Category_Short_Description,
             'CAM_Ref.CommissionerAssignmentReason',
             SUSER_SNAME(),
             GETDATE()
@@ -78,6 +83,36 @@ BEGIN
 
         SET @RowsInserted = @@ROWCOUNT;
         PRINT 'Rows Inserted: ' + CAST(@RowsInserted AS VARCHAR(20));
+
+        SELECT @HasRefServiceCategoryCodes =
+            CASE WHEN EXISTS (
+                SELECT 1
+                FROM [Data_Lab_SWL].sys.tables t
+                INNER JOIN [Data_Lab_SWL].sys.schemas s ON s.schema_id = t.schema_id
+                WHERE s.name = 'Ref'
+                  AND t.name = 'tbl_Service_Category_Codes'
+            ) THEN 1 ELSE 0 END;
+
+        IF @HasRefServiceCategoryCodes = 1
+        BEGIN
+            UPDATE d
+            SET
+                d.CAM_Service_Category_Description = NULLIF(LTRIM(RTRIM(r.ServiceCategoryDescription)), ''),
+                d.CAM_Service_Category_Short_Description = NULLIF(LTRIM(RTRIM(r.ShortDescription)), ''),
+                d.Updated_By = SUSER_SNAME(),
+                d.Updated_Date = GETDATE()
+            FROM [Analytics].[tbl_Dim_CAM_Service_Category] d
+            INNER JOIN [Data_Lab_SWL].[Ref].[tbl_Service_Category_Codes] r
+                ON TRY_CONVERT(INT, d.CAM_Service_Category) = r.ServiceCategoryCode
+            WHERE d.SK_CAM_Service_CategoryID > 0;
+
+            PRINT 'Rows Enriched from [Data_Lab_SWL].[Ref].[tbl_Service_Category_Codes]: '
+                + CAST(@@ROWCOUNT AS VARCHAR(20));
+        END
+        ELSE
+        BEGIN
+            PRINT '[WARN] [Data_Lab_SWL].[Ref].[tbl_Service_Category_Codes] not found - description columns left NULL.';
+        END
 
         EXEC [Analytics].[sp_Log_Table_Load]
             @BatchID = @BatchID,

@@ -15,6 +15,18 @@ table Dim_CAM_Service_Category
 		summarizeBy: none
 		sourceColumn: CAM Service Category
 
+	column 'CAM Service Category Description'
+		dataType: string
+		lineageTag: cs3e2f3a4-b5c6-7890-abcd-ef123456789
+		summarizeBy: none
+		sourceColumn: CAM Service Category Description
+
+	column 'CAM Service Category Short Description'
+		dataType: string
+		lineageTag: cs4e2f3a4-b5c6-7890-abcd-ef123456789
+		summarizeBy: none
+		sourceColumn: CAM Service Category Short Description
+
 	partition Dim_CAM_Service_Category = m
 		mode: import
 		source =
@@ -22,7 +34,9 @@ table Dim_CAM_Service_Category
 				    Source = Sql.Database("PSFADHSSTP02.ad.elc.nhs.uk\SWL", "Data_Lab_SWL_Live", [Query="
 				        SELECT
 				            [SK_CAM_Service_CategoryID] AS [CAMServiceCategoryKey],
-				            [CAM_Service_Category]      AS [CAM Service Category]
+				            [CAM_Service_Category]      AS [CAM Service Category],
+				            [CAM_Service_Category_Description] AS [CAM Service Category Description],
+				            [CAM_Service_Category_Short_Description] AS [CAM Service Category Short Description]
 				        FROM [Analytics].[tbl_Dim_CAM_Service_Category]
 				    "])
 				in

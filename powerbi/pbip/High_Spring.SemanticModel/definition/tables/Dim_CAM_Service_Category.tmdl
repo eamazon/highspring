@@ -14,6 +14,18 @@ table Dim_CAM_Service_Category
 		summarizeBy: none
 		sourceColumn: CAM Service Category
 
+	column 'CAM Service Category Description'
+		dataType: string
+		lineageTag: 5f6db6ee-9f0d-4d66-a6ca-6230069a28dd
+		summarizeBy: none
+		sourceColumn: CAM Service Category Description
+
+	column 'CAM Service Category Short Description'
+		dataType: string
+		lineageTag: 79f21207-6a11-4e07-aec2-5e72452bbd5f
+		summarizeBy: none
+		sourceColumn: CAM Service Category Short Description
+
 	partition Dim_CAM_Service_Category = m
 		mode: import
 		source =
@@ -22,7 +34,7 @@ table Dim_CAM_Service_Category
 						"PSFADHSSTP02.ad.elc.nhs.uk\SWL",
 						"Data_Lab_SWL_Live",
 						[
-							Query = "SELECT [SK_CAM_Service_CategoryID] AS [CAMServiceCategoryKey], [CAM_Service_Category] AS [CAM Service Category] FROM [Analytics].[tbl_Dim_CAM_Service_Category]"
+							Query = "SELECT [SK_CAM_Service_CategoryID] AS [CAMServiceCategoryKey], [CAM_Service_Category] AS [CAM Service Category], [CAM_Service_Category_Description] AS [CAM Service Category Description], [CAM_Service_Category_Short_Description] AS [CAM Service Category Short Description] FROM [Analytics].[tbl_Dim_CAM_Service_Category]"
 						]
 					)
 				in

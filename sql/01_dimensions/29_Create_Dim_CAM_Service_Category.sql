@@ -39,6 +39,8 @@ CREATE TABLE [Analytics].[tbl_Dim_CAM_Service_Category]
 (
     SK_CAM_Service_CategoryID INT IDENTITY(1,1) NOT NULL,
     CAM_Service_Category VARCHAR(50) NOT NULL,
+    CAM_Service_Category_Description VARCHAR(255) NULL,
+    CAM_Service_Category_Short_Description VARCHAR(50) NULL,
 
     Source_System VARCHAR(100) NULL DEFAULT 'CAM_Ref.CommissionerAssignmentReason',
     Created_By VARCHAR(128) NULL DEFAULT SYSTEM_USER,
@@ -63,9 +65,14 @@ GO
 SET IDENTITY_INSERT [Analytics].[tbl_Dim_CAM_Service_Category] ON;
 
 INSERT INTO [Analytics].[tbl_Dim_CAM_Service_Category]
-    (SK_CAM_Service_CategoryID, CAM_Service_Category)
+    (
+        SK_CAM_Service_CategoryID,
+        CAM_Service_Category,
+        CAM_Service_Category_Description,
+        CAM_Service_Category_Short_Description
+    )
 VALUES
-    (-1, 'UNKNOWN');
+    (-1, 'UNKNOWN', 'Unknown Service Category', 'UNKNOWN');
 
 SET IDENTITY_INSERT [Analytics].[tbl_Dim_CAM_Service_Category] OFF;
 

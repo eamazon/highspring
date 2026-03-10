@@ -1,0 +1,52 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.6.0/schema.json",
+  "name": "76fbd0de787066088b00",
+  "position": {
+    "x": 729.67001758830452,
+    "y": 0,
+    "z": 1001,
+    "height": 224.71721556161555,
+    "width": 549.89624513901208,
+    "tabOrder": 1
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Dim_CAM_Service_Category"
+                    }
+                  },
+                  "Property": "CAM Service Category"
+                }
+              },
+              "queryRef": "Dim_CAM_Service_Category.CAM Service Category",
+              "nativeQueryRef": "CAM Service Category"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Dim_CAM_Assignment_Reason"
+                    }
+                  },
+                  "Property": "CAM Assignment Reason"
+                }
+              },
+              "queryRef": "Dim_CAM_Assignment_Reason.CAM Assignment Reason",
+              "nativeQueryRef": "CAM Assignment Reason"
+            }
+          ]
+        }
+      }
+    },
+    "drillFilterOtherVisuals": true
+  }
+}
