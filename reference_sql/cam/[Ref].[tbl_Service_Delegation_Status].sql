@@ -1,0 +1,21 @@
+CREATE TABLE [Ref].[tbl_Service_Delegation_Status](
+	[Service_Code] [varchar](12) NULL,
+	[Service_Code_Description] [varchar](165) NULL,
+	[Service_Code_Incl_Description] [varchar](175) NULL,
+	[Service_Category_Description] [varchar](48) NULL,
+	[NPoC_CRG] [varchar](77) NULL,
+	[Highly_Specialised_Service] [varchar](14) NULL,
+	[Identified_by_PS_Tool_2024_25] [varchar](15) NULL,
+	[Notes] [varchar](122) NULL,
+	[Effective_From] [date] NULL,
+	[Effective_To] [date] NULL,
+	[Is_Current] [bit] NULL,
+	[Delegation_Status_2024_25] [varchar](14) NULL,
+	[Delegation_Status_2025_26] [varchar](14) NULL,
+	[Delegation_Status_Change] [varchar](3) NULL,
+	[Grouping] [varchar](14) NULL,
+	[Amended_Record_Indicator] [char](1) NULL,
+	[Created_At] [datetime] NULL,
+	[Added_By] [varchar](50) NULL
+) ON [PRIMARY]
+GO
