@@ -37,7 +37,48 @@
           ]
         },
         "Rows": {
-          "projections": []
+          "projections": [
+            {
+              "field": {
+                "HierarchyLevel": {
+                  "Expression": {
+                    "Hierarchy": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Dim_PCN"
+                        }
+                      },
+                      "Hierarchy": "PCN Hierarchy"
+                    }
+                  },
+                  "Level": "ICB"
+                }
+              },
+              "queryRef": "Dim_PCN.PCN Hierarchy.ICB",
+              "nativeQueryRef": "PCN Hierarchy ICB",
+              "active": true
+            },
+            {
+              "field": {
+                "HierarchyLevel": {
+                  "Expression": {
+                    "Hierarchy": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Dim_PCN"
+                        }
+                      },
+                      "Hierarchy": "PCN Hierarchy"
+                    }
+                  },
+                  "Level": "PCN"
+                }
+              },
+              "queryRef": "Dim_PCN.PCN Hierarchy.PCN",
+              "nativeQueryRef": "PCN Hierarchy PCN",
+              "active": true
+            }
+          ]
         },
         "Values": {
           "projections": [
@@ -59,6 +100,55 @@
         }
       }
     },
+    "expansionStates": [
+      {
+        "roles": [
+          "Rows"
+        ],
+        "levels": [
+          {
+            "queryRefs": [
+              "Dim_PCN.PCN Hierarchy.ICB"
+            ],
+            "isCollapsed": true,
+            "identityKeys": [
+              {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Dim_PCN"
+                    }
+                  },
+                  "Property": "ICB"
+                }
+              }
+            ],
+            "isPinned": true
+          },
+          {
+            "queryRefs": [
+              "Dim_PCN.PCN Hierarchy.PCN"
+            ],
+            "isCollapsed": true,
+            "isPinned": true
+          }
+        ],
+        "root": {
+          "children": [
+            {
+              "identityValues": [
+                {
+                  "Literal": {
+                    "Value": "'NHS FRIMLEY INTEGRATED CARE BOARD'"
+                  }
+                }
+              ],
+              "isToggled": true
+            }
+          ]
+        }
+      }
+    ],
     "drillFilterOtherVisuals": true
   },
   "filterConfig": {

@@ -47,3 +47,14 @@ appsettings.*.json
 tmp/
 temp/
 *.tmp
+
+# SQLite
+*.sqlite
+*.sqlite3
+
+# CSV exports
+*.csv
+
+# Generated IMD staging SQL
+sql/analytics_platform/05_api/staging_lsoa_imd.sql
+sql/analytics_platform/05_api/archive/imd2019_idaci_idaopi_*.sql

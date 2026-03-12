@@ -182,3 +182,12 @@ relationship 52a2b2c2-d2e2-f2a2-b2c2-d2e2f2a2b2d2
 	fromColumn: Fact_OP_Activity.CAMAssignmentReasonKey
 	toColumn: Dim_CAM_Assignment_Reason.CAMAssignmentReasonKey
 
+relationship 53a3b3c3-d3e3-f3a3-b3c3-d3e3f3a3b3d3
+	crossFilteringBehavior: bothDirections
+	fromColumn: Bridge_OpPlan_MeasureSet.OpPlanMeasureSetKey
+	toColumn: Dim_OpPlan_MeasureSet.OpPlanMeasureSetKey
+
+relationship 54a4b4c4-d4e4-f4a4-b4c4-d4e4f4a4b4d4
+	fromColumn: Bridge_OpPlan_MeasureSet.MeasureID
+	toColumn: Dim_OpPlan_Measure.MeasureID
+

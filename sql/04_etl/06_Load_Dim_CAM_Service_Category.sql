@@ -30,6 +30,7 @@ BEGIN
     DECLARE @TableName VARCHAR(100) = 'Analytics.tbl_Dim_CAM_Service_Category';
     DECLARE @RowsInserted INT = 0;
     DECLARE @RowsUpdated INT = 0;
+    DECLARE @RowsAffected INT = 0;
     DECLARE @RowsDeleted INT = 0;
     DECLARE @ErrorMessage NVARCHAR(4000);
     DECLARE @RefDb SYSNAME = NULL;
@@ -170,11 +171,13 @@ BEGIN
         SET @RowsInserted = @@ROWCOUNT;
         PRINT 'Rows Inserted: ' + CAST(@RowsInserted AS VARCHAR(20));
 
+        SET @RowsAffected = @RowsInserted + @RowsUpdated;
+
         EXEC [Analytics].[sp_Log_Table_Load]
             @BatchID = @BatchID,
             @TableName = @TableName,
             @LoadType = 'Full',
-            @RowsAffected = (@RowsInserted + @RowsUpdated),
+            @RowsAffected = @RowsAffected,
             @Status = 'Success';
 
         EXEC [Analytics].[sp_End_ETL_Batch]

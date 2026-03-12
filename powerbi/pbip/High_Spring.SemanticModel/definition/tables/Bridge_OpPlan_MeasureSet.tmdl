@@ -1,0 +1,29 @@
+table Bridge_OpPlan_MeasureSet
+	lineageTag: ac0de0de-7dd5-42ed-8ec6-a968bb6a1432
+
+	column OpPlanMeasureSetKey
+		dataType: int64
+		lineageTag: e87af8f7-8bf4-4fe6-bf9f-5f52c3dcf669
+		summarizeBy: none
+		sourceColumn: OpPlanMeasureSetKey
+
+	column MeasureID
+		dataType: int64
+		lineageTag: 56f3ff93-fb57-4fd9-aec4-f4e8bc3d91d2
+		summarizeBy: none
+		sourceColumn: MeasureID
+
+	partition Bridge_OpPlan_MeasureSet = m
+		mode: import
+		source =
+				let
+					Source = Sql.Database(
+						"PSFADHSSTP02.ad.elc.nhs.uk\SWL",
+						"Data_Lab_SWL_Live",
+						[
+							Query = "SELECT [SK_OpPlan_MeasureSet] AS [OpPlanMeasureSetKey], [MeasureID] FROM [Analytics].[tbl_Bridge_OpPlan_MeasureSet]"
+						]
+					)
+				in
+					Source
+

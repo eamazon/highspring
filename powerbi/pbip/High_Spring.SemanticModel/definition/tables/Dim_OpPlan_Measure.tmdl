@@ -1,0 +1,54 @@
+table Dim_OpPlan_Measure
+	lineageTag: e5f28dc8-66ef-4d55-8f6d-c8f85a9c8e11
+
+	column MeasureID
+		dataType: int64
+		isKey
+		lineageTag: 9f2b9b66-f55e-4f79-9c8f-362d6838cc7a
+		summarizeBy: none
+		sourceColumn: MeasureID
+
+	column 'Measure Name'
+		dataType: string
+		lineageTag: b3e64495-3bb5-4f3d-b6fe-ff32b402bb73
+		summarizeBy: none
+		sourceColumn: Measure Name
+
+	column 'Measure ShortName'
+		dataType: string
+		lineageTag: 22a26709-8f4a-4cf2-9f6f-748f311f5528
+		summarizeBy: none
+		sourceColumn: Measure ShortName
+
+	column 'Measure Category'
+		dataType: string
+		lineageTag: 80e6fa6b-7f57-44b7-b4db-eb27c162e82a
+		summarizeBy: none
+		sourceColumn: Measure Category
+
+	column 'Measure SubCategory'
+		dataType: string
+		lineageTag: c8f9be6a-cf37-41e4-80de-81eeedccf28d
+		summarizeBy: none
+		sourceColumn: Measure SubCategory
+
+	column 'Is Active'
+		dataType: boolean
+		lineageTag: a68824fe-6100-45d7-8382-70970d835358
+		summarizeBy: none
+		sourceColumn: Is Active
+
+	partition Dim_OpPlan_Measure = m
+		mode: import
+		source =
+				let
+					Source = Sql.Database(
+						"PSFADHSSTP02.ad.elc.nhs.uk\SWL",
+						"Data_Lab_SWL_Live",
+						[
+							Query = "SELECT [MeasureID], [Measure_Name] AS [Measure Name], [Measure_ShortName] AS [Measure ShortName], [Measure_Category] AS [Measure Category], [Measure_SubCategory] AS [Measure SubCategory], [Is_Active] AS [Is Active] FROM [Analytics].[vw_Dim_OpPlan_Measure]"
+						]
+					)
+				in
+					Source
+

@@ -48,6 +48,7 @@ BEGIN
     DECLARE @WindowStartDate DATE;
     DECLARE @WindowEndDate DATE;
     DECLARE @CutoffDate DATE;
+    DECLARE @CutoffDateRaw NVARCHAR(50);
 
     SET @FinYearInt = CASE
         WHEN ISNUMERIC(@FinYearStart) = 1 THEN CAST(@FinYearStart AS INT)
@@ -75,7 +76,13 @@ BEGIN
 
     SET @FinYearStartDate = CONVERT(DATE, @FinYearStart + '0401', 112);
     SET @FinYearEndDate = DATEADD(DAY, -1, DATEADD(YEAR, 1, @FinYearStartDate));
-    SET @CutoffDate = [Analytics].[fn_SUS_Published_Cutoff_Date](NULL);
+    SET @CutoffDateRaw = CONVERT(NVARCHAR(50), [Analytics].[fn_SUS_Published_Cutoff_Date](NULL), 121);
+    SET @CutoffDate = COALESCE(
+        TRY_CONVERT(DATE, @CutoffDateRaw, 23),   -- yyyy-mm-dd
+        TRY_CONVERT(DATE, @CutoffDateRaw, 121),  -- ODBC canonical
+        TRY_CONVERT(DATE, @CutoffDateRaw, 103),  -- dd/mm/yyyy
+        TRY_CONVERT(DATE, @CutoffDateRaw)        -- best effort
+    );
 
     SET @WindowStartDate = COALESCE(@FromDate, @FinYearStartDate);
     SET @WindowEndDate = COALESCE(@ToDate, @CutoffDate, @FinYearEndDate);
@@ -135,40 +142,52 @@ BEGIN
             r.SK_EncounterID,
             r.MeasureId,
             r.Dataset,
-            CAST(ip.End_Date_Hospital_Provider_Spell AS DATE) AS Activity_Date
+            d.Activity_Date
         INTO #OpPlanActivity
         FROM #OpPlanRaw r
         INNER JOIN [Data_Lab_SWL].[Unified].[tbl_IP_EncounterDenormalised_Active] ip
             ON r.SK_EncounterID = ip.SK_EncounterID
+        CROSS APPLY (
+            SELECT TRY_CONVERT(DATE, ip.End_Date_Hospital_Provider_Spell) AS Activity_Date
+        ) d
         WHERE r.Dataset = 'Inpatient'
-          AND ip.End_Date_Hospital_Provider_Spell >= @WindowStartDate
-          AND ip.End_Date_Hospital_Provider_Spell < DATEADD(DAY, 1, @WindowEndDate)
+          AND d.Activity_Date IS NOT NULL
+          AND d.Activity_Date >= @WindowStartDate
+          AND d.Activity_Date <= @WindowEndDate
 
         UNION ALL
         SELECT
             r.SK_EncounterID,
             r.MeasureId,
             r.Dataset,
-            CAST(op.Appointment_Date AS DATE) AS Activity_Date
+            d.Activity_Date
         FROM #OpPlanRaw r
         INNER JOIN [Data_Lab_SWL].[Unified].[tbl_OP_EncounterDenormalised_Active] op
             ON r.SK_EncounterID = op.SK_EncounterID
+        CROSS APPLY (
+            SELECT TRY_CONVERT(DATE, op.Appointment_Date) AS Activity_Date
+        ) d
         WHERE r.Dataset = 'Outpatient'
-          AND op.Appointment_Date >= @WindowStartDate
-          AND op.Appointment_Date < DATEADD(DAY, 1, @WindowEndDate)
+          AND d.Activity_Date IS NOT NULL
+          AND d.Activity_Date >= @WindowStartDate
+          AND d.Activity_Date <= @WindowEndDate
 
         UNION ALL
         SELECT
             r.SK_EncounterID,
             r.MeasureId,
             r.Dataset,
-            CAST(ed.Arrival_Date AS DATE) AS Activity_Date
+            d.Activity_Date
         FROM #OpPlanRaw r
         INNER JOIN [Data_Lab_SWL].[Unified].[tbl_ED_EncounterDenormalised_Active] ed
             ON r.SK_EncounterID = ed.SK_EncounterID
+        CROSS APPLY (
+            SELECT TRY_CONVERT(DATE, ed.Arrival_Date) AS Activity_Date
+        ) d
         WHERE r.Dataset = 'ED'
-          AND ed.Arrival_Date >= @WindowStartDate
-          AND ed.Arrival_Date < DATEADD(DAY, 1, @WindowEndDate);
+          AND d.Activity_Date IS NOT NULL
+          AND d.Activity_Date >= @WindowStartDate
+          AND d.Activity_Date <= @WindowEndDate;
 
         ;WITH DistinctMeasures AS (
             SELECT DISTINCT SK_EncounterID, Dataset, MeasureId, Activity_Date

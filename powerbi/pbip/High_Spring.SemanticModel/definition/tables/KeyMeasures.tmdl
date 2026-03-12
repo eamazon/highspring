@@ -506,6 +506,79 @@ table KeyMeasures
 		displayFolder: Time Comparison\Year to Date
 		lineageTag: e310cfda-f4b3-4a3f-863e-6d7b6b698107
 
+	/// Inpatient spells tagged to the selected Operating Plan measure(s)
+	measure 'IP OpPlan Tagged Spells' =
+			CALCULATE(
+				[IP Spells],
+				Fact_IP_Activity[Is Operating Plan] = TRUE
+			)
+		formatString: #,##0
+		displayFolder: Operating Plan\By Measure
+		lineageTag: 2466426f-2dce-4327-a0e8-fb57cb4c03a8
+
+	/// Outpatient attendances tagged to the selected Operating Plan measure(s)
+	measure 'OP OpPlan Tagged Attendances' =
+			CALCULATE(
+				[OP Attendances],
+				Fact_OP_Activity[Is Operating Plan] = TRUE
+			)
+		formatString: #,##0
+		displayFolder: Operating Plan\By Measure
+		lineageTag: 521b8fc3-cf36-41c1-a036-f2072757cf7a
+
+	/// A&E attendances tagged to the selected Operating Plan measure(s)
+	measure 'AE OpPlan Tagged Attendances' =
+			CALCULATE(
+				[AE Attendances],
+				Fact_AE_Activity[Is Operating Plan] = TRUE
+			)
+		formatString: #,##0
+		displayFolder: Operating Plan\By Measure
+		lineageTag: 42a3bbcc-8c8d-4d9f-9fbe-9d4e5f3573d7
+
+	/// Share of inpatient Operating Plan spells attributable to selected measure(s)
+	measure 'IP OpPlan Tagged Share %' =
+			DIVIDE(
+				[IP OpPlan Tagged Spells],
+				CALCULATE([IP Operating Plan Spells], REMOVEFILTERS(Dim_OpPlan_Measure)),
+				0
+			)
+		formatString: 0.0%
+		displayFolder: Operating Plan\By Measure
+		lineageTag: c9fca53b-c4d2-4a5d-bc45-d40f80cc8f3d
+
+	/// Share of outpatient Operating Plan attendances attributable to selected measure(s)
+	measure 'OP OpPlan Tagged Share %' =
+			DIVIDE(
+				[OP OpPlan Tagged Attendances],
+				CALCULATE([OP Operating Plan Attendances], REMOVEFILTERS(Dim_OpPlan_Measure)),
+				0
+			)
+		formatString: 0.0%
+		displayFolder: Operating Plan\By Measure
+		lineageTag: 7e10f438-f93a-4f7f-b3e3-d8f9bece2db5
+
+	/// Share of A&E Operating Plan attendances attributable to selected measure(s)
+	measure 'AE OpPlan Tagged Share %' =
+			DIVIDE(
+				[AE OpPlan Tagged Attendances],
+				CALCULATE([AE Operating Plan Attendances], REMOVEFILTERS(Dim_OpPlan_Measure)),
+				0
+			)
+		formatString: 0.0%
+		displayFolder: Operating Plan\By Measure
+		lineageTag: 4d525190-f458-438a-a57b-c42225a22853
+
+	/// Report-builder warning for non-additive rows when grouped by measure
+	measure 'OpPlan Measure Totals Note' =
+			IF(
+				ISINSCOPE(Dim_OpPlan_Measure[Measure Name]),
+				"Rows are non-additive across measures; use grand total for de-duplicated total.",
+				BLANK()
+			)
+		displayFolder: Operating Plan\By Measure
+		lineageTag: 44e90fbb-a9f9-4398-a4e7-5f17f61a65f7
+
 	column MeasuresColumn
 		dataType: int64
 		isHidden

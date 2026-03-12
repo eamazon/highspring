@@ -8,7 +8,7 @@ model Model
 
 annotation __PBI_TimeIntelligenceEnabled = 0
 
-annotation PBI_QueryOrder = ["Dim_Date","Dim_Commissioner","Dim_GPPractice","Dim_PCN","Dim_POD","Dim_LSOA","Dim_Provider","Dim_Specialty","Dim_HRG","Dim_Gender","Dim_Ethnicity","Dim_Age_Band","Dim_CAM_Service_Category","Dim_CAM_Assignment_Reason","Dim_OpPlan_MeasureSet","Dim_Admission_Method","Dim_Admission_Source","Dim_Discharge_Method","Dim_Discharge_Destination","Dim_IP_Patient_Classification","Dim_Attendance_Status","Dim_Attendance_Outcome","Dim_Attendance_Type","Dim_DNA_Indicator","Dim_Priority_Type","Dim_Referral_Source","Dim_Attendance_Disposal","Fact_IP_Activity","Fact_OP_Activity","Fact_AE_Activity","KeyMeasures"]
+annotation PBI_QueryOrder = ["Dim_Date","Dim_Commissioner","Dim_GPPractice","Dim_PCN","Dim_POD","Dim_LSOA","Dim_Provider","Dim_Specialty","Dim_HRG","Dim_Gender","Dim_Ethnicity","Dim_Age_Band","Dim_CAM_Service_Category","Dim_CAM_Assignment_Reason","Dim_OpPlan_MeasureSet","Dim_OpPlan_Measure","Bridge_OpPlan_MeasureSet","Dim_Admission_Method","Dim_Admission_Source","Dim_Discharge_Method","Dim_Discharge_Destination","Dim_IP_Patient_Classification","Dim_Attendance_Status","Dim_Attendance_Outcome","Dim_Attendance_Type","Dim_DNA_Indicator","Dim_Priority_Type","Dim_Referral_Source","Dim_Attendance_Disposal","Fact_IP_Activity","Fact_OP_Activity","Fact_AE_Activity","KeyMeasures"]
 
 annotation PBI_ProTooling = ["TMDLView_Desktop","DevMode"]
 
@@ -27,6 +27,8 @@ ref table Dim_Age_Band
 ref table Dim_CAM_Service_Category
 ref table Dim_CAM_Assignment_Reason
 ref table Dim_OpPlan_MeasureSet
+ref table Dim_OpPlan_Measure
+ref table Bridge_OpPlan_MeasureSet
 ref table Dim_Admission_Method
 ref table Dim_Admission_Source
 ref table Dim_Discharge_Method

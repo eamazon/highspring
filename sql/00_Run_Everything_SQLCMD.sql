@@ -133,7 +133,8 @@ PRINT '    2e. Dictionary NHS DD Dimensions (Views - Core)';
 :r H:\sql\01_dimensions\26_Create_Dim_Age_Band.sql
 :r H:\sql\01_dimensions\32_Create_Dim_OpPlan_Measure.sql
 :r H:\sql\01_dimensions\33_Create_Dim_OpPlan_MeasureSet_Detail.sql
-PRINT '    [OK] All Dimensions Created (30 total: 9 tables + 21 views)';
+:r H:\sql\01_dimensions\34_Create_Dim_OpPlan_MeasureSet_Display.sql
+PRINT '    [OK] All Dimensions Created (31 total: 9 tables + 22 views)';
 
 -------------------------------------------------------------------------------
 -- 2.5. FACTS + BRIDGES (DDL)
