@@ -6,6 +6,7 @@ table Dim_Attendance_Disposal
 		isKey
 		lineageTag: 1775131f-e205-4694-99a8-4a99d54eb1c5
 		summarizeBy: none
+		isHidden
 		sourceColumn: AttendanceDisposalKey
 
 	column 'Attendance Disposal Code'

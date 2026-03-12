@@ -6,6 +6,7 @@ table Dim_Gender
 		isKey
 		lineageTag: 59ae6572-b6eb-456d-ba95-df916f9d898b
 		summarizeBy: none
+		isHidden
 		sourceColumn: GenderKey
 
 	column Gender

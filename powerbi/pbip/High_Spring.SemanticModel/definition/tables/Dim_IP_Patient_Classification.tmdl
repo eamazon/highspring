@@ -6,6 +6,7 @@ table Dim_IP_Patient_Classification
 		isKey
 		lineageTag: aa3905bf-6135-4d49-9281-433cbb6fdddf
 		summarizeBy: none
+		isHidden
 		sourceColumn: PatientClassificationKey
 
 	column 'Patient Classification Code'

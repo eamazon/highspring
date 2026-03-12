@@ -6,6 +6,7 @@ table Dim_Commissioner
 		isKey
 		lineageTag: 5f45508b-03e5-464f-8233-7bd581b984c1
 		summarizeBy: none
+		isHidden
 		sourceColumn: CommissionerKey
 
 	column 'Commissioner Code'

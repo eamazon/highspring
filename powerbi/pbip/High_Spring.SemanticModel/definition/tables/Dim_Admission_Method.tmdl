@@ -6,6 +6,7 @@ table Dim_Admission_Method
 		isKey
 		lineageTag: 74f0f35f-ae8f-4b62-8e5f-fad30f27ae62
 		summarizeBy: none
+		isHidden
 		sourceColumn: AdmissionMethodKey
 
 	column 'Admission Method Code'

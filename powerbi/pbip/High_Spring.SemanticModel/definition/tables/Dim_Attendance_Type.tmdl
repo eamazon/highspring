@@ -6,6 +6,7 @@ table Dim_Attendance_Type
 		isKey
 		lineageTag: 15fe8e66-c240-448f-98c6-af5c1c03b63e
 		summarizeBy: none
+		isHidden
 		sourceColumn: AttendanceTypeKey
 
 	column 'Attendance Type Code'

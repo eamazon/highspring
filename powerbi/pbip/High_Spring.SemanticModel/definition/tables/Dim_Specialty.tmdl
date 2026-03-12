@@ -6,6 +6,7 @@ table Dim_Specialty
 		isKey
 		lineageTag: a22e449b-8c30-40d3-8f8b-9b963e255fb3
 		summarizeBy: none
+		isHidden
 		sourceColumn: SpecialtyKey
 
 	column 'Specialty Code'

@@ -6,6 +6,7 @@ table Dim_PCN
 		isKey
 		lineageTag: a577f68e-73de-434a-b06b-cc5fe6744b02
 		summarizeBy: none
+		isHidden
 		sourceColumn: PCNKey
 
 	column 'PCN Code'

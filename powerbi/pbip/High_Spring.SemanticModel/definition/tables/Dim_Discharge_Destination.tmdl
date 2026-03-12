@@ -6,6 +6,7 @@ table Dim_Discharge_Destination
 		isKey
 		lineageTag: 8688a27d-1c09-4943-abae-bc8bd2328356
 		summarizeBy: none
+		isHidden
 		sourceColumn: DischargeDestinationKey
 
 	column 'Discharge Destination Code'

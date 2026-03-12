@@ -24,6 +24,7 @@ CREATE PROCEDURE [Analytics].[sp_Load_Dim_LSOA]
 AS
 BEGIN
     SET NOCOUNT ON;
+    SET LOCK_TIMEOUT 120000; -- Fail fast after 2 minutes if blocked
 
     DECLARE @BatchName VARCHAR(100) = 'Load_Dim_LSOA';
     DECLARE @BatchID INT = NULL;
@@ -170,6 +171,7 @@ BEGIN
             ON imd.LSOA_Code = s.LSOA_Code
         WHERE s.LSOA_Code IS NOT NULL
         GROUP BY s.LSOA_Code;
+        PRINT 'Prepared LSOA rows: ' + CAST(@@ROWCOUNT AS VARCHAR(20));
 
         UPDATE d
         SET
@@ -199,7 +201,29 @@ BEGIN
         FROM [Analytics].[tbl_Dim_LSOA] d
         INNER JOIN #PreparedLSOA p
             ON p.LSOA_Code = d.LSOA_Code
-        WHERE d.SK_LSOA_ID > 0;
+        WHERE d.SK_LSOA_ID > 0
+          AND (
+                ISNULL(d.LSOA_Name, '') <> ISNULL(p.LSOA_Name, '')
+             OR ISNULL(d.SubICB_Code, '') <> ISNULL(p.SubICB_Code, '')
+             OR ISNULL(d.SubICB_Hierarchy_Code, '') <> ISNULL(p.SubICB_Hierarchy_Code, '')
+             OR ISNULL(d.SubICB_Name, '') <> ISNULL(p.SubICB_Name, '')
+             OR ISNULL(d.ICB_Code, '') <> ISNULL(p.ICB_Code, '')
+             OR ISNULL(d.ICB_Hierarchy_Code, '') <> ISNULL(p.ICB_Hierarchy_Code, '')
+             OR ISNULL(d.ICB_Name, '') <> ISNULL(p.ICB_Name, '')
+             OR ISNULL(d.CancerAlliance_Code, '') <> ISNULL(p.CancerAlliance_Code, '')
+             OR ISNULL(d.CancerAlliance_Name, '') <> ISNULL(p.CancerAlliance_Name, '')
+             OR ISNULL(d.LocalAuthority_Code, '') <> ISNULL(p.LocalAuthority_Code, '')
+             OR ISNULL(d.LocalAuthority_Name, '') <> ISNULL(p.LocalAuthority_Name, '')
+             OR ISNULL(d.IMD_Year, 0) <> ISNULL(p.IMD_Year, 0)
+             OR ISNULL(d.IMD_Rank, 0) <> ISNULL(p.IMD_Rank, 0)
+             OR ISNULL(d.IMD_Decile, 0) <> ISNULL(p.IMD_Decile, 0)
+             OR ISNULL(d.IDACI_Score, 0) <> ISNULL(p.IDACI_Score, 0)
+             OR ISNULL(d.IDACI_Rank, 0) <> ISNULL(p.IDACI_Rank, 0)
+             OR ISNULL(d.IDACI_Decile, 0) <> ISNULL(p.IDACI_Decile, 0)
+             OR ISNULL(d.IDAOPI_Score, 0) <> ISNULL(p.IDAOPI_Score, 0)
+             OR ISNULL(d.IDAOPI_Rank, 0) <> ISNULL(p.IDAOPI_Rank, 0)
+             OR ISNULL(d.IDAOPI_Decile, 0) <> ISNULL(p.IDAOPI_Decile, 0)
+          );
 
         SET @RowsUpdated = @@ROWCOUNT;
         PRINT 'Rows Updated: ' + CAST(@RowsUpdated AS VARCHAR(20));

@@ -6,6 +6,7 @@ table Dim_Referral_Source
 		isKey
 		lineageTag: a694b857-fe89-4d74-8698-943c3a25010d
 		summarizeBy: none
+		isHidden
 		sourceColumn: ReferralSourceKey
 
 	column 'Referral Source Code'

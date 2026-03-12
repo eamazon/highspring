@@ -6,6 +6,7 @@ table Dim_HRG
 		isKey
 		lineageTag: 321ce274-0ca9-438a-a73a-c445170f7f8a
 		summarizeBy: none
+		isHidden
 		sourceColumn: HRGKey
 
 	column 'HRG Code'

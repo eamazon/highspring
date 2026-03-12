@@ -6,6 +6,7 @@ table Dim_Admission_Source
 		isKey
 		lineageTag: bfba0e18-047a-41db-b80a-94a2d42d580b
 		summarizeBy: none
+		isHidden
 		sourceColumn: AdmissionSourceKey
 
 	column 'Admission Source Code'

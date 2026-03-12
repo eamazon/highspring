@@ -6,186 +6,217 @@ table Fact_IP_Activity
 		isKey
 		lineageTag: f122ef94-0b5d-4cc6-9d93-e8b5fba0d91b
 		summarizeBy: none
+		isHidden
 		sourceColumn: EncounterKey
 
 	column PatientKey
 		dataType: int64
 		lineageTag: 406bbb06-e64a-4ba2-8bdf-35458611882b
 		summarizeBy: none
+		isHidden
 		sourceColumn: PatientKey
 
 	column AdmissionDateKey
 		dataType: int64
 		lineageTag: abef7929-1dfe-45af-9f49-b1c38634d739
 		summarizeBy: none
+		isHidden
 		sourceColumn: AdmissionDateKey
 
 	column DischargeDateKey
 		dataType: int64
 		lineageTag: 945a952d-aaf1-43f5-b4fd-2719b45ee989
 		summarizeBy: none
+		isHidden
 		sourceColumn: DischargeDateKey
 
 	column AgeKey
 		dataType: int64
 		lineageTag: 3e64399f-48b4-4ace-8192-6488e0f09fa5
 		summarizeBy: none
+		isHidden
 		sourceColumn: AgeKey
 
 	column GenderKey
 		dataType: int64
 		lineageTag: bca6d754-4ae6-4e7f-828f-12e78f741192
 		summarizeBy: none
+		isHidden
 		sourceColumn: GenderKey
 
 	column EthnicityKey
 		dataType: int64
 		lineageTag: 37169e5f-4318-4524-b0d9-38a9f26a28ba
 		summarizeBy: none
+		isHidden
 		sourceColumn: EthnicityKey
 
 	column ProviderKey
 		dataType: int64
 		lineageTag: 2dabe66d-9087-4dcb-810b-a87a52a26ba8
 		summarizeBy: none
+		isHidden
 		sourceColumn: ProviderKey
 
 	column LSOAKey
 		dataType: int64
 		lineageTag: 0ff0848d-7a73-4ff7-b6c7-7e927d5a6ca7
 		summarizeBy: none
+		isHidden
 		sourceColumn: LSOAKey
 
 	column SpecialtyKey
 		dataType: int64
 		lineageTag: 03ec7f88-d5b5-4a8c-bf0c-7e74255575b5
 		summarizeBy: none
+		isHidden
 		sourceColumn: SpecialtyKey
 
 	column HRGKey
 		dataType: int64
 		lineageTag: a6dfc1ae-bdbc-4763-b384-945227e4a777
 		summarizeBy: none
+		isHidden
 		sourceColumn: HRGKey
 
 	column CommissionerKey
 		dataType: int64
 		lineageTag: cbf901fa-fe48-481f-86a8-8ce06f49e088
 		summarizeBy: none
+		isHidden
 		sourceColumn: CommissionerKey
 
 	column GPPracticeKey
 		dataType: int64
 		lineageTag: 76314f13-0dec-4783-830b-924cd7d467d2
 		summarizeBy: none
+		isHidden
 		sourceColumn: GPPracticeKey
 
 	column PCNKey
 		dataType: int64
 		lineageTag: b4097ace-345b-492c-82c0-6b54f5bfe0c2
 		summarizeBy: none
+		isHidden
 		sourceColumn: PCNKey
 
 	column PODKey
 		dataType: int64
 		lineageTag: 663ffa0d-e2f4-411b-89ea-1427727a5b48
 		summarizeBy: none
+		isHidden
 		sourceColumn: PODKey
 
 	column OpPlanMeasureSetKey
 		dataType: int64
 		lineageTag: 21321c44-ba90-440d-9ed3-5bc6a3d00be3
 		summarizeBy: none
+		isHidden
 		sourceColumn: OpPlanMeasureSetKey
 
 	column AdmissionMethodKey
 		dataType: int64
 		lineageTag: 8281ad96-666f-42b1-9dc0-b6665dda5e38
 		summarizeBy: none
+		isHidden
 		sourceColumn: AdmissionMethodKey
 
 	column AdmissionSourceKey
 		dataType: int64
 		lineageTag: 0aa3276a-ec71-42d2-800d-41cc15f2ff44
 		summarizeBy: none
+		isHidden
 		sourceColumn: AdmissionSourceKey
 
 	column DischargeMethodKey
 		dataType: int64
 		lineageTag: 162433bc-72cf-47cf-9bcc-8ddde7d3dc7c
 		summarizeBy: none
+		isHidden
 		sourceColumn: DischargeMethodKey
 
 	column DischargeDestinationKey
 		dataType: int64
 		lineageTag: f9197004-db37-42ee-ba68-797b511caa13
 		summarizeBy: none
+		isHidden
 		sourceColumn: DischargeDestinationKey
 
 	column PatientClassificationKey
 		dataType: int64
 		lineageTag: 82cbd655-8e92-452c-a9b6-7ac0bdb76566
 		summarizeBy: none
+		isHidden
 		sourceColumn: PatientClassificationKey
 
 	column AttendanceStatusKey
 		dataType: int64
 		lineageTag: 8a6da5f8-d87f-4ca5-b2dc-28557b515733
 		summarizeBy: none
+		isHidden
 		sourceColumn: AttendanceStatusKey
 
 	column AttendanceOutcomeKey
 		dataType: int64
 		lineageTag: e7b5277f-a3a2-4a2a-b3e6-31a57eccf90c
 		summarizeBy: none
+		isHidden
 		sourceColumn: AttendanceOutcomeKey
 
 	column AttendanceTypeKey
 		dataType: int64
 		lineageTag: 2bd8d1b8-dd48-4e2f-911f-cd4e7656e3c2
 		summarizeBy: none
+		isHidden
 		sourceColumn: AttendanceTypeKey
 
 	column DNAIndicatorKey
 		dataType: int64
 		lineageTag: c2a2d7b5-9f10-4bce-a117-43d289547515
 		summarizeBy: none
+		isHidden
 		sourceColumn: DNAIndicatorKey
 
 	column PriorityTypeKey
 		dataType: int64
 		lineageTag: b2c37d16-0300-4e80-a93b-748ac98bd511
 		summarizeBy: none
+		isHidden
 		sourceColumn: PriorityTypeKey
 
 	column ReferralSourceKey
 		dataType: int64
 		lineageTag: 5a6ab68f-cadb-45e7-ae90-27c2f8f04ca4
 		summarizeBy: none
+		isHidden
 		sourceColumn: ReferralSourceKey
 
 	column AttendanceDisposalKey
 		dataType: int64
 		lineageTag: 6088f9ea-ec7f-4e46-8e8f-abed6ec467cd
 		summarizeBy: none
+		isHidden
 		sourceColumn: AttendanceDisposalKey
 
 	column CAMCommissionerKey
 		dataType: int64
 		lineageTag: f69455fa-cd5a-4614-86f7-9e9622382023
 		summarizeBy: none
+		isHidden
 		sourceColumn: CAMCommissionerKey
 
 	column CAMServiceCategoryKey
 		dataType: int64
 		lineageTag: b7a23948-6a6a-4130-a640-74a3a50b44b9
 		summarizeBy: none
+		isHidden
 		sourceColumn: CAMServiceCategoryKey
 
 	column CAMAssignmentReasonKey
 		dataType: int64
 		lineageTag: f08214be-fcd1-4f80-96fc-a9be86c4788f
 		summarizeBy: none
+		isHidden
 		sourceColumn: CAMAssignmentReasonKey
 
 	column 'Admission Date'

@@ -5,6 +5,7 @@ table Bridge_OpPlan_MeasureSet
 		dataType: int64
 		lineageTag: e87af8f7-8bf4-4fe6-bf9f-5f52c3dcf669
 		summarizeBy: none
+		isHidden
 		sourceColumn: OpPlanMeasureSetKey
 
 	column MeasureID

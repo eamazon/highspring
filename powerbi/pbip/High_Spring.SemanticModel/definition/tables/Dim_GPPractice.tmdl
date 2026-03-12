@@ -6,6 +6,7 @@ table Dim_GPPractice
 		isKey
 		lineageTag: 4fc5795c-21d1-4b2d-822d-7f06b42c59c7
 		summarizeBy: none
+		isHidden
 		sourceColumn: GPPracticeKey
 
 	column 'GP Practice Code'

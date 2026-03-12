@@ -6,6 +6,7 @@ table Dim_OpPlan_MeasureSet
 		isKey
 		lineageTag: 8bcad6f0-840b-47fd-bc9d-26529ce4d3c0
 		summarizeBy: none
+		isHidden
 		sourceColumn: OpPlanMeasureSetKey
 
 	column 'Measure IDs'

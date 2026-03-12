@@ -6,6 +6,7 @@ table Dim_Ethnicity
 		isKey
 		lineageTag: 1c32af99-350e-4020-83e1-5e2b39fac665
 		summarizeBy: none
+		isHidden
 		sourceColumn: EthnicityKey
 
 	column 'Ethnicity Code'

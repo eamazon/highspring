@@ -6,6 +6,7 @@ table Dim_Attendance_Status
 		isKey
 		lineageTag: 1e282504-d313-4131-aebe-fd54019e0b20
 		summarizeBy: none
+		isHidden
 		sourceColumn: AttendanceStatusKey
 
 	column 'Attendance Status Code'

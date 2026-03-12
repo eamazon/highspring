@@ -6,6 +6,7 @@ table Dim_CAM_Service_Category
 		isKey
 		lineageTag: 1ef0c6df-2d97-40af-bf67-385ae20acf40
 		summarizeBy: none
+		isHidden
 		sourceColumn: CAMServiceCategoryKey
 
 	column 'CAM Service Category'

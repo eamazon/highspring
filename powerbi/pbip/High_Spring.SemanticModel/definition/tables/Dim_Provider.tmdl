@@ -6,6 +6,7 @@ table Dim_Provider
 		isKey
 		lineageTag: e43ea75b-e615-4fc2-adb1-304c42e049a2
 		summarizeBy: none
+		isHidden
 		sourceColumn: ProviderKey
 
 	column 'Provider Code'

@@ -6,6 +6,7 @@ table Dim_Priority_Type
 		isKey
 		lineageTag: aba2aff5-1b23-4da7-800f-15ffd70441f0
 		summarizeBy: none
+		isHidden
 		sourceColumn: PriorityTypeKey
 
 	column 'Priority Type Code'

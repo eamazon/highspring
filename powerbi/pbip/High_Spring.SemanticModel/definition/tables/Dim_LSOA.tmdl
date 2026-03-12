@@ -6,6 +6,7 @@ table Dim_LSOA
 		isKey
 		lineageTag: 100590be-85f9-443a-9f77-de62ab68f272
 		summarizeBy: none
+		isHidden
 		sourceColumn: LSOAKey
 
 	column 'LSOA Code'

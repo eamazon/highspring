@@ -6,6 +6,7 @@ table Dim_Date
 		isKey
 		lineageTag: a1f6a663-000f-4bc7-8758-48c2f61b4b4a
 		summarizeBy: none
+		isHidden
 		sourceColumn: DateKey
 
 	column Date

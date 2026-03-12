@@ -6,102 +6,119 @@ table Fact_AE_Activity
 		isKey
 		lineageTag: 029c3937-b38a-4890-883a-f31c91188639
 		summarizeBy: none
+		isHidden
 		sourceColumn: EncounterKey
 
 	column PatientKey
 		dataType: int64
 		lineageTag: 877d71ab-0362-4727-b5ca-c2d031e31911
 		summarizeBy: none
+		isHidden
 		sourceColumn: PatientKey
 
 	column ArrivalDateKey
 		dataType: int64
 		lineageTag: 0173c660-95fe-4a42-8b23-00ee3ebc2adc
 		summarizeBy: none
+		isHidden
 		sourceColumn: ArrivalDateKey
 
 	column DepartureDateKey
 		dataType: int64
 		lineageTag: 69264c8c-9253-41fb-b481-bcf24219666a
 		summarizeBy: none
+		isHidden
 		sourceColumn: DepartureDateKey
 
 	column AgeKey
 		dataType: int64
 		lineageTag: 9a8d0a09-80d3-489d-9ddf-1e9f771cf71e
 		summarizeBy: none
+		isHidden
 		sourceColumn: AgeKey
 
 	column GenderKey
 		dataType: int64
 		lineageTag: b4a0fe6b-dd3e-4949-8ee5-2633df02a568
 		summarizeBy: none
+		isHidden
 		sourceColumn: GenderKey
 
 	column EthnicityKey
 		dataType: int64
 		lineageTag: c6cc2101-5971-4bb1-aeb0-89d9e85eb1e7
 		summarizeBy: none
+		isHidden
 		sourceColumn: EthnicityKey
 
 	column ProviderKey
 		dataType: int64
 		lineageTag: a32469d7-2052-4869-997d-6dee34f9562c
 		summarizeBy: none
+		isHidden
 		sourceColumn: ProviderKey
 
 	column LSOAKey
 		dataType: int64
 		lineageTag: bdb92c52-f0db-42f3-b4b9-dbf7fb92f003
 		summarizeBy: none
+		isHidden
 		sourceColumn: LSOAKey
 
 	column SpecialtyKey
 		dataType: int64
 		lineageTag: 9e2c0bf2-359b-42c1-84ee-44e650f4a903
 		summarizeBy: none
+		isHidden
 		sourceColumn: SpecialtyKey
 
 	column HRGKey
 		dataType: int64
 		lineageTag: 490fa83d-67ff-47e9-8e7a-0a73114924e4
 		summarizeBy: none
+		isHidden
 		sourceColumn: HRGKey
 
 	column CommissionerKey
 		dataType: int64
 		lineageTag: 95c0ac26-2f70-4ac7-89f2-42b1bdae2f49
 		summarizeBy: none
+		isHidden
 		sourceColumn: CommissionerKey
 
 	column GPPracticeKey
 		dataType: int64
 		lineageTag: 26542b12-59b6-4310-b339-aeaa0dd06519
 		summarizeBy: none
+		isHidden
 		sourceColumn: GPPracticeKey
 
 	column PCNKey
 		dataType: int64
 		lineageTag: 680109de-ee11-46cb-8e87-b867246730c8
 		summarizeBy: none
+		isHidden
 		sourceColumn: PCNKey
 
 	column PODKey
 		dataType: int64
 		lineageTag: 55cbc4c7-57ec-40d1-8af0-63456f02c5fc
 		summarizeBy: none
+		isHidden
 		sourceColumn: PODKey
 
 	column OpPlanMeasureSetKey
 		dataType: int64
 		lineageTag: 3f338499-3d78-4188-83de-a4dec07aee45
 		summarizeBy: none
+		isHidden
 		sourceColumn: OpPlanMeasureSetKey
 
 	column AttendanceDisposalKey
 		dataType: int64
 		lineageTag: a6437c1b-62d7-4317-a69b-c3ce9f68ec93
 		summarizeBy: none
+		isHidden
 		sourceColumn: AttendanceDisposalKey
 
 	column 'Arrival Date'

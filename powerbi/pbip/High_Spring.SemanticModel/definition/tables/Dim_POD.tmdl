@@ -6,6 +6,7 @@ table Dim_POD
 		isKey
 		lineageTag: 1e3841e9-a5fe-4a66-be93-143740a1fd40
 		summarizeBy: none
+		isHidden
 		sourceColumn: PODKey
 
 	column 'POD Code'

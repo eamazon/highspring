@@ -6,6 +6,7 @@ table Dim_DNA_Indicator
 		isKey
 		lineageTag: 5b438288-0500-4cc8-868c-38dc43c75c30
 		summarizeBy: none
+		isHidden
 		sourceColumn: DNAIndicatorKey
 
 	column 'DNA Indicator Code'

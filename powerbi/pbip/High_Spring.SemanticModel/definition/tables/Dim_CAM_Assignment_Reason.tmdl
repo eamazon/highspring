@@ -6,6 +6,7 @@ table Dim_CAM_Assignment_Reason
 		isKey
 		lineageTag: feaaa99d-9de2-4316-9f40-991e0cac4c94
 		summarizeBy: none
+		isHidden
 		sourceColumn: CAMAssignmentReasonKey
 
 	column 'CAM Assignment Code'

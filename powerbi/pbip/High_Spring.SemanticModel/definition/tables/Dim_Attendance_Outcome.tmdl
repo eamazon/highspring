@@ -6,6 +6,7 @@ table Dim_Attendance_Outcome
 		isKey
 		lineageTag: 4df3cf54-0a06-4297-bfc4-1c1068506a9a
 		summarizeBy: none
+		isHidden
 		sourceColumn: AttendanceOutcomeKey
 
 	column 'Attendance Outcome Code'

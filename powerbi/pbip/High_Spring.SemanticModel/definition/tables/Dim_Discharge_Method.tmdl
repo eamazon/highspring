@@ -6,6 +6,7 @@ table Dim_Discharge_Method
 		isKey
 		lineageTag: 3b30d8b5-edf2-461e-b095-57e3004a7174
 		summarizeBy: none
+		isHidden
 		sourceColumn: DischargeMethodKey
 
 	column 'Discharge Method Code'
