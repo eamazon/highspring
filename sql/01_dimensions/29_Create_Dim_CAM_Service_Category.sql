@@ -42,7 +42,7 @@ CREATE TABLE [Analytics].[tbl_Dim_CAM_Service_Category]
     CAM_Service_Category_Description VARCHAR(255) NULL,
     CAM_Service_Category_Short_Description VARCHAR(50) NULL,
 
-    Source_System VARCHAR(100) NULL DEFAULT 'CAM_Ref.CommissionerAssignmentReason',
+    Source_System VARCHAR(100) NULL DEFAULT 'Ref.tbl_Service_Category_Codes',
     Created_By VARCHAR(128) NULL DEFAULT SYSTEM_USER,
     Created_Date DATETIME2 NOT NULL DEFAULT GETDATE(),
     Updated_By VARCHAR(128) NULL,

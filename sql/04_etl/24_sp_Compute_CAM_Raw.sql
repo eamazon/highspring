@@ -515,7 +515,7 @@ BEGIN
             END as [Service_Category_Variance]
             
         FROM CAM_Stage2 S2
-        LEFT JOIN [Data_Lab_SWL].[CAM_Ref].[CommissionerAssignmentReason] CAR
+        LEFT JOIN [Data_Lab_SWL_Live].[Ref].[tbl_CommissionerAssignmentReason] CAR
             ON UPPER(LTRIM(RTRIM(S2.[ReassignmentID]))) = UPPER(LTRIM(RTRIM(CAR.[CAM_Code])))
     )
     SELECT
