@@ -29,6 +29,7 @@ BEGIN
     DECLARE @BatchID INT = NULL;
     DECLARE @TableName VARCHAR(100) = 'Analytics.tbl_Dim_LSOA';
     DECLARE @RowsInserted INT = 0;
+    DECLARE @RowsUpdated INT = 0;
     DECLARE @RowsDeleted INT = 0;
     DECLARE @ErrorMessage NVARCHAR(4000);
 
@@ -57,11 +58,33 @@ BEGIN
             RETURN;
         END
 
-        DELETE FROM [Analytics].[tbl_Dim_LSOA]
-        WHERE SK_LSOA_ID > 0;
+        IF OBJECT_ID('tempdb..#PreparedLSOA') IS NOT NULL
+            DROP TABLE #PreparedLSOA;
 
-        SET @RowsDeleted = @@ROWCOUNT;
-        PRINT 'Rows Deleted: ' + CAST(@RowsDeleted AS VARCHAR(20));
+        CREATE TABLE #PreparedLSOA
+        (
+            LSOA_Code VARCHAR(9) NOT NULL PRIMARY KEY,
+            LSOA_Name VARCHAR(100) NULL,
+            SubICB_Code VARCHAR(50) NULL,
+            SubICB_Hierarchy_Code VARCHAR(50) NULL,
+            SubICB_Name VARCHAR(100) NULL,
+            ICB_Code VARCHAR(50) NULL,
+            ICB_Hierarchy_Code VARCHAR(50) NULL,
+            ICB_Name VARCHAR(150) NULL,
+            CancerAlliance_Code VARCHAR(50) NULL,
+            CancerAlliance_Name VARCHAR(100) NULL,
+            LocalAuthority_Code VARCHAR(50) NULL,
+            LocalAuthority_Name VARCHAR(100) NULL,
+            IMD_Year SMALLINT NULL,
+            IMD_Rank INT NULL,
+            IMD_Decile TINYINT NULL,
+            IDACI_Score DECIMAL(9,6) NULL,
+            IDACI_Rank INT NULL,
+            IDACI_Decile TINYINT NULL,
+            IDAOPI_Score DECIMAL(9,6) NULL,
+            IDAOPI_Rank INT NULL,
+            IDAOPI_Decile TINYINT NULL
+        );
 
         ;WITH Source AS (
             SELECT
@@ -95,6 +118,91 @@ BEGIN
                 IDAOPI_Decile
             FROM [Analytics].[tbl_Staging_LSOA_IMD2019]
         )
+        INSERT INTO #PreparedLSOA
+        (
+            LSOA_Code,
+            LSOA_Name,
+            SubICB_Code,
+            SubICB_Hierarchy_Code,
+            SubICB_Name,
+            ICB_Code,
+            ICB_Hierarchy_Code,
+            ICB_Name,
+            CancerAlliance_Code,
+            CancerAlliance_Name,
+            LocalAuthority_Code,
+            LocalAuthority_Name,
+            IMD_Year,
+            IMD_Rank,
+            IMD_Decile,
+            IDACI_Score,
+            IDACI_Rank,
+            IDACI_Decile,
+            IDAOPI_Score,
+            IDAOPI_Rank,
+            IDAOPI_Decile
+        )
+        SELECT
+            s.LSOA_Code,
+            COALESCE(MAX(s.LSOA_Name), 'Unknown LSOA'),
+            COALESCE(MAX(s.SubICB_Code), 'UNK'),
+            COALESCE(MAX(s.SubICB_Hierarchy_Code), 'UNK'),
+            COALESCE(MAX(s.SubICB_Name), 'Unknown Sub-ICB'),
+            COALESCE(MAX(s.ICB_Code), 'UNK'),
+            COALESCE(MAX(s.ICB_Hierarchy_Code), 'UNK'),
+            COALESCE(MAX(s.ICB_Name), 'Unknown ICB'),
+            COALESCE(MAX(s.CancerAlliance_Code), 'UNK'),
+            COALESCE(MAX(s.CancerAlliance_Name), 'Unknown Cancer Alliance'),
+            COALESCE(MAX(s.LocalAuthority_Code), 'UNK'),
+            COALESCE(MAX(s.LocalAuthority_Name), 'Unknown Local Authority'),
+            2019,
+            MAX(imd.IMD_Rank),
+            MAX(imd.IMD_Decile),
+            MAX(imd.IDACI_Score),
+            MAX(imd.IDACI_Rank),
+            MAX(imd.IDACI_Decile),
+            MAX(imd.IDAOPI_Score),
+            MAX(imd.IDAOPI_Rank),
+            MAX(imd.IDAOPI_Decile)
+        FROM Source s
+        LEFT JOIN Imd imd
+            ON imd.LSOA_Code = s.LSOA_Code
+        WHERE s.LSOA_Code IS NOT NULL
+        GROUP BY s.LSOA_Code;
+
+        UPDATE d
+        SET
+            d.LSOA_Name = p.LSOA_Name,
+            d.SubICB_Code = p.SubICB_Code,
+            d.SubICB_Hierarchy_Code = p.SubICB_Hierarchy_Code,
+            d.SubICB_Name = p.SubICB_Name,
+            d.ICB_Code = p.ICB_Code,
+            d.ICB_Hierarchy_Code = p.ICB_Hierarchy_Code,
+            d.ICB_Name = p.ICB_Name,
+            d.CancerAlliance_Code = p.CancerAlliance_Code,
+            d.CancerAlliance_Name = p.CancerAlliance_Name,
+            d.LocalAuthority_Code = p.LocalAuthority_Code,
+            d.LocalAuthority_Name = p.LocalAuthority_Name,
+            d.IMD_Year = p.IMD_Year,
+            d.IMD_Rank = p.IMD_Rank,
+            d.IMD_Decile = p.IMD_Decile,
+            d.IDACI_Score = p.IDACI_Score,
+            d.IDACI_Rank = p.IDACI_Rank,
+            d.IDACI_Decile = p.IDACI_Decile,
+            d.IDAOPI_Score = p.IDAOPI_Score,
+            d.IDAOPI_Rank = p.IDAOPI_Rank,
+            d.IDAOPI_Decile = p.IDAOPI_Decile,
+            d.Source_System = 'ref.tbl_LSOA_ICB_CA_LocalAuthority',
+            d.Updated_By = SUSER_SNAME(),
+            d.Updated_Date = GETDATE()
+        FROM [Analytics].[tbl_Dim_LSOA] d
+        INNER JOIN #PreparedLSOA p
+            ON p.LSOA_Code = d.LSOA_Code
+        WHERE d.SK_LSOA_ID > 0;
+
+        SET @RowsUpdated = @@ROWCOUNT;
+        PRINT 'Rows Updated: ' + CAST(@RowsUpdated AS VARCHAR(20));
+
         INSERT INTO [Analytics].[tbl_Dim_LSOA]
         (
             LSOA_Code,
@@ -123,38 +231,36 @@ BEGIN
             Created_Date
         )
         SELECT
-            s.LSOA_Code,
-            COALESCE(MAX(s.LSOA_Name), 'Unknown LSOA'),
-            COALESCE(MAX(s.SubICB_Code), 'UNK'),
-            COALESCE(MAX(s.SubICB_Hierarchy_Code), 'UNK'),
-            COALESCE(MAX(s.SubICB_Name), 'Unknown Sub-ICB'),
-            COALESCE(MAX(s.ICB_Code), 'UNK'),
-            COALESCE(MAX(s.ICB_Hierarchy_Code), 'UNK'),
-            COALESCE(MAX(s.ICB_Name), 'Unknown ICB'),
-            COALESCE(MAX(s.CancerAlliance_Code), 'UNK'),
-            COALESCE(MAX(s.CancerAlliance_Name), 'Unknown Cancer Alliance'),
-            COALESCE(MAX(s.LocalAuthority_Code), 'UNK'),
-            COALESCE(MAX(s.LocalAuthority_Name), 'Unknown Local Authority'),
-            CASE
-                WHEN MAX(imd.IDACI_Score) IS NULL AND MAX(imd.IDAOPI_Score) IS NULL THEN NULL
-                ELSE 2019
-            END,
-            MAX(imd.IMD_Rank),
-            MAX(imd.IMD_Decile),
-            MAX(imd.IDACI_Score),
-            MAX(imd.IDACI_Rank),
-            MAX(imd.IDACI_Decile),
-            MAX(imd.IDAOPI_Score),
-            MAX(imd.IDAOPI_Rank),
-            MAX(imd.IDAOPI_Decile),
+            p.LSOA_Code,
+            p.LSOA_Name,
+            p.SubICB_Code,
+            p.SubICB_Hierarchy_Code,
+            p.SubICB_Name,
+            p.ICB_Code,
+            p.ICB_Hierarchy_Code,
+            p.ICB_Name,
+            p.CancerAlliance_Code,
+            p.CancerAlliance_Name,
+            p.LocalAuthority_Code,
+            p.LocalAuthority_Name,
+            p.IMD_Year,
+            p.IMD_Rank,
+            p.IMD_Decile,
+            p.IDACI_Score,
+            p.IDACI_Rank,
+            p.IDACI_Decile,
+            p.IDAOPI_Score,
+            p.IDAOPI_Rank,
+            p.IDAOPI_Decile,
             'ref.tbl_LSOA_ICB_CA_LocalAuthority',
             SUSER_SNAME(),
             GETDATE()
-        FROM Source s
-        LEFT JOIN Imd imd
-            ON imd.LSOA_Code = s.LSOA_Code
-        WHERE s.LSOA_Code IS NOT NULL
-        GROUP BY s.LSOA_Code;
+        FROM #PreparedLSOA p
+        WHERE NOT EXISTS (
+            SELECT 1
+            FROM [Analytics].[tbl_Dim_LSOA] d
+            WHERE d.LSOA_Code = p.LSOA_Code
+        );
 
         SET @RowsInserted = @@ROWCOUNT;
         PRINT 'Rows Inserted: ' + CAST(@RowsInserted AS VARCHAR(20));
@@ -163,14 +269,14 @@ BEGIN
             @BatchID = @BatchID,
             @TableName = @TableName,
             @LoadType = 'Full',
-            @RowsAffected = @RowsInserted,
+            @RowsAffected = (@RowsInserted + @RowsUpdated),
             @Status = 'Success';
 
         EXEC [Analytics].[sp_End_ETL_Batch]
             @BatchID = @BatchID,
             @Status = 'Success',
             @RowsInserted = @RowsInserted,
-            @RowsUpdated = 0,
+            @RowsUpdated = @RowsUpdated,
             @RowsDeleted = @RowsDeleted,
             @RowsFailed = 0,
             @ErrorMessage = NULL;

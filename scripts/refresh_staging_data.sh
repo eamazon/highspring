@@ -14,7 +14,7 @@ set -e  # Exit on error
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
-OUTPUT_DIR="$REPO_ROOT/sql/05_api"
+OUTPUT_DIR="$REPO_ROOT/sql/analytics_platform/05_api"
 
 # Colours for output
 RED='\033[0;31m'

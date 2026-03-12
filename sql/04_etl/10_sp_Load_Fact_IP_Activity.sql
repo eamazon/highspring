@@ -24,6 +24,7 @@ Change Log:
   2026-01-27  Sridhar Peddi    Skip duplicate PK rows to allow load to complete
   2026-01-27  Sridhar Peddi    Avoid @@ROWCOUNT after connection recovery
   2026-03-04  Sridhar Peddi     Accept legacy POD_Dataset 'APC' for IP POD lookup
+  2026-03-12  Sridhar Peddi    Add temp key index and remove redundant anti-join for faster reloads
 **/
 CREATE PROCEDURE [Analytics].[sp_Load_Fact_IP_Activity]
     @FromDate DATE = NULL,
@@ -183,6 +184,9 @@ BEGIN
         INTO #SourceFiltered
         FROM SourceFiltered;
 
+        CREATE UNIQUE CLUSTERED INDEX IX_SourceFiltered_IP_Key
+            ON #SourceFiltered (SK_EncounterID, Discharge_Date);
+
         SELECT @SourceRows = COUNT(*) FROM #SourceFiltered;
 
         IF OBJECT_ID('tempdb..#Dim_Specialty_Map') IS NOT NULL
@@ -235,7 +239,7 @@ BEGIN
         -- 2. Insert Logic
         DECLARE @InsertedKeys TABLE (SK_EncounterID BIGINT NOT NULL, Discharge_Date DATE NOT NULL);
 
-        INSERT INTO [Analytics].[tbl_Fact_IP_Activity] (
+        INSERT INTO [Analytics].[tbl_Fact_IP_Activity] WITH (TABLOCK) (
             [SK_EncounterID],
             [SK_PatientID],
             [SK_DateAdmissionID],
@@ -402,13 +406,6 @@ BEGIN
             ON PatClassNorm.Code_Norm = SRC.Patient_Classification_Code_Norm
         LEFT JOIN #Dim_IP_PatClass_Map_Int PatClassInt
             ON PatClassInt.Code_Int = SRC.Patient_Classification_Code_Int
-
-        WHERE NOT EXISTS (
-            SELECT 1
-            FROM [Analytics].[tbl_Fact_IP_Activity] T
-            WHERE T.SK_EncounterID = SRC.SK_EncounterID
-              AND T.Discharge_Date = SRC.Discharge_Date
-        )
 
         SELECT @RowsInserted = COUNT(*) FROM @InsertedKeys;
         SET @RowsSkipped = @SourceRows - @RowsInserted;

@@ -23,6 +23,7 @@ Change Log:
   2026-01-09  Sridhar Peddi    Add date parameters for dev window control
   2026-01-26  Sridhar Peddi    Add Is_FirstAttendance flag
   2026-01-27  Sridhar Peddi    Deduplicate source and avoid @@ROWCOUNT after recovery
+  2026-03-12  Sridhar Peddi    Add temp key index and remove redundant anti-join for faster reloads
 **/
 CREATE PROCEDURE [Analytics].[sp_Load_Fact_OP_Activity]
     @FromDate DATE = NULL,
@@ -97,6 +98,9 @@ BEGIN
         INTO #SourceFiltered
         FROM SourceFiltered;
 
+        CREATE UNIQUE CLUSTERED INDEX IX_SourceFiltered_OP_Key
+            ON #SourceFiltered (SK_EncounterID, Appointment_Date_Cast);
+
         SELECT @SourceRows = COUNT(*) FROM #SourceFiltered;
 
         IF OBJECT_ID('tempdb..#Dim_Specialty_Map') IS NOT NULL
@@ -148,7 +152,7 @@ BEGIN
 
         DECLARE @InsertedKeys TABLE (SK_EncounterID BIGINT NOT NULL, Appointment_Date DATE NOT NULL);
 
-        INSERT INTO [Analytics].[tbl_Fact_OP_Activity] (
+        INSERT INTO [Analytics].[tbl_Fact_OP_Activity] WITH (TABLOCK) (
             [SK_EncounterID],
             [SK_PatientID],
             [SK_DateAppointmentID],
@@ -332,13 +336,6 @@ BEGIN
             ON RefSrcNorm.Code_Norm = SRC.Referral_Source_Code_Norm
         LEFT JOIN #Dim_Referral_Source_Map_Int RefSrcInt
             ON RefSrcInt.Code_Int = SRC.Referral_Source_Code_Int
-
-        WHERE NOT EXISTS (
-            SELECT 1
-            FROM [Analytics].[tbl_Fact_OP_Activity] T
-            WHERE T.SK_EncounterID = SRC.SK_EncounterID
-              AND T.Appointment_Date = SRC.Appointment_Date_Cast
-        )
 
         SELECT @RowsInserted = COUNT(*) FROM @InsertedKeys;
         SET @RowsSkipped = @SourceRows - @RowsInserted;

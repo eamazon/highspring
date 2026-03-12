@@ -216,6 +216,8 @@ PRINT '    [OK] Static Data Loaded';
 -- 5. STAGING DATA LOAD (From Python Fetch)
 -------------------------------------------------------------------------------
 PRINT '>>> 5. Loading Staging Data (Snapshots)';
+-- If running from Windows on H:, first run:
+--   powershell -ExecutionPolicy Bypass -File .\scripts\refresh_staging_data.ps1
 -- Fixed filenames: Python fetchers now write to these "latest" files automatically.
 -- Run the fetchers to refresh data:
 --   python scripts/data_integration/nhs_ods/fetch_all_commissioners.py --output sql --output-dir sql/analytics_platform/05_api

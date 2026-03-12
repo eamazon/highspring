@@ -34,6 +34,21 @@ Refreshes NHS reference data (ODS, GP Practices, PCN) in staging tables.
 ./scripts/refresh_staging_data.sh --skip-imd
 ```
 
+### refresh_staging_data.ps1
+Windows wrapper for the same staging refresh flow. Runs the shell script inside WSL.
+
+**Usage (PowerShell):**
+```powershell
+# Run from repository root in Windows
+.\scripts\refresh_staging_data.ps1
+
+# Skip IMD refresh (use existing file)
+.\scripts\refresh_staging_data.ps1 -SkipImd
+
+# Optional: target a specific distro/repo path in WSL
+.\scripts\refresh_staging_data.ps1 -WslDistro Ubuntu -WslRepoPath "/home/speddi/dev/icb/highspring"
+```
+
 **Prerequisites:**
 - Python environment set up (run setup_env.sh first)
 - Database connection configured in .env

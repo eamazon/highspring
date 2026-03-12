@@ -7,11 +7,15 @@ Purpose: Single script for from-scratch dev rebuilds.
 
 Usage:   TWO STEPS ONLY:
 
-         Step 1 (WSL terminal - refresh staging data):
+         Step 1 (refresh staging data):
             ./scripts/refresh_staging_data.sh
+
+            Or from Windows PowerShell:
+            .\scripts\refresh_staging_data.ps1
 
             Or with options:
             ./scripts/refresh_staging_data.sh --skip-imd   # Use existing IMD data
+            .\scripts\refresh_staging_data.ps1 -SkipImd
 
          Step 2 (SSMS/ADS - run this script):
             Open H:\sql\00_Dev_Full_Rebuild.sql
