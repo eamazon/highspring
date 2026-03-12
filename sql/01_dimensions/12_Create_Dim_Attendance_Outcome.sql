@@ -40,7 +40,7 @@ SELECT
     LEFT([AttendanceOutcome], 35) AS [Attendance_Outcome_Short]
     
 FROM [Dictionary].[OP].[AttendanceOutcomes]
-WHERE [SK_AttendanceOutcome] <> -1;
+WHERE [SK_AttendanceOutcome] <> -1
 UNION ALL
 SELECT
     -1 AS [SK_AttendanceOutcomeID],

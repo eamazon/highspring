@@ -66,7 +66,7 @@ SELECT
     END AS [Attendance_Disposal_Short]
     
 FROM [Dictionary].[AE].[AttendanceDisposals]
-WHERE [SK_AttendanceDisposalID] <> -1;
+WHERE [SK_AttendanceDisposalID] <> -1
 UNION ALL
 SELECT
     -1 AS [SK_AttendanceDisposalID],

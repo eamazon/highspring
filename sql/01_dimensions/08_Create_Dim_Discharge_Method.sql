@@ -57,7 +57,7 @@ SELECT
     LEFT([DischargeMethodName], 35) AS [Discharge_Method_Short]
     
 FROM [Dictionary].[IP].[DischargeMethod]
-WHERE [SK_DischargeMethodID] <> -1;
+WHERE [SK_DischargeMethodID] <> -1
 UNION ALL
 SELECT
     -1 AS [SK_DischargeMethodID],

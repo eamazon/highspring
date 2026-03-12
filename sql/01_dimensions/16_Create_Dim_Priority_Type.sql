@@ -57,7 +57,7 @@ SELECT
     LEFT([PriorityTypeDesc], 25) AS [Priority_Type_Short]
     
 FROM [Dictionary].[OP].[PriorityType]
-WHERE [SK_PriorityTypeID] <> -1;
+WHERE [SK_PriorityTypeID] <> -1
 UNION ALL
 SELECT
     -1 AS [SK_PriorityTypeID],

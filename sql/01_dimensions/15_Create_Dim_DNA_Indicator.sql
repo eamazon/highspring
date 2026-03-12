@@ -53,7 +53,7 @@ SELECT
     [DNAIndicatorDesc] AS [DNA_Indicator_Description],
     [DNAIndicatorStatus] AS [DNA_Indicator_Status]
 FROM [Dictionary].[OP].[DNAIndicators]
-WHERE [SK_DNAIndicatorID] <> -1;
+WHERE [SK_DNAIndicatorID] <> -1
 UNION ALL
 SELECT
     -1 AS [SK_DNAIndicatorID],

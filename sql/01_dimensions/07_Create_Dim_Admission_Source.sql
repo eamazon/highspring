@@ -58,7 +58,7 @@ SELECT
     LEFT([SourceOfAdmissionName], 35) AS [Admission_Source_Short]
     
 FROM [Dictionary].[IP].[SourceOfAdmissions]
-WHERE [SK_SourceOfAdmissionID] <> -1;
+WHERE [SK_SourceOfAdmissionID] <> -1
 UNION ALL
 SELECT
     -1 AS [SK_AdmissionSourceID],

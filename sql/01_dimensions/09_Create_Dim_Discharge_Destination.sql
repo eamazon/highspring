@@ -57,7 +57,7 @@ SELECT
     LEFT([DischargeDestinationName], 40) AS [Discharge_Destination_Short]
     
 FROM [Dictionary].[IP].[DischargeDestination]
-WHERE [SK_DischargeDestinationID] <> -1;
+WHERE [SK_DischargeDestinationID] <> -1
 UNION ALL
 SELECT
     -1 AS [SK_DischargeDestinationID],

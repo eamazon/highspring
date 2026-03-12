@@ -55,7 +55,7 @@ SELECT
     -- Short description for Power BI
     LEFT([DNAIndicatorDesc], 40) AS [Attendance_Status_Short]
 FROM [Dictionary].[OP].[DNAIndicators]
-WHERE [SK_DNAIndicatorID] <> -1;
+WHERE [SK_DNAIndicatorID] <> -1
 UNION ALL
 SELECT
     -1 AS [SK_AttendanceStatusID],

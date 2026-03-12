@@ -58,7 +58,7 @@ SELECT
     LEFT([AttendantTypeDesc], 40) AS [Attendance_Type_Short]
     
 FROM [Dictionary].[OP].[AttendanceTypes]
-WHERE [SK_AttendanceType] <> -1;
+WHERE [SK_AttendanceType] <> -1
 UNION ALL
 SELECT
     -1 AS [SK_AttendanceTypeID],

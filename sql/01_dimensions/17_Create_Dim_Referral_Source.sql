@@ -58,7 +58,7 @@ SELECT
     LEFT([ReferralType], 30) AS [Referral_Source_Short]
     
 FROM [Dictionary].[OP].[SourceOfReferrals]
-WHERE [SK_SourceOfReferral] <> -1;
+WHERE [SK_SourceOfReferral] <> -1
 UNION ALL
 SELECT
     -1 AS [SK_ReferralSourceID],

@@ -58,7 +58,7 @@ SELECT
     LEFT([AdmissionMethodName], 35) AS [Admission_Method_Short]
     
 FROM [Dictionary].[IP].[AdmissionMethods]
-WHERE [SK_AdmissionMethodID] <> -1;
+WHERE [SK_AdmissionMethodID] <> -1
 UNION ALL
 SELECT
     -1 AS [SK_AdmissionMethodID],

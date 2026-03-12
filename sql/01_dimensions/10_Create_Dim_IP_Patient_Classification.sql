@@ -36,7 +36,7 @@ SELECT
     [BK_PatientClassificationCode] AS Patient_Classification_Code,
     [PatientClassificationName] AS Patient_Classification_Description
 FROM [Dictionary].[dbo].[PatientClassification]
-WHERE [SK_PatientClassificationID] <> -1;
+WHERE [SK_PatientClassificationID] <> -1
 UNION ALL
 SELECT
     -1 AS [SK_PatientClassificationID],
