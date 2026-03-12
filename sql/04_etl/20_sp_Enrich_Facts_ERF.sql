@@ -112,27 +112,21 @@ BEGIN
         CREATE TABLE #ERF (
             [SK_EncounterID] BIGINT NOT NULL,
             [POD] VARCHAR(2) NOT NULL,
-            [ERF_National_Price] DECIMAL(12,2) NULL,
             [ERF_MFF_Applied] DECIMAL(12,2) NULL,
-            [ERF_Total_Cost_Incl_MFF] DECIMAL(12,2) NULL,
-            [ERF_Tariff_Used] VARCHAR(50) NULL
+            [ERF_Total_Cost_Incl_MFF] DECIMAL(12,2) NULL
         );
 
         INSERT INTO #ERF (
             [SK_EncounterID],
             [POD],
-            [ERF_National_Price],
             [ERF_MFF_Applied],
-            [ERF_Total_Cost_Incl_MFF],
-            [ERF_Tariff_Used]
+            [ERF_Total_Cost_Incl_MFF]
         )
         SELECT
             v.SK_EncounterID,
             'IP' AS POD,
-            CAST(v.ERF_National_Price AS DECIMAL(12,2)) AS ERF_National_Price,
             CAST(v.ERF_MFF_Applied AS DECIMAL(12,2)) AS ERF_MFF_Applied,
-            CAST(v.ERF_Total_Cost_Incl_MFF AS DECIMAL(12,2)) AS ERF_Total_Cost_Incl_MFF,
-            CAST(v.ERF_Tariff_Used AS VARCHAR(50)) AS ERF_Tariff_Used
+            CAST(v.ERF_Total_Cost_Incl_MFF AS DECIMAL(12,2)) AS ERF_Total_Cost_Incl_MFF
         FROM [Analytics].[tbl_ERF_Repriced_Active] v
         INNER JOIN [Analytics].[tbl_Fact_IP_Activity] f
             ON f.SK_EncounterID = v.SK_EncounterID
@@ -144,10 +138,8 @@ BEGIN
         SELECT
             v.SK_EncounterID,
             'OP' AS POD,
-            CAST(v.ERF_National_Price AS DECIMAL(12,2)) AS ERF_National_Price,
             CAST(v.ERF_MFF_Applied AS DECIMAL(12,2)) AS ERF_MFF_Applied,
-            CAST(v.ERF_Total_Cost_Incl_MFF AS DECIMAL(12,2)) AS ERF_Total_Cost_Incl_MFF,
-            CAST(v.ERF_Tariff_Used AS VARCHAR(50)) AS ERF_Tariff_Used
+            CAST(v.ERF_Total_Cost_Incl_MFF AS DECIMAL(12,2)) AS ERF_Total_Cost_Incl_MFF
         FROM [Analytics].[tbl_ERF_Repriced_Active] v
         INNER JOIN [Analytics].[tbl_Fact_OP_Activity] f
             ON f.SK_EncounterID = v.SK_EncounterID
@@ -155,6 +147,18 @@ BEGIN
           AND f.Appointment_Date >= @WindowStartDate
           AND f.Appointment_Date <= @WindowEndDate
           AND (@FinYearStart IS NULL OR LEFT(v.dv_FinYear, 4) = @FinYearStart);
+
+        ;WITH Dedup AS (
+            SELECT
+                *,
+                ROW_NUMBER() OVER (
+                    PARTITION BY POD, SK_EncounterID
+                    ORDER BY SK_EncounterID
+                ) AS rn
+            FROM #ERF
+        )
+        DELETE FROM Dedup
+        WHERE rn > 1;
 
         IF NOT EXISTS (SELECT 1 FROM #ERF)
             AND (
@@ -182,17 +186,20 @@ BEGIN
         SET @IP_StartTime = SYSDATETIME();
         UPDATE f
         SET f.Is_ERF_Eligible = CASE WHEN e.SK_EncounterID IS NULL THEN 0 ELSE 1 END,
-            f.ERF_National_Price = e.ERF_National_Price,
             f.ERF_MFF_Applied = e.ERF_MFF_Applied,
             f.ERF_Total_Cost_Incl_MFF = e.ERF_Total_Cost_Incl_MFF,
-            f.ERF_Tariff_Used = e.ERF_Tariff_Used,
             f.ETL_UpdateDateTime = CURRENT_TIMESTAMP
         FROM [Analytics].[tbl_Fact_IP_Activity] f
         LEFT JOIN #ERF e
             ON e.POD = 'IP'
            AND e.SK_EncounterID = f.SK_EncounterID
         WHERE f.Discharge_Date >= @WindowStartDate
-          AND f.Discharge_Date <= @WindowEndDate;
+          AND f.Discharge_Date <= @WindowEndDate
+          AND (
+                ISNULL(f.Is_ERF_Eligible, 0) <> CASE WHEN e.SK_EncounterID IS NULL THEN 0 ELSE 1 END
+             OR ISNULL(f.ERF_MFF_Applied, -1.00) <> ISNULL(e.ERF_MFF_Applied, -1.00)
+             OR ISNULL(f.ERF_Total_Cost_Incl_MFF, -1.00) <> ISNULL(e.ERF_Total_Cost_Incl_MFF, -1.00)
+          );
 
         SET @RowsUpdatedIP = @@ROWCOUNT;
         SET @IP_EndTime = SYSDATETIME();
@@ -209,17 +216,20 @@ BEGIN
         SET @OP_StartTime = SYSDATETIME();
         UPDATE f
         SET f.Is_ERF_Eligible = CASE WHEN e.SK_EncounterID IS NULL THEN 0 ELSE 1 END,
-            f.ERF_National_Price = e.ERF_National_Price,
             f.ERF_MFF_Applied = e.ERF_MFF_Applied,
             f.ERF_Total_Cost_Incl_MFF = e.ERF_Total_Cost_Incl_MFF,
-            f.ERF_Tariff_Used = e.ERF_Tariff_Used,
             f.ETL_UpdateDateTime = CURRENT_TIMESTAMP
         FROM [Analytics].[tbl_Fact_OP_Activity] f
         LEFT JOIN #ERF e
             ON e.POD = 'OP'
            AND e.SK_EncounterID = f.SK_EncounterID
         WHERE f.Appointment_Date >= @WindowStartDate
-          AND f.Appointment_Date <= @WindowEndDate;
+          AND f.Appointment_Date <= @WindowEndDate
+          AND (
+                ISNULL(f.Is_ERF_Eligible, 0) <> CASE WHEN e.SK_EncounterID IS NULL THEN 0 ELSE 1 END
+             OR ISNULL(f.ERF_MFF_Applied, -1.00) <> ISNULL(e.ERF_MFF_Applied, -1.00)
+             OR ISNULL(f.ERF_Total_Cost_Incl_MFF, -1.00) <> ISNULL(e.ERF_Total_Cost_Incl_MFF, -1.00)
+          );
 
         SET @RowsUpdatedOP = @@ROWCOUNT;
         SET @OP_EndTime = SYSDATETIME();

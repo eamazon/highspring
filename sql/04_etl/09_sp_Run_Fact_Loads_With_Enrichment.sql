@@ -18,7 +18,8 @@ Author:        Sridhar Peddi
 Created:       2026-01-13
 
 Notes:
-- CAM/ERF/OpPlan enrichments assume precompute tables are populated.
+- Runs precompute first (CAM Raw -> CAM Active -> ERF Repriced Active -> OpPlan Active),
+  then facts, then enrichments.
 - AE fact load is currently disabled (do not run).
 
 Parameters:
@@ -48,6 +49,30 @@ BEGIN
         RAISERROR('Parameter @FinancialYear is required (e.g. ''2025/2026'')', 16, 1);
         RETURN;
     END
+
+    EXEC [Analytics].[sp_Compute_CAM_Raw]
+        @FinYearStart = @FinYearStart,
+        @FinancialYear = @FinancialYear,
+        @ProviderCode = @ProviderCode,
+        @FromDate = @FromDate,
+        @ToDate = @ToDate;
+
+    EXEC [Analytics].[sp_Load_CAM_Assignment_Active]
+        @FinYearStart = @FinYearStart,
+        @FinancialYear = @FinancialYear,
+        @ProviderCode = @ProviderCode,
+        @FromDate = @FromDate,
+        @ToDate = @ToDate;
+
+    EXEC [Analytics].[sp_Load_ERF_Repriced_Active]
+        @FinYearStart = @FinYearStart,
+        @FromDate = @FromDate,
+        @ToDate = @ToDate;
+
+    EXEC [Analytics].[sp_Load_OpPlan_Active]
+        @FinYearStart = @FinYearStart,
+        @FromDate = @FromDate,
+        @ToDate = @ToDate;
 
     EXEC [Analytics].[sp_Load_Fact_IP_Activity]
         @FromDate = @FromDate,

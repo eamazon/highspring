@@ -180,6 +180,12 @@ BEGIN
             [SK_DNA_IndicatorID],
             [SK_Priority_TypeID],
             [SK_Referral_SourceID],
+            [SK_Admission_MethodID],
+            [SK_Admission_SourceID],
+            [SK_Discharge_MethodID],
+            [SK_Discharge_DestinationID],
+            [SK_IP_Patient_ClassificationID],
+            [SK_Attendance_DisposalID],
 
             -- Measures
             [Appointments],
@@ -228,6 +234,12 @@ BEGIN
             COALESCE(CAST(DNA.SK_DNAIndicatorID AS INT), -1) AS [SK_DNA_IndicatorID],
             COALESCE(CAST(Prio.SK_PriorityTypeID AS INT), -1) AS [SK_Priority_TypeID],
             COALESCE(CAST(RefSrcNorm.SK_ReferralSourceID AS INT), CAST(RefSrcInt.SK_ReferralSourceID AS INT), -1) AS [SK_Referral_SourceID],
+            -1 AS [SK_Admission_MethodID],
+            -1 AS [SK_Admission_SourceID],
+            -1 AS [SK_Discharge_MethodID],
+            -1 AS [SK_Discharge_DestinationID],
+            -1 AS [SK_IP_Patient_ClassificationID],
+            -1 AS [SK_Attendance_DisposalID],
 
             -- Measures
             1 AS [Appointments],

@@ -62,12 +62,6 @@ table KeyMeasures
 		displayFolder: Inpatient\Cost
 		lineageTag: a123233b-68ca-4153-abaa-44c31b649cfb
 
-	/// Elective Recovery Fund national price component
-	measure 'IP ERF National Price' = SUM(Fact_IP_Activity[ERF National Price])
-		formatString: £ #,##0
-		displayFolder: Inpatient\ERF
-		lineageTag: 37cdc0e3-968e-4d31-9618-e1f5c7887fe4
-
 	/// Elective Recovery Fund cost
 	measure 'IP ERF Cost' = SUM(Fact_IP_Activity[ERF Cost])
 		formatString: £ #,##0
@@ -217,6 +211,12 @@ table KeyMeasures
 		formatString: #,##0
 		displayFolder: Outpatient\ERF
 		lineageTag: 1259f3f5-0105-43fb-9816-1015396f6808
+
+	/// Elective Recovery Fund cost for outpatient activity
+	measure 'OP ERF Cost' = SUM(Fact_OP_Activity[ERF Cost])
+		formatString: £ #,##0
+		displayFolder: Outpatient\ERF
+		lineageTag: ee877ff0-f9de-4e9e-87cf-d36803ec84fd
 
 	/// Attendances included in operating plan
 	measure 'OP Operating Plan Attendances' = CALCULATE([OP Attendances], Fact_OP_Activity[Is Operating Plan] = TRUE)
@@ -535,49 +535,6 @@ table KeyMeasures
 		formatString: #,##0
 		displayFolder: Operating Plan\By Measure
 		lineageTag: 42a3bbcc-8c8d-4d9f-9fbe-9d4e5f3573d7
-
-	/// Share of inpatient Operating Plan spells attributable to selected measure(s)
-	measure 'IP OpPlan Tagged Share %' =
-			DIVIDE(
-				[IP OpPlan Tagged Spells],
-				CALCULATE([IP Operating Plan Spells], REMOVEFILTERS(Dim_OpPlan_Measure)),
-				0
-			)
-		formatString: 0.0%
-		displayFolder: Operating Plan\By Measure
-		lineageTag: c9fca53b-c4d2-4a5d-bc45-d40f80cc8f3d
-
-	/// Share of outpatient Operating Plan attendances attributable to selected measure(s)
-	measure 'OP OpPlan Tagged Share %' =
-			DIVIDE(
-				[OP OpPlan Tagged Attendances],
-				CALCULATE([OP Operating Plan Attendances], REMOVEFILTERS(Dim_OpPlan_Measure)),
-				0
-			)
-		formatString: 0.0%
-		displayFolder: Operating Plan\By Measure
-		lineageTag: 7e10f438-f93a-4f7f-b3e3-d8f9bece2db5
-
-	/// Share of A&E Operating Plan attendances attributable to selected measure(s)
-	measure 'AE OpPlan Tagged Share %' =
-			DIVIDE(
-				[AE OpPlan Tagged Attendances],
-				CALCULATE([AE Operating Plan Attendances], REMOVEFILTERS(Dim_OpPlan_Measure)),
-				0
-			)
-		formatString: 0.0%
-		displayFolder: Operating Plan\By Measure
-		lineageTag: 4d525190-f458-438a-a57b-c42225a22853
-
-	/// Report-builder warning for non-additive rows when grouped by measure
-	measure 'OpPlan Measure Totals Note' =
-			IF(
-				ISINSCOPE(Dim_OpPlan_Measure[Measure Name]),
-				"Rows are non-additive across measures; use grand total for de-duplicated total.",
-				BLANK()
-			)
-		displayFolder: Operating Plan\By Measure
-		lineageTag: 44e90fbb-a9f9-4398-a4e7-5f17f61a65f7
 
 	column MeasuresColumn
 		dataType: int64

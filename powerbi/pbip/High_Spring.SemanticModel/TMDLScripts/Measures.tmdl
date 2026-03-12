@@ -67,11 +67,6 @@ createOrReplace
 			formatString: £ #,##0
 			displayFolder: Inpatient\Cost
 
-		/// Elective Recovery Fund national price component
-		measure 'IP ERF National Price' = SUM(Fact_IP_Activity[ERF National Price])
-			formatString: £ #,##0
-			displayFolder: Inpatient\ERF
-
 		/// Elective Recovery Fund cost
 		measure 'IP ERF Cost' = SUM(Fact_IP_Activity[ERF Cost])
 			formatString: £ #,##0

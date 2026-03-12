@@ -57,7 +57,15 @@ SELECT
     -- Short description for Power BI
     LEFT([ReferralType], 30) AS [Referral_Source_Short]
     
-FROM [Dictionary].[OP].[SourceOfReferrals];
+FROM [Dictionary].[OP].[SourceOfReferrals]
+WHERE [SK_SourceOfReferral] <> -1;
+UNION ALL
+SELECT
+    -1 AS [SK_ReferralSourceID],
+    'N/A' AS [Referral_Source_Code],
+    'N/A' AS [Referral_Source_Description],
+    'N/A' AS [Referral_Source_Category],
+    'N/A' AS [Referral_Source_Short];
 GO
 
 PRINT '[OK] Created view: [Analytics].[vw_Dim_Referral_Source]';

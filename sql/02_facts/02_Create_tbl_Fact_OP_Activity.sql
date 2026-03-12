@@ -72,6 +72,14 @@ CREATE TABLE [Analytics].[tbl_Fact_OP_Activity] (
     [SK_Priority_TypeID] INT NULL,                     -- #25 tbl_Dim_Priority_Type
     [SK_Referral_SourceID] INT NULL,                   -- #26 tbl_Dim_Referral_Source
 
+    -- NON-APPLICABLE FOR OP (IP/AE DIMENSIONS -> N/A = -1)
+    [SK_Admission_MethodID] INT NOT NULL DEFAULT (-1),
+    [SK_Admission_SourceID] INT NOT NULL DEFAULT (-1),
+    [SK_Discharge_MethodID] INT NOT NULL DEFAULT (-1),
+    [SK_Discharge_DestinationID] INT NOT NULL DEFAULT (-1),
+    [SK_IP_Patient_ClassificationID] INT NOT NULL DEFAULT (-1),
+    [SK_Attendance_DisposalID] INT NOT NULL DEFAULT (-1),
+
     -- MEASURES
     [Appointments] INT DEFAULT 1,
     [Total_Cost] DECIMAL(12,2) NULL,
@@ -103,10 +111,8 @@ CREATE TABLE [Analytics].[tbl_Fact_OP_Activity] (
 
     -- ERF ELIGIBILITY + PRICING
     [Is_ERF_Eligible] BIT NOT NULL DEFAULT 0,
-    [ERF_National_Price] DECIMAL(12,2) NULL,
     [ERF_MFF_Applied] DECIMAL(12,2) NULL,
     [ERF_Total_Cost_Incl_MFF] DECIMAL(12,2) NULL,
-    [ERF_Tariff_Used] VARCHAR(50) NULL,
   
     -- AUDIT (ANSI)
     [ETL_LoadDateTime] DATETIME2 DEFAULT CURRENT_TIMESTAMP,

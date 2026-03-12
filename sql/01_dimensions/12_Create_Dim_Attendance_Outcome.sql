@@ -39,7 +39,14 @@ SELECT
     -- Short description for Power BI
     LEFT([AttendanceOutcome], 35) AS [Attendance_Outcome_Short]
     
-FROM [Dictionary].[OP].[AttendanceOutcomes];
+FROM [Dictionary].[OP].[AttendanceOutcomes]
+WHERE [SK_AttendanceOutcome] <> -1;
+UNION ALL
+SELECT
+    -1 AS [SK_AttendanceOutcomeID],
+    'N/A' AS [Attendance_Outcome_Code],
+    'N/A' AS [Attendance_Outcome_Description],
+    'N/A' AS [Attendance_Outcome_Short];
 GO
 
 PRINT '[OK] Created view: [Analytics].[vw_Dim_Attendance_Outcome]';

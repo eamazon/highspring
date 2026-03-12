@@ -56,7 +56,14 @@ SELECT
     -- Short description for Power BI
     LEFT([DischargeDestinationName], 40) AS [Discharge_Destination_Short]
     
-FROM [Dictionary].[IP].[DischargeDestination];
+FROM [Dictionary].[IP].[DischargeDestination]
+WHERE [SK_DischargeDestinationID] <> -1;
+UNION ALL
+SELECT
+    -1 AS [SK_DischargeDestinationID],
+    'N/A' AS [Discharge_Destination_Code],
+    'N/A' AS [Discharge_Destination_Name],
+    'N/A' AS [Discharge_Destination_Short];
 GO
 
 PRINT '[OK] Created view: [Analytics].[vw_Dim_Discharge_Destination]';

@@ -267,6 +267,13 @@ BEGIN
             [SK_Discharge_MethodID],
             [SK_Discharge_DestinationID],
             [SK_IP_Patient_ClassificationID],
+            [SK_Attendance_StatusID],
+            [SK_Attendance_OutcomeID],
+            [SK_Attendance_TypeID],
+            [SK_DNA_IndicatorID],
+            [SK_Priority_TypeID],
+            [SK_Referral_SourceID],
+            [SK_Attendance_DisposalID],
 
             -- Measures
             [Admissions],
@@ -315,6 +322,13 @@ BEGIN
             COALESCE(CAST(DisMet.SK_DischargeMethodID AS INT), -1) AS [SK_Discharge_MethodID],
             COALESCE(CAST(DisDest.SK_DischargeDestinationID AS INT), -1) AS [SK_Discharge_DestinationID],
             COALESCE(CAST(PatClassNorm.SK_PatientClassificationID AS INT), CAST(PatClassInt.SK_PatientClassificationID AS INT), -1) AS [SK_IP_Patient_ClassificationID],
+            -1 AS [SK_Attendance_StatusID],
+            -1 AS [SK_Attendance_OutcomeID],
+            -1 AS [SK_Attendance_TypeID],
+            -1 AS [SK_DNA_IndicatorID],
+            -1 AS [SK_Priority_TypeID],
+            -1 AS [SK_Referral_SourceID],
+            -1 AS [SK_Attendance_DisposalID],
 
             -- Measures
             1 AS [Admissions],

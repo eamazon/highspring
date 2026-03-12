@@ -65,7 +65,14 @@ SELECT
         ELSE LEFT([AttendanceDisposal], 40)
     END AS [Attendance_Disposal_Short]
     
-FROM [Dictionary].[AE].[AttendanceDisposals];
+FROM [Dictionary].[AE].[AttendanceDisposals]
+WHERE [SK_AttendanceDisposalID] <> -1;
+UNION ALL
+SELECT
+    -1 AS [SK_AttendanceDisposalID],
+    'N/A' AS [Attendance_Disposal_Code],
+    'N/A' AS [Attendance_Disposal_Description],
+    'N/A' AS [Attendance_Disposal_Short];
 GO
 
 PRINT '[OK] Created view: [Analytics].[vw_Dim_Attendance_Disposal]';

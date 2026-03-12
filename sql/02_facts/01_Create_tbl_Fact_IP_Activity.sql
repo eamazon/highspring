@@ -72,6 +72,15 @@ CREATE TABLE [Analytics].[tbl_Fact_IP_Activity] (
     [SK_Discharge_DestinationID] INT NULL,             -- #19 tbl_Dim_Discharge_Destination
     [SK_IP_Patient_ClassificationID] INT NULL,         -- #20 tbl_Dim_IP_Patient_Classification
 
+    -- NON-APPLICABLE FOR IP (OP/AE DIMENSIONS -> N/A = -1)
+    [SK_Attendance_StatusID] INT NOT NULL DEFAULT (-1),
+    [SK_Attendance_OutcomeID] INT NOT NULL DEFAULT (-1),
+    [SK_Attendance_TypeID] INT NOT NULL DEFAULT (-1),
+    [SK_DNA_IndicatorID] INT NOT NULL DEFAULT (-1),
+    [SK_Priority_TypeID] INT NOT NULL DEFAULT (-1),
+    [SK_Referral_SourceID] INT NOT NULL DEFAULT (-1),
+    [SK_Attendance_DisposalID] INT NOT NULL DEFAULT (-1),
+
     -- MEASURES
     [Admissions] INT DEFAULT 1,
     [Length_Of_Stay] INT NULL,
@@ -103,10 +112,8 @@ CREATE TABLE [Analytics].[tbl_Fact_IP_Activity] (
 
     -- ERF ELIGIBILITY + PRICING
     [Is_ERF_Eligible] BIT NOT NULL DEFAULT 0,
-    [ERF_National_Price] DECIMAL(12,2) NULL,
     [ERF_MFF_Applied] DECIMAL(12,2) NULL,
     [ERF_Total_Cost_Incl_MFF] DECIMAL(12,2) NULL,
-    [ERF_Tariff_Used] VARCHAR(50) NULL,
   
     -- AUDIT (ANSI Standard)
     [ETL_LoadDateTime] DATETIME2 DEFAULT CURRENT_TIMESTAMP,

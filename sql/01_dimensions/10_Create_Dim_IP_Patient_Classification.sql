@@ -35,7 +35,13 @@ SELECT
     CAST([SK_PatientClassificationID] AS INT) AS [SK_PatientClassificationID],
     [BK_PatientClassificationCode] AS Patient_Classification_Code,
     [PatientClassificationName] AS Patient_Classification_Description
-FROM [Dictionary].[dbo].[PatientClassification];
+FROM [Dictionary].[dbo].[PatientClassification]
+WHERE [SK_PatientClassificationID] <> -1;
+UNION ALL
+SELECT
+    -1 AS [SK_PatientClassificationID],
+    'N/A' AS Patient_Classification_Code,
+    'N/A' AS Patient_Classification_Description;
 GO
 
 PRINT '[OK] Created view: [Analytics].[vw_Dim_IP_Patient_Classification]';

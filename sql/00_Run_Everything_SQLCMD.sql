@@ -24,6 +24,11 @@ This script creates fact load stored procedures, but does not execute them.
 ===============================================================================
 */
 :setvar ResetETLLogs 1
+:setvar RunPostDeployLoads 0
+:setvar FinYearStart 2025
+:setvar FinancialYear "2025/2026"
+:setvar FromDate "2025-04-01"
+:setvar ToDate "2025-12-31"
 SELECT 1 AS TEST;
 
 PRINT '>>> STARTING MASTER DEPLOYMENT';
@@ -239,6 +244,79 @@ PRINT '    [OK] Staging Tables Populated';
 PRINT '>>> 6. Executing Dimension Loads';
 :r H:\sql\04_etl\00_Run_All_Dimension_Loads.sql
 PRINT '    [OK] All Dimensions Loaded';
+
+-------------------------------------------------------------------------------
+-- 7. OPTIONAL: RUN PRECOMPUTE + FACTS + ENRICHMENT
+-------------------------------------------------------------------------------
+PRINT '>>> 7. Optional Precompute + Fact + Enrichment Run';
+IF $(RunPostDeployLoads) = 1
+BEGIN
+    PRINT '    [7.1] Precompute CAM Raw...';
+    EXEC [Analytics].[sp_Compute_CAM_Raw]
+        @FinYearStart = '$(FinYearStart)',
+        @FinancialYear = '$(FinancialYear)',
+        @FromDate = '$(FromDate)',
+        @ToDate = '$(ToDate)';
+
+    PRINT '    [7.2] Precompute CAM Assignment Active...';
+    EXEC [Analytics].[sp_Load_CAM_Assignment_Active]
+        @FinYearStart = '$(FinYearStart)',
+        @FinancialYear = '$(FinancialYear)',
+        @FromDate = '$(FromDate)',
+        @ToDate = '$(ToDate)';
+
+    PRINT '    [7.3] Precompute ERF Repriced Active...';
+    EXEC [Analytics].[sp_Load_ERF_Repriced_Active]
+        @FinYearStart = '$(FinYearStart)',
+        @FromDate = '$(FromDate)',
+        @ToDate = '$(ToDate)';
+
+    PRINT '    [7.4] Precompute OpPlan Active...';
+    EXEC [Analytics].[sp_Load_OpPlan_Active]
+        @FinYearStart = '$(FinYearStart)',
+        @FromDate = '$(FromDate)',
+        @ToDate = '$(ToDate)';
+
+    PRINT '    [7.5] Load Fact IP...';
+    EXEC [Analytics].[sp_Load_Fact_IP_Activity]
+        @FromDate = '$(FromDate)',
+        @ToDate = '$(ToDate)';
+
+    PRINT '    [7.6] Load Fact OP...';
+    EXEC [Analytics].[sp_Load_Fact_OP_Activity]
+        @FromDate = '$(FromDate)',
+        @ToDate = '$(ToDate)';
+
+    PRINT '    [7.7] Load Fact AE...';
+    EXEC [Analytics].[sp_Load_Fact_AE_Activity]
+        @FromDate = '$(FromDate)',
+        @ToDate = '$(ToDate)';
+
+    PRINT '    [7.8] Enrich Operating Plan...';
+    EXEC [Analytics].[sp_Enrich_Facts_Operating_Plan]
+        @FinYearStart = '$(FinYearStart)',
+        @FromDate = '$(FromDate)',
+        @ToDate = '$(ToDate)';
+
+    PRINT '    [7.9] Enrich ERF...';
+    EXEC [Analytics].[sp_Enrich_Facts_ERF]
+        @FinYearStart = '$(FinYearStart)',
+        @FromDate = '$(FromDate)',
+        @ToDate = '$(ToDate)';
+
+    PRINT '    [7.10] Enrich CAM...';
+    EXEC [Analytics].[sp_Enrich_Facts_CAM]
+        @FinancialYear = '$(FinancialYear)',
+        @ProviderCode = NULL,
+        @FromDate = '$(FromDate)',
+        @ToDate = '$(ToDate)';
+
+    PRINT '    [OK] Optional Precompute + Fact + Enrichment Run Complete';
+END
+ELSE
+BEGIN
+    PRINT '    [SKIP] RunPostDeployLoads = 0 (object deploy only)';
+END
 
 
 PRINT '';

@@ -57,7 +57,15 @@ SELECT
     -- Short description for Power BI
     LEFT([SourceOfAdmissionName], 35) AS [Admission_Source_Short]
     
-FROM [Dictionary].[IP].[SourceOfAdmissions];
+FROM [Dictionary].[IP].[SourceOfAdmissions]
+WHERE [SK_SourceOfAdmissionID] <> -1;
+UNION ALL
+SELECT
+    -1 AS [SK_AdmissionSourceID],
+    'N/A' AS [Admission_Source_Code],
+    'N/A' AS [Admission_Source_Name],
+    'N/A' AS [Admission_Source_Full_Name],
+    'N/A' AS [Admission_Source_Short];
 GO
 
 PRINT '[OK] Created view: [Analytics].[vw_Dim_Admission_Source]';

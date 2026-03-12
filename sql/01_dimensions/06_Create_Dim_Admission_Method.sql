@@ -57,7 +57,15 @@ SELECT
     -- Short description for Power BI
     LEFT([AdmissionMethodName], 35) AS [Admission_Method_Short]
     
-FROM [Dictionary].[IP].[AdmissionMethods];
+FROM [Dictionary].[IP].[AdmissionMethods]
+WHERE [SK_AdmissionMethodID] <> -1;
+UNION ALL
+SELECT
+    -1 AS [SK_AdmissionMethodID],
+    'N/A' AS [Admission_Method_Code],
+    'N/A' AS [Admission_Method_Name],
+    'N/A' AS [Admission_Method_Group],
+    'N/A' AS [Admission_Method_Short];
 GO
 
 PRINT '[OK] Created view: [Analytics].[vw_Dim_Admission_Method]';

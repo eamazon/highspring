@@ -134,6 +134,42 @@ table Fact_OP_Activity
 		summarizeBy: none
 		sourceColumn: ReferralSourceKey
 
+	column AdmissionMethodKey
+		dataType: int64
+		lineageTag: 38ae9e99-d379-4d70-b57e-eb212b83d374
+		summarizeBy: none
+		sourceColumn: AdmissionMethodKey
+
+	column AdmissionSourceKey
+		dataType: int64
+		lineageTag: 4eb2a30a-f4a0-4b20-ad83-e46ad4e4337d
+		summarizeBy: none
+		sourceColumn: AdmissionSourceKey
+
+	column DischargeMethodKey
+		dataType: int64
+		lineageTag: 4afbc99f-f4fe-42ac-a490-6838c1be8e84
+		summarizeBy: none
+		sourceColumn: DischargeMethodKey
+
+	column DischargeDestinationKey
+		dataType: int64
+		lineageTag: 2ca9dcca-4f75-4bf4-9096-9bc8c0f32004
+		summarizeBy: none
+		sourceColumn: DischargeDestinationKey
+
+	column PatientClassificationKey
+		dataType: int64
+		lineageTag: 3a86f05f-2c0a-438f-a743-bf34cc9de8ef
+		summarizeBy: none
+		sourceColumn: PatientClassificationKey
+
+	column AttendanceDisposalKey
+		dataType: int64
+		lineageTag: 5b3e6c96-7053-4119-b7ca-df8e0227d770
+		summarizeBy: none
+		sourceColumn: AttendanceDisposalKey
+
 	column CAMCommissionerKey
 		dataType: int64
 		lineageTag: ab71caa9-6489-4011-869c-f300a3eb1a2d
@@ -238,11 +274,26 @@ table Fact_OP_Activity
 		summarizeBy: none
 		sourceColumn: Is ERF Eligible
 
+	column 'ERF MFF Applied'
+		dataType: double
+		isHidden
+		lineageTag: be7e9ece-ece2-4ca9-9878-d6206bb744de
+		summarizeBy: none
+		sourceColumn: ERF MFF Applied
+
+	column 'ERF Cost'
+		dataType: double
+		lineageTag: c1f9fa2b-ed4f-4d70-96b3-4c63ca4c72d6
+		summarizeBy: sum
+		sourceColumn: ERF Cost
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
 	partition Fact_OP_Activity = m
 		mode: import
 		source =
 				let
-				    Source = Sql.Database("PSFADHSSTP02.ad.elc.nhs.uk\SWL", "Data_Lab_SWL_Live", [Query="SELECT [SK_EncounterID] AS [EncounterKey], [SK_PatientID] AS [PatientKey], [SK_DateAppointmentID] AS [AppointmentDateKey], [SK_DateReferralID] AS [ReferralDateKey], [SK_Age_BandID] AS [AgeKey], [SK_GenderID] AS [GenderKey], [SK_EthnicityID] AS [EthnicityKey], [SK_ProviderID] AS [ProviderKey], [SK_LSOA_ID] AS [LSOAKey], [SK_SpecialtyID] AS [SpecialtyKey], [SK_HRG_ID] AS [HRGKey], [SK_CommissionerID] AS [CommissionerKey], [SK_GPPracticeID] AS [GPPracticeKey], [SK_PCN_ID] AS [PCNKey], [SK_POD_ID] AS [PODKey], [SK_OpPlan_MeasureSet] AS [OpPlanMeasureSetKey], [SK_Attendance_StatusID] AS [AttendanceStatusKey], [SK_Attendance_OutcomeID] AS [AttendanceOutcomeKey], [SK_Attendance_TypeID] AS [AttendanceTypeKey], [SK_DNA_IndicatorID] AS [DNAIndicatorKey], [SK_Priority_TypeID] AS [PriorityTypeKey], [SK_Referral_SourceID] AS [ReferralSourceKey], [SK_CAM_CommissionerID] AS [CAMCommissionerKey], [SK_CAM_Service_CategoryID] AS [CAMServiceCategoryKey], [SK_CAM_Assignment_ReasonID] AS [CAMAssignmentReasonKey], [Appointment_Date] AS [Appointment Date], [Referral_Date] AS [Referral Date], [Appointments], [Total_Cost] AS [Total Cost], [DNA_Count] AS [DNA Count], [Is_FirstAttendance] AS [Is First Attendance], [Referral_To_Appt_Days] AS [Days to Appointment], [RTT_Wait_Weeks] AS [RTT Wait Weeks], [Commissioner_Variance] AS [Commissioner Variance], [Service_Category_Variance] AS [Service Category Variance], [Is_Operating_Plan] AS [Is Operating Plan], [Is_ERF_Eligible] AS [Is ERF Eligible] FROM [Analytics].[tbl_Fact_OP_Activity]"])
+				    Source = Sql.Database("PSFADHSSTP02.ad.elc.nhs.uk\SWL", "Data_Lab_SWL_Live", [Query="SELECT [SK_EncounterID] AS [EncounterKey], [SK_PatientID] AS [PatientKey], [SK_DateAppointmentID] AS [AppointmentDateKey], [SK_DateReferralID] AS [ReferralDateKey], [SK_Age_BandID] AS [AgeKey], [SK_GenderID] AS [GenderKey], [SK_EthnicityID] AS [EthnicityKey], [SK_ProviderID] AS [ProviderKey], [SK_LSOA_ID] AS [LSOAKey], [SK_SpecialtyID] AS [SpecialtyKey], [SK_HRG_ID] AS [HRGKey], [SK_CommissionerID] AS [CommissionerKey], [SK_GPPracticeID] AS [GPPracticeKey], [SK_PCN_ID] AS [PCNKey], [SK_POD_ID] AS [PODKey], [SK_OpPlan_MeasureSet] AS [OpPlanMeasureSetKey], [SK_Attendance_StatusID] AS [AttendanceStatusKey], [SK_Attendance_OutcomeID] AS [AttendanceOutcomeKey], [SK_Attendance_TypeID] AS [AttendanceTypeKey], [SK_DNA_IndicatorID] AS [DNAIndicatorKey], [SK_Priority_TypeID] AS [PriorityTypeKey], [SK_Referral_SourceID] AS [ReferralSourceKey], [SK_Admission_MethodID] AS [AdmissionMethodKey], [SK_Admission_SourceID] AS [AdmissionSourceKey], [SK_Discharge_MethodID] AS [DischargeMethodKey], [SK_Discharge_DestinationID] AS [DischargeDestinationKey], [SK_IP_Patient_ClassificationID] AS [PatientClassificationKey], [SK_Attendance_DisposalID] AS [AttendanceDisposalKey], [SK_CAM_CommissionerID] AS [CAMCommissionerKey], [SK_CAM_Service_CategoryID] AS [CAMServiceCategoryKey], [SK_CAM_Assignment_ReasonID] AS [CAMAssignmentReasonKey], [Appointment_Date] AS [Appointment Date], [Referral_Date] AS [Referral Date], [Appointments], [Total_Cost] AS [Total Cost], [DNA_Count] AS [DNA Count], [Is_FirstAttendance] AS [Is First Attendance], [Referral_To_Appt_Days] AS [Days to Appointment], [RTT_Wait_Weeks] AS [RTT Wait Weeks], [Commissioner_Variance] AS [Commissioner Variance], [Service_Category_Variance] AS [Service Category Variance], [Is_Operating_Plan] AS [Is Operating Plan], [Is_ERF_Eligible] AS [Is ERF Eligible], [ERF_MFF_Applied] AS [ERF MFF Applied], [ERF_Total_Cost_Incl_MFF] AS [ERF Cost] FROM [Analytics].[tbl_Fact_OP_Activity]"])
 				in
 				    Source
 

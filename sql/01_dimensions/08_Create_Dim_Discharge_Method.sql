@@ -56,7 +56,14 @@ SELECT
     -- Short description for Power BI
     LEFT([DischargeMethodName], 35) AS [Discharge_Method_Short]
     
-FROM [Dictionary].[IP].[DischargeMethod];
+FROM [Dictionary].[IP].[DischargeMethod]
+WHERE [SK_DischargeMethodID] <> -1;
+UNION ALL
+SELECT
+    -1 AS [SK_DischargeMethodID],
+    'N/A' AS [Discharge_Method_Code],
+    'N/A' AS [Discharge_Method_Name],
+    'N/A' AS [Discharge_Method_Short];
 GO
 
 PRINT '[OK] Created view: [Analytics].[vw_Dim_Discharge_Method]';

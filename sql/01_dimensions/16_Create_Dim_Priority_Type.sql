@@ -56,7 +56,14 @@ SELECT
     -- Short description for Power BI
     LEFT([PriorityTypeDesc], 25) AS [Priority_Type_Short]
     
-FROM [Dictionary].[OP].[PriorityType];
+FROM [Dictionary].[OP].[PriorityType]
+WHERE [SK_PriorityTypeID] <> -1;
+UNION ALL
+SELECT
+    -1 AS [SK_PriorityTypeID],
+    'N/A' AS [Priority_Type_Code],
+    'N/A' AS [Priority_Type_Description],
+    'N/A' AS [Priority_Type_Short];
 GO
 
 PRINT '[OK] Created view: [Analytics].[vw_Dim_Priority_Type]';

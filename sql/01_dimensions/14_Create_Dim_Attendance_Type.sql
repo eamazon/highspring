@@ -57,7 +57,15 @@ SELECT
     -- Short description for Power BI
     LEFT([AttendantTypeDesc], 40) AS [Attendance_Type_Short]
     
-FROM [Dictionary].[OP].[AttendanceTypes];
+FROM [Dictionary].[OP].[AttendanceTypes]
+WHERE [SK_AttendanceType] <> -1;
+UNION ALL
+SELECT
+    -1 AS [SK_AttendanceTypeID],
+    'N/A' AS [Attendance_Type_Code],
+    'N/A' AS [Attendance_Type],
+    'N/A' AS [Attendance_Type_Description],
+    'N/A' AS [Attendance_Type_Short];
 GO
 
 PRINT '[OK] Created view: [Analytics].[vw_Dim_Attendance_Type]';

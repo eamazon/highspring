@@ -52,7 +52,14 @@ SELECT
     [BK_DNACode] AS [DNA_Indicator_Code],
     [DNAIndicatorDesc] AS [DNA_Indicator_Description],
     [DNAIndicatorStatus] AS [DNA_Indicator_Status]
-FROM [Dictionary].[OP].[DNAIndicators];
+FROM [Dictionary].[OP].[DNAIndicators]
+WHERE [SK_DNAIndicatorID] <> -1;
+UNION ALL
+SELECT
+    -1 AS [SK_DNAIndicatorID],
+    'N/A' AS [DNA_Indicator_Code],
+    'N/A' AS [DNA_Indicator_Description],
+    'N/A' AS [DNA_Indicator_Status];
 GO
 
 PRINT '[OK] Created view: [Analytics].[vw_Dim_DNA_Indicator]';
